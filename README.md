@@ -24,6 +24,8 @@
 - react-dnd or react-beautiful-dnd
 - quill or slatejs or editorjs.io >> udecode/plate
 - yjs
+- nextjs graphql local server https://mahieyin-rahmun.medium.com/how-to-setup-a-graphql-server-in-next-js-with-api-endpoints-27aa4001c20b
+- NextJS + GraphQL Blueprint: Professional Grade Setup https://www.youtube.com/watch?v=XzE-PzALyDc
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
