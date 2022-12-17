@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/server": "^4.3.0",
+    "@as-integrations/next": "^1.2.0",
     "@types/node": "18.11.13",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
+    "graphql-tag": "^2.12.6",
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",

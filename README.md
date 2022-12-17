@@ -2,6 +2,8 @@
 
 ## TODOs
 
+[x] Apollo Server
+
 - Investigate vercel/commerce
 - Setup vercel/turbo?
 - Investigate vercel/swr VIA apollo/client
@@ -25,12 +27,8 @@
 - quill or slatejs or editorjs.io >> udecode/plate
 - yjs
 - tiptap.dev + mantine.dev
-- nextjs graphql local server https://mahieyin-rahmun.medium.com/how-to-setup-a-graphql-server-in-next-js-with-api-endpoints-27aa4001c20b
 
-- apollo-server-micro
-  - https://levelup.gitconnected.com/get-graqhql-playground-up-and-running-in-nextjs-2da7a2105713
-  - https://dnlytras.com/snippets/nextjs-graphql-server
-  - NextJS + GraphQL Blueprint: Professional Grade Setup https://www.youtube.com/watch?v=XzE-PzALyDc
+---
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
