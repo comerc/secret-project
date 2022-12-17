@@ -2,7 +2,7 @@
 
 ## TODOs
 
-[x] Apollo Server
+- [x] Apollo Server
 
 - Investigate vercel/commerce
 - Setup vercel/turbo?
