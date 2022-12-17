@@ -3,30 +3,29 @@
 ## TODOs
 
 - [x] Apollo Server
-
-- Investigate vercel/commerce
-- Setup vercel/turbo?
-- Investigate vercel/swr VIA apollo/client
-- Hasura
-- Apollo CLI
-- Apollo GraphQL
-- GraphQL CodeGen
-- Auth for Hasura
-- https://next-auth.js.org/
-- Prettier
-- AntDesign Components + Customize Theme
-- TailwindCSS?
-- CSS-In-JS: Emotion?
-- Temporal & GoLang
-- Tab in GoLang - yes! gofiber
-- monorepo as Turborepo by Vercel
-- .editorconfig
-- husky?
-- pnpm VS npm
-- react-dnd or react-beautiful-dnd
-- quill or slatejs or editorjs.io >> udecode/plate
-- yjs
-- tiptap.dev + mantine.dev
+- [ ] Investigate vercel/commerce
+- [ ] Setup vercel/turbo?
+- [ ] Investigate vercel/swr VIA apollo/client
+- [ ] Hasura
+- [ ] Apollo CLI
+- [ ] Apollo GraphQL
+- [ ] GraphQL CodeGen
+- [ ] Auth for Hasura
+- [ ] https://next-auth.js.org/
+- [ ] Prettier
+- [ ] AntDesign Components + Customize Theme
+- [ ] TailwindCSS?
+- [ ] CSS-In-JS: Emotion?
+- [ ] Temporal & GoLang
+- [ ] Tab in GoLang - yes! gofiber
+- [ ] monorepo as Turborepo by Vercel
+- [ ] .editorconfig
+- [ ] husky?
+- [ ] pnpm VS npm
+- [ ] react-dnd or react-beautiful-dnd
+- [ ] quill or slatejs or editorjs.io >> udecode/plate
+- [ ] yjs
+- [ ] tiptap.dev + mantine.dev
 
 ---
 
