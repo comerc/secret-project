@@ -1,5 +1,9 @@
 # secret-project
 
+## Stack
+
+Hasura + Temporal + GoLang + NextJS + AntDesign Component + Plate
+
 ## How To Start
 
 ```bash
@@ -27,7 +31,7 @@ apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --head
 - [ ] Hasura
 - [x] Apollo CLI
 - [x] Apollo GraphQL
-- [ ] GraphQL CodeGen
+- [x] GraphQL CodeGen
 - [ ] Auth for Hasura
 - [ ] https://next-auth.js.org/
 - [ ] Prettier

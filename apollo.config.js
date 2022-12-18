@@ -2,7 +2,7 @@ require('dotenv').config({ path: '.env.local' })
 
 module.exports = {
   client: {
-    includes: ['./gql/queries/**/*.ts', './pages/**/*.tsx', './components/**/*.tsx'],
+    includes: ['pages/**/*.tsx', 'components/**/*.tsx'],
     service: {
       name: 'secret-projet',
       url: process.env.HASURA2_GRAPHQL_URL,
