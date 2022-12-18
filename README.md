@@ -1,5 +1,23 @@
 # secret-project
 
+## How To Start
+
+```bash
+npm install
+npm run dev
+```
+
+## How To Generate GraphQL Schema via Apollo CLI
+
+```
+apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --header "X-Hasura-Admin-Secret: myadminsecretkey"
+```
+
+## Config Apollo GraphQL Plugin
+
+- install plugin to VSCode: https://github.com/apollographql/vscode-graphql
+- add HASURA2_GRAPHQL_URL & HASURA_ADMIN_SECRET to .env.local
+
 ## TODOs
 
 - [x] Apollo Server
@@ -7,8 +25,8 @@
 - [ ] Setup vercel/turbo?
 - [ ] Investigate vercel/swr VIA apollo/client
 - [ ] Hasura
-- [ ] Apollo CLI
-- [ ] Apollo GraphQL
+- [x] Apollo CLI
+- [x] Apollo GraphQL
 - [ ] GraphQL CodeGen
 - [ ] Auth for Hasura
 - [ ] https://next-auth.js.org/
