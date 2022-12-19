@@ -5,10 +5,10 @@ module.exports = {
     includes: ['pages/**/*.tsx', 'components/**/*.tsx'],
     service: {
       name: 'secret-projet',
-      url: process.env.HASURA2_GRAPHQL_URL,
+      url: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL,
       // optional headers
       headers: {
-        'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET, 
+        'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET, 
         // 'x-hasura-role': 'user',
       },
       // optional disable SSL validation check

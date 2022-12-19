@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import { graphql as gql } from '@/gql/gql'
-import { MemberItemFragment, GetMembersQuery, GetMembersQueryVariables } from '@/gql/graphql'
-import { FragmentType, useFragment } from '@/gql/fragment-masking'
+import { graphql as gql } from '.../gql/gql'
+import { MemberItemFragment, GetMembersQuery, GetMembersQueryVariables } from '.../gql/graphql'
+import { FragmentType, useFragment } from '.../gql/fragment-masking'
 
 const MEMBER_FRAGMENT = gql`
   fragment MemberItem on member {
@@ -17,7 +17,7 @@ const Member = (props) => {
 }
 
 const GET_MEMBERS = gql`
-  query getMembers($limit: Int!) {
+  query GetMembers($limit: Int!) {
     members(limit: $limit) {
       id
       ...MemberItem
@@ -27,7 +27,9 @@ const GET_MEMBERS = gql`
 
 function TryPage() {
   // `data` is typed!
-  const { loading, error, data } = useQuery<GetMembersQuery, GetMembersQueryVariables>(GET_MEMBERS, { variables: { limit: 1 } })
+  const { loading, error, data } = useQuery<GetMembersQuery, GetMembersQueryVariables>(GET_MEMBERS, { variables: { limit: 3 } })
+  if (error) return <p>Error : {error.message}</p>
+  if (loading) return <p>Loading...</p>
   return (
     <div>
       {data?.members.map((member) => <p key={member.id}><Member member={member} /></p>)}

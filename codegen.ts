@@ -7,9 +7,9 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      [process.env.HASURA2_GRAPHQL_URL]: {
+      [process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL]: {
         headers: {
-          'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
+          'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET,
         },
       },
     },

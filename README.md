@@ -20,18 +20,19 @@ apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --head
 ## Config Apollo GraphQL Plugin
 
 - install plugin to VSCode: https://github.com/apollographql/vscode-graphql
-- add HASURA2_GRAPHQL_URL & HASURA_ADMIN_SECRET to .env.local
+- add HASURA_GRAPHQL_URL & HASURA_ADMIN_SECRET to .env.local
 
 ## TODOs
 
 - [x] Apollo Server
+- [x] Apollo CLI
+- [x] Apollo GraphQL
+- [x] GraphQL CodeGen
+- [x] Apollo Client
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
 - [ ] Investigate vercel/swr VIA apollo/client
 - [ ] Hasura
-- [x] Apollo CLI
-- [x] Apollo GraphQL
-- [x] GraphQL CodeGen
 - [ ] Auth for Hasura
 - [ ] https://next-auth.js.org/
 - [ ] Prettier
@@ -48,6 +49,7 @@ apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --head
 - [ ] quill or slatejs or editorjs.io >> udecode/plate
 - [ ] yjs
 - [ ] tiptap.dev + mantine.dev
+- [ ] ClientOnly & useQuery https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
 
 ---
 
