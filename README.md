@@ -4,11 +4,22 @@
 
 Hasura + Temporal + GoLang + NextJS + AntDesign Component + Plate
 
+## Setup Hasura
+
+```bash
+$ cd data && docker-compose -p="secret-project" up -d
+```
+
+#### Connect Database
+
+- Database Display Name: default
+- Environment Variable: PG_DATABASE_URL
+
 ## How To Start
 
 ```bash
-npm install
-npm run dev
+$ npm install
+$ npm run dev
 ```
 
 ## How To Generate GraphQL Schema via Apollo CLI
@@ -29,12 +40,15 @@ apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --head
 - [x] Apollo GraphQL
 - [x] GraphQL CodeGen
 - [x] Apollo Client
+- [x] Hasura https://hasura.io/docs/latest/getting-started/docker-simple/
+- [ ] Auth for Hasura
+  - https://hasura.io/learn/graphql/hasura-authentication/integrations/nextjs-auth/
+  - https://github.com/nextauthjs/next-auth
+  - https://next-auth.js.org/getting-started/typescript
+- [ ] How to save/restore DB-Schema & backup data (see pet_finder)
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
 - [ ] Investigate vercel/swr VIA apollo/client
-- [ ] Hasura
-- [ ] Auth for Hasura
-- [ ] https://next-auth.js.org/
 - [ ] Prettier
 - [ ] AntDesign Components + Customize Theme
 - [ ] TailwindCSS?
