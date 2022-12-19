@@ -15,6 +15,36 @@ $ cd data && docker-compose -p="secret-project" up -d
 - Database Display Name: default
 - Environment Variable: PG_DATABASE_URL
 
+## How to save DB-Schema
+
+```
+$ cd data
+$ rm -rf migrations
+$ hasura migrate create "init" --from-server --database-name default
+$ rm -rf metadata
+$ hasura metadata export
+```
+
+## How to restore DB-Schema
+
+```
+$ cd data
+$ hasura migrate apply
+$ hasura metadata apply
+```
+
+or
+
+```
+$ cd data
+$ cat backup.sql | docker exec -i secret-project-postgres-1 psql -U postgres
+$ hasura metadata apply
+```
+
+## How to backup data
+
+curl --location --request POST 'http://localhost:8080/v1alpha1/pg_dump' --header 'x-hasura-admin-secret: <password>' --header 'Content-Type: application/json' --data-raw '{ "opts": ["-O", "-x", "--schema", "public", "--schema", "auth"], "clean_output": true}' -o backup.sql
+
 ## How To Start
 
 ```bash
@@ -45,7 +75,6 @@ apollo client:download-schema --endpoint http://localhost:8080/v1/graphql --head
   - https://hasura.io/learn/graphql/hasura-authentication/integrations/nextjs-auth/
   - https://github.com/nextauthjs/next-auth
   - https://next-auth.js.org/getting-started/typescript
-- [ ] How to save/restore DB-Schema & backup data (see pet_finder)
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
 - [ ] Investigate vercel/swr VIA apollo/client
