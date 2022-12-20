@@ -17,11 +17,12 @@
     "baseUrl": ".",
     "paths": {
       ".../gql/*": ["gql/*"],
+      ".../pages/*": ["pages/*"],
       ".../components/*": ["components/*"],
       ".../repositories/*": ["repositories/*"],
       ".../styles/*": ["styles/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["types/*.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "gql"]
 }

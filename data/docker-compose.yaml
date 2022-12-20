@@ -28,8 +28,8 @@ services:
       # HASURA_GRAPHQL_CONSOLE_ASSETS_DIR: /srv/console-assets
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-      # HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
-      HASURA_GRAPHQL_JWT_SECRET: '{"type":"RS256","jwk_url": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", "audience": "pet-finder-1703", "issuer": "https://securetoken.google.com/pet-finder-1703"}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "HS256", "key": "30b50d8699c8b71ea291f453877e5dec" }'
       # HASURA_GRAPHQL_JWT_SECRET: '{"type":"RS256","jwk_url": ""}'
       # HASURA_GRAPHQL_ENABLE_ALLOWLIST: "false"
 volumes:
