@@ -1,21 +1,21 @@
-import { DefaultSession } from 'next-auth'
+import "next-auth/jwt"
+import type { DefaultUser } from "next-auth";
 
-// https://next-auth.js.org/getting-started/typescript
+// Read more at: https://next-auth.js.org/getting-started/typescript#module-augmentation
 
-declare module 'next-auth' {
+// declare module "next-auth/jwt" {
+//   interface JWT {
+//     /** The user's role. */
+//     userRole?: "admin"
+//   }
+// }
+
+// https://github.com/nextauthjs/next-auth/discussions/536#discussioncomment-1932922
+
+declare module "next-auth" {
   interface Session {
-    address: string
-    accessToken: string
-    user: {
-      id: string
-      createdAt: string
-      lazyMintIdCounter: number
-    } & DefaultSession['user']
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    accessToken?: string
+    user?: DefaultUser & {
+      id: string;
+    };
   }
 }

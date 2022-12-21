@@ -20,7 +20,8 @@
       ".../pages/*": ["pages/*"],
       ".../components/*": ["components/*"],
       ".../repositories/*": ["repositories/*"],
-      ".../styles/*": ["styles/*"]
+      ".../styles/*": ["styles/*"],
+      ".../utils/*": ["utils/*"]
     }
   },
   "include": ["types/*.d.ts", "**/*.ts", "**/*.tsx"],

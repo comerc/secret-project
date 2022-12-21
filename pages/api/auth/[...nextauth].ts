@@ -1,34 +1,14 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-// import GoogleProvider from "next-auth/providers/google"
-// import FacebookProvider from "next-auth/providers/facebook"
-import GithubProvider from "next-auth/providers/github"
-// import TwitterProvider from "next-auth/providers/twitter"
-// import Auth0Provider from "next-auth/providers/auth0"
-// import AppleProvider from "next-auth/providers/apple"
-// import EmailProvider from "next-auth/providers/email"
-import jwt from "jsonwebtoken"
+import NextAuth, { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import { JWT } from "next-auth/jwt";
+import { HasuraAdapter } from "next-auth-hasura-adapter";
+import { encode, decode } from '.../utils/jwt'
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers/oauth
   providers: [
-    /* EmailProvider({
-         server: process.env.EMAIL_SERVER,
-         from: process.env.EMAIL_FROM,
-       }),
-    // Temporarily removing the Apple provider from the demo site as the
-    // callback URL for it needs updating due to Vercel changing domains
-    Providers.Apple({
-      clientId: process.env.APPLE_ID,
-      clientSecret: {
-        appleId: process.env.APPLE_ID,
-        teamId: process.env.APPLE_TEAM_ID,
-        privateKey: process.env.APPLE_PRIVATE_KEY,
-        keyId: process.env.APPLE_KEY_ID,
-      },
-    }),
-    */
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
@@ -42,64 +22,50 @@ export const authOptions: NextAuthOptions = {
       // },
     }),
   ],
+  adapter: HasuraAdapter({
+    endpoint: process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT!,
+    adminSecret: process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET!,
+  }),
   theme: {
-    colorScheme: "light",
+    colorScheme: "light", // dark || auto
   },
   callbacks: {
-    async session({ session, token, user }) { 
-      const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET, { algorithm: 'HS256'})
-      session.id = token.id
-      session.token = encodedToken
-      return session
+    // Add user ID to the session
+    async session({ session, token }) {
+      if (session?.user) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.sub!,
+          },
+        }
+      }
+      return session;
     },
-    async jwt({ token, user }) { 
-      const isUserSignedIn = user ? true : false
-      if(isUserSignedIn) {
-        token.id = user.id
-        token["https://hasura.io/jwt/claims"] = {
+    // Add the required Hasura claims
+    // https://hasura.io/docs/latest/graphql/core/auth/authentication/jwt/#the-spec
+    async jwt({ token }) {
+      return {
+        ...token,
+        "https://hasura.io/jwt/claims": {
           "x-hasura-allowed-roles": ["user"],
           "x-hasura-default-role": "user",
           "x-hasura-role": "user",
-          "x-hasura-user-id": token.id,
-        }
-      }
-      return token
+          "x-hasura-user-id": token.sub,
+        },
+      };
     },
   },
+  // Use JWT strategy so we can forward them to Hasura
   session: {
 		strategy: 'jwt',
 	},
-  // jwt: {
-  //   // secret: process.env.NEXTAUTH_SECRET,
-  //   // The maximum age of the NextAuth.js issued JWT in seconds.
-  //   // Defaults to `session.maxAge`.
-  //   // maxAge: 60 * 60 * 24 * 30,
-  //   // You can define your own encode/decode functions for signing and encryption
-  //   encode: async ({ secret, token }) => {
-	// 		if (token.state) {
-  //       return jwt.sign(token, secret)
-	// 		}
-  //     // console.log(token)
-  //     const jwtClaims = {
-  //       "sub": token.id,
-  //       "name": token.name,
-  //       // "email": token.email,
-  //       "iat": Date.now() / 1000,
-  //       "exp": Math.floor(Date.now() / 1000) + (24*60*60),
-  //       "https://hasura.io/jwt/claims": {
-  //         "x-hasura-allowed-roles": ["user"],
-  //         "x-hasura-default-role": "user",
-  //         "x-hasura-role": "user",
-  //         "x-hasura-user-id": token.id,
-  //       }
-  //     };
-  //     const encodedToken = jwt.sign(jwtClaims, secret);
-  //     return encodedToken;
-  //   },
-  //   decode: async ({ secret, token }) => {
-  //     return jwt.verify(token, secret)
-  //   },
-  // },
+  // Encode and decode your JWT with the HS256 algorithm
+  jwt: {
+    encode, 
+    decode,    
+  },
 }
 
 export default NextAuth(authOptions)
