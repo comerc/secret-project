@@ -1,29 +1,31 @@
 import * as jose from 'jose'
+import { JWT, JWTEncodeParams, JWTDecodeParams } from "next-auth/jwt";
+import { Awaitable } from "next-auth";
 
-const convertToUint8Array = (s: String) => {
-  return Uint8Array.from(s.split('').map(letter => letter.charCodeAt(0)))
+const convertToUint8Array = (v: string | Uint8Array) => {
+  if (v instanceof Uint8Array) {
+    return v
+  }
+  return Uint8Array.from(v.split('').map(letter => letter.charCodeAt(0)))
 }
   
-export const encode = async ({ secret, token }) => {
+function encode({ token, secret }: JWTEncodeParams): Awaitable<string> {
   if (!token) {
     return ''
   }
-  const encodedToken = await new jose.SignJWT(token)
+  const encodedToken = new jose.SignJWT(token!)
     .setProtectedHeader({ alg: 'HS256' })
     .sign(convertToUint8Array(secret))
-  // console.log(encodedToken)
   return encodedToken
 }
 
-export const decode = async ({ secret, token }) => {
+function decode({ token, secret }: JWTDecodeParams): Awaitable<JWT | null> {
   if (!token) {
     return null
   }
-  // try {
-  const { payload } = await jose.jwtVerify(token, convertToUint8Array(secret))
-  return payload as JWT
-  // } catch (error) {
-  //   console.log(error)
-  //   // JWT validation failed or token is invalid
-  // }
+  const decodedToken = jose.jwtVerify(token!, convertToUint8Array(secret))
+    .then(({ payload }) => payload)
+  return decodedToken
 }
+
+export { encode, decode }

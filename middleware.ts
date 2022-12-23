@@ -1,4 +1,4 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth, NextAuthMiddlewareOptions } from "next-auth/middleware"
 import * as jose from 'jose'
 import { JWT } from "next-auth/jwt"
 import { decode } from '.../utils/jwt'
@@ -20,10 +20,10 @@ import { decode } from '.../utils/jwt'
 export default withAuth({
   jwt: { decode },
   callbacks: {
-    async authorized({ req, token }) {
+    async authorized({ token, req }) {
       return !!token
     }
   },
-})
+} as NextAuthMiddlewareOptions)
 
 export const config = { matcher: ["/admin", "/me"] }

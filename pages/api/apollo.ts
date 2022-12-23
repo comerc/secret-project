@@ -1,13 +1,20 @@
 import { readFileSync } from "fs"
-import { ApolloServer } from '@apollo/server'
+import { ApolloServer  } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { gql } from 'graphql-tag'
+
+import { IResolvers } from '@graphql-tools/utils'
 // import { combineResolvers } from 'graphql-resolvers'
 // import { isAuthenticated, isBookOwner } from '@/authorization'
 
 const schemaString = readFileSync('./schema.graphql', { encoding: 'utf8' });
 
 const typeDefs = gql(schemaString);
+
+interface Context {
+  // username: string
+  // models: any
+}
 
 const allBooks = [
   {
@@ -32,14 +39,16 @@ const allBooks = [
   }
 ];
 
-const resolvers = {
+const resolvers: IResolvers<any, Context> = {
   Query: {
     getAllBooks2: () => {
       return allBooks;
     },
-    getBook2: (parent, params, { models }) => {
+    getBook2: (parent, params
+      // , { models }
+      ) => {
       console.log(params)
-      console.log(models)
+      // console.log(models)
       return allBooks.find(({ id }) => params.id === id);
     },
   },
@@ -51,9 +60,11 @@ const resolvers = {
     //     return await models.Message.destroy({ where: { id } });
     //   },      
     // ),
-    addBook2: (parent, params, { models })=> {
+    addBook2: (parent, params
+      // , { models }
+      )=> {
       console.log(params)
-      console.log(models)
+      // console.log(models)
       allBooks.push({
         id: allBooks.length + 1,
         ...params.book,

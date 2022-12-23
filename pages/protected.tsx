@@ -39,3 +39,7 @@ export default function ProtectedPage() {
     </Layout>
   )
 }
+
+// export default function ProtectedPage() {
+//   return <div>ProtectedPage</div>
+// }

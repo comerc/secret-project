@@ -11,11 +11,12 @@
 //   )
 // }
 
-import { SessionProvider } from "next-auth/react"
-import ".../styles/auth.css"
-
 import type { AppProps } from "next/app"
 import type { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
+import { ApolloProvider } from "@apollo/client"
+import client from ".../repositories/apollo"
+import ".../styles/auth.css"
 
 // Use of the <SessionProvider> is mandatory to allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
@@ -25,7 +26,9 @@ export default function App({
 }: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </SessionProvider>
   )
 }
