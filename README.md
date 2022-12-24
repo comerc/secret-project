@@ -93,7 +93,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [x] Apollo GraphQL
 - [x] GraphQL CodeGen
 - [x] Apollo Client
-- [x] Hasura https://hasura.io/docs/latest/getting-started/docker-simple/
+- [x] Hasura
+  - https://hasura.io/docs/latest/getting-started/docker-simple/
 - [x] Auth for Hasura
   - https://hasura.io/learn/graphql/hasura-authentication/integrations/nextjs-auth/
   - https://github.com/nextauthjs/next-auth
@@ -102,11 +103,15 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/nhost/hasura-auth
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
-- [ ] Investigate vercel/swr VIA apollo/client https://github.com/praveenweb/swr-graphql
-- [ ] Prettier
-- [ ] AntDesign Components + Customize Theme
-- [ ] TailwindCSS? example: https://github.com/motleydev/hasura-on-the-road
+- [ ] Investigate vercel/swr VIA apollo/client
+  - https://github.com/praveenweb/swr-graphql
+- [x] Prettier
+- [x] AntDesign Components + Customize Theme
+  - https://github.com/ant-design/ant-design/issues/38767
+- [x] TailwindCSS
+  - https://github.com/motleydev/hasura-on-the-road
 - [ ] CSS-In-JS: Emotion?
+- [ ] Admin Panel
 - [ ] Temporal & GoLang
 - [ ] Tab in GoLang - yes! gofiber
 - [ ] monorepo as Turborepo by Vercel
@@ -117,7 +122,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] quill or slatejs or editorjs.io >> udecode/plate
 - [ ] yjs
 - [ ] tiptap.dev + mantine.dev
-- [ ] ClientOnly & useQuery https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
+- [ ] ClientOnly & useQuery
+  - https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
 
 ---
 

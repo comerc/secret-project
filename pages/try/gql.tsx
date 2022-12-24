@@ -27,7 +27,7 @@ const GET_MEMBERS = gql(`#graphql
   }
 `)
 
-function TryPage() {
+function TryGQLPage() {
   // `data` is typed!
   const { loading, error, data } = useQuery(GET_MEMBERS, {
     variables: { limit: 3 },
@@ -45,4 +45,4 @@ function TryPage() {
   )
 }
 
-export default TryPage
+export default TryGQLPage

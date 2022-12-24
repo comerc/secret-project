@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
+/* Default NextJS */
+/*
 html,
 body {
   padding: 0;

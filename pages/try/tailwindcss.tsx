@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
-const TailwindCSSPage: NextPage = () => {
+const TryTailwindCSSPage: NextPage = () => {
   return (
     <div
       className="flex 
@@ -83,4 +83,4 @@ const TailwindCSSPage: NextPage = () => {
   )
 }
 
-export default TailwindCSSPage
+export default TryTailwindCSSPage

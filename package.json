@@ -10,10 +10,15 @@
     "graphql:compile": "graphql-codegen",
     "graphql:watch": "graphql-codegen -w"
   },
+  "browser": {
+    "fs": false,
+    "path": false
+  },
   "dependencies": {
     "@apollo/client": "^3.7.3",
     "@apollo/server": "^4.3.0",
     "@as-integrations/next": "^1.2.0",
+    "antd": "^5.1.0",
     "graphql-request": "^4.3.0",
     "graphql-tag": "^2.12.6",
     "jose": "^4.11.1",
@@ -30,11 +35,11 @@
     "@types/node": "18.11.3",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
-    "autoprefixer": "^10.4.12",
+    "autoprefixer": "^10.4.13",
     "dotenv": "^16.0.3",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
-    "postcss": "^8.4.18",
+    "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4",
     "typescript": "4.9.4"
   }
