@@ -59,6 +59,12 @@ hasura init
 cd hasura && hasura console
 ```
 
+## Add Prettier
+
+```bash
+$ npm install -g prettier
+```
+
 ## How To Generate GraphQL Schema
 
 via Apollo CLI (deprecated)
