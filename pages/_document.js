@@ -12,7 +12,7 @@ class MyDocument extends Document {
         enhanceApp: (App) => (props) => <App {...props} cache={cache} />,
       })
     const initialProps = await Document.getInitialProps(ctx)
-    console.log(initialProps.styles)
+    // console.log(initialProps.styles)
     return {
       ...initialProps,
       styles: (

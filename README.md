@@ -101,16 +101,16 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://next-auth.js.org/getting-started/typescript
   - https://youtu.be/ObxRjcwLaa8
   - https://github.com/nhost/hasura-auth
-- [ ] Investigate vercel/commerce
-- [ ] Setup vercel/turbo?
-- [ ] Investigate vercel/swr VIA apollo/client
-  - https://github.com/praveenweb/swr-graphql
 - [x] Prettier
 - [x] AntDesign Components + Customize Theme
   - https://github.com/ant-design/ant-design/issues/38767
 - [x] TailwindCSS
   - https://github.com/motleydev/hasura-on-the-road
-- [ ] CSS-In-JS: Emotion?
+- [x] CSS-In-JS: Emotion? - nope
+- [ ] Investigate vercel/commerce
+- [ ] Setup vercel/turbo?
+- [ ] Investigate vercel/swr VIA apollo/client
+  - https://github.com/praveenweb/swr-graphql
 - [ ] Admin Panel
 - [ ] Temporal & GoLang
 - [ ] Tab in GoLang - yes! gofiber

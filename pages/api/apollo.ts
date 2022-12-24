@@ -1,5 +1,5 @@
-import { readFileSync } from "fs"
-import { ApolloServer  } from '@apollo/server'
+import { readFileSync } from 'fs'
+import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { gql } from 'graphql-tag'
 
@@ -7,9 +7,9 @@ import { IResolvers } from '@graphql-tools/utils'
 // import { combineResolvers } from 'graphql-resolvers'
 // import { isAuthenticated, isBookOwner } from '@/authorization'
 
-const schemaString = readFileSync('./schema.graphql', { encoding: 'utf8' });
+const schemaString = readFileSync('./schema.graphql', { encoding: 'utf8' })
 
-const typeDefs = gql(schemaString);
+const typeDefs = gql(schemaString)
 
 interface Context {
   // username: string
@@ -24,8 +24,8 @@ const allBooks = [
     author: {
       id: '1',
       firstName: 'Alex',
-      lastName: 'Kislov'
-    }
+      lastName: 'Kislov',
+    },
   },
   {
     id: '2',
@@ -34,22 +34,24 @@ const allBooks = [
     author: {
       id: '1',
       firstName: 'Alex',
-      lastName: 'Kislov'
-    }
-  }
-];
+      lastName: 'Kislov',
+    },
+  },
+]
 
 const resolvers: IResolvers<any, Context> = {
   Query: {
     getAllBooks2: () => {
-      return allBooks;
+      return allBooks
     },
-    getBook2: (parent, params
+    getBook2: (
+      parent,
+      params,
       // , { models }
-      ) => {
-      console.log(params)
+    ) => {
+      // console.log(params)
       // console.log(models)
-      return allBooks.find(({ id }) => params.id === id);
+      return allBooks.find(({ id }) => params.id === id)
     },
   },
   Mutation: {
@@ -58,11 +60,13 @@ const resolvers: IResolvers<any, Context> = {
     //   isBookOwner,
     //   async (parent, { id }, { models }) => {
     //     return await models.Message.destroy({ where: { id } });
-    //   },      
+    //   },
     // ),
-    addBook2: (parent, params
+    addBook2: (
+      parent,
+      params,
       // , { models }
-      )=> {
+    ) => {
       console.log(params)
       // console.log(models)
       allBooks.push({
@@ -71,13 +75,13 @@ const resolvers: IResolvers<any, Context> = {
         author: {
           id: '1',
           firstName: 'Alex',
-          lastName: 'Kislov'
-        }
-      });
-      return true;
-    }
-  }
-};
+          lastName: 'Kislov',
+        },
+      })
+      return true
+    },
+  },
+}
 
 const server = new ApolloServer({
   resolvers,
