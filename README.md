@@ -2,7 +2,7 @@
 
 ## Stack
 
-Hasura + Temporal + GoLang + NextJS + AntDesign Component + Plate
+Hasura + Temporal + GoLang + NextJS + AntDesign Component + Lexical
 
 ## Setup Hasura
 
@@ -106,6 +106,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/ant-design/ant-design/issues/38767
 - [x] TailwindCSS
   - https://github.com/motleydev/hasura-on-the-road
+  - https://haydenbleasel.com/blog/using-clsx-tailwind-composition
 - [x] CSS-In-JS: Emotion? - nope
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
@@ -118,12 +119,55 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] .editorconfig
 - [ ] husky?
 - [ ] pnpm VS npm
-- [ ] react-dnd or react-beautiful-dnd
-- [ ] quill or slatejs or editorjs.io >> udecode/plate
-- [ ] yjs
+- [ ] react-dnd or react-beautiful-dnd or dnd-kit
+- [ ] quill or prosemirror or slatejs or editorjs.io
+  - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
+  - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
+  - https://www.tiny.cloud/blog/migrate-from-slatejs-to-tinymce/
+  - https://github.com/react-page/react-page
+  - https://github.com/udecode/plate
+  - https://kitemaker.co/blog/building-a-rich-text-editor-in-react-with-slatejs
+  - https://github.com/haydenbleasel/compass-lexical
+- [ ] yjs vs automerge
+  - https://www.slatecollaborate.com
+  - https://tiptap.dev/hocuspocus
+  - https://github.com/BitPhinix/slate-yjs/
+  - https://liveblocks.io/examples/block-text-editor-advanced/nextjs
+  - https://bitphinix.github.io/slate-yjs-example/
+  - https://se.math.spbu.ru/thesis/texts/Koekin_Jaroslav_Alekseevich_Bachelor_Thesis_2021_text.pdf
+  - https://github.com/humandx/slate-automerge
+  - https://github.com/geoffreylitt/automerge-slate-playground
+  - https://github.com/automerge/automerge/issues/193
+  - https://github.com/inkandswitch/peritext
+  - https://lexical-playground-nzep8plck-fbopensource.vercel.app/split/?isCollab=true
+  - https://github.com/facebook/lexical/issues/2696
+  - https://github.com/facebook/lexical/issues/3113
+  - https://github.com/facebook/lexical/issues/3172
 - [ ] tiptap.dev + mantine.dev
 - [ ] ClientOnly & useQuery
   - https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
+- [ ] Image
+  - https://www.youtube.com/watch?v=2U7yZ3wvFBM
+- [ ] Reack Hooks
+  - https://www.youtube.com/watch?v=NZEUDJvpQMM
+  - https://www.youtube.com/watch?v=nshyjApIovo
+- [ ] Deploy Vercel
+  - https://www.youtube.com/watch?v=W3jKJ3V_4V4
+- [ ] Flexbox
+  - https://www.youtube.com/watch?v=wUl3QwNjGRg
+  - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+- [ ] Framer Motion
+  - https://www.youtube.com/watch?v=urgi2iz9P6U
+- [ ] PWA
+  - https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app
+- [ ] SEO
+  - https://www.npmjs.com/package/next-seo
+- [ ] Sitemap
+  - https://www.npmjs.com/package/next-sitemap
+- [ ] vercel/analytics
+  - https://github.com/vercel/analytics
+- [ ] Open Graph
+  - https://vercel.com/docs/concepts/functions/edge-functions/og-image-api
 
 ---
 

@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Compass-Lexical */
+/* 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  touch-action: manipulation;
+}
+*/
+
 /* Default NextJS */
 /*
 html,
