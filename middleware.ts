@@ -1,6 +1,6 @@
-import { withAuth, NextAuthMiddlewareOptions } from "next-auth/middleware"
+import { withAuth, NextAuthMiddlewareOptions } from 'next-auth/middleware'
 import * as jose from 'jose'
-import { JWT } from "next-auth/jwt"
+import { JWT } from 'next-auth/jwt'
 import { decode } from '.../utils/jwt'
 
 // More on how NextAuth.js middleware works: https://next-auth.js.org/configuration/nextjs#middleware
@@ -22,8 +22,8 @@ export default withAuth({
   callbacks: {
     async authorized({ token, req }) {
       return !!token
-    }
+    },
   },
 } as NextAuthMiddlewareOptions)
 
-export const config = { matcher: ["/admin", "/me"] }
+export const config = { matcher: ['/try/auth/admin', '/try/auth/me'] }
