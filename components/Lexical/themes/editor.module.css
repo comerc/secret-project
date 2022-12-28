@@ -1,14 +1,14 @@
-.PlaygroundEditorTheme__ltr {
+.ltr {
   text-align: left;
 }
-.PlaygroundEditorTheme__rtl {
+.rtl {
   text-align: right;
 }
-.PlaygroundEditorTheme__paragraph {
+.paragraph {
   margin: 0;
   position: relative;
 }
-.PlaygroundEditorTheme__quote {
+.quote {
   margin: 0;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -19,66 +19,66 @@
   border-left-style: solid;
   padding-left: 16px;
 }
-.PlaygroundEditorTheme__h1 {
+.h1 {
   font-size: 24px;
   color: rgb(5, 5, 5);
   font-weight: 400;
   margin: 0;
 }
-.PlaygroundEditorTheme__h2 {
+.h2 {
   font-size: 15px;
   color: rgb(101, 103, 107);
   font-weight: 700;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__h3 {
+.h3 {
   font-size: 12px;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__textBold {
+.textBold {
   font-weight: bold;
 }
-.PlaygroundEditorTheme__textItalic {
+.textItalic {
   font-style: italic;
 }
-.PlaygroundEditorTheme__textUnderline {
+.textUnderline {
   text-decoration: underline;
 }
-.PlaygroundEditorTheme__textStrikethrough {
+.textStrikethrough {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__textUnderlineStrikethrough {
+.textUnderlineStrikethrough {
   text-decoration: underline line-through;
 }
-.PlaygroundEditorTheme__textSubscript {
+.textSubscript {
   font-size: 0.8em;
   vertical-align: sub !important;
 }
-.PlaygroundEditorTheme__textSuperscript {
+.textSuperscript {
   font-size: 0.8em;
   vertical-align: super;
 }
-.PlaygroundEditorTheme__textCode {
+.textCode {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
-.PlaygroundEditorTheme__hashtag {
+.hashtag {
   background-color: rgba(88, 144, 255, 0.15);
   border-bottom: 1px solid rgba(88, 144, 255, 0.3);
 }
-.PlaygroundEditorTheme__link {
+.link {
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
-.PlaygroundEditorTheme__link:hover {
+.link:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__code {
+.code {
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -93,7 +93,7 @@
   overflow-x: auto;
   position: relative;
 }
-.PlaygroundEditorTheme__code:before {
+.code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -106,7 +106,7 @@
   text-align: right;
   min-width: 25px;
 }
-.PlaygroundEditorTheme__table {
+.table {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
@@ -115,10 +115,10 @@
   width: calc(100% - 25px);
   margin: 30px 0;
 }
-.PlaygroundEditorTheme__tableSelected {
+.tableSelected {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__tableCell {
+.tableCell {
   border: 1px solid #bbb;
   min-width: 75px;
   vertical-align: top;
@@ -128,7 +128,7 @@
   cursor: default;
   outline: none;
 }
-.PlaygroundEditorTheme__tableCellSortedIndicator {
+.tableCellSortedIndicator {
   display: block;
   opacity: 0.5;
   position: absolute;
@@ -138,7 +138,7 @@
   height: 4px;
   background-color: #999;
 }
-.PlaygroundEditorTheme__tableCellResizer {
+.tableCellResizer {
   position: absolute;
   right: -4px;
   height: 100%;
@@ -147,14 +147,14 @@
   z-index: 10;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellHeader {
+.tableCellHeader {
   background-color: #f2f3f5;
   text-align: start;
 }
-.PlaygroundEditorTheme__tableCellSelected {
+.tableCellSelected {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableCellPrimarySelected {
+.tableCellPrimarySelected {
   border: 2px solid rgb(60, 132, 244);
   display: block;
   height: calc(100% - 2px);
@@ -164,11 +164,11 @@
   top: -1px;
   z-index: 2;
 }
-.PlaygroundEditorTheme__tableCellEditing {
+.tableCellEditing {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   border-radius: 3px;
 }
-.PlaygroundEditorTheme__tableAddColumns {
+.tableAddColumns {
   position: absolute;
   top: 0;
   width: 20px;
@@ -179,7 +179,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddColumns:after {
+.tableAddColumns:after {
   /* background-image: url(../images/icons/plus.svg); */
   background-size: contain;
   background-position: center;
@@ -193,10 +193,10 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddColumns:hover {
+.tableAddColumns:hover {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableAddRows {
+.tableAddRows {
   position: absolute;
   bottom: -25px;
   width: calc(100% - 25px);
@@ -207,7 +207,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddRows:after {
+.tableAddRows:after {
   /* background-image: url(../images/icons/plus.svg); */
   background-size: contain;
   background-position: center;
@@ -221,7 +221,7 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddRows:hover {
+.tableAddRows:hover {
   background-color: #c9dbf0;
 }
 @keyframes table-controls {
@@ -232,7 +232,7 @@
     opacity: 1;
   }
 }
-.PlaygroundEditorTheme__tableCellResizeRuler {
+.tableCellResizeRuler {
   display: block;
   position: absolute;
   width: 1px;
@@ -240,7 +240,7 @@
   height: 100%;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellActionButtonContainer {
+.tableCellActionButtonContainer {
   display: block;
   right: 5px;
   top: 6px;
@@ -249,7 +249,7 @@
   width: 20px;
   height: 20px;
 }
-.PlaygroundEditorTheme__tableCellActionButton {
+.tableCellActionButton {
   background-color: #eee;
   display: block;
   border: 0;
@@ -259,58 +259,58 @@
   color: #222;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableCellActionButton:hover {
+.tableCellActionButton:hover {
   background-color: #ddd;
 }
-.PlaygroundEditorTheme__characterLimit {
+.characterLimit {
   display: inline;
   background-color: #ffbbbb !important;
 }
-.PlaygroundEditorTheme__ol1 {
+.ol1 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol2 {
+.ol2 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-type: upper-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol3 {
+.ol3 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-type: lower-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol4 {
+.ol4 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-type: upper-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol5 {
+.ol5 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-type: lower-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ul {
+.ul {
   padding: 0;
   margin: 0;
   margin-left: 16px;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__listItem {
+.listItem {
   margin: 0 32px;
 }
-.PlaygroundEditorTheme__listItemChecked,
-.PlaygroundEditorTheme__listItemUnchecked {
+.listItemChecked,
+.listItemUnchecked {
   position: relative;
   margin-left: 8px;
   margin-right: 8px;
@@ -319,11 +319,11 @@
   list-style-type: none;
   outline: none;
 }
-.PlaygroundEditorTheme__listItemChecked {
+.listItemChecked {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before,
-.PlaygroundEditorTheme__listItemChecked:before {
+.listItemUnchecked:before,
+.listItemChecked:before {
   content: '';
   width: 16px;
   height: 16px;
@@ -334,27 +334,27 @@
   background-size: cover;
   position: absolute;
 }
-.PlaygroundEditorTheme__listItemUnchecked[dir='rtl']:before,
-.PlaygroundEditorTheme__listItemChecked[dir='rtl']:before {
+.listItemUnchecked[dir='rtl']:before,
+.listItemChecked[dir='rtl']:before {
   left: auto;
   right: 0;
 }
-.PlaygroundEditorTheme__listItemUnchecked:focus:before,
-.PlaygroundEditorTheme__listItemChecked:focus:before {
+.listItemUnchecked:focus:before,
+.listItemChecked:focus:before {
   box-shadow: 0 0 0 2px #a6cdfe;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before {
+.listItemUnchecked:before {
   border: 1px solid #999;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemChecked:before {
+.listItemChecked:before {
   border: 1px solid rgb(61, 135, 245);
   border-radius: 2px;
   background-color: #3d87f5;
   background-repeat: no-repeat;
 }
-.PlaygroundEditorTheme__listItemChecked:after {
+.listItemChecked:after {
   content: '';
   cursor: pointer;
   border-color: #fff;
@@ -369,66 +369,66 @@
   transform: rotate(45deg);
   border-width: 0 2px 2px 0;
 }
-.PlaygroundEditorTheme__nestedListItem {
+.nestedListItem {
   list-style-type: none;
 }
-.PlaygroundEditorTheme__nestedListItem:before,
-.PlaygroundEditorTheme__nestedListItem:after {
+.nestedListItem:before,
+.nestedListItem:after {
   display: none;
 }
-.PlaygroundEditorTheme__tokenComment {
+.tokenComment {
   color: slategray;
 }
-.PlaygroundEditorTheme__tokenPunctuation {
+.tokenPunctuation {
   color: #999;
 }
-.PlaygroundEditorTheme__tokenProperty {
+.tokenProperty {
   color: #905;
 }
-.PlaygroundEditorTheme__tokenSelector {
+.tokenSelector {
   color: #690;
 }
-.PlaygroundEditorTheme__tokenOperator {
+.tokenOperator {
   color: #9a6e3a;
 }
-.PlaygroundEditorTheme__tokenAttr {
+.tokenAttr {
   color: #07a;
 }
-.PlaygroundEditorTheme__tokenVariable {
+.tokenVariable {
   color: #e90;
 }
-.PlaygroundEditorTheme__tokenFunction {
+.tokenFunction {
   color: #dd4a68;
 }
-.PlaygroundEditorTheme__mark {
+.mark {
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgba(255, 212, 0, 0.3);
   padding-bottom: 2px;
 }
-.PlaygroundEditorTheme__markOverlap {
+.markOverlap {
   background: rgba(255, 212, 0, 0.3);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__mark.selected {
+.mark.selected {
   background: rgba(255, 212, 0, 0.5);
   border-bottom: 2px solid rgba(255, 212, 0, 1);
 }
-.PlaygroundEditorTheme__markOverlap.selected {
+.markOverlap.selected {
   background: rgba(255, 212, 0, 0.7);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__embedBlock {
+.embedBlock {
   user-select: none;
 }
-.PlaygroundEditorTheme__embedBlockFocus {
+.embedBlockFocus {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__blockCursor {
+.blockCursor {
   display: block;
   pointer-events: none;
   position: absolute;
 }
-.PlaygroundEditorTheme__blockCursor:after {
+.blockCursor:after {
   content: '';
   display: block;
   position: absolute;
