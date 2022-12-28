@@ -1,8 +1,8 @@
-import Editor from '.../components/Compass'
+import Editor from '.../components/Lexical'
 import ClientOnly from '.../components/ClientOnly'
 import prepopulatedRichText from '.../utils/prepopulatedRichText'
 
-function TryCompassPage() {
+function TryLexicalPage() {
   return (
     <ClientOnly>
       <Editor initialEditorState={prepopulatedRichText}></Editor>
@@ -10,4 +10,4 @@ function TryCompassPage() {
   )
 }
 
-export default TryCompassPage
+export default TryLexicalPage

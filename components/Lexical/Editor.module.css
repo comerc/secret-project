@@ -1,0 +1,25 @@
+.Placeholder__root {
+  font-size: 15px;
+  color: #999;
+  overflow: hidden;
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 8px;
+  left: 28px;
+  right: 28px;
+  user-select: none;
+  white-space: nowrap;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.ContentEditable__root {
+  border: 0;
+  font-size: 15px;
+  display: block;
+  position: relative;
+  tab-size: 1;
+  outline: 0;
+  padding: 8px 28px;
+  min-height: calc(100% - 16px);
+}

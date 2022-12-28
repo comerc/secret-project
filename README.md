@@ -119,7 +119,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] .editorconfig
 - [ ] husky?
 - [ ] pnpm VS npm
-- [ ] react-dnd or react-beautiful-dnd or dnd-kit
+- [ ] react-dnd (focalboard) or react-beautiful-dnd or dnd-kit (liveblocks)
+  - https://github.com/alexreardon/drag-and-drop-performance-comparison
 - [ ] quill or prosemirror or slatejs or editorjs.io
   - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
   - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
