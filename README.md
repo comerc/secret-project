@@ -129,6 +129,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/udecode/plate
   - https://kitemaker.co/blog/building-a-rich-text-editor-in-react-with-slatejs
   - https://github.com/haydenbleasel/compass-lexical
+  - https://codesandbox.io/examples/package/lexical
+  - https://codesandbox.io/s/lexical-markdown-plugin-example-4076jq
 - [ ] yjs vs automerge
   - https://www.slatecollaborate.com
   - https://tiptap.dev/hocuspocus

@@ -2,7 +2,7 @@ import React from 'react'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { SharedAutocompleteContext } from './context/SharedAutocomplete'
 // import { SharedHistoryContext } from './context/SharedHistory'
-import nodes from './nodes'
+import editorNodes from './editorNodes'
 // import {TableContext} from './plugins/TablePlugin';
 import theme from './themes/editor'
 
@@ -14,6 +14,7 @@ import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
 // import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin'
 // import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
@@ -23,13 +24,13 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 // import {useSettings} from './context/SettingsContext';
 // import {useSharedHistoryContext} from './context/SharedHistory';
 // import TableCellNodes from './nodes/TableCellNodes';
-// import ActionsPlugin from './plugins/Actions'
+import ActionsPlugin from './plugins/Actions'
 // import AutocompletePlugin from './plugins/AutocompletePlugin';
 // import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 // import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 // import ClickableLinkPlugin from './plugins/ClickableLinkPlugin';
 // import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
-// import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
+import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 // import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 // import DragDropPaste from './plugins/DragDropPastePlugin';
@@ -46,7 +47,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
 // import LinkPlugin from './plugins/LinkPlugin';
 // import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
-// import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
+import { PLAYGROUND_TRANSFORMERS } from './plugins/markdownTransformers'
 // import {MaxLengthPlugin} from './plugins/MaxLengthPlugin';
 // import MentionsPlugin from './plugins/MentionsPlugin';
 // import PollPlugin from './plugins/PollPlugin';
@@ -68,7 +69,7 @@ function Editor({ initialEditorState }) {
   const initialConfig = {
     namespace: 'SecretProject',
     editorState: initialEditorState,
-    nodes: [...nodes],
+    nodes: [...editorNodes],
     onError: (error: Error) => {
       throw error
     },
@@ -129,8 +130,8 @@ function Editor({ initialEditorState }) {
               placeholder={<div className={styles.Placeholder__root}>Enter some rich text...</div>}
               ErrorBoundary={LexicalErrorBoundary}
             />
-            {/* <MarkdownShortcutPlugin /> */}
-            {/* <CodeHighlightPlugin /> */}
+            <MarkdownShortcutPlugin transformers={PLAYGROUND_TRANSFORMERS} />
+            <CodeHighlightPlugin />
             <ListPlugin />
             <CheckListPlugin />
             {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
@@ -174,7 +175,7 @@ function Editor({ initialEditorState }) {
             )} */}
             {/* <AutocompletePlugin /> */}
             {/* <div>{showTableOfContents && <TableOfContentsPlugin />}</div> */}
-            {/* <ActionsPlugin isRichText={true} /> */}
+            <ActionsPlugin isRichText={true} />
           </div>
         </div>
       </SharedAutocompleteContext>

@@ -3,18 +3,20 @@
 @tailwind utilities;
 
 /* Lexical-Proposal */
-/* 
-@import 'https://fonts.googleapis.com/css?family=Reenie+Beanie';
-
 body {
-  margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #eee;
-  padding: 0 20px;
 }
-*/
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
 
 /* Compass-Lexical */
 /* 

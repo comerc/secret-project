@@ -27,7 +27,7 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 // import { TweetNode } from './TweetNode'
 // import { YouTubeNode } from './YouTubeNode'
 
-const nodes: Array<Klass<LexicalNode>> = [
+const EditorNodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
   ListNode,
   ListItemNode,
@@ -61,4 +61,4 @@ const nodes: Array<Klass<LexicalNode>> = [
   // CollapsibleTitleNode,
 ]
 
-export default nodes
+export default EditorNodes

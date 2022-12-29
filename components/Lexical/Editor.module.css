@@ -12,7 +12,6 @@
   display: inline-block;
   pointer-events: none;
 }
-
 .ContentEditable__root {
   border: 0;
   font-size: 15px;
@@ -23,7 +22,6 @@
   padding: 8px 28px;
   min-height: calc(100% - 16px);
 }
-
 .shell {
   margin: 20px auto;
   border-radius: 2px;
@@ -33,8 +31,7 @@
   line-height: 1.7;
   font-weight: 400;
 }
-
-.shell .container {
+.container {
   background: #fff;
   position: relative;
   cursor: text;
@@ -42,7 +39,6 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-
 .editor_scroller {
   min-height: 150px;
   border: 0;
@@ -54,20 +50,17 @@
   overflow: auto;
   resize: vertical;
 }
-
 .editor {
   height: 100%;
   position: relative;
 }
-
-.typeahead_popover {
+.shell :global .typeahead_popover {
   background: #fff;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   margin-top: 25px;
 }
-
-.typeahead_popover ul {
+.shell :global .typeahead_popover ul {
   padding: 0;
   list-style: none;
   margin: 0;
@@ -75,17 +68,14 @@
   max-height: 200px;
   overflow-y: scroll;
 }
-
-.typeahead_popover ul::-webkit-scrollbar {
+.shell :global .typeahead_popover ul::-webkit-scrollbar {
   display: none;
 }
-
-.typeahead_popover ul {
+.shell :global .typeahead_popover ul {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-.typeahead_popover ul li {
+.shell :global .typeahead_popover ul li {
   margin: 0;
   min-width: 180px;
   font-size: 14px;
@@ -93,12 +83,10 @@
   cursor: pointer;
   border-radius: 8px;
 }
-
-.typeahead_popover ul :global li.selected {
+.shell :global .typeahead_popover ul :global li.selected {
   background: #eee;
 }
-
-.typeahead_popover li {
+.shell :global .typeahead_popover li {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -113,34 +101,28 @@
   border-radius: 8px;
   border: 0;
 }
-
-.typeahead_popover li.active {
+.shell :global .typeahead_popover li.active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
-
-.typeahead_popover li:first-child {
+.shell :global .typeahead_popover li:first-child {
   border-radius: 8px 8px 0px 0px;
 }
-
-.typeahead_popover li:last-child {
+.shell :global .typeahead_popover li:last-child {
   border-radius: 0px 0px 8px 8px;
 }
-
-.typeahead_popover li:hover {
+.shell :global .typeahead_popover li:hover {
   background-color: #eee;
 }
-
-.typeahead_popover li :global .text {
+.shell :global .typeahead_popover li :global .text {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
   min-width: 150px;
 }
-
-.typeahead_popover li :global .icon {
+.shell :global .typeahead_popover li :global .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -151,214 +133,156 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-
-.component_picker_menu {
+.shell :global .component_picker_menu {
   width: 200px;
 }
-
-.mentions_menu {
+.shell :global .mentions_menu {
   width: 250px;
 }
-
-.auto_embed_menu {
+.shell :global .auto_embed_menu {
   width: 150px;
 }
-
-.emoji_menu {
+.shell :global .emoji_menu {
   width: 200px;
 }
-
-i.palette {
+.shell :global i.palette {
   background-image: url(images/icons/palette.svg);
 }
-
-i.bucket {
+.shell :global i.bucket {
   background-image: url(images/icons/paint-bucket.svg);
 }
-
-i.bold {
+.shell :global i.bold {
   background-image: url(images/icons/type-bold.svg);
 }
-
-i.italic {
+.shell :global i.italic {
   background-image: url(images/icons/type-italic.svg);
 }
-
-i.clear {
-  background-image: url(images/icons/trash.svg);
-}
-
-i.code {
+.shell :global i.code {
   background-image: url(images/icons/code.svg);
 }
-
-i.underline {
+.shell :global i.underline {
   background-image: url(images/icons/type-underline.svg);
 }
-
-i.strikethrough {
+.shell :global i.strikethrough {
   background-image: url(images/icons/type-strikethrough.svg);
 }
-
-i.subscript {
+.shell :global i.subscript {
   background-image: url(images/icons/type-subscript.svg);
 }
-
-i.superscript {
+.shell :global i.superscript {
   background-image: url(images/icons/type-superscript.svg);
 }
-
-i.link {
+.shell :global i.link {
   background-image: url(images/icons/link.svg);
 }
-
-i.horizontal_rule {
+.shell :global i.horizontal_rule {
   background-image: url(images/icons/horizontal-rule.svg);
 }
-
-.icon.plus {
+.shell :global .icon.plus {
   background-image: url(images/icons/plus.svg);
 }
-
-.icon.caret_right {
+.shell :global .icon.caret_right {
   background-image: url(images/icons/caret-right-fill.svg);
 }
-
-.icon.dropdown_more {
+.shell :global .icon.dropdown_more {
   background-image: url(images/icons/dropdown-more.svg);
 }
-
-.icon.font_color {
+.shell :global .icon.font_color {
   background-image: url(images/icons/font-color.svg);
 }
-
-.icon.font_family {
+.shell :global .icon.font_family {
   background-image: url(images/icons/font-family.svg);
 }
-
-.icon.bg_color {
+.shell :global .icon.bg_color {
   background-image: url(images/icons/bg-color.svg);
 }
-
-i.image {
+.shell :global i.image {
   background-image: url(images/icons/file-image.svg);
 }
-
-i.table {
+.shell :global i.table {
   background-image: url(images/icons/table.svg);
 }
-
-i.close {
+.shell :global i.close {
   background-image: url(images/icons/close.svg);
 }
-
-i.figma {
+.shell :global i.figma {
   background-image: url(images/icons/figma.svg);
 }
-
-i.poll {
+.shell :global i.poll {
   background-image: url(images/icons/card-checklist.svg);
 }
-
-i.tweet {
+.shell :global i.tweet {
   background-image: url(images/icons/tweet.svg);
 }
-
-i.youtube {
+.shell :global i.youtube {
   background-image: url(images/icons/youtube.svg);
 }
-
-.icon_left_align,
-i.left_align {
+.shell :global .icon_left_align,
+.shell :global i.left_align {
   background-image: url(images/icons/text-left.svg);
 }
-
-i.center_align {
+.shell :global i.center_align {
   background-image: url(images/icons/text-center.svg);
 }
-
-i.right_align {
+.shell :global i.right_align {
   background-image: url(images/icons/text-right.svg);
 }
-
-i.justify_align {
+.shell :global i.justify_align {
   background-image: url(images/icons/justify.svg);
 }
-
-i.indent {
+.shell :global i.indent {
   background-image: url(images/icons/indent.svg);
 }
-
-i.markdown {
-  background-image: url(images/icons/markdown.svg);
-}
-
-i.outdent {
+.shell :global i.outdent {
   background-image: url(images/icons/outdent.svg);
 }
-
-i.undo {
+.shell :global i.undo {
   background-image: url(images/icons/arrow-counterclockwise.svg);
 }
-
-i.redo {
+.shell :global i.redo {
   background-image: url(images/icons/arrow-clockwise.svg);
 }
-
-i.sticky {
+.shell :global i.sticky {
   background-image: url(images/icons/sticky.svg);
 }
-
-i.mic {
+.shell :global i.mic {
   background-image: url(images/icons/mic.svg);
 }
-
-i.import {
+.shell :global i.import {
   background-image: url(images/icons/upload.svg);
 }
-
-i.export {
+.shell :global i.export {
   background-image: url(images/icons/download.svg);
 }
-
-i.diagram_2 {
+.shell :global i.diagram_2 {
   background-image: url(images/icons/diagram-2.svg);
 }
-
-i.user {
+.shell :global i.user {
   background-image: url(images/icons/user.svg);
 }
-
-i.equation {
+.shell :global i.equation {
   background-image: url(images/icons/plus-slash-minus.svg);
 }
-
-i.gif {
+.shell :global i.gif {
   background-image: url(images/icons/filetype-gif.svg);
 }
-
-i.copy {
+.shell :global i.copy {
   background-image: url(images/icons/copy.svg);
 }
-
-i.success {
+.shell :global i.success {
   background-image: url(images/icons/success.svg);
 }
-
-i.prettier {
+.shell :global i.prettier {
   background-image: url(images/icons/prettier.svg);
 }
-
-i.prettier_error {
+.shell :global i.prettier_error {
   background-image: url(images/icons/prettier-error.svg);
 }
-
-.link_editor :global .button.active,
+.shell :global .link_editor .button.active,
 .toolbar :global .button.active {
   background-color: rgb(223, 232, 250);
 }
-
-.link_editor .link_input {
+.shell :global .link_editor .link_input {
   display: block;
   width: calc(100% - 24px);
   box-sizing: border-box;
@@ -373,8 +297,7 @@ i.prettier_error {
   position: relative;
   font-family: inherit;
 }
-
-.link_editor div.link_edit {
+.shell :global .link_editor div.link_edit {
   background-image: url(images/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
@@ -387,8 +310,7 @@ i.prettier_error {
   bottom: 0;
   cursor: pointer;
 }
-
-.link_editor .link_input a {
+.shell :global .link_editor .link_input a {
   color: rgb(33, 111, 219);
   text-decoration: none;
   display: block;
@@ -397,30 +319,25 @@ i.prettier_error {
   margin-right: 30px;
   text-overflow: ellipsis;
 }
-
-.link_editor .link_input a:hover {
+.shell :global .link_editor .link_input a:hover {
   text-decoration: underline;
 }
-
-.link_editor .font_size_wrapper,
-.link_editor .font_family_wrapper {
+.shell :global .link_editor .font_size_wrapper,
+.shell :global .link_editor .font_family_wrapper {
   display: flex;
   margin: 0 4px;
 }
-
-.link_editor select {
+.shell :global .link_editor select {
   padding: 6px;
   border: none;
   background-color: rgba(0, 0, 0, 0.075);
   border-radius: 4px;
 }
-
-.mention:focus {
+.shell :global .mention:focus {
   box-shadow: rgb(180 213 255) 0px 0px 0px 2px;
   outline: none;
 }
-
-.block_controls {
+.shell :global .block_controls {
   display: block;
   position: absolute;
   right: 10px;
@@ -434,8 +351,7 @@ i.prettier_error {
   border: 1px solid rgb(206, 208, 212);
   overflow: hidden;
 }
-
-.block_controls button {
+.shell :global .block_controls button {
   border: 1px solid white;
   background-color: #fff;
   display: block;
@@ -445,52 +361,41 @@ i.prettier_error {
   border-radius: 8px;
   padding: 3px;
 }
-
-.block_controls button:hover {
+.shell :global .block_controls button:hover {
   background-color: #efefef;
 }
-
-.block_controls button:focus-visible {
+.shell :global .block_controls button:focus-visible {
   border-color: blue;
 }
-
-.block_controls :global span.block_type {
+.shell :global .block_controls span.block_type {
   background-size: contain;
   display: block;
   width: 18px;
   height: 18px;
   margin: 2px;
 }
-
-.block_controls :global span.block_type.paragraph {
+.shell :global .block_controls span.block_type.paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
-
-.block_controls :global span.block_type.h1 {
+.shell :global .block_controls span.block_type.h1 {
   background-image: url(images/icons/type-h1.svg);
 }
-
-.block_controls :global span.block_type.h2 {
+.shell :global .block_controls span.block_type.h2 {
   background-image: url(images/icons/type-h2.svg);
 }
-
-.block_controls :global span.block_type.quote {
+.shell :global .block_controls span.block_type.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }
-
-.block_controls :global span.block_type.ul {
+.shell :global .block_controls span.block_type.ul {
   background-image: url(images/icons/list-ul.svg);
 }
-
-.block_controls :global span.block_type.ol {
+.shell :global .block_controls span.block_type.ol {
   background-image: url(images/icons/list-ol.svg);
 }
-
-.block_controls :global span.block_type.code {
+.shell :global .block_controls span.block_type.code {
   background-image: url(images/icons/code.svg);
 }
-
-.characters_limit {
+.shell :global .characters_limit {
   color: #888;
   font-size: 12px;
   text-align: right;
@@ -499,12 +404,10 @@ i.prettier_error {
   left: 12px;
   bottom: 5px;
 }
-
-.characters_limit_exceeded {
+.shell :global .characters_limit_exceeded {
   color: red;
 }
-
-.dropdown {
+.shell :global .dropdown {
   z-index: 10;
   display: block;
   position: fixed;
@@ -514,8 +417,7 @@ i.prettier_error {
   min-height: 40px;
   background-color: #fff;
 }
-
-.dropdown :global .item {
+.shell :global .dropdown .item {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -533,39 +435,32 @@ i.prettier_error {
   max-width: 250px;
   min-width: 100px;
 }
-
-.dropdown :global .item.fontsize_item,
-.dropdown :global .item.fontsize_item .text {
+.shell :global .dropdown .item.fontsize_item,
+.shell :global .dropdown .item.fontsize_item .text {
   min-width: unset;
 }
-
-.dropdown :global .item .active {
+.shell :global .dropdown .item .active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
-
-.dropdown :global .item:first-child {
+.shell :global .dropdown .item:first-child {
   margin-top: 8px;
 }
-
-.dropdown :global .item:last-child {
+.shell :global .dropdown .item:last-child {
   margin-bottom: 8px;
 }
-
-.dropdown :global .item:hover {
+.shell :global .dropdown .item:hover {
   background-color: #eee;
 }
-
-.dropdown :global .item .text {
+.shell :global .dropdown .item .text {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
   min-width: 150px;
 }
-
-.dropdown :global .item .icon {
+.shell :global .dropdown .item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -576,14 +471,12 @@ i.prettier_error {
   background-position: center;
   background-repeat: no-repeat;
 }
-
-.dropdown :global .divider {
+.shell :global .dropdown .divider {
   width: auto;
   background-color: #eee;
   margin: 4px 8px;
   height: 1px;
 }
-
 @media screen and (max-width: 1100px) {
   .dropdown_button_text {
     display: none !important;
@@ -595,66 +488,52 @@ i.prettier_error {
     display: flex !important;
   }
 }
-
-.icon_paragraph {
+.shell :global .icon_paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
-
-.icon_h1 {
+.shell :global .icon_h1 {
   background-image: url(images/icons/type-h1.svg);
 }
-
-.icon_h2 {
+.shell :global .icon_h2 {
   background-image: url(images/icons/type-h2.svg);
 }
-
-.icon_h3 {
+.shell :global .icon_h3 {
   background-image: url(images/icons/type-h3.svg);
 }
-
-.icon_h4 {
+.shell :global .icon_h4 {
   background-image: url(images/icons/type-h4.svg);
 }
-
-.icon_h5 {
+.shell :global .icon_h5 {
   background-image: url(images/icons/type-h5.svg);
 }
-
-.icon_h6 {
+.shell :global .icon_h6 {
   background-image: url(images/icons/type-h6.svg);
 }
-
-.icon_bullet_list,
-.icon_bullet {
+.shell :global .icon_bullet_list,
+.shell :global .icon_bullet {
   background-image: url(images/icons/list-ul.svg);
 }
-
-.icon_check_list,
-.icon_check {
+.shell :global .icon_check_list,
+.shell :global .icon_check {
   background-image: url(images/icons/square-check.svg);
 }
-
-.icon_numbered_list,
-.icon_number {
+.shell :global .icon_numbered_list,
+.shell :global .icon_number {
   background-image: url(images/icons/list-ol.svg);
 }
-
-.icon.quote {
+.shell :global .icon.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }
-
-.icon.code {
+.shell :global .icon.code {
   background-image: url(images/icons/code.svg);
 }
-
-.switches {
+.shell :global .switches {
   z-index: 6;
   position: fixed;
   left: 10px;
   bottom: 70px;
   animation: slide-in 0.4s ease;
 }
-
 @keyframes slide-in {
   0% {
     opacity: 0;
@@ -665,8 +544,7 @@ i.prettier_error {
     transform: translateX(0);
   }
 }
-
-.switch {
+.shell :global .switch {
   display: block;
   color: #444;
   margin: 5px 0;
@@ -674,8 +552,7 @@ i.prettier_error {
   padding: 5px 10px;
   border-radius: 10px;
 }
-
-.switch label {
+.shell :global .switch label {
   margin-right: 5px;
   line-height: 24px;
   width: 100px;
@@ -683,8 +560,7 @@ i.prettier_error {
   display: inline-block;
   vertical-align: middle;
 }
-
-.switch button {
+.shell :global .switch button {
   background-color: rgb(206, 208, 212);
   height: 24px;
   box-sizing: border-box;
@@ -698,12 +574,10 @@ i.prettier_error {
   transition: background-color 0.1s;
   border: 2px solid transparent;
 }
-
-.switch button:focus-visible {
+.shell :global .switch button:focus-visible {
   border-color: blue;
 }
-
-.switch button span {
+.shell :global .switch button span {
   top: 0px;
   left: 0px;
   display: block;
@@ -714,45 +588,36 @@ i.prettier_error {
   background-color: white;
   transition: transform 0.2s;
 }
-
-.switch button[aria-checked='true'] {
+.shell :global .switch button[aria-checked='true'] {
   background-color: rgb(24, 119, 242);
 }
-
-.switch button[aria-checked='true'] span {
+.shell :global .switch button[aria-checked='true'] span {
   transform: translateX(20px);
 }
-
 .shell :global span.editor_image {
   cursor: default;
   display: inline-block;
   position: relative;
   user-select: none;
 }
-
 .shell :global .editor_image img {
   max-width: 100%;
   cursor: default;
 }
-
 .shell :global .editor_image img.focused {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
-
 .shell :global .editor_image img.focused.draggable {
   cursor: grab;
 }
-
 .shell :global .editor_image img.focused.draggable:active {
   cursor: grabbing;
 }
-
 .shell :global .editor_image .image_caption_container {
   margin: 0;
   border-radius: 0;
 }
-
 .shell :global .editor_image .image_caption_container {
   display: block;
   position: absolute;
@@ -767,7 +632,6 @@ i.prettier_error {
   color: #000;
   overflow: hidden;
 }
-
 .shell :global .editor_image .image_caption_button {
   display: block;
   position: absolute;
@@ -785,11 +649,9 @@ i.prettier_error {
   cursor: pointer;
   user-select: none;
 }
-
 .shell :global .editor_image .image_caption_button:hover {
   background-color: rgba(60, 132, 244, 0.5);
 }
-
 .shell :global .editor_image .image_resizer {
   display: block;
   width: 7px;
@@ -798,56 +660,47 @@ i.prettier_error {
   background-color: rgb(60, 132, 244);
   border: 1px solid #fff;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_n {
   top: -6px;
   left: 48%;
   cursor: n-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_ne {
   top: -6px;
   right: -6px;
   cursor: ne-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_e {
   bottom: 48%;
   right: -6px;
   cursor: e-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_se {
   bottom: -2px;
   right: -6px;
   cursor: nwse-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_s {
   bottom: -2px;
   left: 48%;
   cursor: s-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_sw {
   bottom: -2px;
   left: -6px;
   cursor: sw-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_w {
   bottom: 48%;
   left: -6px;
   cursor: w-resize;
 }
-
 .shell :global .editor_image .image_resizer.image_resizer_nw {
   top: -6px;
   left: -6px;
   cursor: nw-resize;
 }
-
-.emoji {
+.shell :global .emoji {
   color: transparent;
   caret-color: rgb(5, 5, 5);
   background-size: 16px 16px;
@@ -856,119 +709,96 @@ i.prettier_error {
   vertical-align: middle;
   margin: 0 -1px;
 }
-
-.emoji_inner {
+.shell :global .emoji_inner {
   padding: 0 0.15em;
 }
-
-.emoji_inner::selection {
+.shell :global .emoji_inner::selection {
   color: transparent;
   background-color: rgba(150, 150, 150, 0.4);
 }
-
-.emoji_inner::moz-selection {
+.shell :global .emoji_inner::moz-selection {
   color: transparent;
   background-color: rgba(150, 150, 150, 0.4);
 }
-
-.emoji.happysmile {
+.shell :global .emoji.happysmile {
   background-image: url(images/emoji/1F642.png);
 }
-
-.emoji.veryhappysmile {
+.shell :global .emoji.veryhappysmile {
   background-image: url(images/emoji/1F600.png);
 }
-
-.emoji.unhappysmile {
+.shell :global .emoji.unhappysmile {
   background-image: url(images/emoji/1F641.png);
 }
-
-.emoji.heart {
+.shell :global .emoji.heart {
   background-image: url(images/emoji/2764.png);
 }
-
-.keyword {
+.shell :global .keyword {
   color: rgb(241, 118, 94);
   font-weight: bold;
 }
-
-.actions {
+.shell :global .actions {
   position: absolute;
   text-align: right;
   padding: 10px;
   bottom: 0;
   right: 0;
 }
-
-.actions.tree_view {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.actions i {
+.shell :global .actions i {
   background-size: contain;
   display: inline-block;
-  height: 15px;
-  width: 15px;
-  vertical-align: -0.25em;
+  height: 20px;
+  width: 20px;
+  vertical-align: -0.375em;
 }
-
-.actions i.indent {
+.shell :global i.indent {
   background-image: url(images/icons/indent.svg);
 }
-
-.actions i.outdent {
+.shell :global i.outdent {
   background-image: url(images/icons/outdent.svg);
 }
-
-.actions i.lock {
+.shell :global i.lock {
   background-image: url(images/icons/lock-fill.svg);
 }
-
-.actions i.image {
+.shell :global i.clear {
+  background-image: url(images/icons/trash.svg);
+}
+.shell :global i.markdown {
+  background-image: url(images/icons/markdown.svg);
+}
+.shell :global i.image {
   background-image: url(images/icons/file-image.svg);
 }
-
-.actions i.table {
+.shell :global i.table {
   background-image: url(images/icons/table.svg);
 }
-
-.actions i.unlock {
+.shell :global i.unlock {
   background-image: url(images/icons/lock.svg);
 }
-
-.actions i.left_align {
+.shell :global i.left_align {
   background-image: url(images/icons/text-left.svg);
 }
-
-.actions i.center_align {
+.shell :global i.center_align {
   background-image: url(images/icons/text-center.svg);
 }
-
-.actions i.right_align {
+.shell :global i.right_align {
   background-image: url(images/icons/text-right.svg);
 }
-
-.actions i.justify_align {
+.shell :global i.justify_align {
   background-image: url(images/icons/justify.svg);
 }
-
-.actions i.disconnect {
+.shell :global i.disconnect {
   background-image: url(images/icons/plug.svg);
 }
-
-.actions i.connect {
+.shell :global i.connect {
   background-image: url(images/icons/plug-fill.svg);
 }
-
-.table_cell_action_button_container {
+.shell :global .table_cell_action_button_container {
   position: absolute;
   top: 0;
   left: 0;
   will-change: transform;
 }
-
-.table_cell_action_button {
+.shell :global .table_cell_action_button {
   background-color: none;
   display: flex;
   justify-content: center;
@@ -980,8 +810,7 @@ i.prettier_error {
   display: inline-block;
   cursor: pointer;
 }
-
-i.chevron_down {
+.shell :global i.chevron_down {
   background-color: transparent;
   background-size: contain;
   display: inline-block;
@@ -989,8 +818,7 @@ i.chevron_down {
   width: 8px;
   background-image: url(images/icons/chevron-down.svg);
 }
-
-.action_button {
+.shell :global .actions .action_button {
   background-color: #eee;
   border: 0;
   padding: 8px 12px;
@@ -1001,21 +829,18 @@ i.chevron_down {
   display: inline-block;
   cursor: pointer;
 }
-
-.action_button:hover {
+.shell :global .actions .action_button:hover {
   background-color: #ddd;
   color: #000;
 }
-
-.action_button_mic.active {
+.shell :global .actions .action_button_mic.active {
   animation: MicPulsateColor 3s infinite;
 }
-button.action_button:disabled {
+.shell :global .actions .action_button:disabled {
   opacity: 0.6;
   background: #eee;
   cursor: not-allowed;
 }
-
 @keyframes MicPulsateColor {
   0% {
     background-color: #ffdcdc;
@@ -1027,8 +852,7 @@ button.action_button:disabled {
     background-color: #ffdcdc;
   }
 }
-
-.connecting {
+.shell :global .connecting {
   font-size: 15px;
   color: #999;
   overflow: hidden;
@@ -1041,16 +865,13 @@ button.action_button:disabled {
   display: inline-block;
   pointer-events: none;
 }
-
-.ltr {
+.shell :global .ltr {
   text-align: left;
 }
-
-.rtl {
+.shell :global .rtl {
   text-align: right;
 }
-
-.toolbar {
+.shell :global .toolbar {
   display: flex;
   margin-bottom: 1px;
   background: #fff;
@@ -1061,8 +882,7 @@ button.action_button:disabled {
   overflow: auto;
   height: 36px;
 }
-
-.toolbar button.toolbar_item {
+.shell :global .toolbar button.toolbar_item {
   border: 0;
   display: flex;
   background: none;
@@ -1074,16 +894,13 @@ button.action_button:disabled {
   align-items: center;
   justify-content: space-between;
 }
-
-.toolbar button.toolbar_item:disabled {
+.shell :global .toolbar button.toolbar_item:disabled {
   cursor: not-allowed;
 }
-
-.toolbar button.toolbar_item.spaced {
+.shell :global .toolbar button.toolbar_item.spaced {
   margin-right: 2px;
 }
-
-.toolbar button.toolbar_item i.format {
+.shell :global .toolbar button.toolbar_item i.format {
   background-size: contain;
   display: inline-block;
   height: 18px;
@@ -1092,36 +909,29 @@ button.action_button:disabled {
   display: flex;
   opacity: 0.6;
 }
-
-.toolbar button.toolbar_item:disabled .icon,
-.toolbar button.toolbar_item:disabled .text,
-.toolbar button.toolbar_item:disabled i.format,
-.toolbar button.toolbar_item:disabled .chevron_down {
+.shell :global .toolbar button.toolbar_item:disabled .icon,
+.shell :global .toolbar button.toolbar_item:disabled .text,
+.shell :global .toolbar button.toolbar_item:disabled i.format,
+.shell :global .toolbar button.toolbar_item:disabled .chevron_down {
   opacity: 0.2;
 }
-
-.toolbar button.toolbar_item.active {
+.shell :global .toolbar button.toolbar_item.active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-
-.toolbar button.toolbar_item.active i {
+.shell :global .toolbar button.toolbar_item.active i {
   opacity: 1;
 }
-
-.toolbar .toolbar_item:hover:not([disabled]) {
+.shell :global .toolbar .toolbar_item:hover:not([disabled]) {
   background-color: #eee;
 }
-
-.toolbar .toolbar_item.font-family .text {
+.shell :global .toolbar .toolbar_item.font-family .text {
   display: block;
   max-width: 40px;
 }
-
-.toolbar .code_language {
+.shell :global .toolbar .code_language {
   width: 150px;
 }
-
-.toolbar .toolbar_item .text {
+.shell :global .toolbar .toolbar_item .text {
   display: flex;
   line-height: 20px;
   vertical-align: middle;
@@ -1133,8 +943,7 @@ button.action_button:disabled {
   text-align: left;
   padding-right: 10px;
 }
-
-.toolbar .toolbar_item .icon {
+.shell :global .toolbar .toolbar_item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -1143,16 +952,14 @@ button.action_button:disabled {
   line-height: 16px;
   background-size: contain;
 }
-
-.toolbar i.chevron_down {
+.shell :global .toolbar i.chevron_down {
   margin-top: 3px;
   width: 16px;
   height: 16px;
   display: flex;
   user-select: none;
 }
-
-.toolbar i.chevron_down.inside {
+.shell :global .toolbar i.chevron_down.inside {
   width: 16px;
   height: 16px;
   display: flex;
@@ -1161,61 +968,50 @@ button.action_button:disabled {
   margin-right: 10px;
   pointer-events: none;
 }
-
-.toolbar .divider {
+.shell :global .toolbar .divider {
   width: 1px;
   background-color: #eee;
   margin: 0 4px;
 }
-
-.excalidraw_button {
+.shell :global .excalidraw_button {
   border: 0;
   padding: 0;
   margin: 0;
   background-color: transparent;
 }
-
-.excalidraw_button.selected {
+.shell :global .excalidraw_button.selected {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
-
-.spacer {
+.shell :global .spacer {
   letter-spacing: -2px;
 }
-
-button.item i {
+.shell :global button.item i {
   opacity: 0.6;
 }
-
-button.item.dropdown_item_active {
+.shell :global button.item.dropdown_item_active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-
-button.item.dropdown_item_active i {
+.shell :global button.item.dropdown_item_active i {
   opacity: 1;
 }
-
-.editor hr {
+.shell :global hr {
   padding: 2px 2px;
   border: none;
   margin: 1em 0;
   cursor: pointer;
 }
-
-.editor hr:after {
+.shell :global hr:after {
   content: '';
   display: block;
   height: 2px;
   background-color: #ccc;
   line-height: 2px;
 }
-
-.editor hr.selected {
+.shell :global hr.selected {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
-
 .TableNode__contentEditable {
   min-height: 20px;
   border: 0px;
