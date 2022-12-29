@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Lexical-Proposal */
+/* 
+@import 'https://fonts.googleapis.com/css?family=Reenie+Beanie';
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #eee;
+  padding: 0 20px;
+}
+*/
+
 /* Compass-Lexical */
 /* 
 html {

@@ -94,9 +94,9 @@ function Editor({ initialEditorState }) {
       {/* <SharedHistoryContext> */}
       {/* <TableContext> */}
       <SharedAutocompleteContext>
-        <div className="editor-shell">
+        <div className={styles.shell}>
           {/* <ToolbarPlugin /> */}
-          <div className="editor-container">
+          <div className={styles.container}>
             {/* <DragDropPaste /> */}
             <AutoFocusPlugin />
             <ClearEditorPlugin />
@@ -120,8 +120,8 @@ function Editor({ initialEditorState }) {
               )} */}
             <RichTextPlugin
               contentEditable={
-                <div className="editor-scroller">
-                  <div className="editor" ref={onRef}>
+                <div className={styles.editor_scroller}>
+                  <div className={styles.editor} ref={onRef}>
                     <ContentEditable className={styles.ContentEditable__root} />
                   </div>
                 </div>
