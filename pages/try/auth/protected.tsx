@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { useSession } from 'next-auth/react'
 import Layout from '.../components/Layout'
 import AccessDenied from '.../components/AccessDenied'
 
 export default function ProtectedPage() {
   const { data: session } = useSession()
-  const [content, setContent] = useState()
+  const [content, setContent] = React.useState()
 
   // Fetch content from protected route
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('/api/examples/protected')
       const json = await res.json()

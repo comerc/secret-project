@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
+import React from 'react'
+import type { ReactNode } from 'react'
 
 type Suggestion = null | string
 type CallbackFn = (newSuggestion: Suggestion) => void
@@ -8,7 +8,7 @@ type PublishFn = (newSuggestion: Suggestion) => void
 type ContextShape = [SubscribeFn, PublishFn]
 type HookShape = [suggestion: Suggestion, setSuggestion: PublishFn]
 
-const Context: React.Context<ContextShape> = createContext([
+const Context: React.Context<ContextShape> = React.createContext([
   (_cb) => () => {
     return
   },
@@ -18,7 +18,7 @@ const Context: React.Context<ContextShape> = createContext([
 ])
 
 export const SharedAutocompleteContext = ({ children }: { children: ReactNode }): JSX.Element => {
-  const context: ContextShape = useMemo(() => {
+  const context: ContextShape = React.useMemo(() => {
     let suggestion: Suggestion | null = null
     const listeners: Set<CallbackFn> = new Set()
     return [
@@ -41,8 +41,8 @@ export const SharedAutocompleteContext = ({ children }: { children: ReactNode })
 }
 
 export const useSharedAutocompleteContext = (): HookShape => {
-  const [subscribe, publish]: ContextShape = useContext(Context)
-  const [suggestion, setSuggestion] = useState<Suggestion>(null)
+  const [subscribe, publish]: ContextShape = React.useContext(Context)
+  const [suggestion, setSuggestion] = React.useState<Suggestion>(null)
   useEffect(() => {
     return subscribe((newSuggestion: Suggestion) => {
       setSuggestion(newSuggestion)

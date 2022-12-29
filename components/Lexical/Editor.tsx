@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { SharedAutocompleteContext } from './context/SharedAutocomplete'
 // import { SharedHistoryContext } from './context/SharedHistory'
@@ -23,7 +23,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 // import {useSettings} from './context/SettingsContext';
 // import {useSharedHistoryContext} from './context/SharedHistory';
 // import TableCellNodes from './nodes/TableCellNodes';
-// import ActionsPlugin from './plugins/ActionsPlugin';
+// import ActionsPlugin from './plugins/Actions'
 // import AutocompletePlugin from './plugins/AutocompletePlugin';
 // import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 // import AutoLinkPlugin from './plugins/AutoLinkPlugin';
@@ -75,7 +75,7 @@ function Editor({ initialEditorState }) {
     theme: theme,
   }
   // const {historyState} = useSharedHistoryContext();
-  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null)
+  const [floatingAnchorElem, setFloatingAnchorElem] = React.useState<HTMLDivElement | null>(null)
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem)
