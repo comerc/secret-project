@@ -14,6 +14,7 @@ import {
   CLEAR_EDITOR_COMMAND,
   COMMAND_PRIORITY_EDITOR,
 } from 'lexical'
+import { Modal } from 'antd'
 // import useModal from '../../hooks/useModal'
 // import Button from '../../ui/Button'
 import { PLAYGROUND_TRANSFORMERS } from './markdownTransformers'
@@ -172,6 +173,17 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
         className="action_button clear"
         disabled={isEditorEmpty}
         onClick={() => {
+          // TODO: Ant Design Modal.confirm()
+          Modal.confirm({
+            content: 'Are you sure you want to clear the editor?',
+            maskClosable: true,
+            afterClose() {
+              editor.focus()
+            },
+            onOk() {
+              editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
+            },
+          })
           // showModal('Clear editor', (onClose) => (
           //   <ShowClearDialog editor={editor} onClose={onClose} />
           // ))
@@ -188,7 +200,10 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
           if (isEditable) {
             // sendEditorState(editor)
           }
-          editor.setEditable(!editor.isEditable())
+          editor.setEditable(!isEditable)
+          if (!isEditable) {
+            editor.focus()
+          }
         }}
         title="Read-Only Mode"
         aria-label={`${!isEditable ? 'Unlock' : 'Lock'} read-only mode`}
