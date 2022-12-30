@@ -5,7 +5,7 @@ import prepopulatedRichText from '.../utils/prepopulatedRichText'
 function TryLexicalPage() {
   return (
     <ClientOnly>
-      <Editor initialEditorState={prepopulatedRichText}></Editor>
+      <Editor initialEditorState={prepopulatedRichText} isInitialEditable={false}></Editor>
     </ClientOnly>
   )
 }

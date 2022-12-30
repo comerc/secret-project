@@ -5,7 +5,6 @@ import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text'
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical'
 
 export default function prepopulatedRichText() {
-  console.log('prepopulatedRichText')
   const root = $getRoot()
   if (root.getFirstChild() === null) {
     const heading = $createHeadingNode('h1')

@@ -58,7 +58,9 @@ import { PLAYGROUND_TRANSFORMERS } from './markdownTransformers'
 
 function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
   const [editor] = useLexicalComposerContext()
-  const [isEditable, setIsEditable] = React.useState(() => editor.isEditable())
+  const [isEditable, setIsEditable] = React.useState(() => {
+    return editor.isEditable()
+  })
   // const [isSpeechToText, setIsSpeechToText] = React.useState(false)
   // const [connected, setConnected] = React.useState(false)
   const [isEditorEmpty, setIsEditorEmpty] = React.useState(true)
@@ -110,6 +112,10 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
         }
       })
     })
+  }, [editor, isEditable])
+
+  React.useEffect(() => {
+    setIsEditable(editor.isEditable())
   }, [editor, isEditable])
 
   const handleMarkdownToggle = React.useCallback(() => {
@@ -180,7 +186,7 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
         onClick={() => {
           // Send latest editor state to commenting validation server
           if (isEditable) {
-            sendEditorState(editor)
+            // sendEditorState(editor)
           }
           editor.setEditable(!editor.isEditable())
         }}

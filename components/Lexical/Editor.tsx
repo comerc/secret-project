@@ -65,7 +65,7 @@ import { PLAYGROUND_TRANSFORMERS } from './plugins/markdownTransformers'
 
 import styles from './Editor.module.css'
 
-function Editor({ initialEditorState }) {
+function Editor({ initialEditorState, isInitialEditable }) {
   const initialConfig = {
     namespace: 'SecretProject',
     editorState: initialEditorState,
@@ -74,6 +74,7 @@ function Editor({ initialEditorState }) {
       throw error
     },
     theme: theme,
+    editable: isInitialEditable,
   }
   // const {historyState} = useSharedHistoryContext();
   const [floatingAnchorElem, setFloatingAnchorElem] = React.useState<HTMLDivElement | null>(null)
