@@ -59,6 +59,7 @@ import { PLAYGROUND_TRANSFORMERS } from './markdownTransformers'
 
 function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
   const [editor] = useLexicalComposerContext()
+  const [isMarkdown, setIsMarkdown] = React.useState(false)
   const [isEditable, setIsEditable] = React.useState(() => {
     return editor.isEditable()
   })
@@ -123,13 +124,15 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
     editor.update(() => {
       const root = $getRoot()
       const firstChild = root.getFirstChild()
-      if ($isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown') {
+      const value = $isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown'
+      if (value) {
         $convertFromMarkdownString(firstChild.getTextContent(), PLAYGROUND_TRANSFORMERS)
       } else {
         const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS)
         root.clear().append($createCodeNode('markdown').append($createTextNode(markdown)))
       }
       root.selectEnd()
+      setIsMarkdown(!value)
     })
   }, [editor])
 
@@ -211,7 +214,7 @@ function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
         <i className={!isEditable ? 'unlock' : 'lock'} />
       </button>
       <button
-        className="action_button"
+        className={`action_button ${isMarkdown ? 'active' : ''}`}
         onClick={handleMarkdownToggle}
         title="Convert From Markdown"
         aria-label="Convert from markdown"

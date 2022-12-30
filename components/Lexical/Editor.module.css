@@ -818,6 +818,15 @@
   width: 8px;
   background-image: url(images/icons/chevron-down.svg);
 }
+.shell :global .actions .action_button.active {
+  background-color: #e92323;
+}
+.shell :global .actions .action_button.active:hover {
+  background-color: #e92323;
+}
+.shell :global .actions .action_button.active i {
+  filter: invert(1);
+}
 .shell :global .actions .action_button {
   background-color: #eee;
   border: 0;
