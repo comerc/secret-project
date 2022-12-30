@@ -24,20 +24,25 @@
 }
 .shell {
   margin: 0 auto;
-  border-radius: 2px;
+  /* border-radius: 2px; */
   max-width: 1100px;
   color: #000;
   position: relative;
   line-height: 1.7;
   font-weight: 400;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #fff;
 }
 .container {
-  background: #fff;
+  /* background: #fff; */
   position: relative;
   cursor: text;
   display: block;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  /* border-bottom-left-radius: 10px; */
+  /* border-bottom-right-radius: 10px; */
 }
 .editor_scroller {
   min-height: 150px;
@@ -48,7 +53,8 @@
   position: relative;
   outline: 0;
   overflow: auto;
-  resize: vertical;
+  /* resize: vertical; */
+  /* max-height: 500px; */
 }
 .editor {
   height: 100%;
@@ -217,7 +223,7 @@
 .shell :global i.youtube {
   background-image: url(images/icons/youtube.svg);
 }
-.shell :global .icon_left_align,
+.shell :global .icon.left_align,
 .shell :global i.left_align {
   background-image: url(images/icons/text-left.svg);
 }
@@ -279,7 +285,7 @@
   background-image: url(images/icons/prettier-error.svg);
 }
 .shell :global .link_editor .button.active,
-.toolbar :global .button.active {
+.shell :global .toolbar .button.active {
   background-color: rgb(223, 232, 250);
 }
 .shell :global .link_editor .link_input {
@@ -337,7 +343,7 @@
   box-shadow: rgb(180 213 255) 0px 0px 0px 2px;
   outline: none;
 }
-.shell :global .block_controls {
+/* .shell :global .block_controls {
   display: block;
   position: absolute;
   right: 10px;
@@ -350,7 +356,7 @@
   border-radius: 8px;
   border: 1px solid rgb(206, 208, 212);
   overflow: hidden;
-}
+} */
 .shell :global .block_controls button {
   border: 1px solid white;
   background-color: #fff;
@@ -407,7 +413,7 @@
 .shell :global .characters_limit_exceeded {
   color: red;
 }
-.shell :global .dropdown {
+.dropdown {
   z-index: 10;
   display: block;
   position: fixed;
@@ -417,7 +423,7 @@
   min-height: 40px;
   background-color: #fff;
 }
-.shell :global .dropdown .item {
+.dropdown :global .item {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -435,32 +441,32 @@
   max-width: 250px;
   min-width: 100px;
 }
-.shell :global .dropdown .item.fontsize_item,
-.shell :global .dropdown .item.fontsize_item .text {
+.dropdown :global .item.fontsize_item,
+.dropdown :global .item.fontsize_item .text {
   min-width: unset;
 }
-.shell :global .dropdown .item .active {
+.dropdown :global .item .active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
-.shell :global .dropdown .item:first-child {
+.dropdown :global .item:first-child {
   margin-top: 8px;
 }
-.shell :global .dropdown .item:last-child {
+.dropdown :global .item:last-child {
   margin-bottom: 8px;
 }
-.shell :global .dropdown .item:hover {
+.dropdown :global .item:hover {
   background-color: #eee;
 }
-.shell :global .dropdown .item .text {
+.dropdown :global .item .text {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
   min-width: 150px;
 }
-.shell :global .dropdown .item .icon {
+.dropdown :global .item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -471,60 +477,60 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-.shell :global .dropdown .divider {
+.dropdown :global .divider {
   width: auto;
   background-color: #eee;
   margin: 4px 8px;
   height: 1px;
 }
 @media screen and (max-width: 1100px) {
-  .dropdown_button_text {
+  .shell :global .dropdown_button_text {
     display: none !important;
   }
-  .font_size .dropdown_button_text {
+  .shell :global .font_size .dropdown_button_text {
     display: flex !important;
   }
-  .code_language .dropdown_button_text {
+  .shell :global .code_language .dropdown_button_text {
     display: flex !important;
   }
 }
-.shell :global .icon_paragraph {
+.dropdown :global .icon.paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
-.shell :global .icon_h1 {
+.dropdown :global .icon.h1 {
   background-image: url(images/icons/type-h1.svg);
 }
-.shell :global .icon_h2 {
+.dropdown :global .icon.h2 {
   background-image: url(images/icons/type-h2.svg);
 }
-.shell :global .icon_h3 {
+.dropdown :global .icon.h3 {
   background-image: url(images/icons/type-h3.svg);
 }
-.shell :global .icon_h4 {
+.dropdown :global .icon.h4 {
   background-image: url(images/icons/type-h4.svg);
 }
-.shell :global .icon_h5 {
+.dropdown :global .icon.h5 {
   background-image: url(images/icons/type-h5.svg);
 }
-.shell :global .icon_h6 {
+.dropdown :global .icon.h6 {
   background-image: url(images/icons/type-h6.svg);
 }
-.shell :global .icon_bullet_list,
-.shell :global .icon_bullet {
+.dropdown :global .icon.bullet_list,
+.shell :global .icon.bullet {
   background-image: url(images/icons/list-ul.svg);
 }
-.shell :global .icon_check_list,
-.shell :global .icon_check {
+.dropdown :global .icon.check_list,
+.shell :global .icon.check {
   background-image: url(images/icons/square-check.svg);
 }
-.shell :global .icon_numbered_list,
-.shell :global .icon_number {
+.dropdown :global .icon.numbered_list,
+.shell :global .icon.number {
   background-image: url(images/icons/list-ol.svg);
 }
-.shell :global .icon.quote {
+.dropdown :global .icon.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }
-.shell :global .icon.code {
+.dropdown :global .icon.code {
   background-image: url(images/icons/code.svg);
 }
 .shell :global .switches {
@@ -743,6 +749,7 @@
   bottom: 0;
   right: 0;
 }
+/* .shell :global .link_editor .button i,  */
 .shell :global .actions i {
   background-size: contain;
   display: inline-block;
@@ -882,14 +889,15 @@
 }
 .shell :global .toolbar {
   display: flex;
-  margin-bottom: 1px;
-  background: #fff;
+  /* margin-bottom: 1px; */
+  /* background: #fff; */
   padding: 4px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  /* border-top-left-radius: 10px; */
+  /* border-top-right-radius: 10px; */
   vertical-align: middle;
   overflow: auto;
-  height: 36px;
+  height: 45px;
+  border-bottom: black 1px solid;
 }
 .shell :global .toolbar button.toolbar_item {
   border: 0;
@@ -995,13 +1003,13 @@
 .shell :global .spacer {
   letter-spacing: -2px;
 }
-.shell :global button.item i {
+.dropdown :global button.item i {
   opacity: 0.6;
 }
-.shell :global button.item.dropdown_item_active {
+.dropdown :global button.item.dropdown_item_active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-.shell :global button.item.dropdown_item_active i {
+.dropdown :global button.item.dropdown_item_active i {
   opacity: 1;
 }
 .shell :global hr {
@@ -1037,3 +1045,33 @@
   word-break: break-word;
   z-index: 3;
 }
+.shell :global .link_editor {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  max-width: 400px;
+  width: 100%;
+  opacity: 0;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  transition: opacity 0.5s;
+  will-change: transform;
+}
+/* .shell :global .link_editor .button {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 2px;
+} */
+/* .shell :global .link_editor .button.hovered {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: #eee;
+} */

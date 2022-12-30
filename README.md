@@ -119,6 +119,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] .editorconfig
 - [ ] husky?
 - [ ] pnpm VS npm
+- [ ] pnpm-workspaces
+  - https://blog.nrwl.io/setup-a-monorepo-with-pnpm-workspaces-and-speed-it-up-with-nx-bc5d97258a7e#5982
+  - убрать workaround в tsconfig.json "shared/_": ["packages/shared/src/_"]
 - [ ] react-dnd (focalboard) or react-beautiful-dnd or dnd-kit (liveblocks)
   - https://github.com/alexreardon/drag-and-drop-performance-comparison
 - [ ] quill or prosemirror or slatejs or editorjs.io
@@ -171,6 +174,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/vercel/analytics
 - [ ] Open Graph
   - https://vercel.com/docs/concepts/functions/edge-functions/og-image-api
+- [ ] Добавить больше языков в lexical-code (через PrismJS)
 
 ---
 

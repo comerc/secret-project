@@ -1,6 +1,7 @@
 {
   "name": "secret-project",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "graphql:compile": "graphql-codegen",
-    "graphql:watch": "graphql-codegen -w"
+    "graphql:watch": "graphql-codegen -w",
+    "prettier-fix": "prettier --write ."
   },
   "browser": {
     "fs": false,

@@ -27,8 +27,8 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import ActionsPlugin from './plugins/Actions'
 // import AutocompletePlugin from './plugins/AutocompletePlugin';
 // import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
-// import AutoLinkPlugin from './plugins/AutoLinkPlugin';
-// import ClickableLinkPlugin from './plugins/ClickableLinkPlugin';
+import AutoLinkPlugin from './plugins/AutoLink'
+import ClickableLinkPlugin from './plugins/ClickableLink'
 // import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import CollapsiblePlugin from './plugins/CollapsiblePlugin';
@@ -40,12 +40,12 @@ import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import EquationsPlugin from './plugins/EquationsPlugin';
 // import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 // import FigmaPlugin from './plugins/FigmaPlugin';
-// import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
+import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditor'
 // import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
 // import HorizontalRulePlugin from './plugins/HorizontalRulePlugin';
 // import ImagesPlugin from './plugins/ImagesPlugin';
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
-// import LinkPlugin from './plugins/LinkPlugin';
+import LinkPlugin from './plugins/Link'
 // import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
 import { PLAYGROUND_TRANSFORMERS } from './plugins/markdownTransformers'
 // import {MaxLengthPlugin} from './plugins/MaxLengthPlugin';
@@ -57,7 +57,7 @@ import { PLAYGROUND_TRANSFORMERS } from './plugins/markdownTransformers'
 // import TableCellResizer from './plugins/TableCellResizer';
 // import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
 // import {TablePlugin as NewTablePlugin} from './plugins/TablePlugin';
-// import ToolbarPlugin from './plugins/ToolbarPlugin';
+import ToolbarPlugin from './plugins/Toolbar'
 // import TreeViewPlugin from './plugins/TreeViewPlugin';
 // import TwitterPlugin from './plugins/TwitterPlugin';
 // import YouTubePlugin from './plugins/YouTubePlugin';
@@ -91,13 +91,15 @@ function Editor({ initialEditorState, isInitialEditable }) {
   //   },
   //   theme: PlaygroundEditorTheme,
   // }
+  const [isMarkdown, setIsMarkdown] = React.useState(false)
   return (
     <LexicalComposer initialConfig={initialConfig}>
       {/* <SharedHistoryContext> */}
       {/* <TableContext> */}
       <SharedAutocompleteContext>
+        {/* <div className={styles.shell}>1234</div> */}
         <div className={styles.shell}>
-          {/* <ToolbarPlugin /> */}
+          {!isMarkdown && <ToolbarPlugin />}
           <div className={styles.container}>
             {/* <DragDropPaste /> */}
             <AutoFocusPlugin />
@@ -110,7 +112,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
             <HashtagPlugin />
             {/* <KeywordsPlugin /> */}
             {/* <SpeechToTextPlugin /> */}
-            {/* <AutoLinkPlugin /> */}
+            <AutoLinkPlugin />
             {/* {isCollab ? (
                 <CollaborationPlugin
                   id="main"
@@ -153,30 +155,34 @@ function Editor({ initialEditorState, isInitialEditable }) {
                     <FloatingTextFormatToolbarPlugin />
                   </NewTablePlugin> */}
             {/* <ImagesPlugin /> */}
-            {/* <LinkPlugin /> */}
+            <LinkPlugin />
             {/* <PollPlugin /> */}
             {/* <TwitterPlugin /> */}
             {/* <YouTubePlugin /> */}
             {/* <FigmaPlugin /> */}
-            {/* <ClickableLinkPlugin /> */}
+            <ClickableLinkPlugin />
             {/* <HorizontalRulePlugin /> */}
             {/* <EquationsPlugin /> */}
             {/* <ExcalidrawPlugin /> */}
             {/* <TabFocusPlugin /> */}
             <TabIndentationPlugin />
             {/* <CollapsiblePlugin /> */}
-            {/* {floatingAnchorElem && (
+            {floatingAnchorElem && (
               <>
-                <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-                <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                {/* <DraggableBlockPlugin anchorElem={floatingAnchorElem} /> */}
+                {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
                 <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
-                <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} />
-                <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} />
+                {/* <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
+                {/* <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} /> */}
               </>
-            )} */}
+            )}
             {/* <AutocompletePlugin /> */}
             {/* <div>{showTableOfContents && <TableOfContentsPlugin />}</div> */}
-            <ActionsPlugin isRichText={true} />
+            <ActionsPlugin
+              isRichText={true}
+              isMarkdown={isMarkdown}
+              setIsMarkdown={setIsMarkdown}
+            />
           </div>
         </div>
       </SharedAutocompleteContext>

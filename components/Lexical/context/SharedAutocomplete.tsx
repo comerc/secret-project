@@ -1,5 +1,4 @@
 import React from 'react'
-import type { ReactNode } from 'react'
 
 type Suggestion = null | string
 type CallbackFn = (newSuggestion: Suggestion) => void
@@ -17,7 +16,11 @@ const Context: React.Context<ContextShape> = React.createContext([
   },
 ])
 
-export const SharedAutocompleteContext = ({ children }: { children: ReactNode }): JSX.Element => {
+export const SharedAutocompleteContext = ({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element => {
   const contextShape: ContextShape = React.useMemo(() => {
     let suggestion: Suggestion | null = null
     const listeners: Set<CallbackFn> = new Set()

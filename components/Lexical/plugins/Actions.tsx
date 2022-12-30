@@ -57,9 +57,16 @@ import { PLAYGROUND_TRANSFORMERS } from './markdownTransformers'
 //   }
 // }
 
-function ActionsPlugin({ isRichText }: { isRichText: boolean }): JSX.Element {
+function ActionsPlugin({
+  isRichText,
+  isMarkdown,
+  setIsMarkdown,
+}: {
+  isRichText: boolean
+  isMarkdown: boolean
+  setIsMarkdown: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element {
   const [editor] = useLexicalComposerContext()
-  const [isMarkdown, setIsMarkdown] = React.useState(false)
   const [isEditable, setIsEditable] = React.useState(() => {
     return editor.isEditable()
   })
