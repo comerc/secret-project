@@ -1107,3 +1107,9 @@
   opacity: 0;
   will-change: transform;
 }
+.shell :global ul {
+  list-style-type: disc;
+}
+.shell :global ol {
+  list-style-type: decimal;
+}
