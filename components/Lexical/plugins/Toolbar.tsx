@@ -524,7 +524,7 @@ export default function ToolbarPlugin(): JSX.Element {
   // )
 
   const insertLink = React.useCallback(() => {
-    console.log('insertLink')
+    // TODO: если текст для ссылки не выделен, то ничего не происходит - надо показывать сообщение?
     if (!isLink) {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl('https://'))
     } else {
