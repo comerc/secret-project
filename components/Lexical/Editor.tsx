@@ -34,7 +34,7 @@ import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 // import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 // import DragDropPaste from './plugins/DragDropPastePlugin';
-// import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
+import DraggableBlockPlugin from './plugins/DraggableBlock'
 // import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
 // import EmojisPlugin from './plugins/EmojisPlugin';
 // import EquationsPlugin from './plugins/EquationsPlugin';
@@ -169,7 +169,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
             {/* <CollapsiblePlugin /> */}
             {floatingAnchorElem && (
               <>
-                {/* <DraggableBlockPlugin anchorElem={floatingAnchorElem} /> */}
+                <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
                 <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
                 {/* <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
