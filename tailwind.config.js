@@ -9,4 +9,8 @@ module.exports = {
     extend: {},
   },
   plugins: [require('@tailwindcss/typography')],
+  corePlugins: {
+    preflight: false, // https://stackoverflow.com/questions/71715157/tailwinds-ant-design-button-color-is-white-but-has-own-color-wnen-i-hover-it
+  },
+  // darkMode: false,
 }

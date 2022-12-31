@@ -175,6 +175,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Open Graph
   - https://vercel.com/docs/concepts/functions/edge-functions/og-image-api
 - [ ] Добавить больше языков в lexical-code (через PrismJS)
+- [ ] Dark Mode
+  - https://tailwindcss.com/docs/dark-mode
 
 ---
 

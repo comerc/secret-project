@@ -92,7 +92,7 @@ const Editor = ({ initialEditorState }) => {
   return (
     <div
       // ref={containerWithScrollRef}
-      className="prose prose-zinc relative mx-auto px-4 py-8 dark:prose-invert sm:py-16"
+      className="prose prose-zinc relative mx-auto px-4 py-8 sm:py-16" // dark:prose-invert
     >
       <LexicalComposer initialConfig={initialConfig}>
         <RichTextPlugin

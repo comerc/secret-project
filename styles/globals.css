@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 /* Lexical-Proposal */
 body {
@@ -8,7 +8,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
@@ -16,6 +16,15 @@ body {
     color: white;
     background: black;
   }
+} */
+
+/* fix Lexical */
+ul > li::marker {
+  color: rgb(206, 208, 212);
+}
+/* fix Compass */
+blockquote {
+  border-left-style: solid;
 }
 
 /* Compass-Lexical */

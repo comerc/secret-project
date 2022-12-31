@@ -65,7 +65,20 @@
 // }
 
 function HomePage() {
-  return <div>HomePage</div>
+  return (
+    <div
+      style={{
+        height: '100vh',
+        color: 'black',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+      }}
+    >
+      HomePage
+    </div>
+  )
 }
 
 export default HomePage

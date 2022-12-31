@@ -36,7 +36,7 @@ import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlock'
 import EmojiPickerPlugin from './plugins/EmojiPicker'
-import EmojisPlugin from './plugins/Emojis'
+// import EmojisPlugin from './plugins/Emojis'
 // import EquationsPlugin from './plugins/EquationsPlugin';
 // import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 // import FigmaPlugin from './plugins/FigmaPlugin';
@@ -108,7 +108,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
             <EmojiPickerPlugin />
             {/* <AutoEmbedPlugin /> */}
             {/* <MentionsPlugin /> */}
-            <EmojisPlugin />
+            {/* <EmojisPlugin /> */}
             <HashtagPlugin />
             {/* <KeywordsPlugin /> */}
             {/* <SpeechToTextPlugin /> */}
@@ -124,7 +124,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
               )} */}
             <RichTextPlugin
               contentEditable={
-                <div className={styles.editor_scroller}>
+                <div className={styles.scroller}>
                   <div className={styles.editor} ref={onRef}>
                     <ContentEditable className={styles.ContentEditable__root} />
                   </div>
@@ -167,7 +167,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
             {/* <TabFocusPlugin /> */}
             <TabIndentationPlugin />
             {/* <CollapsiblePlugin /> */}
-            {floatingAnchorElem && (
+            {!isMarkdown && floatingAnchorElem && (
               <>
                 <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} /> */}

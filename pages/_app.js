@@ -17,9 +17,11 @@ import { SessionProvider } from 'next-auth/react'
 import { ApolloProvider } from '@apollo/client'
 import client from '.../repositories/apollo'
 import 'antd/dist/reset.css'
+import 'tailwindcss/tailwind.css'
+// import '.../styles/vars.css'
+import '.../styles/globals.css'
 import '.../styles/auth.css'
 import '.../styles/antd.css'
-import '.../styles/globals.css'
 
 // Use of the <SessionProvider> is mandatory to allow components that call
 // `useSession()` anywhere in your application to access the `session` object.

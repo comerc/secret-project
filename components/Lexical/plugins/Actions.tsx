@@ -192,6 +192,7 @@ function ActionsPlugin({
             },
             onOk() {
               editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
+              setIsMarkdown(false)
             },
           })
           // showModal('Clear editor', (onClose) => (
