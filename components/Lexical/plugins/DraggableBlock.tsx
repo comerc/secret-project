@@ -12,7 +12,7 @@ import {
   LexicalEditor,
 } from 'lexical'
 import React from 'react'
-import { createPortal } from 'react-dom'
+import ReactDOM from 'react-dom'
 
 import { isHTMLElement } from '../utils/guard'
 import { Point } from '../utils/point'
@@ -325,7 +325,7 @@ function useDraggableBlockMenu(
     hideTargetLine(targetLineRef.current)
   }
 
-  return createPortal(
+  return ReactDOM.createPortal(
     <>
       <div
         className="icon draggable_block_menu"

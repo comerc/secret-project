@@ -1,5 +1,5 @@
 import React from 'react'
-import { createPortal } from 'react-dom'
+import ReactDOM from 'react-dom'
 import styles from './Editor.module.css'
 
 type DropDownContextType = {
@@ -187,7 +187,7 @@ export default function DropDown({
       </button>
 
       {showDropDown &&
-        createPortal(
+        ReactDOM.createPortal(
           <DropDownItems dropDownRef={dropDownRef} onClose={handleClose}>
             {children}
           </DropDownItems>,

@@ -60,13 +60,13 @@
   height: 100%;
   position: relative;
 }
-.shell :global .typeahead_popover {
+.typeahead_menu :global .typeahead_popover {
   background: #fff;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   margin-top: 25px;
 }
-.shell :global .typeahead_popover ul {
+.typeahead_menu :global .typeahead_popover ul {
   padding: 0;
   list-style: none;
   margin: 0;
@@ -74,14 +74,14 @@
   max-height: 200px;
   overflow-y: scroll;
 }
-.shell :global .typeahead_popover ul::-webkit-scrollbar {
+.typeahead_menu :global .typeahead_popover ul::-webkit-scrollbar {
   display: none;
 }
-.shell :global .typeahead_popover ul {
+.typeahead_menu :global .typeahead_popover ul {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.shell :global .typeahead_popover ul li {
+.typeahead_menu :global .typeahead_popover ul li {
   margin: 0;
   min-width: 180px;
   font-size: 14px;
@@ -89,10 +89,10 @@
   cursor: pointer;
   border-radius: 8px;
 }
-.shell :global .typeahead_popover ul :global li.selected {
+.typeahead_menu :global .typeahead_popover ul :global li.selected {
   background: #eee;
 }
-.shell :global .typeahead_popover li {
+.typeahead_menu :global .typeahead_popover li {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -107,28 +107,29 @@
   border-radius: 8px;
   border: 0;
 }
-.shell :global .typeahead_popover li.active {
+.typeahead_menu :global .typeahead_popover li.active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
-.shell :global .typeahead_popover li:first-child {
+.typeahead_menu :global .typeahead_popover li:first-child {
   border-radius: 8px 8px 0px 0px;
 }
-.shell :global .typeahead_popover li:last-child {
+.typeahead_menu :global .typeahead_popover li:last-child {
   border-radius: 0px 0px 8px 8px;
 }
-.shell :global .typeahead_popover li:hover {
+.typeahead_menu :global .typeahead_popover li:hover {
   background-color: #eee;
 }
-.shell :global .typeahead_popover li :global .text {
+.typeahead_menu :global .typeahead_popover li .text {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
   min-width: 150px;
+  user-select: none;
 }
-.shell :global .typeahead_popover li :global .icon {
+.typeahead_menu :global .typeahead_popover li .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -148,7 +149,7 @@
 .shell :global .auto_embed_menu {
   width: 150px;
 }
-.shell :global .emoji_menu {
+.typeahead_menu :global .emoji_menu {
   width: 200px;
 }
 .shell :global i.palette {

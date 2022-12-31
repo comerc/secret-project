@@ -35,7 +35,7 @@ import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 // import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlock'
-// import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
+import EmojiPickerPlugin from './plugins/EmojiPicker'
 import EmojisPlugin from './plugins/Emojis'
 // import EquationsPlugin from './plugins/EquationsPlugin';
 // import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
@@ -105,7 +105,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
             <AutoFocusPlugin />
             <ClearEditorPlugin />
             {/* <ComponentPickerPlugin /> */}
-            {/* <EmojiPickerPlugin /> */}
+            <EmojiPickerPlugin />
             {/* <AutoEmbedPlugin /> */}
             {/* <MentionsPlugin /> */}
             <EmojisPlugin />

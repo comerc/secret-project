@@ -14,9 +14,8 @@ import {
   RangeSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical'
-import { Dispatch, useCallback, useEffect, useRef, useState } from 'react'
-import * as React from 'react'
-import { createPortal } from 'react-dom'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 // import LinkPreview from '../../ui/LinkPreview' // TODO: LinkPreview
 import { getSelectedNode } from '../utils/getSelectedNode'
@@ -31,18 +30,18 @@ function FloatingLinkEditor({
 }: {
   editor: LexicalEditor
   isLink: boolean
-  setIsLink: Dispatch<boolean>
+  setIsLink: React.Dispatch<boolean>
   anchorElem: HTMLElement
 }): JSX.Element {
-  const editorRef = useRef<HTMLDivElement | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [linkUrl, setLinkUrl] = useState('')
-  const [isEditMode, setEditMode] = useState(false)
-  const [lastSelection, setLastSelection] = useState<
+  const editorRef = React.useRef<HTMLDivElement | null>(null)
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const [linkUrl, setLinkUrl] = React.useState('')
+  const [isEditMode, setEditMode] = React.useState(false)
+  const [lastSelection, setLastSelection] = React.useState<
     RangeSelection | GridSelection | NodeSelection | null
   >(null)
 
-  const updateLinkEditor = useCallback(() => {
+  const updateLinkEditor = React.useCallback(() => {
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection)
@@ -98,7 +97,7 @@ function FloatingLinkEditor({
     return true
   }, [anchorElem, editor])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const scrollerElem = anchorElem.parentElement
 
     const update = () => {
@@ -122,7 +121,7 @@ function FloatingLinkEditor({
     }
   }, [anchorElem.parentElement, editor, updateLinkEditor])
 
-  useEffect(() => {
+  React.useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
@@ -152,13 +151,13 @@ function FloatingLinkEditor({
     )
   }, [editor, updateLinkEditor, setIsLink, isLink])
 
-  useEffect(() => {
+  React.useEffect(() => {
     editor.getEditorState().read(() => {
       updateLinkEditor()
     })
   }, [editor, updateLinkEditor])
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isEditMode && inputRef.current) {
       inputRef.current.focus()
     }
@@ -213,10 +212,10 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   anchorElem: HTMLElement,
 ): JSX.Element | null {
-  const [activeEditor, setActiveEditor] = useState(editor)
-  const [isLink, setIsLink] = useState(false)
+  const [activeEditor, setActiveEditor] = React.useState(editor)
+  const [isLink, setIsLink] = React.useState(false)
 
-  const updateToolbar = useCallback(() => {
+  const updateToolbar = React.useCallback(() => {
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection)
@@ -232,7 +231,7 @@ function useFloatingLinkEditorToolbar(
     }
   }, [])
 
-  useEffect(() => {
+  React.useEffect(() => {
     return editor.registerCommand(
       SELECTION_CHANGE_COMMAND,
       (_payload, newEditor) => {
@@ -245,7 +244,7 @@ function useFloatingLinkEditorToolbar(
   }, [editor, updateToolbar])
 
   return isLink
-    ? createPortal(
+    ? ReactDOM.createPortal(
         <FloatingLinkEditor
           editor={activeEditor}
           isLink={isLink}
