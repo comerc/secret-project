@@ -14,7 +14,7 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 // import { CollapsibleContentNode } from '../plugins/CollapsiblePlugin/CollapsibleContentNode'
 // import { CollapsibleTitleNode } from '../plugins/CollapsiblePlugin/CollapsibleTitleNode'
 // import { AutocompleteNode } from './AutocompleteNode'
-// import { EmojiNode } from './EmojiNode'
+import { EmojiNode } from './nodes/EmojiNode'
 // import { EquationNode } from './EquationNode'
 // import { ExcalidrawNode } from './ExcalidrawNode'
 // import { FigmaNode } from './FigmaNode'
@@ -46,7 +46,7 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   // StickyNode,
   // ImageNode,
   // MentionNode,
-  // EmojiNode,
+  EmojiNode,
   // ExcalidrawNode,
   // EquationNode,
   // AutocompleteNode,
