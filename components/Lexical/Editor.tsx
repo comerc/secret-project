@@ -41,7 +41,7 @@ import EmojiPickerPlugin from './plugins/EmojiPicker'
 // import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 // import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditor'
-// import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
+import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbar'
 // import HorizontalRulePlugin from './plugins/HorizontalRulePlugin';
 // import ImagesPlugin from './plugins/ImagesPlugin';
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
@@ -173,7 +173,7 @@ function Editor({ initialEditorState, isInitialEditable }) {
                 {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
                 <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
                 {/* <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
-                {/* <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} /> */}
+                <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} />
               </>
             )}
             {/* <AutocompletePlugin /> */}

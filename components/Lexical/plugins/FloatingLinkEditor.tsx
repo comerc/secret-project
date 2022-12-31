@@ -17,6 +17,9 @@ import {
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+// TODO: как удалить ссылку?
+// TODO: если вовосе убрать значение из поля, то оно уменьшается до высоты иконки редактирования
+
 // import LinkPreview from '../../ui/LinkPreview' // TODO: LinkPreview
 import { getSelectedNode } from '../utils/getSelectedNode'
 import { setFloatingElemPosition } from '../utils/setFloatingElemPosition'

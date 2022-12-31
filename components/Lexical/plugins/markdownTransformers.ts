@@ -1,6 +1,8 @@
 import type { ElementTransformer, TextMatchTransformer, Transformer } from '@lexical/markdown'
 import type { ElementNode, LexicalNode } from 'lexical'
 
+// TODO: при переключении в markdown ломается содержимое, например ссылка в инлайн-коде  - `[value](https://)`
+
 import {
   CHECK_LIST,
   ELEMENT_TRANSFORMERS,
