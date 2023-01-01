@@ -5,15 +5,11 @@ import { Modal } from 'antd'
 
 interface IModalContent {
   title: string
-  children: JSX.Element
-  footer?: React.ReactNode
+  getChildren: (close: () => void) => JSX.Element
   closeOnClickOutside?: boolean
 }
 
-export default function useModal(): [
-  JSX.Element | null,
-  (getModalContent: (onClose: () => void) => IModalContent) => void,
-] {
+export default function useModal(): [JSX.Element | null, (modalContent: IModalContent) => void] {
   const [modalContent, setModalContent] = useState<null | IModalContent>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -30,7 +26,7 @@ export default function useModal(): [
     if (modalContent === null) {
       return null
     }
-    const { title, children, footer, closeOnClickOutside } = modalContent
+    const { title, getChildren, closeOnClickOutside } = modalContent
     return (
       <Modal
         title={title}
@@ -38,16 +34,16 @@ export default function useModal(): [
         maskClosable={closeOnClickOutside}
         afterClose={afterClose}
         onCancel={onClose}
-        footer={footer || null}
+        footer={null}
       >
-        {children}
+        {getChildren(onClose)}
       </Modal>
     )
   }, [modalContent, isModalOpen, onClose])
 
   const showModal = useCallback(
-    (getModalContent: (onClose: () => void) => IModalContent) => {
-      setModalContent(getModalContent(onClose))
+    (modalContent: IModalContent) => {
+      setModalContent(modalContent)
       setIsModalOpen(true)
     },
     [onClose],

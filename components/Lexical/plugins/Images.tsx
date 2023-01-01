@@ -130,14 +130,19 @@ export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
 
 export function InsertImageDialog({
   activeEditor,
-  onClose,
+  close,
 }: {
   activeEditor: LexicalEditor
-  onClose: () => void
+  close: () => void
 }): JSX.Element {
   const handleClick = () => {
+    // const payload = {
+    //   altText: 'Yellow flower in tilt shift lens',
+    //   src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
+    // }
+    // activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
     console.log('handleClick')
-    onClose()
+    close()
   }
   return (
     <div>

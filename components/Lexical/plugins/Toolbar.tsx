@@ -71,7 +71,11 @@ import { sanitizeUrl } from '../utils/url'
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 // import { InsertEquationDialog } from '../EquationsPlugin'
 // import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin'
-import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../plugins/Images'
+import {
+  InsertImageDialog,
+  // InsertImagePayload,
+  // INSERT_IMAGE_COMMAND,
+} from '../plugins/Images'
 // import { InsertPollDialog } from '../PollPlugin'
 // import { InsertNewTableDialog, InsertTableDialog } from '../TablePlugin'
 
@@ -690,15 +694,12 @@ export default function ToolbarPlugin(): JSX.Element {
           <button
             disabled={!isEditable}
             onClick={() => {
-              // const payload = {
-              //   altText: 'Yellow flower in tilt shift lens',
-              //   src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
-              // }
-              // activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
-              showModal((onClose) => ({
+              showModal({
                 title: 'Insert Image',
-                children: <InsertImageDialog activeEditor={activeEditor} onClose={onClose} />,
-              }))
+                getChildren: (close) => (
+                  <InsertImageDialog activeEditor={activeEditor} close={close} />
+                ),
+              })
             }}
             className={'toolbar_item spaced'}
             aria-label="Insert image"
