@@ -696,9 +696,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               showModal({
                 title: 'Insert Image',
-                getChildren: (close) => (
-                  <InsertImageDialog activeEditor={activeEditor} close={close} />
-                ),
+                getBody: (close) => <InsertImageDialog activeEditor={activeEditor} close={close} />,
               })
             }}
             className={'toolbar_item spaced'}

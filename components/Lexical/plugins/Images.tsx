@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
 import {
@@ -135,23 +135,52 @@ export function InsertImageDialog({
   activeEditor: LexicalEditor
   close: () => void
 }): JSX.Element {
-  const handleClick = () => {
-    // const payload = {
-    //   altText: 'Yellow flower in tilt shift lens',
-    //   src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
-    // }
-    // activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
-    console.log('handleClick')
+  const onFinish = (values: any) => {
+    console.log('Success:', values)
+    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, values)
     close()
   }
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo)
+  }
+
+  const onCancel = () => {
+    close()
+  }
+
   return (
-    <div>
-      <div>Content</div>
-      <hr></hr>
-      <div>
-        <Button onClick={handleClick}>My OK</Button>
-      </div>
-    </div>
+    <Form
+      name="insert-image"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      initialValues={{}}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Image URL"
+        name="src"
+        placeholder="i.e. https://source.unsplash.com/random"
+        rules={[{ required: true, message: 'Please input Image URL' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item label="Alt Text" name="altText" placeholder="Random unsplash image">
+        <Input />
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+        <Button htmlType="button" onClick={onCancel}>
+          Cancel
+        </Button>
+      </Form.Item>
+    </Form>
   )
   //
   //   const [mode, setMode] = React.useState<null | 'url' | 'file'>(null)

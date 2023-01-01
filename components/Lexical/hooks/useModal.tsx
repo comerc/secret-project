@@ -5,7 +5,7 @@ import { Modal } from 'antd'
 
 interface IModalContent {
   title: string
-  getChildren: (close: () => void) => JSX.Element
+  getBody: (close: () => void) => JSX.Element
   closeOnClickOutside?: boolean
 }
 
@@ -26,7 +26,7 @@ export default function useModal(): [JSX.Element | null, (modalContent: IModalCo
     if (modalContent === null) {
       return null
     }
-    const { title, getChildren, closeOnClickOutside } = modalContent
+    const { title, getBody, closeOnClickOutside } = modalContent
     return (
       <Modal
         title={title}
@@ -36,7 +36,7 @@ export default function useModal(): [JSX.Element | null, (modalContent: IModalCo
         onCancel={onClose}
         footer={null}
       >
-        {getChildren(onClose)}
+        {getBody(onClose)}
       </Modal>
     )
   }, [modalContent, isModalOpen, onClose])

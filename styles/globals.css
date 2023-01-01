@@ -26,6 +26,10 @@ ul > li::marker {
 blockquote {
   border-left-style: solid;
 }
+/* fix Ant */
+.ant-modal-body .ant-btn {
+  margin-right: 8px;
+}
 
 /* Compass-Lexical */
 /* 

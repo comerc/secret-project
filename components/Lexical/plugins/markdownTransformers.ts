@@ -34,7 +34,7 @@ import {
 } from 'lexical'
 
 // import { $createEquationNode, $isEquationNode, EquationNode } from '../../nodes/EquationNode'
-// import { $createImageNode, $isImageNode, ImageNode } from '../../nodes/ImageNode'
+import { $createImageNode, $isImageNode, ImageNode } from '../nodes/ImageNode'
 // import { $createTweetNode, $isTweetNode, TweetNode } from '../../nodes/TweetNode'
 
 export const HR: ElementTransformer = {
@@ -58,29 +58,29 @@ export const HR: ElementTransformer = {
   type: 'element',
 }
 
-// export const IMAGE: TextMatchTransformer = {
-//   dependencies: [ImageNode],
-//   export: (node, exportChildren, exportFormat) => {
-//     if (!$isImageNode(node)) {
-//       return null
-//     }
+export const IMAGE: TextMatchTransformer = {
+  dependencies: [ImageNode],
+  export: (node, exportChildren, exportFormat) => {
+    if (!$isImageNode(node)) {
+      return null
+    }
 
-//     return `![${node.getAltText()}](${node.getSrc()})`
-//   },
-//   importRegExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))/,
-//   regExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))$/,
-//   replace: (textNode, match) => {
-//     const [, altText, src] = match
-//     const imageNode = $createImageNode({
-//       altText,
-//       maxWidth: 800,
-//       src,
-//     })
-//     textNode.replace(imageNode)
-//   },
-//   trigger: ')',
-//   type: 'text-match',
-// }
+    return `![${node.getAltText()}](${node.getSrc()})`
+  },
+  importRegExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))/,
+  regExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))$/,
+  replace: (textNode, match) => {
+    const [, altText, src] = match
+    const imageNode = $createImageNode({
+      altText,
+      maxWidth: 800,
+      src,
+    })
+    textNode.replace(imageNode)
+  },
+  trigger: ')',
+  type: 'text-match',
+}
 
 // export const EQUATION: TextMatchTransformer = {
 //   dependencies: [EquationNode],
@@ -244,10 +244,10 @@ export const HR: ElementTransformer = {
 //   return match[1].split('|').map((text) => createTableCell(text))
 // }
 
-export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
+export const MARKDOWN_TRANSFORMERS: Array<Transformer> = [
   // TABLE,
   HR,
-  // IMAGE,
+  IMAGE,
   // EQUATION,
   // TWEET,
   CHECK_LIST,

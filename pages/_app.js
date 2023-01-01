@@ -29,8 +29,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, cache }) {
   return (
     <ConfigProvider
       theme={{
+        // hashed: false,
         token: {
-          colorPrimary: '#000000',
+          colorPrimary: 'orange',
         },
       }}
     >

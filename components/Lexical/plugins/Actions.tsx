@@ -17,7 +17,7 @@ import {
 import { Modal } from 'antd'
 // import useModal from '../../hooks/useModal'
 // import Button from '../../ui/Button'
-import { PLAYGROUND_TRANSFORMERS } from './markdownTransformers'
+import { MARKDOWN_TRANSFORMERS } from './markdownTransformers'
 // import { SPEECH_TO_TEXT_COMMAND, SUPPORT_SPEECH_RECOGNITION } from '../SpeechToTextPlugin'
 
 // async function sendEditorState(editor: LexicalEditor): Promise<void> {
@@ -133,9 +133,9 @@ function ActionsPlugin({
       const firstChild = root.getFirstChild()
       const value = $isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown'
       if (value) {
-        $convertFromMarkdownString(firstChild.getTextContent(), PLAYGROUND_TRANSFORMERS)
+        $convertFromMarkdownString(firstChild.getTextContent(), MARKDOWN_TRANSFORMERS)
       } else {
-        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS)
+        const markdown = $convertToMarkdownString(MARKDOWN_TRANSFORMERS)
         root.clear().append($createCodeNode('markdown').append($createTextNode(markdown)))
       }
       root.selectEnd()

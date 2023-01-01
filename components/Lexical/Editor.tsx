@@ -47,7 +47,7 @@ import ImagesPlugin from './plugins/Images'
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
 import LinkPlugin from './plugins/Link'
 // import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
-import { PLAYGROUND_TRANSFORMERS } from './plugins/markdownTransformers'
+import { MARKDOWN_TRANSFORMERS } from './plugins/markdownTransformers'
 // import {MaxLengthPlugin} from './plugins/MaxLengthPlugin';
 // import MentionsPlugin from './plugins/MentionsPlugin';
 // import PollPlugin from './plugins/PollPlugin';
@@ -144,7 +144,7 @@ function Editor({
               placeholder={<div className={styles.Placeholder__root}>Enter some rich text...</div>}
               ErrorBoundary={LexicalErrorBoundary}
             />
-            <MarkdownShortcutPlugin transformers={PLAYGROUND_TRANSFORMERS} />
+            <MarkdownShortcutPlugin transformers={MARKDOWN_TRANSFORMERS} />
             <CodeHighlightPlugin />
             <ListPlugin />
             <CheckListPlugin />
