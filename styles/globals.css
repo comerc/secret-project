@@ -27,8 +27,11 @@ blockquote {
   border-left-style: solid;
 }
 /* fix Ant */
-.ant-modal-body .ant-btn {
+.ant-modal-body #insert-image.ant-form .ant-btn {
   margin-right: 8px;
+}
+.ant-modal-body #insert-image.ant-form {
+  padding-top: 42px;
 }
 
 /* Compass-Lexical */
