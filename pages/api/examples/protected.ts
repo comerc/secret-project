@@ -1,11 +1,11 @@
 // This is an example of to protect an API route
-import { getSession } from "next-auth/react";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { request, gql } from "graphql-request";
+import { getSession } from 'next-auth/react'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { getToken } from 'next-auth/jwt'
+import { request, gql } from 'graphql-request'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getSession({ req })
 
   if (session) {
     // const secret = process.env.NEXTAUTH_SECRET;
@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // secret,
       // Raw gives the un-decoded JWT
       raw: true,
-    });
+    })
 
     const query = gql`
       query GetUserName($id: uuid!) {
@@ -23,21 +23,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           name
         }
       }
-    `;
+    `
 
     const { users_by_pk: user } = await request(
       process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT!,
       query,
       { id: session.user?.id },
-      { authorization: `Bearer ${token}` }
-    );
+      { authorization: `Bearer ${token}` },
+    )
     res.send({
       content: `This is protected content. Your name is ${user.name}`,
-    });
+    })
   } else {
     res.send({
-      error:
-        "You must be signed in to view the protected content on this page.",
-    });
+      error: 'You must be signed in to view the protected content on this page.',
+    })
   }
-};
+}

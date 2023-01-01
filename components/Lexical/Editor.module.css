@@ -390,6 +390,9 @@
 .shell :global .block_controls span.block_type.h2 {
   background-image: url(images/icons/type-h2.svg);
 }
+.shell :global .block_controls span.block_type.h3 {
+  background-image: url(images/icons/type-h3.svg);
+}
 .shell :global .block_controls span.block_type.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }

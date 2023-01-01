@@ -34,9 +34,9 @@ export const SharedAutocompleteContext = ({
       },
       (newSuggestion: Suggestion) => {
         suggestion = newSuggestion
-        for (const listener of listeners) {
+        listeners.forEach((listener) => {
           listener(newSuggestion)
-        }
+        })
       },
     ]
   }, [])
@@ -46,7 +46,7 @@ export const SharedAutocompleteContext = ({
 export const useSharedAutocompleteContext = (): HookShape => {
   const [subscribe, publish]: ContextShape = React.useContext(Context)
   const [suggestion, setSuggestion] = React.useState<Suggestion>(null)
-  useEffect(() => {
+  React.useEffect(() => {
     return subscribe((newSuggestion: Suggestion) => {
       setSuggestion(newSuggestion)
     })

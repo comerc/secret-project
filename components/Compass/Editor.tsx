@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useDebouncedState, useEventListener } from '@react-hookz/web'
 import isEqual from 'react-fast-compare'
 
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { LexicalComposer, InitialEditorStateType } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
@@ -22,7 +22,7 @@ import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
 // import { getAuth } from 'firebase/auth'
 // import { doc, getFirestore, updateDoc } from 'firebase/firestore'
 // import type { FirebaseError } from 'firebase/app'
-import { FocusPlugin } from './plugins/focus'
+import { FocusPlugin } from './plugins/Focus'
 import nodes from './nodes'
 import transformers from './transformers'
 import matchers from './autolink'
@@ -37,7 +37,7 @@ const Placeholder = (
   </p>
 )
 
-const Editor = ({ initialEditorState }) => {
+const Editor = ({ initialEditorState }: { initialEditorState: InitialEditorStateType }) => {
   const [lastEditorState, setLastEditorState] = useState<EditorState | null>(null)
   const [editorState, setEditorState] = useDebouncedState<EditorState | null>(null, 500, 1000)
   // const containerWithScrollRef = useRef<HTMLDivElement>(null)

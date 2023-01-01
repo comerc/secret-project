@@ -88,4 +88,4 @@ const server = new ApolloServer({
   typeDefs,
 })
 
-export default startServerAndCreateNextHandler(server)
+export default startServerAndCreateNextHandler(server as any)
