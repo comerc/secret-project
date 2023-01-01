@@ -162,14 +162,13 @@ export function InsertImageDialog({
       <Form.Item
         label="Image URL"
         name="src"
-        placeholder="i.e. https://source.unsplash.com/random"
         rules={[{ required: true, message: 'Please input Image URL' }]}
       >
-        <Input />
+        <Input placeholder="i.e. https://source.unsplash.com/random" />
       </Form.Item>
 
-      <Form.Item label="Alt Text" name="altText" placeholder="Random unsplash image">
-        <Input />
+      <Form.Item label="Alt Text" name="altText">
+        <Input placeholder="Random unsplash image" />
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
