@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
 import {
@@ -133,9 +134,21 @@ export function InsertImageDialog({
 }: {
   activeEditor: LexicalEditor
   onClose: () => void
-}) {
-  // : JSX.Element
-  alert('InsertImageDialog')
+}): JSX.Element {
+  const handleClick = () => {
+    console.log('handleClick')
+    onClose()
+  }
+  return (
+    <div>
+      <div>Content</div>
+      <hr></hr>
+      <div>
+        <Button onClick={handleClick}>My OK</Button>
+      </div>
+    </div>
+  )
+  //
   //   const [mode, setMode] = React.useState<null | 'url' | 'file'>(null)
   //   const hasModifier = React.useRef(false)
 

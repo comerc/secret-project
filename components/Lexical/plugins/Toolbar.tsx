@@ -60,7 +60,7 @@ import {
 } from 'lexical'
 import React from 'react'
 import { IS_APPLE } from 'shared/environment'
-// import useModal from '../../hooks/useModal'
+import useModal from '../hooks/useModal'
 // import catTypingGif from '../../images/cat-typing.gif'
 // import { $createStickyNode } from '../../nodes/StickyNode'
 // import ColorPicker from '../../ui/ColorPicker'
@@ -368,7 +368,7 @@ export default function ToolbarPlugin(): JSX.Element {
   const [isCode, setIsCode] = React.useState(false)
   // const [canUndo, setCanUndo] = React.useState(false);
   // const [canRedo, setCanRedo] = React.useState(false);
-  // const [modal, showModal] = useModal()
+  const [modal, showModal] = useModal()
   // const [isRTL, setIsRTL] = React.useState(false)
   const [codeLanguage, setCodeLanguage] = React.useState<string>('')
   const [isEditable, setIsEditable] = React.useState(() => editor.isEditable())
@@ -690,11 +690,15 @@ export default function ToolbarPlugin(): JSX.Element {
           <button
             disabled={!isEditable}
             onClick={() => {
-              const payload = {
-                altText: 'Yellow flower in tilt shift lens',
-                src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
-              }
-              activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
+              // const payload = {
+              //   altText: 'Yellow flower in tilt shift lens',
+              //   src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
+              // }
+              // activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
+              showModal((onClose) => ({
+                title: 'Insert Image',
+                children: <InsertImageDialog activeEditor={activeEditor} onClose={onClose} />,
+              }))
             }}
             className={'toolbar_item spaced'}
             aria-label="Insert image"
@@ -967,7 +971,7 @@ export default function ToolbarPlugin(): JSX.Element {
         </DropDownItem>
       </DropDown> */}
 
-      {/* {modal} */}
+      {modal}
     </div>
   )
 }
