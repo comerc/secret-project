@@ -71,7 +71,7 @@ import { sanitizeUrl } from '../utils/url'
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 // import { InsertEquationDialog } from '../EquationsPlugin'
 // import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin'
-// import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../ImagesPlugin'
+import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../plugins/Images'
 // import { InsertPollDialog } from '../PollPlugin'
 // import { InsertNewTableDialog, InsertTableDialog } from '../TablePlugin'
 
@@ -686,6 +686,22 @@ export default function ToolbarPlugin(): JSX.Element {
             type="button"
           >
             <i className="format link" />
+          </button>
+          <button
+            disabled={!isEditable}
+            onClick={() => {
+              const payload = {
+                altText: 'Yellow flower in tilt shift lens',
+                src: 'https://klike.net/uploads/posts/2020-01/1580026885_2.jpg',
+              }
+              activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
+            }}
+            className={'toolbar_item spaced'}
+            aria-label="Insert image"
+            title="Insert image"
+            type="button"
+          >
+            <i className="icon image" />
           </button>
           {/* <ColorPicker
             disabled={!isEditable}

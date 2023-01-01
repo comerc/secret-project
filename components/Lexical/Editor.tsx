@@ -1,5 +1,5 @@
 import React from 'react'
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { LexicalComposer, InitialEditorStateType } from '@lexical/react/LexicalComposer'
 import { SharedAutocompleteContext } from './context/SharedAutocomplete'
 // import { SharedHistoryContext } from './context/SharedHistory'
 import editorNodes from './editorNodes'
@@ -43,7 +43,7 @@ import EmojiPickerPlugin from './plugins/EmojiPicker'
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditor'
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbar'
 // import HorizontalRulePlugin from './plugins/HorizontalRulePlugin';
-// import ImagesPlugin from './plugins/ImagesPlugin';
+import ImagesPlugin from './plugins/Images'
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
 import LinkPlugin from './plugins/Link'
 // import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
@@ -65,7 +65,18 @@ import ToolbarPlugin from './plugins/Toolbar'
 
 import styles from './Editor.module.css'
 
-function Editor({ initialEditorState, isInitialEditable }) {
+// const ImagesPlugin = React.lazy(
+//   // @ts-ignore
+//   () => import('./plugins/Images'),
+// )
+
+function Editor({
+  initialEditorState,
+  isInitialEditable,
+}: {
+  initialEditorState: InitialEditorStateType
+  isInitialEditable: boolean
+}) {
   const initialConfig = {
     namespace: 'SecretProject',
     editorState: initialEditorState,
@@ -154,7 +165,9 @@ function Editor({ initialEditorState, isInitialEditable }) {
                     <ClickableLinkPlugin />
                     <FloatingTextFormatToolbarPlugin />
                   </NewTablePlugin> */}
-            {/* <ImagesPlugin /> */}
+            {/* <React.Suspense> */}
+            <ImagesPlugin />
+            {/* </React.Suspense> */}
             <LinkPlugin />
             {/* <PollPlugin /> */}
             {/* <TwitterPlugin /> */}

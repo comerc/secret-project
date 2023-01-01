@@ -141,7 +141,7 @@ function ActionsPlugin({
       root.selectEnd()
       setIsMarkdown(!value)
     })
-  }, [editor])
+  }, [editor, setIsMarkdown])
 
   return (
     <div className="actions">
