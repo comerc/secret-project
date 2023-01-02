@@ -1,7 +1,7 @@
 import React from 'react'
 import { LexicalComposer, InitialEditorStateType } from '@lexical/react/LexicalComposer'
-import { SharedAutocompleteContext } from './context/SharedAutocomplete'
-// import { SharedHistoryContext } from './context/SharedHistory'
+// import { SharedAutocompleteContext } from './context/SharedAutocomplete'
+import { SharedHistoryContext } from './context/SharedHistory'
 import editorNodes from './editorNodes'
 // import {TableContext} from './plugins/TablePlugin';
 import theme from './themes/editor'
@@ -9,10 +9,10 @@ import theme from './themes/editor'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
-// import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
+// import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin' // TODO:  добавить CollaborationPlugin
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
-// import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
@@ -22,7 +22,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 
 // import {createWebsocketProvider} from './collaboration';
 // import {useSettings} from './context/SettingsContext';
-// import {useSharedHistoryContext} from './context/SharedHistory';
+import { useSharedHistoryContext } from './context/SharedHistory'
 // import TableCellNodes from './nodes/TableCellNodes';
 import ActionsPlugin from './plugins/Actions'
 // import AutocompletePlugin from './plugins/AutocompletePlugin';
@@ -33,7 +33,7 @@ import ClickableLinkPlugin from './plugins/ClickableLink'
 import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 import ComponentPickerPlugin from './plugins/ComponentPicker'
-// import DragDropPaste from './plugins/DragDropPastePlugin';
+// import DragDropPaste from './plugins/DragDropPastePlugin'; // TODO: добавить DragDropPastePlugin, но нужно доработать, как в GitHub
 import DraggableBlockPlugin from './plugins/DraggableBlock'
 import EmojiPickerPlugin from './plugins/EmojiPicker'
 // import EmojisPlugin from './plugins/Emojis'
@@ -82,7 +82,7 @@ function Editor({
     theme: theme,
     editable: isInitialEditable,
   }
-  // const {historyState} = useSharedHistoryContext();
+  const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] = React.useState<HTMLDivElement | null>(null)
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -100,10 +100,9 @@ function Editor({
   const [isMarkdown, setIsMarkdown] = React.useState(false)
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      {/* <SharedHistoryContext> */}
-      {/* <TableContext> */}
-      <SharedAutocompleteContext>
-        {/* <div className={styles.shell}>1234</div> */}
+      <SharedHistoryContext>
+        {/* <TableContext> */}
+        {/* <SharedAutocompleteContext> */}
         <div className={styles.shell}>
           {!isMarkdown && <ToolbarPlugin />}
           <div className="editor-container">
@@ -128,6 +127,7 @@ function Editor({
               ) : (
                 <HistoryPlugin externalHistoryState={historyState} />
               )} */}
+            <HistoryPlugin externalHistoryState={historyState} />
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
@@ -191,9 +191,9 @@ function Editor({
             />
           </div>
         </div>
-      </SharedAutocompleteContext>
-      {/* </TableContext> */}
-      {/* </SharedHistoryContext> */}
+        {/* </SharedAutocompleteContext> */}
+        {/* </TableContext> */}
+      </SharedHistoryContext>
     </LexicalComposer>
   )
 }
