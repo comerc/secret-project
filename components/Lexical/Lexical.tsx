@@ -42,7 +42,7 @@ import EmojiPickerPlugin from './plugins/EmojiPicker'
 // import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditor'
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbar'
-// import HorizontalRulePlugin from './plugins/HorizontalRule'
+import HorizontalRulePlugin from './plugins/HorizontalRule'
 import ImagesPlugin from './plugins/Images'
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
 import LinkPlugin from './plugins/Link'
@@ -167,7 +167,7 @@ function Editor({
             {/* <YouTubePlugin /> */}
             {/* <FigmaPlugin /> */}
             <ClickableLinkPlugin />
-            {/* <HorizontalRulePlugin /> */}
+            <HorizontalRulePlugin />
             {/* <EquationsPlugin /> */}
             {/* <ExcalidrawPlugin /> */}
             {/* <TabFocusPlugin /> */}
