@@ -82,18 +82,22 @@
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
-  padding: 8px 8px 8px 52px;
+  /* padding: 8px 8px 8px 52px; */
   line-height: 1.53;
   font-size: 13px;
   margin: 0;
   margin-top: 8px;
   margin-bottom: 8px;
   tab-size: 2;
-  white-space: pre;
+  /* white-space: pre; */
   overflow-x: auto;
   position: relative;
+  /* Custom like GitHub */
+  padding: 16px;
+  border-radius: 6px;
 }
-.code:before {
+/* Custom for wordwrap */
+/* .code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -105,7 +109,7 @@
   white-space: pre-wrap;
   text-align: right;
   min-width: 25px;
-}
+} */
 .table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -321,6 +325,13 @@
 }
 .listItemChecked {
   text-decoration: line-through;
+}
+/* fix after reset.css */
+.listItemUnchecked:before,
+.listItemChecked:before,
+.listItemUnchecked:after,
+.listItemChecked:after {
+  box-sizing: content-box;
 }
 .listItemUnchecked:before,
 .listItemChecked:before {

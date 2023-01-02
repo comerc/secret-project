@@ -32,7 +32,7 @@ import ClickableLinkPlugin from './plugins/ClickableLink'
 // import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlight'
 // import CollapsiblePlugin from './plugins/CollapsiblePlugin';
-// import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import ComponentPickerPlugin from './plugins/ComponentPicker'
 // import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlock'
 import EmojiPickerPlugin from './plugins/EmojiPicker'
@@ -65,11 +65,6 @@ import ToolbarPlugin from './plugins/Toolbar'
 
 import styles from './Lexical.module.css'
 
-// const ImagesPlugin = React.lazy(
-//   // @ts-ignore
-//   () => import('./plugins/Images'),
-// )
-
 function Editor({
   initialEditorState,
   isInitialEditable,
@@ -78,7 +73,7 @@ function Editor({
   isInitialEditable: boolean
 }) {
   const initialConfig = {
-    namespace: 'SecretProject',
+    namespace: 'Lexical',
     editorState: initialEditorState,
     nodes: [...editorNodes],
     onError: (error: Error) => {
@@ -115,7 +110,7 @@ function Editor({
             {/* <DragDropPaste /> */}
             <AutoFocusPlugin />
             <ClearEditorPlugin />
-            {/* <ComponentPickerPlugin /> */}
+            <ComponentPickerPlugin />
             <EmojiPickerPlugin />
             {/* <AutoEmbedPlugin /> */}
             {/* <MentionsPlugin /> */}
@@ -165,9 +160,7 @@ function Editor({
                     <ClickableLinkPlugin />
                     <FloatingTextFormatToolbarPlugin />
                   </NewTablePlugin> */}
-            {/* <React.Suspense> */}
             <ImagesPlugin />
-            {/* </React.Suspense> */}
             <LinkPlugin />
             {/* <PollPlugin /> */}
             {/* <TwitterPlugin /> */}

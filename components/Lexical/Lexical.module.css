@@ -1,8 +1,3 @@
-/* fix li::marker */
-.ContentEditable__root ul > li::marker {
-  color: rgb(206, 208, 212);
-}
-/* fix Ant */
 .modal :global #insert-image.ant-form .ant-btn {
   margin-right: 8px;
 }
@@ -151,13 +146,13 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-.shell :global .component-picker-menu {
+.component-picker-menu {
   width: 200px;
 }
-.shell :global .mentions-menu {
+.mentions-menu {
   width: 250px;
 }
-.shell :global .auto-embed-menu {
+.auto-embed-menu {
   width: 150px;
 }
 .emoji-menu {
@@ -193,6 +188,7 @@
 .shell :global i.link {
   background-image: url(images/icons/link.svg);
 }
+.typeahead-popover :global .icon.horizontal-rule,
 .shell :global i.horizontal-rule {
   background-image: url(images/icons/horizontal-rule.svg);
 }
@@ -214,7 +210,8 @@
 .shell :global .icon.bg-color {
   background-image: url(images/icons/bg-color.svg);
 }
-.shell :global i.image {
+.typeahead-popover :global .icon.image,
+.shell :global .icon.image {
   background-image: url(images/icons/file-image.svg);
 }
 .shell :global i.table {
@@ -509,42 +506,54 @@
     display: flex !important;
   }
 }
+.typeahead-popover :global .icon.paragraph,
 .dropdown :global .icon.paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
+.typeahead-popover :global .icon.h1,
 .dropdown :global .icon.h1 {
   background-image: url(images/icons/type-h1.svg);
 }
+.typeahead-popover :global .icon.h2,
 .dropdown :global .icon.h2 {
   background-image: url(images/icons/type-h2.svg);
 }
+.typeahead-popover :global .icon.h3,
 .dropdown :global .icon.h3 {
   background-image: url(images/icons/type-h3.svg);
 }
+.typeahead-popover :global .icon.h4,
 .dropdown :global .icon.h4 {
   background-image: url(images/icons/type-h4.svg);
 }
+.typeahead-popover :global .icon.h5,
 .dropdown :global .icon.h5 {
   background-image: url(images/icons/type-h5.svg);
 }
+.typeahead-popover :global .icon.h6,
 .dropdown :global .icon.h6 {
   background-image: url(images/icons/type-h6.svg);
 }
-.dropdown :global .icon.bullet-list,
+.typeahead-popover :global .icon.bullet,
+.dropdown :global .icon.bullet,
 .shell :global .icon.bullet {
   background-image: url(images/icons/list-ul.svg);
 }
-.dropdown :global .icon.check-list,
+.typeahead-popover :global .icon.check,
+.dropdown :global .icon.check,
 .shell :global .icon.check {
   background-image: url(images/icons/square-check.svg);
 }
-.dropdown :global .icon.numbered-list,
+.typeahead-popover :global .icon.number,
+.dropdown :global .icon.number,
 .shell :global .icon.number {
   background-image: url(images/icons/list-ol.svg);
 }
+.typeahead-popover :global .icon.quote,
 .dropdown :global .icon.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }
+.typeahead-popover :global .icon.code,
 .dropdown :global .icon.code {
   background-image: url(images/icons/code.svg);
 }
@@ -772,12 +781,12 @@
   width: 20px;
   vertical-align: -0.375em;
 }
-.shell :global i.indent {
+/* .shell :global i.indent {
   background-image: url(images/icons/indent.svg);
-}
-.shell :global i.outdent {
+} */
+/* .shell :global i.outdent {
   background-image: url(images/icons/outdent.svg);
-}
+} */
 .shell :global i.lock {
   background-image: url(images/icons/lock-fill.svg);
 }
@@ -787,27 +796,27 @@
 .shell :global i.markdown {
   background-image: url(images/icons/markdown.svg);
 }
-.shell :global i.image {
+/* .shell :global i.image {
   background-image: url(images/icons/file-image.svg);
-}
-.shell :global i.table {
+} */
+/* .shell :global i.table {
   background-image: url(images/icons/table.svg);
-}
+} */
 .shell :global i.unlock {
   background-image: url(images/icons/lock.svg);
 }
-.shell :global i.left-align {
+/* .shell :global i.left-align {
   background-image: url(images/icons/text-left.svg);
-}
-.shell :global i.center-align {
+} */
+/* .shell :global i.center-align {
   background-image: url(images/icons/text-center.svg);
-}
-.shell :global i.right-align {
+} */
+/* .shell :global i.right-align {
   background-image: url(images/icons/text-right.svg);
-}
-.shell :global i.justify-align {
+} */
+/* .shell :global i.justify-align {
   background-image: url(images/icons/justify.svg);
-}
+} */
 .shell :global i.disconnect {
   background-image: url(images/icons/plug.svg);
 }

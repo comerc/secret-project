@@ -342,7 +342,7 @@ function useDraggableBlockMenu(
   )
 }
 
-export default function DraggableBlockPlugin({
+function DraggableBlockPlugin({
   anchorElem = document.body,
 }: {
   anchorElem?: HTMLElement
@@ -350,3 +350,5 @@ export default function DraggableBlockPlugin({
   const [editor] = useLexicalComposerContext()
   return useDraggableBlockMenu(editor, anchorElem, editor._editable)
 }
+
+export default DraggableBlockPlugin

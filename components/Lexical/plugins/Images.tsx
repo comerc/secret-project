@@ -237,11 +237,7 @@ export function InsertImageDialog({
   //   )
 }
 
-export default function ImagesPlugin({
-  captionsEnabled,
-}: {
-  captionsEnabled?: boolean
-}): JSX.Element | null {
+function ImagesPlugin({ captionsEnabled }: { captionsEnabled?: boolean }): JSX.Element | null {
   const [editor] = useLexicalComposerContext()
 
   React.useEffect(() => {
@@ -424,3 +420,5 @@ function getDragSelection(event: DragEvent): Range | null | undefined {
 
   return range
 }
+
+export default ImagesPlugin

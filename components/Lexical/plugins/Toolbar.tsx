@@ -259,21 +259,21 @@ function BlockFormatDropDown({
         className={'item ' + dropDownActiveClass(blockType === 'bullet')}
         onClick={formatBulletList}
       >
-        <i className="icon bullet-list" />
+        <i className="icon bullet" />
         <span className="text">Bullet List</span>
       </DropDownItem>
       <DropDownItem
         className={'item ' + dropDownActiveClass(blockType === 'number')}
         onClick={formatNumberedList}
       >
-        <i className="icon numbered-list" />
+        <i className="icon number" />
         <span className="text">Numbered List</span>
       </DropDownItem>
       <DropDownItem
         className={'item ' + dropDownActiveClass(blockType === 'check')}
         onClick={formatCheckList}
       >
-        <i className="icon check-list" />
+        <i className="icon check" />
         <span className="text">Check List</span>
       </DropDownItem>
       <DropDownItem
@@ -353,7 +353,7 @@ function Divider(): JSX.Element {
 //   );
 // }
 
-export default function ToolbarPlugin(): JSX.Element {
+function ToolbarPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext()
   const [activeEditor, setActiveEditor] = React.useState(editor)
   const [blockType, setBlockType] = React.useState<keyof typeof blockTypeToBlockName>('paragraph')
@@ -974,3 +974,5 @@ export default function ToolbarPlugin(): JSX.Element {
     </div>
   )
 }
+
+export default ToolbarPlugin

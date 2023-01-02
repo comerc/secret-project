@@ -8,7 +8,7 @@ import React from 'react'
 
 type LinkFilter = (event: MouseEvent, linkNode: LinkNode) => boolean
 
-export default function ClickableLinkPlugin({
+function ClickableLinkPlugin({
   filter,
   newTab = true,
 }: {
@@ -103,3 +103,5 @@ function getLinkDomNode(
     return null
   })
 }
+
+export default ClickableLinkPlugin

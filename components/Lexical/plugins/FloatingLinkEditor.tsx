@@ -259,7 +259,7 @@ function useFloatingLinkEditorToolbar(
     : null
 }
 
-export default function FloatingLinkEditorPlugin({
+function FloatingLinkEditorPlugin({
   anchorElem = document.body,
 }: {
   anchorElem?: HTMLElement
@@ -267,3 +267,5 @@ export default function FloatingLinkEditorPlugin({
   const [editor] = useLexicalComposerContext()
   return useFloatingLinkEditorToolbar(editor, anchorElem)
 }
+
+export default FloatingLinkEditorPlugin

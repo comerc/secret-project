@@ -315,7 +315,7 @@ function useFloatingTextFormatToolbar(
   )
 }
 
-export default function FloatingTextFormatToolbarPlugin({
+function FloatingTextFormatToolbarPlugin({
   anchorElem = document.body,
 }: {
   anchorElem?: HTMLElement
@@ -323,3 +323,5 @@ export default function FloatingTextFormatToolbarPlugin({
   const [editor] = useLexicalComposerContext()
   return useFloatingTextFormatToolbar(editor, anchorElem)
 }
+
+export default FloatingTextFormatToolbarPlugin
