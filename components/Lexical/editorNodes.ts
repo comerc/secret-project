@@ -20,7 +20,7 @@ import { EmojiNode } from './nodes/Emoji'
 // import { FigmaNode } from './FigmaNode'
 import { ImageNode } from './nodes/Image'
 // import { KeywordNode } from './KeywordNode'
-import { MentionNode } from './nodes/Mention'
+// import { MentionNode } from './nodes/Mention'
 // import { PollNode } from './PollNode'
 // import { StickyNode } from './StickyNode'
 // import { TableNode as NewTableNode } from './TableNode'
@@ -45,7 +45,7 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   // PollNode,
   // StickyNode,
   ImageNode,
-  MentionNode,
+  // MentionNode,
   EmojiNode,
   // ExcalidrawNode,
   // EquationNode,
