@@ -42,7 +42,7 @@ import EmojiPickerPlugin from './plugins/EmojiPicker'
 // import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditor'
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbar'
-// import HorizontalRulePlugin from './plugins/HorizontalRulePlugin';
+// import HorizontalRulePlugin from './plugins/HorizontalRule'
 import ImagesPlugin from './plugins/Images'
 // import KeywordsPlugin from './plugins/KeywordsPlugin';
 import LinkPlugin from './plugins/Link'
@@ -131,7 +131,7 @@ function Editor({
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
-                  <div className="editor" ref={onRef}>
+                  <div className={`editor${isMarkdown ? ' is-markdown' : ''}`} ref={onRef}>
                     <ContentEditable className={styles.ContentEditable__root} />
                   </div>
                 </div>

@@ -183,7 +183,6 @@ function ActionsPlugin({
         className="action-button clear"
         disabled={isEditorEmpty}
         onClick={() => {
-          // TODO: Ant Design Modal.confirm()
           Modal.confirm({
             content: 'Are you sure you want to clear the editor?',
             maskClosable: true,

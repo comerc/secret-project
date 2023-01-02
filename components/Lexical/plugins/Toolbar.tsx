@@ -662,7 +662,7 @@ function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
-            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
             title="Strikethrough"
             type="button"
             aria-label="Format text as strikethrough." // TODO: Shortcut?
@@ -672,6 +672,7 @@ function ToolbarPlugin(): JSX.Element {
           <button
             disabled={!isEditable}
             onClick={() => {
+              // TODO: если выделение многострочное, то применять блок кода: ```\ncode\n```
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
             className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
@@ -690,21 +691,6 @@ function ToolbarPlugin(): JSX.Element {
             type="button"
           >
             <i className="format link" />
-          </button>
-          <button
-            disabled={!isEditable}
-            onClick={() => {
-              showModal({
-                title: 'Insert Image',
-                getBody: (close) => <InsertImageDialog activeEditor={activeEditor} close={close} />,
-              })
-            }}
-            className={'toolbar-item spaced'}
-            aria-label="Insert image"
-            title="Insert image"
-            type="button"
-          >
-            <i className="icon image" />
           </button>
           {/* <ColorPicker
             disabled={!isEditable}
