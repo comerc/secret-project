@@ -1,6 +1,6 @@
 import type { GridSelection, LexicalEditor, NodeKey, NodeSelection, RangeSelection } from 'lexical'
 
-// import './ImageNode.module.css'
+// import './ImageComponent.module.css'
 
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext'
@@ -41,7 +41,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 // import ContentEditable from '../ui/ContentEditable'
 // import ImageResizer from '../ui/ImageResizer'
 // import Placeholder from '../ui/Placeholder'
-import { $isImageNode } from './ImageNode'
+import { $isImageNode } from './Image'
 
 const imageCache = new Set()
 
@@ -92,7 +92,7 @@ function LazyImage({
   )
 }
 
-export default function ImageComponent({
+function ImageComponent({
   src,
   altText,
   nodeKey,
@@ -347,3 +347,5 @@ export default function ImageComponent({
     </Suspense>
   )
 }
+
+export default ImageComponent

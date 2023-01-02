@@ -293,6 +293,7 @@
 .shell :global i.diagram-2 {
   background-image: url(images/icons/diagram-2.svg);
 }
+.typeahead-popover :global .icon.user,
 .shell :global i.user {
   background-image: url(images/icons/user.svg);
 }

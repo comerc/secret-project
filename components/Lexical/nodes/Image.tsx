@@ -12,8 +12,7 @@ import type {
 } from 'lexical'
 
 import { $applyNodeReplacement, createEditor, DecoratorNode } from 'lexical'
-import * as React from 'react'
-import { Suspense } from 'react'
+import React from 'react'
 
 const ImageComponent = React.lazy(
   // @ts-ignore
@@ -192,7 +191,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
 
   decorate(): JSX.Element {
     return (
-      <Suspense fallback={null}>
+      <React.Suspense fallback={null}>
         <ImageComponent
           src={this.__src}
           altText={this.__altText}
@@ -205,7 +204,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
           captionsEnabled={this.__captionsEnabled}
           resizable={true}
         />
-      </Suspense>
+      </React.Suspense>
     )
   }
 }

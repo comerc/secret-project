@@ -49,7 +49,7 @@ import LinkPlugin from './plugins/Link'
 // import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
 import { MARKDOWN_TRANSFORMERS } from './plugins/markdownTransformers'
 // import {MaxLengthPlugin} from './plugins/MaxLengthPlugin';
-// import MentionsPlugin from './plugins/MentionsPlugin';
+import MentionsPlugin from './plugins/Mentions'
 // import PollPlugin from './plugins/PollPlugin';
 // import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
 // import TabFocusPlugin from './plugins/TabFocusPlugin';
@@ -113,7 +113,7 @@ function Editor({
             <ComponentPickerPlugin />
             <EmojiPickerPlugin />
             {/* <AutoEmbedPlugin /> */}
-            {/* <MentionsPlugin /> */}
+            <MentionsPlugin />
             {/* <EmojisPlugin /> */}
             <HashtagPlugin />
             {/* <KeywordsPlugin /> */}

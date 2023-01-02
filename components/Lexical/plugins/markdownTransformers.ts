@@ -34,7 +34,7 @@ import {
 } from 'lexical'
 
 // import { $createEquationNode, $isEquationNode, EquationNode } from '../../nodes/EquationNode'
-import { $createImageNode, $isImageNode, ImageNode } from '../nodes/ImageNode'
+import { $createImageNode, $isImageNode, ImageNode } from '../nodes/Image'
 // import { $createTweetNode, $isTweetNode, TweetNode } from '../../nodes/TweetNode'
 
 export const HR: ElementTransformer = {

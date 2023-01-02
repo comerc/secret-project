@@ -14,13 +14,13 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 // import { CollapsibleContentNode } from '../plugins/CollapsiblePlugin/CollapsibleContentNode'
 // import { CollapsibleTitleNode } from '../plugins/CollapsiblePlugin/CollapsibleTitleNode'
 // import { AutocompleteNode } from './AutocompleteNode'
-import { EmojiNode } from './nodes/EmojiNode'
+import { EmojiNode } from './nodes/Emoji'
 // import { EquationNode } from './EquationNode'
 // import { ExcalidrawNode } from './ExcalidrawNode'
 // import { FigmaNode } from './FigmaNode'
-import { ImageNode } from './nodes/ImageNode'
+import { ImageNode } from './nodes/Image'
 // import { KeywordNode } from './KeywordNode'
-// import { MentionNode } from './MentionNode'
+import { MentionNode } from './nodes/Mention'
 // import { PollNode } from './PollNode'
 // import { StickyNode } from './StickyNode'
 // import { TableNode as NewTableNode } from './TableNode'
@@ -45,7 +45,7 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   // PollNode,
   // StickyNode,
   ImageNode,
-  // MentionNode,
+  MentionNode,
   EmojiNode,
   // ExcalidrawNode,
   // EquationNode,
