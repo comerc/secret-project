@@ -63,7 +63,7 @@ import ToolbarPlugin from './plugins/Toolbar'
 // import YouTubePlugin from './plugins/YouTubePlugin';
 // import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 
-import styles from './Editor.module.css'
+import styles from './Lexical.module.css'
 
 // const ImagesPlugin = React.lazy(
 //   // @ts-ignore
@@ -111,7 +111,7 @@ function Editor({
         {/* <div className={styles.shell}>1234</div> */}
         <div className={styles.shell}>
           {!isMarkdown && <ToolbarPlugin />}
-          <div className={styles.container}>
+          <div className="editor-container">
             {/* <DragDropPaste /> */}
             <AutoFocusPlugin />
             <ClearEditorPlugin />
@@ -135,8 +135,8 @@ function Editor({
               )} */}
             <RichTextPlugin
               contentEditable={
-                <div className={styles.scroller}>
-                  <div className={styles.editor} ref={onRef}>
+                <div className="editor-scroller">
+                  <div className="editor" ref={onRef}>
                     <ContentEditable className={styles.ContentEditable__root} />
                   </div>
                 </div>

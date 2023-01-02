@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useState } from 'react'
-import * as React from 'react'
-
+import React from 'react'
 import { Modal } from 'antd'
+import styles from '../Lexical.module.css'
 
 interface IModalContent {
   title: string
@@ -10,10 +9,10 @@ interface IModalContent {
 }
 
 export default function useModal(): [JSX.Element | null, (modalContent: IModalContent) => void] {
-  const [modalContent, setModalContent] = useState<null | IModalContent>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalContent, setModalContent] = React.useState<null | IModalContent>(null)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
 
-  const onClose = useCallback(() => {
+  const onClose = React.useCallback(() => {
     console.log('onClose')
     setIsModalOpen(false)
   }, [])
@@ -22,13 +21,14 @@ export default function useModal(): [JSX.Element | null, (modalContent: IModalCo
     setModalContent(null)
   }
 
-  const modal = useMemo(() => {
+  const modal = React.useMemo(() => {
     if (modalContent === null) {
       return null
     }
     const { title, getBody, closeOnClickOutside } = modalContent
     return (
       <Modal
+        wrapClassName={styles.modal}
         title={title}
         open={isModalOpen}
         maskClosable={closeOnClickOutside}
@@ -41,7 +41,7 @@ export default function useModal(): [JSX.Element | null, (modalContent: IModalCo
     )
   }, [modalContent, isModalOpen, onClose])
 
-  const showModal = useCallback(
+  const showModal = React.useCallback(
     (modalContent: IModalContent) => {
       setModalContent(modalContent)
       setIsModalOpen(true)

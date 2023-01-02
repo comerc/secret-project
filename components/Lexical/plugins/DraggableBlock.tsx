@@ -20,7 +20,7 @@ import { Rect } from '../utils/rect'
 
 const SPACE = 4
 const TARGET_LINE_HALF_HEIGHT = 2
-const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable_block_menu'
+const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable-block-menu'
 const DRAG_DATA_FORMAT = 'application/x-lexical-drag-block'
 const TEXT_BOX_HORIZONTAL_PADDING = 28
 
@@ -328,7 +328,7 @@ function useDraggableBlockMenu(
   return ReactDOM.createPortal(
     <>
       <div
-        className="icon draggable_block_menu"
+        className="icon draggable-block-menu"
         ref={menuRef}
         draggable={true}
         onDragStart={onDragStart}
@@ -336,7 +336,7 @@ function useDraggableBlockMenu(
       >
         <div className={isEditable ? 'icon' : ''} />
       </div>
-      <div className="draggable_block_target_line" ref={targetLineRef} />
+      <div className="draggable-block-target-line" ref={targetLineRef} />
     </>,
     anchorElem,
   )

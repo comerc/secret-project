@@ -151,7 +151,7 @@ function ActionsPlugin({
             editor.dispatchCommand(SPEECH_TO_TEXT_COMMAND, !isSpeechToText)
             setIsSpeechToText(!isSpeechToText)
           }}
-          className={'action_button action_button-mic ' + (isSpeechToText ? 'active' : '')}
+          className={'action-button action-button-mic ' + (isSpeechToText ? 'active' : '')}
           title="Speech To Text"
           aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}
         >
@@ -159,7 +159,7 @@ function ActionsPlugin({
         </button>
       )} */}
       {/* <button
-        className="action_button import"
+        className="action-button import"
         onClick={() => importFile(editor)}
         title="Import"
         aria-label="Import editor state from JSON"
@@ -167,7 +167,7 @@ function ActionsPlugin({
         <i className="import" />
       </button> */}
       {/* <button
-        className="action_button export"
+        className="action-button export"
         onClick={() =>
           exportFile(editor, {
             fileName: `Playground ${new Date().toISOString()}`,
@@ -180,7 +180,7 @@ function ActionsPlugin({
         <i className="export" />
       </button> */}
       <button
-        className="action_button clear"
+        className="action-button clear"
         disabled={isEditorEmpty}
         onClick={() => {
           // TODO: Ant Design Modal.confirm()
@@ -205,7 +205,7 @@ function ActionsPlugin({
         <i className="clear" />
       </button>
       <button
-        className={`action_button ${!isEditable ? 'unlock' : 'lock'}`}
+        className={`action-button ${!isEditable ? 'unlock' : 'lock'}`}
         onClick={() => {
           // Send latest editor state to commenting validation server
           if (isEditable) {
@@ -222,7 +222,7 @@ function ActionsPlugin({
         <i className={!isEditable ? 'unlock' : 'lock'} />
       </button>
       <button
-        className={`action_button ${isMarkdown ? 'active' : ''}`}
+        className={`action-button ${isMarkdown ? 'active' : ''}`}
         onClick={handleMarkdownToggle}
         title="Convert From Markdown"
         aria-label="Convert from markdown"
@@ -231,7 +231,7 @@ function ActionsPlugin({
       </button>
       {/* {isCollabActive && (
         <button
-          className="action_button connect"
+          className="action-button connect"
           onClick={() => {
             editor.dispatchCommand(TOGGLE_CONNECT_COMMAND, !connected)
           }}

@@ -1,3 +1,14 @@
+/* fix li::marker */
+.ContentEditable__root ul > li::marker {
+  color: rgb(206, 208, 212);
+}
+/* fix Ant */
+.modal :global #insert-image.ant-form .ant-btn {
+  margin-right: 8px;
+}
+.modal :global #insert-image.ant-form {
+  padding-top: 42px;
+}
 .Placeholder__root {
   font-size: 15px;
   color: #999;
@@ -36,7 +47,7 @@
   border-bottom-right-radius: 10px;
   background-color: #fff;
 }
-.container {
+.shell :global .editor-container {
   /* background: #fff; */
   position: relative;
   cursor: text;
@@ -44,7 +55,7 @@
   /* border-bottom-left-radius: 10px; */
   /* border-bottom-right-radius: 10px; */
 }
-.scroller {
+.shell :global .editor-scroller {
   min-height: 150px;
   border: 0;
   resize: none;
@@ -56,17 +67,17 @@
   /* resize: vertical; */
   /* max-height: 500px; */
 }
-.editor {
+.shell :global .editor {
   height: 100%;
   position: relative;
 }
-.typeahead_menu :global .typeahead_popover {
+.typeahead-popover {
   background: #fff;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   margin-top: 25px;
 }
-.typeahead_menu :global .typeahead_popover ul {
+.typeahead-popover :global ul {
   padding: 0;
   list-style: none;
   margin: 0;
@@ -74,14 +85,14 @@
   max-height: 200px;
   overflow-y: scroll;
 }
-.typeahead_menu :global .typeahead_popover ul::-webkit-scrollbar {
+.typeahead-popover :global ul::-webkit-scrollbar {
   display: none;
 }
-.typeahead_menu :global .typeahead_popover ul {
+.typeahead-popover :global ul {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.typeahead_menu :global .typeahead_popover ul li {
+.typeahead-popover :global ul li {
   margin: 0;
   min-width: 180px;
   font-size: 14px;
@@ -89,10 +100,10 @@
   cursor: pointer;
   border-radius: 8px;
 }
-.typeahead_menu :global .typeahead_popover ul :global li.selected {
+.typeahead-popover :global ul li.selected {
   background: #eee;
 }
-.typeahead_menu :global .typeahead_popover li {
+.typeahead-popover :global li {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -107,29 +118,29 @@
   border-radius: 8px;
   border: 0;
 }
-.typeahead_menu :global .typeahead_popover li.active {
+.typeahead-popover :global li.active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
-.typeahead_menu :global .typeahead_popover li:first-child {
+.typeahead-popover :global li:first-child {
   border-radius: 8px 8px 0px 0px;
 }
-.typeahead_menu :global .typeahead_popover li:last-child {
+.typeahead-popover :global li:last-child {
   border-radius: 0px 0px 8px 8px;
 }
-.typeahead_menu :global .typeahead_popover li:hover {
+.typeahead-popover :global li:hover {
   background-color: #eee;
 }
-.typeahead_menu :global .typeahead_popover li .text {
+.typeahead-popover :global li .text {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
   min-width: 150px;
   user-select: none;
 }
-.typeahead_menu :global .typeahead_popover li .icon {
+.typeahead-popover :global li .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -140,16 +151,16 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-.shell :global .component_picker_menu {
+.shell :global .component-picker-menu {
   width: 200px;
 }
-.shell :global .mentions_menu {
+.shell :global .mentions-menu {
   width: 250px;
 }
-.shell :global .auto_embed_menu {
+.shell :global .auto-embed-menu {
   width: 150px;
 }
-.typeahead_menu :global .emoji_menu {
+.emoji-menu {
   width: 200px;
 }
 .shell :global i.palette {
@@ -182,25 +193,25 @@
 .shell :global i.link {
   background-image: url(images/icons/link.svg);
 }
-.shell :global i.horizontal_rule {
+.shell :global i.horizontal-rule {
   background-image: url(images/icons/horizontal-rule.svg);
 }
 .shell :global .icon.plus {
   background-image: url(images/icons/plus.svg);
 }
-.shell :global .icon.caret_right {
+.shell :global .icon.caret-right {
   background-image: url(images/icons/caret-right-fill.svg);
 }
-.shell :global .icon.dropdown_more {
+.shell :global .icon.dropdown-more {
   background-image: url(images/icons/dropdown-more.svg);
 }
-.shell :global .icon.font_color {
+.shell :global .icon.font-color {
   background-image: url(images/icons/font-color.svg);
 }
-.shell :global .icon.font_family {
+.shell :global .icon.font-family {
   background-image: url(images/icons/font-family.svg);
 }
-.shell :global .icon.bg_color {
+.shell :global .icon.bg-color {
   background-image: url(images/icons/bg-color.svg);
 }
 .shell :global i.image {
@@ -224,17 +235,17 @@
 .shell :global i.youtube {
   background-image: url(images/icons/youtube.svg);
 }
-.shell :global .icon.left_align,
-.shell :global i.left_align {
+.shell :global .icon.left-align,
+.shell :global i.left-align {
   background-image: url(images/icons/text-left.svg);
 }
-.shell :global i.center_align {
+.shell :global i.center-align {
   background-image: url(images/icons/text-center.svg);
 }
-.shell :global i.right_align {
+.shell :global i.right-align {
   background-image: url(images/icons/text-right.svg);
 }
-.shell :global i.justify_align {
+.shell :global i.justify-align {
   background-image: url(images/icons/justify.svg);
 }
 .shell :global i.indent {
@@ -261,7 +272,7 @@
 .shell :global i.export {
   background-image: url(images/icons/download.svg);
 }
-.shell :global i.diagram_2 {
+.shell :global i.diagram-2 {
   background-image: url(images/icons/diagram-2.svg);
 }
 .shell :global i.user {
@@ -282,14 +293,14 @@
 .shell :global i.prettier {
   background-image: url(images/icons/prettier.svg);
 }
-.shell :global i.prettier_error {
+.shell :global i.prettier-error {
   background-image: url(images/icons/prettier-error.svg);
 }
-.shell :global .link_editor .button.active,
+.shell :global .link-editor .button.active,
 .shell :global .toolbar .button.active {
   background-color: rgb(223, 232, 250);
 }
-.shell :global .link_editor .link_input {
+.shell :global .link-editor .link-input {
   display: block;
   width: calc(100% - 24px);
   box-sizing: border-box;
@@ -304,7 +315,7 @@
   position: relative;
   font-family: inherit;
 }
-.shell :global .link_editor div.link_edit {
+.shell :global .link-editor div.link-edit {
   background-image: url(images/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
@@ -317,7 +328,7 @@
   bottom: 0;
   cursor: pointer;
 }
-.shell :global .link_editor .link_input a {
+.shell :global .link-editor .link-input a {
   color: rgb(33, 111, 219);
   text-decoration: none;
   display: block;
@@ -326,15 +337,15 @@
   margin-right: 30px;
   text-overflow: ellipsis;
 }
-.shell :global .link_editor .link_input a:hover {
+.shell :global .link-editor .link-input a:hover {
   text-decoration: underline;
 }
-.shell :global .link_editor .font_size_wrapper,
-.shell :global .link_editor .font_family_wrapper {
+.shell :global .link-editor .font-size-wrapper,
+.shell :global .link-editor .font-family-wrapper {
   display: flex;
   margin: 0 4px;
 }
-.shell :global .link_editor select {
+.shell :global .link-editor select {
   padding: 6px;
   border: none;
   background-color: rgba(0, 0, 0, 0.075);
@@ -344,7 +355,7 @@
   box-shadow: rgb(180 213 255) 0px 0px 0px 2px;
   outline: none;
 }
-/* .shell :global .block_controls {
+/* .shell :global .block-controls {
   display: block;
   position: absolute;
   right: 10px;
@@ -358,7 +369,7 @@
   border: 1px solid rgb(206, 208, 212);
   overflow: hidden;
 } */
-.shell :global .block_controls button {
+.shell :global .block-controls button {
   border: 1px solid white;
   background-color: #fff;
   display: block;
@@ -368,44 +379,44 @@
   border-radius: 8px;
   padding: 3px;
 }
-.shell :global .block_controls button:hover {
+.shell :global .block-controls button:hover {
   background-color: #efefef;
 }
-.shell :global .block_controls button:focus-visible {
+.shell :global .block-controls button:focus-visible {
   border-color: blue;
 }
-.shell :global .block_controls span.block_type {
+.shell :global .block-controls span.block-type {
   background-size: contain;
   display: block;
   width: 18px;
   height: 18px;
   margin: 2px;
 }
-.shell :global .block_controls span.block_type.paragraph {
+.shell :global .block-controls span.block-type.paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
-.shell :global .block_controls span.block_type.h1 {
+.shell :global .block-controls span.block-type.h1 {
   background-image: url(images/icons/type-h1.svg);
 }
-.shell :global .block_controls span.block_type.h2 {
+.shell :global .block-controls span.block-type.h2 {
   background-image: url(images/icons/type-h2.svg);
 }
-.shell :global .block_controls span.block_type.h3 {
+.shell :global .block-controls span.block-type.h3 {
   background-image: url(images/icons/type-h3.svg);
 }
-.shell :global .block_controls span.block_type.quote {
+.shell :global .block-controls span.block-type.quote {
   background-image: url(images/icons/chat-square-quote.svg);
 }
-.shell :global .block_controls span.block_type.ul {
+.shell :global .block-controls span.block-type.ul {
   background-image: url(images/icons/list-ul.svg);
 }
-.shell :global .block_controls span.block_type.ol {
+.shell :global .block-controls span.block-type.ol {
   background-image: url(images/icons/list-ol.svg);
 }
-.shell :global .block_controls span.block_type.code {
+.shell :global .block-controls span.block-type.code {
   background-image: url(images/icons/code.svg);
 }
-.shell :global .characters_limit {
+.shell :global .characters-limit {
   color: #888;
   font-size: 12px;
   text-align: right;
@@ -414,7 +425,7 @@
   left: 12px;
   bottom: 5px;
 }
-.shell :global .characters_limit_exceeded {
+.shell :global .characters-limit-exceeded {
   color: red;
 }
 .dropdown {
@@ -445,8 +456,8 @@
   max-width: 250px;
   min-width: 100px;
 }
-.dropdown :global .item.fontsize_item,
-.dropdown :global .item.fontsize_item .text {
+.dropdown :global .item.fontsize-item,
+.dropdown :global .item.fontsize-item .text {
   min-width: unset;
 }
 .dropdown :global .item .active {
@@ -488,13 +499,13 @@
   height: 1px;
 }
 @media screen and (max-width: 1100px) {
-  .shell :global .dropdown_button_text {
+  .shell :global .dropdown-button-text {
     display: none !important;
   }
-  .shell :global .font_size .dropdown_button_text {
+  .shell :global .font-size .dropdown-button-text {
     display: flex !important;
   }
-  .shell :global .code_language .dropdown_button_text {
+  .shell :global .code-language .dropdown-button-text {
     display: flex !important;
   }
 }
@@ -519,15 +530,15 @@
 .dropdown :global .icon.h6 {
   background-image: url(images/icons/type-h6.svg);
 }
-.dropdown :global .icon.bullet_list,
+.dropdown :global .icon.bullet-list,
 .shell :global .icon.bullet {
   background-image: url(images/icons/list-ul.svg);
 }
-.dropdown :global .icon.check_list,
+.dropdown :global .icon.check-list,
 .shell :global .icon.check {
   background-image: url(images/icons/square-check.svg);
 }
-.dropdown :global .icon.numbered_list,
+.dropdown :global .icon.numbered-list,
 .shell :global .icon.number {
   background-image: url(images/icons/list-ol.svg);
 }
@@ -604,31 +615,31 @@
 .shell :global .switch button[aria-checked='true'] span {
   transform: translateX(20px);
 }
-.shell :global span.editor_image {
+.shell :global span.editor-image {
   cursor: default;
   display: inline-block;
   position: relative;
   user-select: none;
 }
-.shell :global .editor_image img {
+.shell :global .editor-image img {
   max-width: 100%;
   cursor: default;
 }
-.shell :global .editor_image img.focused {
+.shell :global .editor-image img.focused {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
-.shell :global .editor_image img.focused.draggable {
+.shell :global .editor-image img.focused.draggable {
   cursor: grab;
 }
-.shell :global .editor_image img.focused.draggable:active {
+.shell :global .editor-image img.focused.draggable:active {
   cursor: grabbing;
 }
-.shell :global .editor_image .image_caption_container {
+.shell :global .editor-image .image-caption-container {
   margin: 0;
   border-radius: 0;
 }
-.shell :global .editor_image .image_caption_container {
+.shell :global .editor-image .image-caption-container {
   display: block;
   position: absolute;
   bottom: 4px;
@@ -642,7 +653,7 @@
   color: #000;
   overflow: hidden;
 }
-.shell :global .editor_image .image_caption_button {
+.shell :global .editor-image .image-caption-button {
   display: block;
   position: absolute;
   bottom: 20px;
@@ -659,10 +670,10 @@
   cursor: pointer;
   user-select: none;
 }
-.shell :global .editor_image .image_caption_button:hover {
+.shell :global .editor-image .image-caption-button:hover {
   background-color: rgba(60, 132, 244, 0.5);
 }
-.shell :global .editor_image .image_resizer {
+.shell :global .editor-image .image-resizer {
   display: block;
   width: 7px;
   height: 7px;
@@ -670,42 +681,42 @@
   background-color: rgb(60, 132, 244);
   border: 1px solid #fff;
 }
-.shell :global .editor_image .image_resizer.image_resizer_n {
+.shell :global .editor-image .image-resizer.image-resizer-n {
   top: -6px;
   left: 48%;
   cursor: n-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_ne {
+.shell :global .editor-image .image-resizer.image-resizer-ne {
   top: -6px;
   right: -6px;
   cursor: ne-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_e {
+.shell :global .editor-image .image-resizer.image-resizer-e {
   bottom: 48%;
   right: -6px;
   cursor: e-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_se {
+.shell :global .editor-image .image-resizer.image-resizer-se {
   bottom: -2px;
   right: -6px;
   cursor: nwse-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_s {
+.shell :global .editor-image .image-resizer.image-resizer-s {
   bottom: -2px;
   left: 48%;
   cursor: s-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_sw {
+.shell :global .editor-image .image-resizer.image-resizer-sw {
   bottom: -2px;
   left: -6px;
   cursor: sw-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_w {
+.shell :global .editor-image .image-resizer.image-resizer-w {
   bottom: 48%;
   left: -6px;
   cursor: w-resize;
 }
-.shell :global .editor_image .image_resizer.image_resizer_nw {
+.shell :global .editor-image .image-resizer.image-resizer-nw {
   top: -6px;
   left: -6px;
   cursor: nw-resize;
@@ -719,14 +730,14 @@
   vertical-align: middle;
   margin: 0 -1px;
 }
-.shell :global .emoji_inner {
+.shell :global .emoji-inner {
   padding: 0 0.15em;
 }
-.shell :global .emoji_inner::selection {
+.shell :global .emoji-inner::selection {
   color: transparent;
   background-color: rgba(150, 150, 150, 0.4);
 }
-.shell :global .emoji_inner::moz-selection {
+.shell :global .emoji-inner::moz-selection {
   color: transparent;
   background-color: rgba(150, 150, 150, 0.4);
 }
@@ -753,7 +764,7 @@
   bottom: 0;
   right: 0;
 }
-/* .shell :global .link_editor .button i,  */
+/* .shell :global .link-editor .button i,  */
 .shell :global .actions i {
   background-size: contain;
   display: inline-block;
@@ -785,16 +796,16 @@
 .shell :global i.unlock {
   background-image: url(images/icons/lock.svg);
 }
-.shell :global i.left_align {
+.shell :global i.left-align {
   background-image: url(images/icons/text-left.svg);
 }
-.shell :global i.center_align {
+.shell :global i.center-align {
   background-image: url(images/icons/text-center.svg);
 }
-.shell :global i.right_align {
+.shell :global i.right-align {
   background-image: url(images/icons/text-right.svg);
 }
-.shell :global i.justify_align {
+.shell :global i.justify-align {
   background-image: url(images/icons/justify.svg);
 }
 .shell :global i.disconnect {
@@ -803,13 +814,13 @@
 .shell :global i.connect {
   background-image: url(images/icons/plug-fill.svg);
 }
-.shell :global .table_cell_action_button_container {
+.shell :global .table-cell-action-button-container {
   position: absolute;
   top: 0;
   left: 0;
   will-change: transform;
 }
-.shell :global .table_cell_action_button {
+.shell :global .table-cell-action-button {
   background-color: none;
   display: flex;
   justify-content: center;
@@ -821,7 +832,7 @@
   display: inline-block;
   cursor: pointer;
 }
-.shell :global i.chevron_down {
+.shell :global i.chevron-down {
   background-color: transparent;
   background-size: contain;
   display: inline-block;
@@ -829,16 +840,16 @@
   width: 8px;
   background-image: url(images/icons/chevron-down.svg);
 }
-.shell :global .actions .action_button.active {
+.shell :global .actions .action-button.active {
   background-color: #e92323;
 }
-.shell :global .actions .action_button.active:hover {
+.shell :global .actions .action-button.active:hover {
   background-color: #e92323;
 }
-.shell :global .actions .action_button.active i {
+.shell :global .actions .action-button.active i {
   filter: invert(1);
 }
-.shell :global .actions .action_button {
+.shell :global .actions .action-button {
   background-color: #eee;
   border: 0;
   padding: 8px 12px;
@@ -849,14 +860,14 @@
   display: inline-block;
   cursor: pointer;
 }
-.shell :global .actions .action_button:hover {
+.shell :global .actions .action-button:hover {
   background-color: #ddd;
   color: #000;
 }
-.shell :global .actions .action_button_mic.active {
+.shell :global .actions .action-button-mic.active {
   animation: MicPulsateColor 3s infinite;
 }
-.shell :global .actions .action_button:disabled {
+.shell :global .actions .action-button:disabled {
   opacity: 0.6;
   background: #eee;
   cursor: not-allowed;
@@ -903,7 +914,7 @@
   height: 45px;
   border-bottom: black 1px solid;
 }
-.shell :global .toolbar button.toolbar_item {
+.shell :global .toolbar button.toolbar-item {
   border: 0;
   display: flex;
   background: none;
@@ -915,13 +926,13 @@
   align-items: center;
   justify-content: space-between;
 }
-.shell :global .toolbar button.toolbar_item:disabled {
+.shell :global .toolbar button.toolbar-item:disabled {
   cursor: not-allowed;
 }
-.shell :global .toolbar button.toolbar_item.spaced {
+.shell :global .toolbar button.toolbar-item.spaced {
   margin-right: 2px;
 }
-.shell :global .toolbar button.toolbar_item i.format {
+.shell :global .toolbar button.toolbar-item i.format {
   background-size: contain;
   display: inline-block;
   height: 18px;
@@ -930,29 +941,29 @@
   display: flex;
   opacity: 0.6;
 }
-.shell :global .toolbar button.toolbar_item:disabled .icon,
-.shell :global .toolbar button.toolbar_item:disabled .text,
-.shell :global .toolbar button.toolbar_item:disabled i.format,
-.shell :global .toolbar button.toolbar_item:disabled .chevron_down {
+.shell :global .toolbar button.toolbar-item:disabled .icon,
+.shell :global .toolbar button.toolbar-item:disabled .text,
+.shell :global .toolbar button.toolbar-item:disabled i.format,
+.shell :global .toolbar button.toolbar-item:disabled .chevron-down {
   opacity: 0.2;
 }
-.shell :global .toolbar button.toolbar_item.active {
+.shell :global .toolbar button.toolbar-item.active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-.shell :global .toolbar button.toolbar_item.active i {
+.shell :global .toolbar button.toolbar-item.active i {
   opacity: 1;
 }
-.shell :global .toolbar .toolbar_item:hover:not([disabled]) {
+.shell :global .toolbar .toolbar-item:hover:not([disabled]) {
   background-color: #eee;
 }
-.shell :global .toolbar .toolbar_item.font-family .text {
+.shell :global .toolbar .toolbar-item.font-family .text {
   display: block;
   max-width: 40px;
 }
-.shell :global .toolbar .code_language {
+.shell :global .toolbar .code-language {
   width: 150px;
 }
-.shell :global .toolbar .toolbar_item .text {
+.shell :global .toolbar .toolbar-item .text {
   display: flex;
   line-height: 20px;
   vertical-align: middle;
@@ -964,7 +975,7 @@
   text-align: left;
   padding-right: 10px;
 }
-.shell :global .toolbar .toolbar_item .icon {
+.shell :global .toolbar .toolbar-item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -973,14 +984,14 @@
   line-height: 16px;
   background-size: contain;
 }
-.shell :global .toolbar i.chevron_down {
+.shell :global .toolbar i.chevron-down {
   margin-top: 3px;
   width: 16px;
   height: 16px;
   display: flex;
   user-select: none;
 }
-.shell :global .toolbar i.chevron_down.inside {
+.shell :global .toolbar i.chevron-down.inside {
   width: 16px;
   height: 16px;
   display: flex;
@@ -994,13 +1005,13 @@
   background-color: #eee;
   margin: 0 4px;
 }
-.shell :global .excalidraw_button {
+.shell :global .excalidraw-button {
   border: 0;
   padding: 0;
   margin: 0;
   background-color: transparent;
 }
-.shell :global .excalidraw_button.selected {
+.shell :global .excalidraw-button.selected {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
@@ -1010,10 +1021,10 @@
 .dropdown :global button.item i {
   opacity: 0.6;
 }
-.dropdown :global button.item.dropdown_item_active {
+.dropdown :global button.item.dropdown-item-active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-.dropdown :global button.item.dropdown_item_active i {
+.dropdown :global button.item.dropdown-item-active i {
   opacity: 1;
 }
 .shell :global hr {
@@ -1049,7 +1060,7 @@
   word-break: break-word;
   z-index: 3;
 }
-.shell :global .link_editor {
+.shell :global .link-editor {
   background-color: red;
   position: absolute;
   top: 0;
@@ -1064,7 +1075,7 @@
   transition: opacity 0.5s;
   will-change: transform;
 }
-/* .shell :global .link_editor .button {
+/* .shell :global .link-editor .button {
   width: 20px;
   height: 20px;
   display: inline-block;
@@ -1073,13 +1084,13 @@
   cursor: pointer;
   margin: 0 2px;
 } */
-/* c.link_editor .button.hovered {
+/* c.link-editor .button.hovered {
   width: 20px;
   height: 20px;
   display: inline-block;
   background-color: #eee;
 } */
-.shell :global .draggable_block_menu {
+.shell :global .draggable-block-menu {
   border-radius: 4px;
   padding: 2px 1px;
   cursor: grab;
@@ -1089,19 +1100,19 @@
   top: 0;
   will-change: transform;
 }
-.shell :global .draggable_block_menu .icon {
+.shell :global .draggable-block-menu .icon {
   width: 16px;
   height: 16px;
   opacity: 0.3;
   background-image: url(images/icons/draggable-block-menu.svg);
 }
-.shell :global .draggable_block_menu:active {
+.shell :global .draggable-block-menu:active {
   cursor: grabbing;
 }
-.shell :global .draggable_block_menu:hover {
+.shell :global .draggable-block-menu:hover {
   background-color: #efefef;
 }
-.shell :global .draggable_block_target_line {
+.shell :global .draggable-block-target-line {
   pointer-events: none;
   background: deepskyblue;
   height: 4px;
@@ -1117,7 +1128,7 @@
 .shell :global ol {
   list-style-type: decimal;
 }
-.shell :global .floating_text_format_popup {
+.shell :global .floating-text-format-popup {
   display: flex;
   background: #fff;
   padding: 4px;
@@ -1134,7 +1145,7 @@
   /* height: 35px; */
   will-change: transform;
 }
-.shell :global .floating_text_format_popup button.popup_item {
+.shell :global .floating-text-format-popup button.popup-item {
   border: 0;
   display: flex;
   background: none;
@@ -1143,13 +1154,13 @@
   cursor: pointer;
   vertical-align: middle;
 }
-.shell :global .floating_text_format_popup button.popup_item:disabled {
+.shell :global .floating-text-format-popup button.popup-item:disabled {
   cursor: not-allowed;
 }
-.shell :global .floating_text_format_popup button.popup_item.spaced {
+.shell :global .floating-text-format-popup button.popup-item.spaced {
   margin-right: 2px;
 }
-.shell :global .floating_text_format_popup button.popup_item i.format {
+.shell :global .floating-text-format-popup button.popup-item i.format {
   background-size: contain;
   display: inline-block;
   height: 18px;
@@ -1159,19 +1170,19 @@
   display: flex;
   opacity: 0.6;
 }
-.shell :global .floating_text_format_popup button.popup_item:disabled i.format {
+.shell :global .floating-text-format-popup button.popup-item:disabled i.format {
   opacity: 0.2;
 }
-.shell :global .floating_text_format_popup button.popup_item.active {
+.shell :global .floating-text-format-popup button.popup-item.active {
   background-color: rgba(223, 232, 250, 0.3);
 }
-.shell :global .floating_text_format_popup button.popup_item.active i {
+.shell :global .floating-text-format-popup button.popup-item.active i {
   opacity: 1;
 }
-.shell :global .floating_text_format_popup .popup_item:hover:not([disabled]) {
+.shell :global .floating-text-format-popup .popup-item:hover:not([disabled]) {
   background-color: #eee;
 }
-.shell :global .floating_text_format_popup select.popup_item {
+.shell :global .floating-text-format-popup select.popup-item {
   border: 0;
   display: flex;
   background: none;
@@ -1185,11 +1196,11 @@
   color: #777;
   text-overflow: ellipsis;
 }
-.shell :global .floating_text_format_popup select.code_language {
+.shell :global .floating-text-format-popup select.code-language {
   text-transform: capitalize;
   width: 130px;
 }
-.shell :global .floating_text_format_popup .popup_item .text {
+.shell :global .floating-text-format-popup .popup-item .text {
   display: flex;
   line-height: 20px;
   width: 200px;
@@ -1202,7 +1213,7 @@
   height: 20px;
   text-align: left;
 }
-.shell :global .floating_text_format_popup .popup_item .icon {
+.shell :global .floating-text-format-popup .popup-item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -1211,14 +1222,14 @@
   line-height: 16px;
   background-size: contain;
 }
-.shell :global .floating_text_format_popup i.chevron_down {
+.shell :global .floating-text-format-popup i.chevron-down {
   margin-top: 3px;
   width: 16px;
   height: 16px;
   display: flex;
   user-select: none;
 }
-.shell :global .floating_text_format_popup i.chevron_down.inside {
+.shell :global .floating-text-format-popup i.chevron-down.inside {
   width: 16px;
   height: 16px;
   display: flex;
@@ -1227,7 +1238,7 @@
   margin-right: 10px;
   pointer-events: none;
 }
-.shell :global .floating_text_format_popup .divider {
+.shell :global .floating-text-format-popup .divider {
   width: 1px;
   background-color: #eee;
   margin: 0 4px;

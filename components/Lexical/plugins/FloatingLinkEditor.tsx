@@ -88,7 +88,7 @@ function FloatingLinkEditor({
 
       setFloatingElemPosition(rect, editorElem, anchorElem)
       setLastSelection(selection)
-    } else if (!activeElement || activeElement.className !== 'link_input') {
+    } else if (!activeElement || activeElement.className !== 'link-input') {
       if (rootElement !== null) {
         setFloatingElemPosition(null, editorElem, anchorElem)
       }
@@ -167,11 +167,11 @@ function FloatingLinkEditor({
   }, [isEditMode])
 
   return (
-    <div ref={editorRef} className="link_editor">
+    <div ref={editorRef} className="link-editor">
       {isEditMode ? (
         <input
           ref={inputRef}
-          className="link_input"
+          className="link-input"
           value={linkUrl}
           onChange={(event) => {
             setLinkUrl(event.target.value)
@@ -190,12 +190,12 @@ function FloatingLinkEditor({
         />
       ) : (
         <>
-          <div className="link_input">
+          <div className="link-input">
             <a href={linkUrl} target="_blank" rel="noopener noreferrer">
               {linkUrl}
             </a>
             <div
-              className="link_edit"
+              className="link-edit"
               role="button"
               tabIndex={0}
               onMouseDown={(event) => event.preventDefault()}

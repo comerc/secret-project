@@ -7,7 +7,7 @@ import {
 import { $createTextNode, $getSelection, $isRangeSelection, TextNode } from 'lexical'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import styles from '../Editor.module.css'
+import styles from '../Lexical.module.css'
 
 class EmojiOption extends TypeaheadOption {
   title: string
@@ -52,7 +52,7 @@ function EmojiMenuItem({
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
-      id={'typeahead_item_' + index}
+      id={'typeahead-item-' + index}
       onMouseEnter={onMouseEnter}
       onClick={onClick}
     >
@@ -138,7 +138,6 @@ export default function EmojiPickerPlugin() {
 
   return (
     <LexicalTypeaheadMenuPlugin
-      anchorClassName={styles.typeahead_menu}
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}
       triggerFn={checkForTriggerMatch}
@@ -153,7 +152,7 @@ export default function EmojiPickerPlugin() {
 
         return anchorElementRef.current && options.length
           ? ReactDOM.createPortal(
-              <div className="typeahead_popover emoji_menu">
+              <div className={`${styles['typeahead-popover']} ${styles['emoji-menu']}`}>
                 <ul>
                   {options.map((option: EmojiOption, index) => (
                     <div key={option.key}>

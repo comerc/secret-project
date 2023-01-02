@@ -1,3 +1,3 @@
-import Editor from './Editor'
+import Editor from './Lexical'
 
 export default Editor

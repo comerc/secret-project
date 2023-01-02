@@ -130,7 +130,7 @@ const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions()
 // ];
 
 function dropDownActiveClass(active: boolean) {
-  if (active) return 'active dropdown_item_active'
+  if (active) return 'active dropdown-item-active'
   else return ''
 }
 
@@ -222,8 +222,8 @@ function BlockFormatDropDown({
   return (
     <DropDown
       disabled={disabled}
-      buttonClassName="toolbar_item block_controls"
-      buttonIconClassName={'icon block_type ' + blockType}
+      buttonClassName="toolbar-item block-controls"
+      buttonIconClassName={'icon block-type ' + blockType}
       buttonLabel={blockTypeToBlockName[blockType]}
       buttonAriaLabel="Formatting options for text style"
     >
@@ -259,21 +259,21 @@ function BlockFormatDropDown({
         className={'item ' + dropDownActiveClass(blockType === 'bullet')}
         onClick={formatBulletList}
       >
-        <i className="icon bullet_list" />
+        <i className="icon bullet-list" />
         <span className="text">Bullet List</span>
       </DropDownItem>
       <DropDownItem
         className={'item ' + dropDownActiveClass(blockType === 'number')}
         onClick={formatNumberedList}
       >
-        <i className="icon numbered_list" />
+        <i className="icon numbered-list" />
         <span className="text">Numbered List</span>
       </DropDownItem>
       <DropDownItem
         className={'item ' + dropDownActiveClass(blockType === 'check')}
         onClick={formatCheckList}
       >
-        <i className="icon check_list" />
+        <i className="icon check-list" />
         <span className="text">Check List</span>
       </DropDownItem>
       <DropDownItem
@@ -331,10 +331,10 @@ function Divider(): JSX.Element {
 //   return (
 //     <DropDown
 //       disabled={disabled}
-//       buttonClassName={'toolbar_item ' + style}
+//       buttonClassName={'toolbar-item ' + style}
 //       buttonLabel={value}
 //       buttonIconClassName={
-//         style === 'font-family' ? 'icon block_type font_family' : ''
+//         style === 'font-family' ? 'icon block-type font-family' : ''
 //       }
 //       buttonAriaLabel={buttonAriaLabel}>
 //       {(style === 'font-family' ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
@@ -563,7 +563,7 @@ export default function ToolbarPlugin(): JSX.Element {
         }}
         title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
         type="button"
-        className="toolbar_item spaced"
+        className="toolbar-item spaced"
         aria-label="Undo">
         <i className="format undo" />
       </button> */}
@@ -574,7 +574,7 @@ export default function ToolbarPlugin(): JSX.Element {
         }}
         title={IS_APPLE ? 'Redo (⌘Y)' : 'Redo (Ctrl+Y)'}
         type="button"
-        className="toolbar_item"
+        className="toolbar-item"
         aria-label="Redo">
         <i className="format redo" />
       </button> */}
@@ -589,7 +589,7 @@ export default function ToolbarPlugin(): JSX.Element {
         <>
           <DropDown
             disabled={!isEditable}
-            buttonClassName="toolbar_item code_language"
+            buttonClassName="toolbar-item code-language"
             buttonLabel={getLanguageFriendlyName(codeLanguage)}
             buttonAriaLabel="Select language"
           >
@@ -626,7 +626,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
-            className={'toolbar_item spaced ' + (isBold ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
             title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
             type="button"
             aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? '⌘B' : 'Ctrl+B'}`}
@@ -638,7 +638,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
-            className={'toolbar_item spaced ' + (isItalic ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
             title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
             type="button"
             aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? '⌘I' : 'Ctrl+I'}`}
@@ -650,7 +650,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
-            className={'toolbar_item spaced ' + (isUnderline ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
             title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
             type="button"
             aria-label={`Format text to underlined. Shortcut: ${IS_APPLE ? '⌘U' : 'Ctrl+U'}`}
@@ -662,7 +662,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
-            className={'toolbar_item spaced ' + (isCode ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
             title="Strikethrough"
             type="button"
             aria-label="Format text as strikethrough." // TODO: Shortcut?
@@ -674,7 +674,7 @@ export default function ToolbarPlugin(): JSX.Element {
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
-            className={'toolbar_item spaced ' + (isCode ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
             title="Insert code block"
             type="button"
             aria-label="Insert code block"
@@ -684,7 +684,7 @@ export default function ToolbarPlugin(): JSX.Element {
           <button
             disabled={!isEditable}
             onClick={insertLink}
-            className={'toolbar_item spaced ' + (isLink ? 'active' : '')}
+            className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
             aria-label="Insert link"
             title="Insert link"
             type="button"
@@ -699,7 +699,7 @@ export default function ToolbarPlugin(): JSX.Element {
                 getBody: (close) => <InsertImageDialog activeEditor={activeEditor} close={close} />,
               })
             }}
-            className={'toolbar_item spaced'}
+            className={'toolbar-item spaced'}
             aria-label="Insert image"
             title="Insert image"
             type="button"
@@ -708,7 +708,7 @@ export default function ToolbarPlugin(): JSX.Element {
           </button>
           {/* <ColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar_item color_picker"
+            buttonClassName="toolbar-item color-picker"
             buttonAriaLabel="Formatting text color"
             buttonIconClassName="icon font-color"
             color={fontColor}
@@ -717,7 +717,7 @@ export default function ToolbarPlugin(): JSX.Element {
           /> */}
           {/* <ColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar_item color_picker"
+            buttonClassName="toolbar-item color-picker"
             buttonAriaLabel="Formatting background color"
             buttonIconClassName="icon bg-color"
             color={bgColor}
@@ -726,7 +726,7 @@ export default function ToolbarPlugin(): JSX.Element {
           /> */}
           {/* <DropDown
             disabled={!isEditable}
-            buttonClassName="toolbar_item spaced"
+            buttonClassName="toolbar-item spaced"
             buttonLabel=""
             buttonAriaLabel="Formatting options for additional text styles"
             buttonIconClassName="icon dropdown-more"
@@ -777,7 +777,7 @@ export default function ToolbarPlugin(): JSX.Element {
           {/* <Divider /> */}
           {/* <DropDown
             disabled={!isEditable}
-            buttonClassName="toolbar_item spaced"
+            buttonClassName="toolbar-item spaced"
             buttonLabel="Insert"
             buttonAriaLabel="Insert specialized editor node"
             buttonIconClassName="icon plus"
@@ -788,7 +788,7 @@ export default function ToolbarPlugin(): JSX.Element {
               }}
               className="item"
             >
-              <i className="icon horizontal_rule" />
+              <i className="icon horizontal-rule" />
               <span className="text">Horizontal Rule</span>
             </DropDownItem>
             <DropDownItem
@@ -887,7 +887,7 @@ export default function ToolbarPlugin(): JSX.Element {
               }}
               className="item"
             >
-              <i className="icon caret_right" />
+              <i className="icon caret-right" />
               <span className="text">Collapsible container</span>
             </DropDownItem>
             {EmbedConfigs.map((embedConfig) => (
@@ -910,7 +910,7 @@ export default function ToolbarPlugin(): JSX.Element {
         disabled={!isEditable}
         buttonLabel="Align"
         buttonIconClassName="icon left-align"
-        buttonClassName="toolbar_item spaced alignment"
+        buttonClassName="toolbar-item spaced alignment"
         buttonAriaLabel="Formatting options for text alignment"
       >
         <DropDownItem
@@ -919,7 +919,7 @@ export default function ToolbarPlugin(): JSX.Element {
           }}
           className="item"
         >
-          <i className="icon left_align" />
+          <i className="icon left-align" />
           <span className="text">Left Align</span>
         </DropDownItem>
         <DropDownItem
@@ -928,7 +928,7 @@ export default function ToolbarPlugin(): JSX.Element {
           }}
           className="item"
         >
-          <i className="icon center_align" />
+          <i className="icon center-align" />
           <span className="text">Center Align</span>
         </DropDownItem>
         <DropDownItem
@@ -937,7 +937,7 @@ export default function ToolbarPlugin(): JSX.Element {
           }}
           className="item"
         >
-          <i className="icon right_align" />
+          <i className="icon right-align" />
           <span className="text">Right Align</span>
         </DropDownItem>
         <DropDownItem
@@ -946,7 +946,7 @@ export default function ToolbarPlugin(): JSX.Element {
           }}
           className="item"
         >
-          <i className="icon justify_align" />
+          <i className="icon justify-align" />
           <span className="text">Justify Align</span>
         </DropDownItem>
         <Divider />

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import styles from './Editor.module.css'
+import styles from './Lexical.module.css'
 
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void
@@ -182,8 +182,8 @@ export default function DropDown({
         ref={buttonRef}
       >
         {buttonIconClassName && <span className={buttonIconClassName} />}
-        {buttonLabel && <span className="text dropdown_button_text">{buttonLabel}</span>}
-        <i className="chevron_down" />
+        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
+        <i className="chevron-down" />
       </button>
 
       {showDropDown &&
