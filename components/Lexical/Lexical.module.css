@@ -793,7 +793,7 @@
   position: absolute;
   text-align: right;
   padding: 10px;
-  bottom: 0;
+  bottom: -60px;
   right: 0;
 }
 /* .shell :global .link-editor .button i,  */

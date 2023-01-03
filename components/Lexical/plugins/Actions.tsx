@@ -109,7 +109,6 @@ function ActionsPlugin({
       editor.getEditorState().read(() => {
         const root = $getRoot()
         const children = root.getChildren()
-
         if (children.length > 1) {
           setIsEditorEmpty(false)
         } else {
@@ -120,10 +119,12 @@ function ActionsPlugin({
             setIsEditorEmpty(false)
           }
         }
+        // TODO: кнопка "Clear" включается при переключении isMarkdown
       })
     })
   }, [editor, isEditable])
 
+  // Костыль: если isInitialEditable == false, то не переключается кнопка "Read-Only Mode"
   React.useEffect(() => {
     setIsEditable(editor.isEditable())
   }, [editor, isEditable])

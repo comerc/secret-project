@@ -67,7 +67,7 @@ import ToolbarPlugin from './plugins/Toolbar'
 
 import styles from './Lexical.module.css'
 
-function Editor({
+function Lexical({
   initialEditorState,
   isInitialEditable,
 }: {
@@ -217,4 +217,4 @@ function Editor({
   )
 }
 
-export default Editor
+export default Lexical
