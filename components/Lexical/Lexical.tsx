@@ -6,7 +6,7 @@ import editorNodes from './editorNodes'
 // import {TableContext} from './plugins/TablePlugin';
 import theme from './themes/editor'
 
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+// import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 // import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin' // TODO:  добавить CollaborationPlugin
@@ -25,6 +25,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 // import {useSettings} from './context/SettingsContext';
 import { useSharedHistoryContext } from './context/SharedHistory'
 // import TableCellNodes from './nodes/TableCellNodes';
+import AutoFocusPlugin from './plugins/AutoFocus'
 import ActionsPlugin from './plugins/Actions'
 // import AutocompletePlugin from './plugins/AutocompletePlugin';
 // import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
@@ -108,7 +109,7 @@ function Editor({
           {!isMarkdown && <ToolbarPlugin />}
           <div className="editor-container">
             {/* <DragDropPaste /> */}
-            <AutoFocusPlugin />
+            <AutoFocusPlugin isMarkdown={isMarkdown} />
             <ClearEditorPlugin />
             <ComponentPickerPlugin />
             <EmojiPickerPlugin />
@@ -139,9 +140,7 @@ function Editor({
                     </div>
                   </div>
                 }
-                placeholder={
-                  <div className={styles.Placeholder__root}>Enter some plain text...</div>
-                }
+                placeholder={null}
                 ErrorBoundary={LexicalErrorBoundary}
               />
             ) : (

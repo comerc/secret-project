@@ -152,7 +152,6 @@ function ActionsPlugin({
       }
       editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined) // TODO: костыль на переключение isMarkdown
       root.selectEnd()
-      // editor.focus() // TODO: не возвращает фокус в редактор после клика по кнопке
       setIsMarkdown(!isMarkdown)
     })
   }, [editor, isMarkdown, setIsMarkdown])
