@@ -177,6 +177,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Добавить больше языков в lexical-code (через PrismJS)
 - [ ] Dark Mode
   - https://tailwindcss.com/docs/dark-mode
+- [ ] LexicalCollaborationPlugin
+  - https://github.com/facebook/lexical/issues/2696
+  - https://github.com/facebook/lexical/issues/3113
 
 ---
 

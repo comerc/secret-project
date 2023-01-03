@@ -1,3 +1,5 @@
+// https://github.com/haydenbleasel/compass-lexical
+
 import type { EditorState } from 'lexical'
 
 import type { ComponentProps, MouseEventHandler } from 'react'

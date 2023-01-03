@@ -65,6 +65,8 @@ import ToolbarPlugin from './plugins/Toolbar'
 // import YouTubePlugin from './plugins/YouTubePlugin';
 // import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 
+// TODO: добавить кнопку Prettier в блок кода
+
 import styles from './Lexical.module.css'
 
 function Lexical({
