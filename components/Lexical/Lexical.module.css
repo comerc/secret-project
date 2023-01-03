@@ -26,13 +26,15 @@
   tab-size: 1;
   outline: 0;
   padding: 8px 28px;
-  min-height: calc(100% - 16px);
+  /* min-height: calc(100% - 16px); */
+  min-height: 150px;
 }
 .shell :global .editor.is-markdown code {
   /* margin: 0; */
   white-space: pre-wrap;
   border-radius: 0;
   padding: 16px;
+  min-height: 163px;
 }
 .shell :global .editor.is-markdown code:before {
   content: '';
@@ -72,7 +74,7 @@
   /* border-bottom-right-radius: 10px; */
 }
 .shell :global .editor-scroller {
-  min-height: 150px;
+  /* min-height: 150px; */
   border: 0;
   resize: none;
   cursor: text;
@@ -84,7 +86,7 @@
   /* max-height: 500px; */
 }
 .shell :global .editor {
-  height: 100%;
+  /* height: 100%; */
   position: relative;
 }
 .typeahead-popover {

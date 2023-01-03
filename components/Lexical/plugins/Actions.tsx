@@ -11,6 +11,7 @@ import {
   $createTextNode,
   $getRoot,
   $isParagraphNode,
+  CLEAR_HISTORY_COMMAND,
   CLEAR_EDITOR_COMMAND,
   COMMAND_PRIORITY_EDITOR,
 } from 'lexical'
@@ -130,18 +131,31 @@ function ActionsPlugin({
   const handleMarkdownToggle = React.useCallback(() => {
     editor.update(() => {
       const root = $getRoot()
-      const firstChild = root.getFirstChild()
-      const value = $isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown'
-      if (value) {
-        $convertFromMarkdownString(firstChild.getTextContent(), MARKDOWN_TRANSFORMERS)
+      // const firstChild = root.getFirstChild()
+      // const value = $isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown'
+      // if (value) {
+      //   $convertFromMarkdownString(firstChild.getTextContent(), MARKDOWN_TRANSFORMERS)
+      // } else {
+      //   const markdown = $convertToMarkdownString(MARKDOWN_TRANSFORMERS)
+      //   root.clear().append($createCodeNode('markdown').append($createTextNode(markdown)))
+      // }
+      // root.selectEnd()
+
+      if (isMarkdown) {
+        const firstChild = root.getFirstChild()
+        if (firstChild) {
+          $convertFromMarkdownString(firstChild.getTextContent(), MARKDOWN_TRANSFORMERS)
+        }
       } else {
         const markdown = $convertToMarkdownString(MARKDOWN_TRANSFORMERS)
         root.clear().append($createCodeNode('markdown').append($createTextNode(markdown)))
       }
+      editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined) // TODO: костыль на переключение isMarkdown
       root.selectEnd()
-      setIsMarkdown(!value)
+      // editor.focus() // TODO: не возвращает фокус в редактор после клика по кнопке
+      setIsMarkdown(!isMarkdown)
     })
-  }, [editor, setIsMarkdown])
+  }, [editor, isMarkdown, setIsMarkdown])
 
   return (
     <div className="actions">

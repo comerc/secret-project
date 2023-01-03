@@ -16,6 +16,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin'
 // import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -128,17 +129,36 @@ function Editor({
                 <HistoryPlugin externalHistoryState={historyState} />
               )} */}
             <HistoryPlugin externalHistoryState={historyState} />
-            <RichTextPlugin
-              contentEditable={
-                <div className="editor-scroller">
-                  <div className={`editor${isMarkdown ? ' is-markdown' : ''}`} ref={onRef}>
-                    <ContentEditable className={styles.ContentEditable__root} />
+            {isMarkdown ? (
+              // PlainTextPlugin нужен для paste простого текста из html-источника
+              <PlainTextPlugin
+                contentEditable={
+                  <div className="editor-scroller">
+                    <div className="editor is-markdown" ref={onRef}>
+                      <ContentEditable className={styles.ContentEditable__root} />
+                    </div>
                   </div>
-                </div>
-              }
-              placeholder={<div className={styles.Placeholder__root}>Enter some rich text...</div>}
-              ErrorBoundary={LexicalErrorBoundary}
-            />
+                }
+                placeholder={
+                  <div className={styles.Placeholder__root}>Enter some plain text...</div>
+                }
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+            ) : (
+              <RichTextPlugin
+                contentEditable={
+                  <div className="editor-scroller">
+                    <div className="editor" ref={onRef}>
+                      <ContentEditable className={styles.ContentEditable__root} />
+                    </div>
+                  </div>
+                }
+                placeholder={
+                  <div className={styles.Placeholder__root}>Enter some rich text...</div>
+                }
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+            )}
             <MarkdownShortcutPlugin transformers={MARKDOWN_TRANSFORMERS} />
             <CodeHighlightPlugin />
             <ListPlugin />
