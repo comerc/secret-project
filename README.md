@@ -107,6 +107,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [x] TailwindCSS
   - https://github.com/motleydev/hasura-on-the-road
   - https://haydenbleasel.com/blog/using-clsx-tailwind-composition
+  - https://heroicons.com/
 - [x] CSS-In-JS: Emotion? - nope
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
@@ -180,6 +181,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] LexicalCollaborationPlugin
   - https://github.com/facebook/lexical/issues/2696
   - https://github.com/facebook/lexical/issues/3113
+- [ ] mock-data
+  - https://randomuser.me/
 
 ---
 
