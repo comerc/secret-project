@@ -183,6 +183,27 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/facebook/lexical/issues/3113
 - [ ] mock-data
   - https://randomuser.me/
+- [ ] Doc Graph like Obsidian
+  - https://mermaid.js.org/
+  - https://github.com/HEmile/juggl
+  - https://www.youtube.com/watch?v=wKNWMBeGCuU
+  - https://github.com/logseq/logseq
+  - https://github.com/dendronhq/dendron
+- [ ] Markdown extension - MDX
+  - https://mdxjs.com/docs/using-mdx/#mdx-provider
+- [ ] Исследовать встроенный чат в ClickUp
+- [ ] Исследовать встроенный чат в tada.team
+
+## Что нового (для меня) про вёрстку
+
+- [CSS Utility Classes and "Separation of Concerns"](https://adamwathan.me/css-utility-classes-and-separation-of-concerns/)
+- [Удивительный и неизвестный inline-block](https://css-live.ru/articles-css/udivitelnyj-i-neizvestnyj-inline-block.html)
+- [overscroll-behavior](https://developer.mozilla.org/ru/docs/Web/CSS/overscroll-behavior)
+- [isolation](https://developer.mozilla.org/ru/docs/Web/CSS/isolation)
+- [box-sizing](https://developer.mozilla.org/ru/docs/Web/CSS/box-sizing)
+- [Когда правильно padding, а когда margin?](https://bureau.ru/soviet/20220526)
+- [Вёрстка слева направо и сверху вниз](https://bureau.ru/soviet/20210422/)
+- [NativeWind](https://www.nativewind.dev/)
 
 ---
 
