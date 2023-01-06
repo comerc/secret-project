@@ -111,7 +111,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [x] CSS-In-JS: Emotion? - nope
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
-- [ ] Investigate vercel/swr VIA apollo/client
+- [ ] Investigate vercel/swr VIA apollo/client (optimistic update?)
   - https://github.com/praveenweb/swr-graphql
 - [ ] Admin Panel
 - [ ] Temporal & GoLang
@@ -193,6 +193,41 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://mdxjs.com/docs/using-mdx/#mdx-provider
 - [ ] Исследовать встроенный чат в ClickUp
 - [ ] Исследовать встроенный чат в tada.team
+- [ ] Оценить интерфейсы Trello
+- [ ] Open Source Alternative
+  - https://www.producthunt.com/products/erxes
+- [ ] Продукты, которые перекрывают сегменты Knowledge Base <> Communications (без Work)
+  - https://www.questionbase.com/
+- [ ] Продукты, которые перекрывают сегменты Work <> Communications (без Knowledge Base)
+  - https://tada.team
+  - https://focalboard.com (коммуникации в комментах + mattermost)
+  - https://openproject.org (коммуникации в комментах + forum)
+  - https://asana.com
+- [ ] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
+  - https://fibery.io (1.0)
+  - https://monday.com (коммуникации только в комментах)
+- [ ] Продукты, которые перекрывают сегменты Work <> Communications <> Knowledge Base
+  - https://clickup.com
+- [ ] Продукты, которые только про сегмент Work (без Communications и Knowledge Base)
+  - https://airtable.com
+  - https://trello.com (коммуникации только в комментах)
+  - https://smartsheet.com (коммуникации только в комментах)
+  - https://height.app (коммуникации только в комментах)
+  - https://linear.app (коммуникации только в комментах)
+- [ ] Notion Alternatives
+  - https://monday.com/lang/ru/workdocs
+  - https://www.focalboard.com
+- [ ] Интеграция с fullcalendar.io
+- [ ] Добавить в список open-source-alternatives
+  - https://www.btw.so/open-source-alternatives
+- [ ] AntD with Dark Mode
+- [ ] Как спрятать от Wappalyzer (как Linear)
+- [ ] Как выдать сообщение в консоль Хрома (как Linear)
+- [ ] Search Engine
+  - https://github.com/meilisearch/MeiliSearch
+  - https://github.com/typesense/typesense
+- [ ] API Doc
+  - https://docusaurus.io/
 
 ## Что нового (для меня) про вёрстку
 
