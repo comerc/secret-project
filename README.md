@@ -1,6 +1,6 @@
 # secret-project
 
-## Why?
+## Почему и Зачем?
 
 Посмотрел сериал DEVS про детерминизм. И не согласен. Я сам кузнец своего счастья! Вопрос - что делать дальше? Посвятил прошлый год закрытию гештальта - CTO продуктового стартапа. Статистика на HH: 3500 просмотров резюме, 50 отказов, 10 приглашений. Где-то услышал, что искать вакансию на топовую позицию сложнее кратно. Подтверждаю. Три попытки, отмучился 8 месяцев в сумме, но не больше трех месяцев на одном месте. Ощущение, что я себя обманываю. Ну хорошо, план Б - Основатель. Повторю в open source продукт на новейших технологиях. Если правильно выбрать "техническое задание" и инструментарий, то можно и влезть на ёлку и не ободрать себе пятую точку - т.е. успеть выпустить MVP за классические 100 дней. В какой сфере продукт? Есть несколько вариантов, но требуется фокус, иначе ничего не выйдет. Лет 7 уже прошло, как я влюбился в Shortcut.com - Task Manager для "Developer Centric Team" в формате Unix-way. Trello для разработчиков (слоган для Kickstarter и YCombinator). Но, пока я собирался, Shortcut скурвился. Куда-то задвинули декларацию, добавили убогий раздел документы. Обнять и плакать. Ладно. Свято место пусто не бывает. Нашёл Kitemaker.co (сыроват) и Linear.app - получше. Есть описание API на GraphQL - это готовое ТЗ на бэкенд, бери и делай. Понятный и конечный набор функционала. Я уже подготовил инструментарий: Hasura + Temporal + GoLang + NextJS + AntDesign Component + TailwindCSS + Lexical. Сегодня 7 января 2023 года. Осталось 85 дней.
 
@@ -125,6 +125,22 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - убрать workaround в tsconfig.json "shared/_": ["packages/shared/src/_"]
 - [ ] react-dnd (focalboard) or react-beautiful-dnd or dnd-kit (liveblocks)
   - https://github.com/alexreardon/drag-and-drop-performance-comparison
+- [ ] react-beautiful-dnd toolschain
+  - react-window
+  - escape from multidrag example
+  - board > scrollable collumns
+  - board > dragging a clone
+  - functional components
+    - https://codesandbox.io/s/-w5szl?file=/src/index.js
+  - tables
+  - мигает курсор стрелки
+    - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
+  - https://github.com/abeaudoin2013/react-beautiful-dnd-multi-list-typescript-example
+  - https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
+  - https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
+  - https://egghead.io/lessons/react-create-reorderable-horizontal-lists-with-react-beautiful-dnd-direction-prop
+  - https://egghead.io/lessons/react-optimize-performance-in-react-beautiful-dnd-with-shouldcomponentupdate-and-purecomponent
+  - https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd
 - [ ] quill or prosemirror or slatejs or editorjs.io
   - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
   - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
@@ -178,6 +194,10 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Добавить больше языков в lexical-code (через PrismJS)
 - [ ] Dark Mode
   - https://tailwindcss.com/docs/dark-mode
+- [ ] AntD with Dark Mode
+  - https://jfelix.info/blog/dynamic-themes-in-ant-design-how-to-change-between-light-and-dark-theme
+  - https://betterprogramming.pub/how-to-toggle-dark-theme-with-ant-design-5-0-eb68552f62b8
+  - https://www.youtube.com/watch?v=tgD-csfLNUs
 - [ ] LexicalCollaborationPlugin
   - https://github.com/facebook/lexical/issues/2696
   - https://github.com/facebook/lexical/issues/3113
@@ -220,7 +240,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Интеграция с fullcalendar.io
 - [ ] Добавить в список open-source-alternatives
   - https://www.btw.so/open-source-alternatives
-- [ ] AntD with Dark Mode
 - [ ] Как спрятать от Wappalyzer (как Linear)
 - [ ] Как выдать сообщение в консоль Хрома (как Linear)
 - [ ] Search Engine
