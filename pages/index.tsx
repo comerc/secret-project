@@ -85,6 +85,7 @@
 
 import React from 'react'
 import { Progress, Space } from 'antd'
+import pluralize from '.../utils/pluralize'
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -101,7 +102,11 @@ function HomePage({ data: { diff, now, final } }) {
   return (
     <div className="flex h-screen items-center justify-center">
       <Space direction="vertical" align="center">
-        <Progress type="circle" percent={percent} format={(percent) => `${percent} Days`} />
+        <Progress
+          type="circle"
+          percent={percent}
+          format={(percent) => pluralize(percent, ['день', 'дня', 'дней'])}
+        />
         <div>{`Now: ${new Date(now).toLocaleDateString('ru-RU', options)}`}</div>
         <div>{`Final: ${new Date(final).toLocaleDateString('ru-RU', options)}`}</div>
       </Space>
