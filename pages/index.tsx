@@ -64,19 +64,47 @@
 //   )
 // }
 
-function HomePage() {
+// function HomePage() {
+//   return (
+//     <div
+//       style={{
+//         height: '100vh',
+//         color: 'black',
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//         alignSelf: 'center',
+//       }}
+//     >
+//       HomePage
+//     </div>
+//   )
+// }
+
+// export default HomePage
+
+import React from 'react'
+import { Progress, Space } from 'antd'
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch('http://localhost:3000/api/countdown')
+  const data = await res.json()
+  // Pass data to the page via props
+  return { props: { data } }
+}
+
+function HomePage({ data: { diff, now, final } }) {
+  const percent = diff > 0 ? 0 : Math.abs(diff)
+  const options = { year: 'numeric', month: 'short', day: 'numeric' }
   return (
-    <div
-      style={{
-        height: '100vh',
-        color: 'black',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-      }}
-    >
-      HomePage
+    <div className="flex h-screen items-center justify-center">
+      <Space direction="vertical" align="center">
+        <Progress type="circle" percent={percent} format={(percent) => `${percent} Days`} />
+        <div>{`Now: ${new Date(now).toLocaleDateString('ru-RU', options)}`}</div>
+        <div>{`Final: ${new Date(final).toLocaleDateString('ru-RU', options)}`}</div>
+      </Space>
     </div>
   )
 }
