@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Vibur&display=swap');
+
+.shell {
+  background: var(--board-black);
+  font-family: 'Vibur', cursive;
+  user-select: none;
+  height: 100vh;
+}
+
+.shell :global .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shell :global .columns {
+  display: flex;
+}
+
+.shell :global .column {
+  margin: calc(var(--block-grid) / 2);
+  border: var(--board-borderWidth) solid #0ff0fc;
+  border-radius: var(--board-borderRadius);
+  background-color: #2a2f41;
+}
+
+.shell :global .column-title {
+  font-size: 40px;
+  color: var(--board-pink);
+  text-shadow: 0px 0px 2px var(--board-pinkDark), 0px 0px 15px rgba(255, 110, 255, 0.5);
+  text-align: center;
+  margin: 0;
+}
+
+.shell :global .column-title:hover {
+  text-shadow: 0px 0px 2px var(--board-pinkDark), 0px 0px 15px rgba(255, 110, 255, 0.8);
+}
+
+/* this has no visible impact, but is in line with the absolute position spacing.
+  doing this ensures that dropping into an empty list will be in the correct visual position */
+.shell :global .task-list {
+  padding-left: var(--block-grid);
+  padding-right: var(--block-grid);
+  scrollbar-color: dark;
+}
+
+.shell :global .task-list::-webkit-scrollbar {
+  width: 1em;
+}
+
+.shell :global .task-list::-webkit-scrollbar-track {
+  background-color: var(--board-greyLight);
+  border-radius: var(--board-borderRadius);
+}
+
+.shell :global .task-list::-webkit-scrollbar-thumb {
+  background-color: var(--board-pink);
+}
+
+.item {
+  background: #333851;
+  border: var(--board-itemBorderWidth) solid mediumpurple;
+  box-sizing: border-box;
+  border-radius: var(--board-itemBorderRadius);
+  color: #cdd5ee;
+  font-size: 30px;
+  user-select: none;
+  font-family: 'Vibur', cursive;
+}
+
+/* center align text */
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item__is-dragging {
+  background: #515b7d;
+  border-color: #08ff08;
+  box-shadow: 0px 0px 2px rgb(8, 58, 30), 0px 0px 10px MediumSeaGreen;
+}

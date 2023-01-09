@@ -250,6 +250,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] ` ``` ` в тексте редактора - переключение на режим блока кода (как в CodeMirror и SlateJS)
 - [ ] React-intl
   - https://kramarenko.medium.com/react-i18n-%D0%BF%D0%BE%D1%88%D0%B0%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5-%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-react-intl-14fc004ce9cc
+- [ ] Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
 
 ## Что нового (для меня) про вёрстку
 
