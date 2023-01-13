@@ -21,7 +21,7 @@ if (CAN_USE_DOM) {
 // Generate our initial big data set
 const initial = Array.from({ length: 1000 }, (_, k) => ({
   id: `id:${k}`,
-  text: `item ${k} ` + generateSentence,
+  text: `item ${k} ` + generateSentence(),
 }))
 
 function reorder(list, startIndex, endIndex) {

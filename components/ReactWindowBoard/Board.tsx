@@ -1,11 +1,24 @@
 import React, { useState, useLayoutEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
-import { FixedSizeList, areEqual } from 'react-window'
+import { VariableSizeList, areEqual } from 'react-window'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import getInitialData from './getInitialData'
 import styles from './Board.module.css'
+// import { useIsMounted } from 'usehooks-ts'
+import useHasMounted from '.../utils/useHasMounted'
+
+// TODO: resize-observer-polyfill /
+// import AutoSizer from "react-virtualized-auto-sizer";
+
+// TODO: https://stackoverflow.com/questions/5680013/how-to-be-notified-once-a-web-font-has-loaded
+
+// TODO: fontfaceobserver
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const GRID = 8
+
+let _listRef
 
 function getItemStyle({ draggableStyle, virtualStyle, isDragging }) {
   // If you don't want any spacing between your items
@@ -66,7 +79,7 @@ const Row = React.memo(function Row(props) {
   if (!item) {
     return null
   }
-  console.log(style)
+  // console.log(style)
   return (
     <Draggable draggableId={item.id} index={index} key={item.id}>
       {(provided) => <Item provided={provided} item={item} style={style} />}
@@ -74,7 +87,7 @@ const Row = React.memo(function Row(props) {
   )
 }, areEqual)
 
-const ItemList = React.memo(function ItemList({ column, index }) {
+const ItemList = React.memo(function ItemList({ column, index, getListRef }) {
   // There is an issue I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
   // I should raise an issue for this.
@@ -87,6 +100,29 @@ const ItemList = React.memo(function ItemList({ column, index }) {
       list.scrollTo(0)
     }
   }, [index])
+  React.useEffect(() => {
+    // getListRef(listRef)
+    _listRef = listRef
+    // listRef.current.resetAfterIndex(0)
+  }, [])
+  // const sizeMap = React.useRef<{ [key: string]: number }>({})
+  const getSize = (index) => {
+    const dummy = document.getElementById('dummy')
+    const item = column.items[index]
+    dummy.innerText = item.text
+    const rect = dummy.getBoundingClientRect()
+    return rect.height
+    // return sizeMap.current[index] || 0
+  }
+  // Increases accuracy by calculating an average row height
+  // Fixes the scrollbar behaviour described here: https://github.com/bvaughn/react-window/issues/408
+  const calcEstimatedSize = React.useCallback(() => {
+    console.log('calcEstimatedSize')
+    return 100
+    // const keys = Object.keys(sizeMap.current)
+    // const estimatedHeight = keys.reduce((p, i) => p + sizeMap.current[i], 0)
+    // return estimatedHeight / keys.length
+  }, [])
   return (
     <Droppable
       droppableId={column.id}
@@ -107,25 +143,28 @@ const ItemList = React.memo(function ItemList({ column, index }) {
           ? column.items.length + 1
           : column.items.length
         return (
-          <FixedSizeList
+          <VariableSizeList
             height={500}
             itemCount={itemCount}
-            itemSize={80}
+            itemSize={getSize}
             width={300}
             outerRef={provided.innerRef}
             itemData={column.items}
             className="task-list"
             ref={listRef}
+            overscanCount={4}
+            // See notes at calcEstimatedSize
+            estimatedItemSize={calcEstimatedSize()}
           >
             {Row}
-          </FixedSizeList>
+          </VariableSizeList>
         )
       }}
     </Droppable>
   )
 })
 
-const Column = React.memo(function Column({ column, index }) {
+const Column = React.memo(function Column({ column, index, getListRef }) {
   return (
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
@@ -133,7 +172,7 @@ const Column = React.memo(function Column({ column, index }) {
           <h3 className="column-title" {...provided.dragHandleProps}>
             {column.title}
           </h3>
-          <ItemList column={column} index={index} />
+          <ItemList column={column} index={index} getListRef={getListRef} />
         </div>
       )}
     </Draggable>
@@ -181,6 +220,8 @@ function Board() {
         },
       }
       setState(newState)
+      _listRef.current.resetAfterIndex(0)
+      // _listRef.current.resetAfterIndex(Math.min([result.source.index, result.destination.index]))
       return
     }
 
@@ -212,38 +253,78 @@ function Board() {
         [newDestinationColumn.id]: newDestinationColumn,
       },
     }
-
     setState(newState)
   }
 
+  const getListRef = (listRef) => {
+    _listRef = listRef
+  }
+
+  const hasMounted = useHasMounted()
+
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        className={styles.shell}
-        style={{
-          '--block-grid': `${GRID}px`,
-          '--board-pink': '#fd3afd',
-          '--board-pinkDark': '#690169',
-          '--board-greyLight': '#515b7d',
-          '--board-black': '#1d212e',
-          '--board-borderWidth': '4px',
-          '--board-borderRadius': '8px',
-        }}
-      >
-        <div className="container">
-          <Droppable droppableId="all-droppables" direction="horizontal" type="column">
-            {(provided) => (
-              <div className="columns" {...provided.droppableProps} ref={provided.innerRef}>
-                {state.columnOrder.map((columnId, index) => (
-                  <Column key={columnId} column={state.columns[columnId]} index={index} />
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+    hasMounted && (
+      <>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            // display: 'block',
+            width: 262 + 4 + 4,
+            zIndex: -10000,
+          }}
+        >
+          <div
+            id="dummy"
+            style={{
+              width: '100%',
+              // display: 'inline-block',
+              // height: 0,
+              // clear: 'both',
+              // content: '',
+              // display: 'block',
+              '--board-itemBorderWidth': '4px',
+              '--board-itemBorderRadius': '8px',
+            }}
+            className={styles.item}
+          ></div>
         </div>
-      </div>
-    </DragDropContext>
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div
+            className={styles.shell}
+            style={{
+              '--block-grid': `${GRID}px`,
+              '--board-pink': '#fd3afd',
+              '--board-pinkDark': '#690169',
+              '--board-greyLight': '#515b7d',
+              '--board-black': '#1d212e',
+              '--board-borderWidth': '4px',
+              '--board-borderRadius': '8px',
+            }}
+          >
+            <div className="container">
+              <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+                {(provided) => (
+                  <div className="columns" {...provided.droppableProps} ref={provided.innerRef}>
+                    {state.columnOrder.map((columnId, index) => (
+                      <Column
+                        key={columnId}
+                        column={state.columns[columnId]}
+                        index={index}
+                        getListRef={getListRef}
+                      />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          </div>
+        </DragDropContext>
+      </>
+    )
   )
 }
 

@@ -6,7 +6,7 @@ const lorem = new LoremIpsum({
     min: 4,
   },
   wordsPerSentence: {
-    max: 16,
+    max: 8,
     min: 4,
   },
 })

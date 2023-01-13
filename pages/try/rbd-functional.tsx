@@ -2,32 +2,15 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import type { Quote as QuoteType } from '../types'
 import { resetServerContext } from 'react-beautiful-dnd'
-
-import { LoremIpsum } from 'lorem-ipsum'
-
-const lorem = new LoremIpsum({
-  sentencesPerParagraph: {
-    max: 8,
-    min: 4,
-  },
-  wordsPerSentence: {
-    max: 16,
-    min: 4,
-  },
-})
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max)
-}
+import generateSentence from '.../utils/generateSentence'
 
 export const getServerSideProps = async ({ query }) => {
   resetServerContext()
-  const initial = Array.from({ length: 100 }, (v, k) => k).map((k) => {
+  const initial = Array.from({ length: 500 }, (v, k) => k).map((k) => {
     const custom: Quote = {
       id: `id-${k}`,
-      content: `Quote ${k} ` + lorem.generateWords(getRandomInt(5)),
+      content: `Quote ${k} ` + generateSentence(),
     }
 
     return custom
@@ -68,9 +51,7 @@ function Quote({ quote, index }) {
 }
 
 const QuoteList = React.memo(function QuoteList({ quotes }) {
-  return quotes.map((quote: QuoteType, index: number) => (
-    <Quote quote={quote} index={index} key={quote.id} />
-  ))
+  return quotes.map((quote, index) => <Quote quote={quote} index={index} key={quote.id} />)
 })
 
 function TryRBDFunctionalPage({ initial }) {
