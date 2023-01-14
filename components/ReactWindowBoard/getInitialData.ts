@@ -16,16 +16,16 @@ const initial = {
     'column-0': {
       id: 'column-0',
       title: 'First column',
+      items: getItems(3),
+    },
+    'column-1': {
+      id: 'column-1',
+      title: 'Second column',
       items: getItems(1000),
     },
-    // 'column-1': {
-    //   id: 'column-1',
-    //   title: 'Second column',
-    //   items: getItems(1000),
-    // },
   },
-  columnOrder: ['column-0'],
-  // columnOrder: ['column-0', 'column-1'],
+  // columnOrder: ['column-0'],
+  columnOrder: ['column-0', 'column-1'],
 }
 
 export default function getInitialData() {

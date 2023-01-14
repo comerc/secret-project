@@ -1,30 +1,34 @@
-@import url('https://fonts.googleapis.com/css?family=Vibur&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Vibur&display=swap'); */
 
 .shell {
   background: var(--board-black);
   /* font-family: 'Vibur', cursive; */
   user-select: none;
   height: 100vh;
+  overflow-y: hidden;
 }
 
-.shell :global .container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
 }
 
-.shell :global .columns {
+.columns {
   display: flex;
 }
 
-.shell :global .column {
+.column {
   margin: calc(var(--block-grid) / 2);
-  border: var(--board-borderWidth) solid #0ff0fc;
+  border: 4px solid #0ff0fc;
   border-radius: var(--board-borderRadius);
   background-color: #2a2f41;
+  position: relative;
+  height: 100%;
 }
 
-.shell :global .column-title {
+.column-title {
   font-size: 30px;
   color: var(--board-pink);
   text-shadow: 0px 0px 2px var(--board-pinkDark), 0px 0px 15px rgba(255, 110, 255, 0.5);
@@ -32,36 +36,38 @@
   margin: 0;
 }
 
-.shell :global .column-title:hover {
+.column-title:hover {
   text-shadow: 0px 0px 2px var(--board-pinkDark), 0px 0px 15px rgba(255, 110, 255, 0.8);
 }
 
 /* this has no visible impact, but is in line with the absolute position spacing.
   doing this ensures that dropping into an empty list will be in the correct visual position */
-.shell :global .task-list {
+.task-list {
   padding-left: var(--block-grid);
   padding-right: var(--block-grid);
   scrollbar-color: dark;
+  overflow-y: scroll !important;
 }
 
-.shell :global .task-list::-webkit-scrollbar {
-  width: 1em;
+.task-list::-webkit-scrollbar {
+  width: var(--block-scrollbarWidth);
 }
 
-.shell :global .task-list::-webkit-scrollbar-track {
+.task-list::-webkit-scrollbar-track {
   background-color: var(--board-greyLight);
   border-radius: var(--board-borderRadius);
 }
 
-.shell :global .task-list::-webkit-scrollbar-thumb {
+.task-list::-webkit-scrollbar-thumb {
   background-color: var(--board-pink);
+  border-radius: var(--board-borderRadius);
 }
 
 .item {
   background: #333851;
-  border: var(--board-itemBorderWidth) solid mediumpurple;
+  border: 4px solid mediumpurple;
   box-sizing: border-box;
-  border-radius: var(--board-itemBorderRadius);
+  border-radius: 8px;
   color: #cdd5ee;
   font-size: 20px;
   user-select: none;
@@ -71,7 +77,7 @@
 /* center align text */
 .item {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 }
 
@@ -80,3 +86,26 @@
   border-color: #08ff08;
   box-shadow: 0px 0px 2px rgb(8, 58, 30), 0px 0px 10px MediumSeaGreen;
 }
+
+.column :global button {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* .shell :global .task-list {
+  mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 1em, black 1em);
+  mask-size: 100% 200000px;
+  mask-position: left bottom;
+  -webkit-mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 1em, black 1em);
+  -webkit-mask-size: 100% 200000px;
+  -webkit-mask-position: left bottom;
+  transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+} */
+
+/* .shell :global .task-list:hover {
+  -webkit-mask-position: left top;
+} */

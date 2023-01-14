@@ -1,3 +1,3 @@
-import Board from './_Board'
+import Board from './Board'
 
 export default Board

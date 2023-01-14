@@ -27,7 +27,7 @@ const Board = ({ issues }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       {/* <React.StrictMode> */}
       <div className="h-screen w-full rounded bg-gray-50 p-6 antialiased">
-        <div className="h-full w-full overflow-hidden rounded shadow">
+        <div className="h-full w-full overflow-hidden shadow">
           <List issues={state.issues} />
         </div>
       </div>

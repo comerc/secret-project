@@ -46,6 +46,7 @@
     "jose": "^4.11.1",
     "lexical": "^0.7.5",
     "lorem-ipsum": "^2.0.8",
+    "memoize-one": "^6.0.0",
     "next": "latest",
     "next-auth": "latest",
     "next-auth-hasura-adapter": "^1.0.4",
