@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix RBD */
+body {
+  overflow-y: hidden; /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
+}
+
 /* Lexical */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;

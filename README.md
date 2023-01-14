@@ -267,6 +267,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://css-tricks.com/scrollbars-on-hover/
 - [ ] Memoization
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
+  - https://www.npmjs.com/package/use-memo-one
 
 ## Что нового (для меня) про вёрстку
 

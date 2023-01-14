@@ -1,11 +1,12 @@
 import React, { useState, useLayoutEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { VariableSizeList, areEqual } from 'react-window'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import getInitialData from './getInitialData'
 import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import useFontFaceObserver from 'use-font-face-observer'
 
 // TODO: https://stackoverflow.com/questions/5680013/how-to-be-notified-once-a-web-font-has-loaded
 // TODO: fontfaceobserver
@@ -13,6 +14,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 
 const GRID = 8
 const WIDTH = 300
+const FONT_FAMILY = 'Vibur'
 const _listRefMap = {}
 let _cloneSize = 0
 
@@ -32,6 +34,7 @@ function getItemStyle({ draggableStyle, virtualStyle, isDragging }) {
     left: isDragging ? combined.left : combined.left + GRID,
     width: isDragging ? draggableStyle.width : `calc(${combined.width} - ${GRID * 2}px)`,
     marginBottom: GRID,
+    '--item-fontFamily': FONT_FAMILY,
   }
   return result
 }
@@ -138,10 +141,9 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
         const itemCount = snapshot.isUsingPlaceholder
           ? column.items.length + 1
           : column.items.length
-
         return (
           <VariableSizeList
-            height={height - 70}
+            height={height - 80}
             itemCount={itemCount}
             itemSize={getSize}
             width={WIDTH}
@@ -169,7 +171,6 @@ const Column = React.memo(function Column({ column, index, height }) {
           <h3 className={styles['column-title']} {...provided.dragHandleProps}>
             {column.title}
           </h3>
-          <button onClick={() => _listRefMap[column.id].current.resetAfterIndex(0)}>RESET</button>
           <ItemList column={column} index={index} height={height} />
         </div>
       )}
@@ -258,6 +259,10 @@ function Board() {
 
   const hasMounted = useHasMounted()
 
+  const isFontListLoaded = useFontFaceObserver([{ family: FONT_FAMILY }])
+
+  // console.log('isFontListLoaded', isFontListLoaded)
+
   return (
     <div
       className={styles.shell}
@@ -269,6 +274,7 @@ function Board() {
         '--board-black': '#1d212e',
         '--board-borderRadius': '4px',
         '--block-scrollbarWidth': '0px', // TODO: hover scrollbar
+        '--block-fontFamily': FONT_FAMILY,
       }}
     >
       <div
@@ -289,7 +295,7 @@ function Board() {
           className={styles.item}
         ></div>
       </div>
-      {hasMounted && (
+      {hasMounted && isFontListLoaded && (
         <DragDropContext onDragEnd={onDragEnd}>
           <AutoSizer>
             {({ height, width }) => (

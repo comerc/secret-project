@@ -2,7 +2,7 @@
 const nextConfig = {
   // reactStrictMode: true, -- removed because of the "bug" in react-beautiful-dnd
   // but added React.StrictMode inside the DragDropContext
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
 }
 
