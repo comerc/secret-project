@@ -8,10 +8,6 @@ import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
 
-// TODO: https://stackoverflow.com/questions/5680013/how-to-be-notified-once-a-web-font-has-loaded
-// TODO: fontfaceobserver
-// https://github.com/iamskok/use-font-face-observer
-
 const GRID = 8
 const WIDTH = 300
 const FONT_FAMILY = 'Vibur'
