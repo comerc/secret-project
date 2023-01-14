@@ -268,6 +268,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Memoization
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
   - https://www.npmjs.com/package/use-memo-one
+- [ ] react-beautiful-dnd-custom-placeholder
+  - https://codesandbox.io/s/react-beautiful-dnd-custom-placeholder-2lmf1
 
 ## Что нового (для меня) про вёрстку
 
