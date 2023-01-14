@@ -8,10 +8,8 @@ import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
 // TODO: https://stackoverflow.com/questions/5680013/how-to-be-notified-once-a-web-font-has-loaded
-
 // TODO: fontfaceobserver
-
-// TODO: react-custom-scroll
+// https://github.com/iamskok/use-font-face-observer
 
 const GRID = 8
 const WIDTH = 300

@@ -93,19 +93,3 @@
   right: 0;
   top: 0;
 }
-
-/* .shell :global .task-list {
-  mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 1em, black 1em);
-  mask-size: 100% 200000px;
-  mask-position: left bottom;
-  -webkit-mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 1em, black 1em);
-  -webkit-mask-size: 100% 200000px;
-  -webkit-mask-position: left bottom;
-  transition: mask-position 0.3s, -webkit-mask-position 0.3s;
-} */
-
-/* .shell :global .task-list:hover {
-  -webkit-mask-position: left top;
-} */

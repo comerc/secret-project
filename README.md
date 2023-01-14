@@ -258,6 +258,15 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
   - https://codepen.io/kc3svj/pen/MWVPQXz
 - [ ] Ant Design Modal padding-right / scrollbar-gutter: stable;
+- [ ] TreeView via react-window
+  - https://codesandbox.io/s/a-quick-react-tree-component-based-on-react-window-tyxnm
+  - https://lodin.github.io/react-vtree/
+- [ ] Custom Scrollbar
+  - https://levelup.gitconnected.com/build-on-hover-custom-scrollbar-in-react-d846194a7ea4
+  - https://github.com/hkurra/react-on-hover-scrollbar
+  - https://css-tricks.com/scrollbars-on-hover/
+- [ ] Memoization
+  - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
 
 ## Что нового (для меня) про вёрстку
 
