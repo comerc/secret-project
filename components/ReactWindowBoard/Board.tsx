@@ -7,13 +7,11 @@ import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
+import { nanoid } from 'nanoid'
 
 // TODO: мигает курсор стрелки
 // TODO: escape from multidrag example
 // TODO: Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
-// TODO: добавление карточек
-// TODO: удаление карточек
-// TODO: редактирование карточек
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
 const GRID = 8
@@ -21,6 +19,8 @@ const WIDTH = 300
 const FONT_FAMILY = 'Vibur'
 const _listRefMap = {}
 let _cloneSize = 0
+
+const BoardContext = React.createContext({})
 
 function getItemStyle({ draggableStyle, virtualStyle, isDragging }) {
   // If you don't want any spacing between your items
@@ -51,6 +51,7 @@ function reorderList(list, startIndex, endIndex) {
 }
 
 function Item({ provided, item, style, isDragging }) {
+  const { onDeleteItem } = React.useContext(BoardContext)
   return (
     <div
       {...provided.draggableProps}
@@ -64,6 +65,7 @@ function Item({ provided, item, style, isDragging }) {
       className={`${styles.item} ${isDragging ? styles['item__is-dragging'] : ''}`}
     >
       {item.text}
+      <button onClick={onDeleteItem(item.columnId, item.id)}>x</button>
     </div>
   )
 }
@@ -168,6 +170,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
 })
 
 const Column = React.memo(function Column({ column, index, height }) {
+  const { onAddItem } = React.useContext(BoardContext)
   return (
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
@@ -175,6 +178,7 @@ const Column = React.memo(function Column({ column, index, height }) {
           <h3 className={styles['column-title']} {...provided.dragHandleProps}>
             {column.title}
           </h3>
+          <button onClick={onAddItem(column.id)}>+</button>
           <ItemList column={column} index={index} height={height} />
         </div>
       )}
@@ -246,7 +250,10 @@ function Board() {
       items: [...destinationColumn.items],
     }
     // in line modification of items
-    newDestinationColumn.items.splice(result.destination.index, 0, item)
+    newDestinationColumn.items.splice(result.destination.index, 0, {
+      ...item,
+      columnId: destinationColumn.id,
+    })
 
     const newState = {
       ...state,
@@ -265,7 +272,43 @@ function Board() {
 
   const isFontListLoaded = useFontFaceObserver([{ family: FONT_FAMILY }])
 
-  // console.log('isFontListLoaded', isFontListLoaded)
+  const onAddItem = (columnId) => () => {
+    let text = prompt('Please enter title')
+    const column = state.columns[columnId]
+    const items = column.items
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [column.id]: {
+          ...column,
+          items: [{ id: nanoid(), text, columnId }, ...items],
+        },
+      },
+    }
+    setState(newState)
+    _listRefMap[column.id].current.resetAfterIndex(0)
+  }
+
+  const onDeleteItem = (columnId, itemId) => () => {
+    const column = state.columns[columnId]
+    const items = column.items
+    const index = items.findIndex((item) => item.id == itemId)
+    const newColumn = {
+      ...column,
+      items: [...column.items],
+    }
+    newColumn.items.splice(index, 1)
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [columnId]: newColumn,
+      },
+    }
+    setState(newState)
+    _listRefMap[column.id].current.resetAfterIndex(index)
+  }
 
   return (
     <div
@@ -300,33 +343,35 @@ function Board() {
         ></div>
       </div>
       {hasMounted && isFontListLoaded && (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <AutoSizer>
-            {({ height, width }) => (
-              <div className={styles.container}>
-                <Droppable droppableId="all-droppables" direction="horizontal" type="column">
-                  {(provided) => (
-                    <div
-                      className={styles.columns}
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {state.columnOrder.map((columnId, index) => (
-                        <Column
-                          key={columnId}
-                          column={state.columns[columnId]}
-                          index={index}
-                          height={height}
-                        />
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            )}
-          </AutoSizer>
-        </DragDropContext>
+        <BoardContext.Provider value={{ onAddItem, onDeleteItem }}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <AutoSizer>
+              {({ height, width }) => (
+                <div className={styles.container}>
+                  <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+                    {(provided) => (
+                      <div
+                        className={styles.columns}
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {state.columnOrder.map((columnId, index) => (
+                          <Column
+                            key={columnId}
+                            column={state.columns[columnId]}
+                            index={index}
+                            height={height}
+                          />
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              )}
+            </AutoSizer>
+          </DragDropContext>
+        </BoardContext.Provider>
       )}
     </div>
   )

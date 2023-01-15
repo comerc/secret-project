@@ -187,8 +187,17 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] ` ``` ` в тексте редактора - переключение на режим блока кода (как в CodeMirror и SlateJS)
 - [ ] Investigate vercel/commerce
 - [ ] Setup vercel/turbo?
-- [ ] Investigate vercel/swr VIA apollo/client (optimistic update?)
+- [ ] Investigate vercel/swr || apollo/client || react-query (optimistic update?)
   - https://github.com/praveenweb/swr-graphql
+  - https://tanstack.com/query/latest/docs/react/comparison
+  - https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
+  - https://www.apollographql.com/docs/react/v2/performance/optimistic-ui/
+- [ ] GraphQL subscriptions
+  - https://github.com/vercel/swr/discussions/116#discussioncomment-198505
+  - https://github.com/apollographql/graphql-subscriptions
+  - https://github.com/praveenweb/swr-graphql/blob/master/pages/subscriptions.js
+- [ ] GraphQL offline
+  - https://codeburst.io/highly-functional-offline-applications-using-apollo-client-12885bd5f335
 - [ ] Admin Panel
 - [ ] Temporal & GoLang
 - [ ] Tab in GoLang - yes! gofiber
