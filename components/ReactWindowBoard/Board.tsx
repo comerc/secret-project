@@ -8,6 +8,14 @@ import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
 
+// TODO: мигает курсор стрелки
+// TODO: escape from multidrag example
+// TODO: Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
+// TODO: добавление карточек
+// TODO: удаление карточек
+// TODO: редактирование карточек
+// TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
+
 const GRID = 8
 const WIDTH = 300
 const FONT_FAMILY = 'Vibur'

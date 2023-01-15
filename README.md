@@ -114,23 +114,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://haydenbleasel.com/blog/using-clsx-tailwind-composition
   - https://heroicons.com/
 - [x] CSS-In-JS: Emotion? - nope
-- [ ] Investigate vercel/commerce
-- [ ] Setup vercel/turbo?
-- [ ] Investigate vercel/swr VIA apollo/client (optimistic update?)
-  - https://github.com/praveenweb/swr-graphql
-- [ ] Admin Panel
-- [ ] Temporal & GoLang
-- [ ] Tab in GoLang - yes! gofiber
-- [ ] monorepo as Turborepo by Vercel
-- [ ] .editorconfig
-- [ ] husky?
-- [ ] pnpm VS npm
-- [ ] pnpm-workspaces
-  - https://blog.nrwl.io/setup-a-monorepo-with-pnpm-workspaces-and-speed-it-up-with-nx-bc5d97258a7e#5982
-  - убрать workaround в tsconfig.json "shared/_": ["packages/shared/src/_"]
-- [ ] react-dnd (focalboard) or react-beautiful-dnd or dnd-kit (liveblocks)
+- [x] react-dnd (focalboard) or react-beautiful-dnd or dnd-kit (liveblocks)
   - https://github.com/alexreardon/drag-and-drop-performance-comparison
-- [ ] react-beautiful-dnd toolschain
+- [x] react-beautiful-dnd toolschain
   - react-window
   - escape from multidrag example
   - board > scrollable collumns
@@ -138,15 +124,13 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - functional components
     - https://codesandbox.io/s/-w5szl?file=/src/index.js
   - tables
-  - мигает курсор стрелки
-    - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
   - https://github.com/abeaudoin2013/react-beautiful-dnd-multi-list-typescript-example
   - https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
   - https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
   - https://egghead.io/lessons/react-create-reorderable-horizontal-lists-with-react-beautiful-dnd-direction-prop
   - https://egghead.io/lessons/react-optimize-performance-in-react-beautiful-dnd-with-shouldcomponentupdate-and-purecomponent
   - https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd
-- [ ] quill or prosemirror or slatejs or editorjs.io
+- [x] quill or prosemirror or slatejs or editorjs.io
   - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
   - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
   - https://www.tiny.cloud/blog/migrate-from-slatejs-to-tinymce/
@@ -156,7 +140,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/haydenbleasel/compass-lexical
   - https://codesandbox.io/examples/package/lexical
   - https://codesandbox.io/s/lexical-markdown-plugin-example-4076jq
-- [ ] yjs vs automerge
+- [-] yjs vs automerge
   - https://www.slatecollaborate.com
   - https://tiptap.dev/hocuspocus
   - https://github.com/BitPhinix/slate-yjs/
@@ -171,9 +155,50 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/facebook/lexical/issues/2696
   - https://github.com/facebook/lexical/issues/3113
   - https://github.com/facebook/lexical/issues/3172
-- [ ] tiptap.dev + mantine.dev
-- [ ] ClientOnly & useQuery
+- [-] tiptap.dev + mantine.dev
+- [x] ClientOnly & useQuery
   - https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
+- [x] Продукты, которые перекрывают сегменты Knowledge Base <> Communications (без Work)
+  - https://www.questionbase.com/
+- [x] Продукты, которые перекрывают сегменты Work <> Communications (без Knowledge Base)
+  - https://tada.team
+  - https://focalboard.com (коммуникации в комментах + mattermost)
+  - https://openproject.org (коммуникации в комментах + forum)
+  - https://asana.com
+- [x] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
+  - https://fibery.io (1.0)
+  - https://monday.com (коммуникации только в комментах)
+- [x] Продукты, которые перекрывают сегменты Work <> Communications <> Knowledge Base
+  - https://clickup.com
+- [x] Продукты, которые только про сегмент Work (без Communications и Knowledge Base)
+  - https://airtable.com
+  - https://trello.com (коммуникации только в комментах)
+  - https://smartsheet.com (коммуникации только в комментах)
+  - https://height.app (коммуникации только в комментах)
+  - https://linear.app (коммуникации только в комментах)
+- [x] Notion Alternatives
+  - https://monday.com/lang/ru/workdocs
+- [x] Как выдать сообщение в консоль Хрома (как Linear)
+- [ ] Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
+  - https://codepen.io/kc3svj/pen/MWVPQXz
+- [ ] RBD - мигает курсор стрелки
+  - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
+- [ ] Оценить интерфейсы Trello
+- [ ] ` ``` ` в тексте редактора - переключение на режим блока кода (как в CodeMirror и SlateJS)
+- [ ] Investigate vercel/commerce
+- [ ] Setup vercel/turbo?
+- [ ] Investigate vercel/swr VIA apollo/client (optimistic update?)
+  - https://github.com/praveenweb/swr-graphql
+- [ ] Admin Panel
+- [ ] Temporal & GoLang
+- [ ] Tab in GoLang - yes! gofiber
+- [ ] monorepo as Turborepo by Vercel
+- [ ] .editorconfig
+- [ ] husky?
+- [ ] pnpm VS npm
+- [ ] pnpm-workspaces
+  - https://blog.nrwl.io/setup-a-monorepo-with-pnpm-workspaces-and-speed-it-up-with-nx-bc5d97258a7e#5982
+  - убрать workaround в tsconfig.json "shared/_": ["packages/shared/src/_"]
 - [ ] Image
   - https://www.youtube.com/watch?v=2U7yZ3wvFBM
 - [ ] Reack Hooks
@@ -218,45 +243,19 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://mdxjs.com/docs/using-mdx/#mdx-provider
 - [ ] Исследовать встроенный чат в ClickUp
 - [ ] Исследовать встроенный чат в tada.team
-- [ ] Оценить интерфейсы Trello
-- [ ] Open Source Alternative
+- [ ] as Open Source Alternative
   - https://www.producthunt.com/products/erxes
-- [ ] Продукты, которые перекрывают сегменты Knowledge Base <> Communications (без Work)
-  - https://www.questionbase.com/
-- [ ] Продукты, которые перекрывают сегменты Work <> Communications (без Knowledge Base)
-  - https://tada.team
-  - https://focalboard.com (коммуникации в комментах + mattermost)
-  - https://openproject.org (коммуникации в комментах + forum)
-  - https://asana.com
-- [ ] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
-  - https://fibery.io (1.0)
-  - https://monday.com (коммуникации только в комментах)
-- [ ] Продукты, которые перекрывают сегменты Work <> Communications <> Knowledge Base
-  - https://clickup.com
-- [ ] Продукты, которые только про сегмент Work (без Communications и Knowledge Base)
-  - https://airtable.com
-  - https://trello.com (коммуникации только в комментах)
-  - https://smartsheet.com (коммуникации только в комментах)
-  - https://height.app (коммуникации только в комментах)
-  - https://linear.app (коммуникации только в комментах)
-- [ ] Notion Alternatives
-  - https://monday.com/lang/ru/workdocs
-  - https://www.focalboard.com
 - [ ] Интеграция с fullcalendar.io
 - [ ] Добавить в список open-source-alternatives
   - https://www.btw.so/open-source-alternatives
 - [ ] Как спрятать от Wappalyzer (как Linear)
-- [ ] Как выдать сообщение в консоль Хрома (как Linear)
 - [ ] Search Engine
   - https://github.com/meilisearch/MeiliSearch
   - https://github.com/typesense/typesense
 - [ ] API Doc
   - https://docusaurus.io/
-- [ ] ` ``` ` в тексте редактора - переключение на режим блока кода (как в CodeMirror и SlateJS)
-- [ ] React-intl
+- [ ] react-intl-universal
   - https://kramarenko.medium.com/react-i18n-%D0%BF%D0%BE%D1%88%D0%B0%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5-%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-react-intl-14fc004ce9cc
-- [ ] Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
-  - https://codepen.io/kc3svj/pen/MWVPQXz
 - [ ] Ant Design Modal padding-right / scrollbar-gutter: stable;
 - [ ] TreeView via react-window
   - https://codesandbox.io/s/a-quick-react-tree-component-based-on-react-window-tyxnm
@@ -270,6 +269,10 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://www.npmjs.com/package/use-memo-one
 - [ ] react-beautiful-dnd-custom-placeholder
   - https://codesandbox.io/s/react-beautiful-dnd-custom-placeholder-2lmf1
+- [ ] Интеграция в mattermost
+  - https://github.com/mattermost/mattermost-server
+- [ ] Weblate - для переводов (подсмотрел на focalboard)
+  - https://weblate.org/ru/
 
 ## Что нового (для меня) про вёрстку
 
