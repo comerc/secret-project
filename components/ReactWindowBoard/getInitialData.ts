@@ -26,6 +26,7 @@ const initial = {
     },
   },
   columnOrder: ['column-0', 'column-1'],
+  selectedId: '',
 }
 
 export default function getInitialData() {

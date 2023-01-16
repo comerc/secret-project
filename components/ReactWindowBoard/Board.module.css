@@ -33,6 +33,7 @@
   text-shadow: 0px 0px 2px var(--board-pinkDark), 0px 0px 15px rgba(255, 110, 255, 0.5);
   text-align: center;
   margin: 0;
+  cursor: pointer !important;
 }
 
 .column-title:hover {
@@ -71,6 +72,7 @@
   font-size: 20px;
   user-select: none;
   font-family: var(--item-fontFamily), cursive;
+  cursor: pointer !important;
 }
 
 /* center align text */
@@ -80,10 +82,14 @@
   align-items: center;
 }
 
-.item__is-dragging {
+.item.is-dragging {
   background: #515b7d;
   border-color: #08ff08;
   box-shadow: 0px 0px 2px rgb(8, 58, 30), 0px 0px 10px MediumSeaGreen;
+}
+
+.item.is-selected {
+  background: red;
 }
 
 .column button {

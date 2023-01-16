@@ -8,10 +8,9 @@ import useHasMounted from '.../utils/useHasMounted'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
 import { nanoid } from 'nanoid'
+import cx from 'classnames'
 
-// TODO: мигает курсор стрелки
-// TODO: escape from multidrag example
-// TODO: Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
+// TODO: Навигация кнопками Left / Right от элемента под мышкой (как в Trello и Linear)
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
 const GRID = 8
@@ -51,9 +50,11 @@ function reorderList(list, startIndex, endIndex) {
 }
 
 function Item({ provided, item, style, isDragging }) {
-  const { onDeleteItem } = React.useContext(BoardContext)
+  const { onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed } =
+    React.useContext(BoardContext)
   return (
     <div
+      id={item.id}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       ref={provided.innerRef}
@@ -62,7 +63,23 @@ function Item({ provided, item, style, isDragging }) {
         virtualStyle: style,
         isDragging,
       })}
-      className={`${styles.item} ${isDragging ? styles['item__is-dragging'] : ''}`}
+      className={cx(styles.item, {
+        [styles['is-dragging']]: isDragging,
+        [styles['is-selected']]: isSelectedId(item.id),
+      })}
+      onMouseEnter={(event) => {
+        if (isArrowKeyPressed.current) {
+          return
+        }
+        const itemId = event.target.id
+        setSelectedId(itemId)
+      }}
+      onMouseLeave={(event) => {
+        if (isArrowKeyPressed.current) {
+          return
+        }
+        setSelectedId('')
+      }}
     >
       {item.text}
       <button onClick={onDeleteItem(item.columnId, item.id)}>x</button>
@@ -117,7 +134,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
   // Fixes the scrollbar behaviour described here: https://github.com/bvaughn/react-window/issues/408
   // const calcEstimatedSize = React.useCallback(() => {
   //   const keys = Object.keys(column.items)
-  //   if (keys.length == 0) {
+  //   if (keys.length === 0) {
   //     return 0
   //   }
   //   const estimatedHeight = keys.reduce((p, i) => p + getSize(i), 0)
@@ -293,7 +310,7 @@ function Board() {
   const onDeleteItem = (columnId, itemId) => () => {
     const column = state.columns[columnId]
     const items = column.items
-    const index = items.findIndex((item) => item.id == itemId)
+    const index = items.findIndex((item) => item.id === itemId)
     const newColumn = {
       ...column,
       items: [...column.items],
@@ -310,6 +327,58 @@ function Board() {
     _listRefMap[column.id].current.resetAfterIndex(index)
   }
 
+  const isSelectedId = (itemId) => itemId === state.selectedId
+
+  const setSelectedId = (selectedId) => {
+    const newState = { ...state, selectedId }
+    setState(newState)
+  }
+
+  const isArrowKeyPressed = React.useRef(false)
+
+  function onKeyDown(event) {
+    const cases = {
+      ArrowDown: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.items.findIndex((item) => item.id === state.selectedId)
+          if (index !== -1) {
+            if (column.items.length !== index + 1) {
+              const nextItem = column.items[index + 1]
+              setSelectedId(nextItem.id)
+              const element = document.getElementById(nextItem.id)
+              element.scrollIntoView(false) // TODO: портит курсор
+            }
+            break
+          }
+        }
+      },
+      ArrowUp: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.items.findIndex((item) => item.id === state.selectedId)
+          if (index !== -1) {
+            if (index > 0) {
+              const nextItem = column.items[index - 1]
+              setSelectedId(nextItem.id)
+              const element = document.getElementById(nextItem.id)
+              element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+            }
+            break
+          }
+        }
+      },
+    }
+    const fn = cases[event.code]
+    if (fn) {
+      fn()
+    }
+  }
+
+  function onKeyUp() {
+    isArrowKeyPressed.current = false
+  }
+
   return (
     <div
       className={styles.shell}
@@ -323,6 +392,9 @@ function Board() {
         '--block-scrollbarWidth': '0px', // TODO: hover scrollbar
         '--block-fontFamily': FONT_FAMILY,
       }}
+      tabIndex="-1" // for fire onKeyDown
+      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       <div
         className={styles['task-list']}
@@ -343,7 +415,9 @@ function Board() {
         ></div>
       </div>
       {hasMounted && isFontListLoaded && (
-        <BoardContext.Provider value={{ onAddItem, onDeleteItem }}>
+        <BoardContext.Provider
+          value={{ onAddItem, onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed }}
+        >
           <DragDropContext onDragEnd={onDragEnd}>
             <AutoSizer>
               {({ height, width }) => (
