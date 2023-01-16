@@ -115,6 +115,6 @@
   visibility: hidden;
 }
 
-.item:hover > button {
+.item.is-selected > button {
   visibility: visible;
 }

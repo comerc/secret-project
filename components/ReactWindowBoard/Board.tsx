@@ -65,7 +65,7 @@ function Item({ provided, item, style, isDragging }) {
       })}
       className={cx(styles.item, {
         [styles['is-dragging']]: isDragging,
-        [styles['is-selected']]: isSelectedId(item.id),
+        [styles['is-selected']]: !isDragging && isSelectedId(item.id),
       })}
       onMouseEnter={(event) => {
         if (isArrowKeyPressed.current) {
