@@ -282,6 +282,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/mattermost/mattermost-server
 - [ ] Weblate - для переводов (подсмотрел на focalboard)
   - https://weblate.org/ru/
+- [ ] Goodbye, useEffect
+  - https://www.youtube.com/watch?v=bGzanfKVFeU
+- [ ] Интеграция с Dendrite (по аналогии Mattermost)
 
 ## Что нового (для меня) про вёрстку
 
