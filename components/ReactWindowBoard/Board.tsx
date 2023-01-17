@@ -340,6 +340,15 @@ function Board() {
 
   const isArrowKeyPressed = React.useRef(false)
 
+  function selectFirstItem(columnId) {
+    const column = state.columns[columnId]
+    const item = column.items[0]
+    setSelectedId(item.id)
+    const listRef = _listRefMap[column.id]
+    const list = listRef.current
+    list.scrollTo(0)
+  }
+
   function onKeyDown(event) {
     const cases = {
       ArrowDown: () => {
@@ -382,11 +391,7 @@ function Board() {
             )
             if (columnOrderIndex > 0) {
               const columnId = state.columnOrder[columnOrderIndex - 1]
-              const column = state.columns[columnId]
-              const item = column.items[0]
-              setSelectedId(item.id)
-              const element = document.getElementById(item.id)
-              element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              selectFirstItem(columnId)
             }
             break
           }
@@ -402,11 +407,7 @@ function Board() {
             )
             if (columnOrderIndex + 1 !== state.columnOrder.length) {
               const columnId = state.columnOrder[columnOrderIndex + 1]
-              const column = state.columns[columnId]
-              const item = column.items[0]
-              setSelectedId(item.id)
-              const element = document.getElementById(item.id)
-              element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              selectFirstItem(columnId)
             }
             break
           }
@@ -418,11 +419,7 @@ function Board() {
       fn()
       if (state.selectedId === '') {
         const columnId = state.columnOrder[0]
-        const column = state.columns[columnId]
-        const item = column.items[0]
-        setSelectedId(item.id)
-        const element = document.getElementById(item.id)
-        element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+        selectFirstItem(columnId)
       }
     }
   }
