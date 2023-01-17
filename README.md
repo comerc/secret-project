@@ -118,7 +118,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/alexreardon/drag-and-drop-performance-comparison
 - [x] react-beautiful-dnd toolschain
   - react-window
-  - escape from multidrag example
   - board > scrollable collumns
   - board > dragging a clone
   - functional components
@@ -285,6 +284,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Goodbye, useEffect
   - https://www.youtube.com/watch?v=bGzanfKVFeU
 - [ ] Интеграция с Dendrite (по аналогии Mattermost)
+- [ ] Board multidrag (like Linear)
 
 ## Что нового (для меня) про вёрстку
 

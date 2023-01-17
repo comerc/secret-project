@@ -10,7 +10,6 @@ import useFontFaceObserver from 'use-font-face-observer'
 import { nanoid } from 'nanoid'
 import cx from 'classnames'
 
-// TODO: Навигация кнопками Left / Right от элемента под мышкой (как в Trello и Linear)
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
 const GRID = 8
@@ -206,6 +205,11 @@ const Column = React.memo(function Column({ column, index, height }) {
 function Board() {
   const [state, setState] = useState(() => getInitialData())
 
+  React.useLayoutEffect(() => {
+    const element = document.getElementById('board')
+    element.focus()
+  }, [])
+
   function onDragEnd(result) {
     if (!result.destination) {
       return
@@ -344,9 +348,9 @@ function Board() {
           const index = column.items.findIndex((item) => item.id === state.selectedId)
           if (index !== -1) {
             if (column.items.length !== index + 1) {
-              const nextItem = column.items[index + 1]
-              setSelectedId(nextItem.id)
-              const element = document.getElementById(nextItem.id)
+              const item = column.items[index + 1]
+              setSelectedId(item.id)
+              const element = document.getElementById(item.id)
               element.scrollIntoView(false) // TODO: портит курсор
             }
             break
@@ -359,9 +363,49 @@ function Board() {
           const index = column.items.findIndex((item) => item.id === state.selectedId)
           if (index !== -1) {
             if (index > 0) {
-              const nextItem = column.items[index - 1]
-              setSelectedId(nextItem.id)
-              const element = document.getElementById(nextItem.id)
+              const item = column.items[index - 1]
+              setSelectedId(item.id)
+              const element = document.getElementById(item.id)
+              element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+            }
+            break
+          }
+        }
+      },
+      ArrowLeft: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.items.findIndex((item) => item.id === state.selectedId)
+          if (index !== -1) {
+            const columnOrderIndex = state.columnOrder.findIndex(
+              (columnId) => columnId === column.id,
+            )
+            if (columnOrderIndex > 0) {
+              const columnId = state.columnOrder[columnOrderIndex - 1]
+              const column = state.columns[columnId]
+              const item = column.items[0]
+              setSelectedId(item.id)
+              const element = document.getElementById(item.id)
+              element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+            }
+            break
+          }
+        }
+      },
+      ArrowRight: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.items.findIndex((item) => item.id === state.selectedId)
+          if (index !== -1) {
+            const columnOrderIndex = state.columnOrder.findIndex(
+              (columnId) => columnId === column.id,
+            )
+            if (columnOrderIndex + 1 !== state.columnOrder.length) {
+              const columnId = state.columnOrder[columnOrderIndex + 1]
+              const column = state.columns[columnId]
+              const item = column.items[0]
+              setSelectedId(item.id)
+              const element = document.getElementById(item.id)
               element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
             }
             break
@@ -372,6 +416,14 @@ function Board() {
     const fn = cases[event.code]
     if (fn) {
       fn()
+      if (state.selectedId === '') {
+        const columnId = state.columnOrder[0]
+        const column = state.columns[columnId]
+        const item = column.items[0]
+        setSelectedId(item.id)
+        const element = document.getElementById(item.id)
+        element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+      }
     }
   }
 
@@ -381,6 +433,7 @@ function Board() {
 
   return (
     <div
+      id="board"
       className={styles.shell}
       style={{
         '--block-grid': `${GRID}px`,
