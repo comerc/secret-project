@@ -175,7 +175,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
           : column.items.length
         return (
           <VariableSizeList
-            height={height - 80}
+            height={height - 70} // TODO: высчитывать точно высоту, учитывая скрол
             itemCount={itemCount}
             itemSize={getSize}
             width={WIDTH}
@@ -518,7 +518,7 @@ function Board() {
         >
           <DragDropContext onDragEnd={onDragEnd}>
             <AutoSizer>
-              {({ height, width }) => (
+              {({ height }) => (
                 <div className={styles.container}>
                   <Droppable droppableId="all-droppables" direction="horizontal" type="column">
                     {(provided) => (

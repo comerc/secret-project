@@ -178,7 +178,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [x] Notion Alternatives
   - https://monday.com/lang/ru/workdocs
 - [x] Как выдать сообщение в консоль Хрома (как Linear)
-- [ ] Навигация кнопками Up / Down от элемента под мышкой (как в Trello и Linear)
+- [x] Навигация кнопками от элемента под мышкой (как в Trello и Linear)
   - https://codepen.io/kc3svj/pen/MWVPQXz
 - [ ] RBD - мигает курсор стрелки
   - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
@@ -253,6 +253,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Исследовать встроенный чат в tada.team
 - [ ] as Open Source Alternative
   - https://www.producthunt.com/products/erxes
+  - https://rocket.chat
 - [ ] Интеграция с fullcalendar.io
 - [ ] Добавить в список open-source-alternatives
   - https://www.btw.so/open-source-alternatives
@@ -285,6 +286,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://www.youtube.com/watch?v=bGzanfKVFeU
 - [ ] Интеграция с Dendrite (по аналогии Mattermost)
 - [ ] Board multidrag (like Linear)
+  - https://react-beautiful-dnd.netlify.app/?path=/story/multi-drag--pattern
 
 ## Что нового (для меня) про вёрстку
 

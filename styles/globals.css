@@ -4,7 +4,31 @@
 
 /* Fix RBD */
 body {
-  overflow-y: hidden; /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
+  overflow-y: hidden;
+  /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+body::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+  background: #1d212e;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(223, 232, 250, 0.5);
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: red;
+  margin-left: 200px;
 }
 
 /* Lexical */
