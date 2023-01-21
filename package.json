@@ -20,8 +20,6 @@
     "@apollo/client": "^3.7.3",
     "@apollo/server": "^4.3.0",
     "@as-integrations/next": "^1.2.0",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
     "@hello-pangea/dnd": "^16.2.0",
     "@lexical/clipboard": "^0.7.5",
     "@lexical/code": "^0.7.5",

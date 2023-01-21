@@ -4,9 +4,6 @@ const nextConfig = {
   // but added React.StrictMode inside the DragDropContext
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    emotion: true,
-  },
 }
 
 module.exports = nextConfig
