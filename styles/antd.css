@@ -1,6 +1,6 @@
 /* Antd Example */
 
-:root {
+/* :root {
   --backgroundColor: #f7f7f7;
   --primaryColor: red;
   --textColorSecondary: rgba(0, 0, 0, 0.45);
@@ -14,7 +14,7 @@
 
 html {
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
@@ -198,4 +198,4 @@ body {
 
 .text-disabled {
   color: var(--textColorSecondary) !important;
-}
+} */

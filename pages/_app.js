@@ -21,7 +21,7 @@ import 'antd/dist/reset.css'
 // import '.../styles/vars.css'
 import '.../styles/globals.css'
 import '.../styles/auth.css'
-import '.../styles/antd.css'
+// import '.../styles/antd.css'
 
 // Use of the <SessionProvider> is mandatory to allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, cache }) {
       theme={{
         // hashed: false,
         token: {
-          colorPrimary: 'orange',
+          // colorPrimary: 'orange',
         },
       }}
     >
