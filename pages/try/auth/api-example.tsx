@@ -10,11 +10,11 @@ export default function ApiExamplePage() {
       </p>
       <h2>Session</h2>
       <p>/api/examples/session</p>
-      <iframe className="w-1/3 border-2 border-solid" src="/api/examples/session" />
+      <iframe className="w-1/3 border-2" src="/api/examples/session" />
       <br />
       <h2>JSON Web Token</h2>
       <p>/api/examples/jwt</p>
-      <iframe className="w-1/3 border-2 border-solid" src="/api/examples/jwt" />
+      <iframe className="w-1/3 border-2" src="/api/examples/jwt" />
     </Layout>
   )
 }

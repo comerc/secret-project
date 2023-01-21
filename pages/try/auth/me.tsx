@@ -6,7 +6,7 @@ export default function MePage() {
 
   return (
     <Layout>
-      <div className="border-2 border-solid text-left">
+      <div className="border-2 text-left">
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
     </Layout>
