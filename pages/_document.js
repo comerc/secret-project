@@ -28,17 +28,24 @@ class MyDocument extends Document {
       ),
     }
   }
-  // render() {
-  //   return (
-  //     <Html>
-  //       <Head />
-  //       <body>
-  //         <Main />
-  //         <NextScript />
-  //       </body>
-  //     </Html>
-  //   )
-  // }
+  render() {
+    return (
+      <Html>
+        <Head />
+        <body>
+          <div id="nocss">
+            Your browser was unable to load all of resources. They may have been blocked by your
+            firewall, proxy or browser configuration.
+            <br />
+            Press Ctrl+F5 or Ctrl+Shift+R to have your browser try again and if that doesn't work.
+            <hr />
+          </div>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
 }
 
 export default MyDocument
