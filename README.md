@@ -287,6 +287,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Интеграция с Dendrite (по аналогии Mattermost)
 - [ ] Board multidrag (like Linear)
   - https://react-beautiful-dnd.netlify.app/?path=/story/multi-drag--pattern
+- [ ] Прикрутить AI-бота (https://hints.so/ || https://engati.com/)
+- [ ] Состояние потока и Право на отключение
 
 ## Что нового (для меня) про вёрстку
 
