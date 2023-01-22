@@ -11,6 +11,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require('tailwindcss-logical'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),

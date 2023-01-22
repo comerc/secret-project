@@ -2,16 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix of vertical-align: -0.125em; */
+button > .anticon {
+  margin-top: 1px;
+  vertical-align: text-top;
+}
+
+html {
+  text-size-adjust: 100%;
+}
+
+#__next {
+  height: 100%;
+  overflow: hidden;
+  background-color: rgb(205, 90, 145);
+}
+
+#nocss {
+  display: none;
+}
+
 /* Fix RBD */
 body {
   overflow-y: hidden;
   /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
-}
-
-html,
-body,
-#__next {
-  height: 100%;
 }
 
 body::-webkit-scrollbar {
@@ -28,12 +42,12 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-track {
   border-radius: 8px;
   background-color: red;
-  margin-left: 200px;
+  /* margin-left: 200px; */
 }
 
 /* Lexical */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif;
+  /* font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
