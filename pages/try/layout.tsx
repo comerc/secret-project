@@ -1,8 +1,29 @@
 import React from 'react'
 import Link from 'next/link'
-import { SearchOutlined, UserOutlined, BellOutlined } from '@ant-design/icons'
-import { Button, Input, Modal } from 'antd'
+import {
+  SearchOutlined,
+  UserOutlined,
+  BellOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons'
+import { Button, Input, Modal, Icon } from 'antd'
 import cx from 'classnames'
+
+function SearchPrefixIcon({ onClick }) {
+  return (
+    <Button
+      className={cx(
+        'h-[22px] w-[22px] min-w-[22px] border-0',
+        onClick ? 'text-white' : 'text-black',
+      )}
+      size="small"
+      shape="circle"
+      ghost
+      icon={<SearchOutlined />}
+      onClick={onClick}
+    />
+  )
+}
 
 function Search({ defaultValue }) {
   const ref = React.useRef()
@@ -15,7 +36,7 @@ function Search({ defaultValue }) {
         ref={ref}
         className="ant-input-affix-wrapper-focused pointer-events-auto rounded-[5px]"
         placeholder="Поиск в CSP"
-        prefix={<SearchOutlined />}
+        prefix={<SearchPrefixIcon />}
         defaultValue={defaultValue}
       />
       <div className="pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
@@ -66,15 +87,13 @@ function TryLayoutPage({ issues }) {
                   <Input
                     className="rounded-[5px] border-white/30 bg-white/[.15] text-white hover:bg-white/30 [&>input]:bg-white/0 [&>input::placeholder]:text-white"
                     placeholder="Поиск"
-                    prefix={<SearchOutlined />}
+                    prefix={<SearchPrefixIcon onClick={() => setIsSearch(true)} />}
                     onClick={() => setIsSearch(true)}
                     onChange={(event) => {
                       setSearch(event.target.value)
                       setIsSearch(true)
                     }}
                     value={search}
-                    // onFocus={() => setIsSearch(true)}
-                    // onBlur={() => setIsSearch(false)}
                   />
                 </div>
                 <div className={cx('md:hidden', isSearch && 'hidden')}>
@@ -91,6 +110,14 @@ function TryLayoutPage({ issues }) {
                     shape="circle"
                     ghost
                     icon={<BellOutlined />}
+                  ></Button>
+                </div>
+                <div role="presentation">
+                  <Button
+                    className="border-white/0 hover:bg-white/30 hover:text-white"
+                    shape="circle"
+                    ghost
+                    icon={<QuestionCircleOutlined />}
                   ></Button>
                 </div>
                 <div role="presentation">
