@@ -139,7 +139,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/haydenbleasel/compass-lexical
   - https://codesandbox.io/examples/package/lexical
   - https://codesandbox.io/s/lexical-markdown-plugin-example-4076jq
-- [-] yjs vs automerge
+- [x] ~~yjs vs automerge~~
   - https://www.slatecollaborate.com
   - https://tiptap.dev/hocuspocus
   - https://github.com/BitPhinix/slate-yjs/
@@ -154,7 +154,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/facebook/lexical/issues/2696
   - https://github.com/facebook/lexical/issues/3113
   - https://github.com/facebook/lexical/issues/3172
-- [-] tiptap.dev + mantine.dev
+- [x] ~~tiptap.dev + mantine.dev~~
 - [x] ClientOnly & useQuery
   - https://www.apollographql.com/blog/apollo-client/next-js/next-js-getting-started/
 - [x] Продукты, которые перекрывают сегменты Knowledge Base <> Communications (без Work)
