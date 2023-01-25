@@ -295,6 +295,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://www.forbes.com/sites/alexkonrad/2020/08/26/asana-facebook-cofounder-dustin-moskovitz-slow-burn-second-act/?sh=422874e57adc
 - [ ] Тиньков локализовал #COF
 - [ ] Top Most CrunchBase Rank related to me: techstars.com startupwiseguys.com antler.co venturecatalysts.in wefunder.com
+- [ ] PRINCE2 - A Structured Project Management Methodology
+  - https://asana.com/ru/resources/prince2-methodology
 
 ## Что нового (для меня) про вёрстку
 
