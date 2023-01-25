@@ -294,6 +294,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] G2 пользуется Asana и потому его хвалит? это как CMSList.ru by UmiCMS
   - https://www.forbes.com/sites/alexkonrad/2020/08/26/asana-facebook-cofounder-dustin-moskovitz-slow-burn-second-act/?sh=422874e57adc
 - [ ] Тиньков локализовал #COF
+- [ ] Top Most CrunchBase Rank related to me: techstars.com startupwiseguys.com antler.co venturecatalysts.in wefunder.com
 
 ## Что нового (для меня) про вёрстку
 
