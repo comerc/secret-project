@@ -54,32 +54,39 @@ function TryLayoutPage({ issues }) {
   const [search, setSearch] = React.useState('')
   return (
     <>
-      <div id="chrome-container" className="h-full overflow-hidden">
+      <div
+        id="chrome-container"
+        className="body-dark-board-background"
+        className="h-full" // overflow-hidden
+        style={{
+          '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
+          '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
+          '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
+          '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
+          '--dynamic-icon': '#ffffff',
+          '--dynamic-text': '#ffffff',
+          '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
+          '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
+        }}
+      >
         <div id="surface" className="flex h-full flex-col">
-          <div className="max-h-[44px] min-h-[44px] overflow-hidden">
+          <div
+            className="max-h-[44px] min-h-[44px]"
+            // overflow-hidden
+          >
             <nav
               className="flex max-h-[44px]
               border-b border-[var(--dynamic-text-transparent)] 
               bg-[var(--dynamic-background)]  
               px-1 py-1.5
               backdrop-blur-[6px]" // TODO: transition
-              style={{
-                '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
-                '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
-                '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
-                '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
-                '--dynamic-icon': '#ffffff',
-                '--dynamic-text': '#ffffff',
-                '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
-                '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
-              }}
             >
               <Link
                 href="/"
                 className="h-8 rounded-[3px] px-1.5 hover:bg-white/30"
                 aria-label="Вернуться на главную страницу"
               >
-                <div className="h-8 font-bold leading-8 text-white">CSP</div>
+                <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
               </Link>
               <div className="flex grow"></div>
               <div className="flex space-x-1">
@@ -133,17 +140,65 @@ function TryLayoutPage({ issues }) {
           </div>
           <main className="flex grow flex-col">
             <div className="flex flex-1 flex-row">
-              <div className="flex flex-1 flex-col"></div>
+              <div id="content-wrapper" className="flex flex-1 flex-col">
+                <div id="content" className="relative grow">
+                  <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
+                    <div
+                      id="board-main-content"
+                      className="mr-0 flex h-full flex-col"
+                      style={{
+                        transition: 'margin .1s ease-in',
+                      }}
+                    >
+                      <div
+                        id="board-header"
+                        className="h-auto
+                        bg-[var(--board-header-background-color)]
+                        pt-2 pr-1 pb-1 pl-3"
+                      >
+                        {/* <BoardHeaderButton></BoardHeaderButton> */}
+                        <div
+                          className="relative float-left mr-1 mb-1 h-[32px] 
+                            cursor-pointer rounded-[3px] 
+                            bg-black/0 text-[18px] font-bold leading-8 
+                            text-[var(--dynamic-text)]
+                            hover:bg-[var(--dynamic-button-hovered)]"
+                          style={{
+                            'max-width': 'calc(100% - 24px)',
+                            transition: '.1s ease',
+                          }}
+                        >
+                          <h1 className="mb-3 truncate px-3">
+                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
+                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
+                          </h1>
+                          {/* TODO: inline-rename-board */}
+                        </div>
+                      </div>
+                      <div id="board-warnings"></div>
+                      <div
+                        id="board-canvas"
+                        className="grow"
+                        style={{
+                          background:
+                            'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+                        }}
+                      >
+                        <div id="board"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </main>
         </div>
       </div>
       <Modal
-        className="top-[6px] 
-        [&>.ant-modal-content]:pointer-events-none
-        [&>.ant-modal-content]:bg-white/0
-        [&>.ant-modal-content]:p-0
-        "
+        className="top-[6px]
+          [&>.ant-modal-content]:pointer-events-none
+          [&>.ant-modal-content]:bg-white/0
+          [&>.ant-modal-content]:p-0"
         open={isSearch}
         onCancel={() => {
           setSearch('')
@@ -151,7 +206,7 @@ function TryLayoutPage({ issues }) {
         }}
         transitionName=""
         maskTransitionName=""
-        style={null}
+        // style={null}
         closable={false}
         footer={null}
         destroyOnClose
