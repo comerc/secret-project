@@ -9,6 +9,83 @@ import {
 import { Button, Input, Modal, Icon } from 'antd'
 import cx from 'classnames'
 
+function BoardNameButton({ defaultValue, onEndEdit }) {
+  const inputRef = React.useRef()
+  const textRef = React.useRef()
+  const [state, setState] = React.useState({
+    isInput: false,
+    width: 0,
+    value: defaultValue,
+  })
+  React.useEffect(() => {
+    inputRef.current.input.spellcheck = false
+  }, [])
+  return (
+    <div
+      className="relative float-left mr-1 mb-1 h-[32px] 
+        cursor-pointer rounded-[3px] 
+        bg-black/0 text-[18px] font-bold leading-8 
+        text-[var(--dynamic-text)]
+        hover:bg-[var(--dynamic-button-hovered)]"
+      style={{
+        'max-width': 'calc(100% - 24px)',
+        transition: '.1s ease',
+      }}
+    >
+      <h1
+        ref={textRef}
+        className={cx('mb-3 inline-block min-w-[25px] max-w-full truncate whitespace-pre px-3')}
+        onClick={() => {
+          setState({
+            ...state,
+            isInput: true,
+            width: textRef.current.offsetWidth,
+          })
+          setTimeout(() => {
+            inputRef.current.focus({
+              cursor: 'all',
+            })
+          })
+        }}
+      >
+        {state.value}
+      </h1>
+      <Input
+        className={cx(
+          'absolute top-0 left-0 right-0 bottom-0',
+          'h-[32px] rounded-[3px] text-[18px] font-bold leading-5 transition-none',
+          state.isInput || 'hidden',
+        )}
+        ref={inputRef}
+        maxlengt={512}
+        onBlur={() => {
+          let value = state.value.trim()
+          if (value == '') {
+            value = defaultValue
+          }
+          textRef.current.innerText = value // for textRef.current.offsetWidth
+          setState({
+            isInput: false,
+            width: textRef.current.offsetWidth,
+            value,
+          })
+          onEndEdit(value)
+        }}
+        value={state.value}
+        onChange={(event) => {
+          const value = event.target.value
+          textRef.current.innerText = value // for textRef.current.offsetWidth
+          setState({
+            ...state,
+            value,
+            width: textRef.current.offsetWidth,
+          })
+        }}
+      />
+    </div>
+  )
+}
+
 function SearchPrefixIcon({ onClick }) {
   return (
     <Button
@@ -156,24 +233,11 @@ function TryLayoutPage({ issues }) {
                         bg-[var(--board-header-background-color)]
                         pt-2 pr-1 pb-1 pl-3"
                       >
-                        {/* <BoardHeaderButton></BoardHeaderButton> */}
-                        <div
-                          className="relative float-left mr-1 mb-1 h-[32px] 
-                            cursor-pointer rounded-[3px] 
-                            bg-black/0 text-[18px] font-bold leading-8 
-                            text-[var(--dynamic-text)]
-                            hover:bg-[var(--dynamic-button-hovered)]"
-                          style={{
-                            'max-width': 'calc(100% - 24px)',
-                            transition: '.1s ease',
-                          }}
-                        >
-                          <h1 className="mb-3 truncate px-3">
-                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
-                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
-                          </h1>
-                          {/* TODO: inline-rename-board */}
-                        </div>
+                        <BoardNameButton
+                          defaultValue="Minsk2 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
+                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4"
+                          onEndEdit={(value) => console.log(value)}
+                        />
                       </div>
                       <div id="board-warnings"></div>
                       <div
