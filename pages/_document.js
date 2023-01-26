@@ -32,7 +32,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body>
+        <body className="body-dark-board-background">
           <div id="nocss">
             Your browser was unable to load all of resources. They may have been blocked by your
             firewall, proxy or browser configuration.

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.body-dark-board-background {
+  --board-header-background-color: #0000003d;
+}
+
 /* Fix of vertical-align: -0.125em; */
 button > .anticon {
   margin-top: 1px;
@@ -14,7 +18,7 @@ html {
 
 #__next {
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: rgb(205, 90, 145);
 }
 
