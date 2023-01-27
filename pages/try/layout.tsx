@@ -22,8 +22,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   }, [])
   return (
     <div
-      className="relative float-left mr-1 mb-1 h-[32px] 
-        cursor-pointer rounded-[3px] 
+      className="relative float-left mr-1 mb-1 h-[32px] rounded-[3px] 
         bg-black/0 text-[18px] font-bold leading-8 
         text-[var(--dynamic-text)]
         hover:bg-[var(--dynamic-button-hovered)]"
@@ -34,7 +33,8 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
     >
       <h1
         ref={textRef}
-        className={cx('mb-3 inline-block min-w-[25px] max-w-full truncate whitespace-pre px-3')}
+        className="mb-3 inline-block min-w-[25px] max-w-full 
+          cursor-pointer truncate whitespace-pre px-3"
         onClick={() => {
           setState({
             ...state,
@@ -43,6 +43,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
           })
           setTimeout(() => {
             inputRef.current.focus({
+              preventScroll: true,
               cursor: 'all',
             })
           })
