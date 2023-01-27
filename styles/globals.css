@@ -2,13 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+.ant-btn:not(.outline-none) {
+  outline: revert !important;
+}
+
+.ant-btn.outline-none {
+  outline: none !important;
+  transition: none !important;
+}
+
+.ant-btn.outline-none:focus {
+  box-shadow: 0 0 0 2px var(--ds-border-focused, #2684ff) !important;
+}
+
+.scale-icon:hover > .anticon {
+  transform: scale(1.2) !important;
+}
+
+.scale-icon:focus > .anticon {
+  transform: scale(1.2) !important;
+}
+
 .body-dark-board-background {
   --board-header-background-color: #0000003d;
 }
 
 /* Fix of vertical-align: -0.125em; */
 button > .anticon {
-  margin-top: 1px;
+  margin-top: 2px;
   vertical-align: text-top;
 }
 
