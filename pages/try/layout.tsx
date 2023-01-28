@@ -26,22 +26,22 @@ function FavoriteButton() {
 
 function BoardHeaderButton({
   title,
-  right,
+  floatRight,
   children,
   icon,
   switchState = null,
   onClick,
-  ...props // only for 'aria-label'
+  'aria-label': ariaLabel,
 }) {
   return (
     <Button
-      aria-label={props['aria-label']}
+      aria-label={ariaLabel}
       title={title}
       icon={icon}
       className={cx(
         'mr-1 mb-1 rounded-[3px] border-0 bg-[var(--dynamic-button)]',
         'px-1.5 leading-5 hover:bg-[var(--dynamic-button-hovered)]',
-        right ? 'float-right' : 'float-left ',
+        floatRight ? 'float-right' : 'float-left ',
         children || 'w-8',
         switchState ? 'text-[#f2d600]' : 'text-[var(--dynamic-text)]',
         switchState !== null && 'scale-icon',
@@ -325,7 +325,7 @@ function TryLayoutPage({ issues }) {
                         onEndEdit={(value) => console.log(value)}
                       />
                       <FavoriteButton />
-                      <BoardHeaderButton right>222</BoardHeaderButton>
+                      <BoardHeaderButton floatRight>222</BoardHeaderButton>
                     </div>
                     <div id="board-warnings"></div>
                     <div
