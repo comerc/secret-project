@@ -75,7 +75,10 @@ function PermisionLevelButton() {
         onClick={(event) => {
           event.preventDefault()
         }}
-        className="mx-[-12px] block py-[6px] px-[12px] hover:bg-black/[0.04]"
+        className="mx-[-12px] block py-[6px] px-[12px] 
+        hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
+        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]
+        "
       >
         <span className="mr-1">{icon}</span>
         {itemText}&nbsp;&nbsp;
