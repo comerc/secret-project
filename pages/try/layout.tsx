@@ -7,9 +7,179 @@ import {
   QuestionCircleOutlined,
   StarOutlined,
   StarFilled,
+  LockTwoTone,
+  LockOutlined,
+  GlobalOutlined,
+  TeamOutlined,
+  BlockOutlined,
+  CheckOutlined,
+  CloseOutlined,
 } from '@ant-design/icons'
-import { Button, Input, Modal, Icon } from 'antd'
+import { Button, Input, Modal, Icon, Dropdown, Space, Divider, theme, renderCloseIcon } from 'antd'
+import type { MenuProps } from 'antd'
 import cx from 'classnames'
+import ClientOnly from '.../components/ClientOnly'
+import { useWindowSize } from 'usehooks-ts'
+
+const map = {
+  private: {
+    icon: <LockTwoTone twoToneColor="#eb5a46" />, // TODO: var(--ds-icon-accent-red,#eb5a46)
+    buttonIcon: <LockOutlined />,
+    itemText: 'Приватная',
+    title: 'Просматривать и изменять эту доску могут только её участники.',
+  },
+  workspace: {
+    icon: <TeamOutlined style={{ color: '#42526e' }} />, // TODO: var(--ds-icon,#42526e);
+    buttonIcon: <TeamOutlined />,
+    itemText: 'Рабочее пространство', // TODO: itemSubText
+    buttonText: 'Для рабочего пространства',
+    title: 'Просматривать и изменять эту доску могут все участники рабочего пространства.',
+  },
+  // TODO: добавить режим 'enterprise'
+  // enterprise: {
+  //   icon: <BlockOutlined style={{ color: '#6b778c' }} />, // TODO: var(--ds-icon-subtle,#6b778c);
+  //   buttonIcon: <BlockOutlined />,
+  //   itemText: 'Организация',
+  //   title:
+  //     'Просматривать эту доску могут все сотрудники организации. Чтобы предоставить это разрешение, доску нужно добавить в корпоративное рабочее пространство.',
+  // },
+  // TODO: добавить подтверждение перед включением публичного режима
+  public: {
+    icon: <GlobalOutlined style={{ color: '#61bd4f' }} />, // TODO: var(--ds-icon-accent-green,#61bd4f);
+    buttonIcon: <GlobalOutlined />,
+    itemText: 'Публичная',
+    title: 'Публичные доски доступны для всех в Интернете.',
+  },
+}
+
+function PermisionLevelButton() {
+  const [open, setOpen] = React.useState(false)
+  const { width, height } = useWindowSize()
+  const { token } = theme.useToken()
+  const contentStyle = {
+    backgroundColor: token.colorBgElevated,
+    // borderRadius: token.borderRadiusLG,
+    boxShadow: token.boxShadowSecondary,
+  }
+  const menuStyle = {
+    boxShadow: 'none',
+  }
+  const [selected, setSelected] = React.useState('public')
+  const items = Object.entries(map).map(([key, { icon, itemText, title }]) => ({
+    key,
+    label: (
+      <a
+        tabIndex={-1}
+        href="#"
+        name={key}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+        className="mx-[-12px] block py-[6px] px-[12px] hover:bg-black/[0.04]"
+      >
+        <span className="mr-1">{icon}</span>
+        {itemText}&nbsp;&nbsp;
+        {key === selected && (
+          <span
+            style={{ color: '#42526e' }} // TODO: var(--ds-icon,#42526e);
+          >
+            <CheckOutlined />
+          </span>
+        )}
+        <span
+          className="inline-block text-xs
+          text-[var(--ds-text-subtle,#5e6c84)]"
+        >
+          {title}
+        </span>
+      </a>
+    ),
+  }))
+  const value = map[selected]
+  return (
+    <Dropdown
+      trigger={['click']}
+      onOpenChange={(flag) => {
+        setOpen(flag)
+      }}
+      open={open}
+      menu={{
+        items,
+        onClick: (event) => {
+          setSelected(event.key)
+          setOpen(false)
+        },
+      }}
+      dropdownRender={(menu) => (
+        <div
+          style={{ ...contentStyle, width: `${width}px` }}
+          className="relative max-w-[370px] rounded-[3px]"
+        >
+          <div className="mb-2 h-10 text-center">
+            <span
+              className="mx-3 block truncate 
+                border-b border-[var(--ds-border,#091e4221)] 
+                px-8 leading-10"
+            >
+              Изменение видимости
+            </span>
+            <div className="absolute right-0 top-0 py-[10px] pl-[8px] pr-[12px]">
+              <button
+                tabIndex="-1"
+                className="h-[22px] w-[22px] rounded-[4px]
+                  transition-colors
+                  hover:bg-black/[0.06]
+                  active:bg-black/[0.15]
+                  [&>.anticon]:m-0
+                  [&>.anticon]:align-[-2px]
+                  [&>.anticon]:text-black/[0.45]
+                  [&:hover>.anticon]:text-black/[0.88]"
+                type="button"
+                aria-label="Close"
+                onClick={() => {
+                  setOpen(false)
+                }}
+              >
+                <CloseOutlined
+                // style={{
+                //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
+                // }}
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            className="overflow-y-auto overflow-x-hidden
+              px-3 pb-3
+              [&>.ant-dropdown-menu]:p-0
+              [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
+              [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
+            style={{
+              maxHeight: `calc(${height}px - 48px)`,
+            }}
+          >
+            {React.cloneElement(menu as React.ReactElement, {
+              tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
+              style: menuStyle,
+            })}
+          </div>
+        </div>
+      )}
+    >
+      <BoardHeaderButton
+        aria-label="Изменить уровень доступа к доске"
+        title={value.title}
+        onClick={(e) => e.preventDefault()}
+        icon={value.buttonIcon}
+      >
+        {value.buttonText || value.itemText}
+      </BoardHeaderButton>
+    </Dropdown>
+  )
+}
+
+// TODO: Using <Button> results in "findDOMNode is deprecated in StrictMode" warning
+// https://github.com/ant-design/ant-design/issues/22493
 
 function FavoriteButton() {
   const [switchState, setSwitchState] = React.useState(false)
@@ -40,9 +210,9 @@ function BoardHeaderButton({
       icon={icon}
       className={cx(
         'mr-1 mb-1 rounded-[3px] border-0 bg-[var(--dynamic-button)]',
-        'px-1.5 leading-5 hover:bg-[var(--dynamic-button-hovered)]',
+        'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
         floatRight ? 'float-right' : 'float-left ',
-        children || 'w-8',
+        children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-1.5',
         switchState ? 'text-[#f2d600]' : 'text-[var(--dynamic-text)]',
         switchState !== null && 'scale-icon',
       )}
@@ -71,7 +241,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         text-[var(--dynamic-text)]
         hover:bg-[var(--dynamic-button-hovered)]"
       style={{
-        'max-width': 'calc(100% - 24px)',
+        maxWidth: 'calc(100% - 24px)',
         transition: '.1s ease',
       }}
     >
@@ -320,11 +490,11 @@ function TryLayoutPage({ issues }) {
                         pt-2 pr-1 pb-1 pl-3"
                     >
                       <BoardNameButton
-                        defaultValue="Minsk2 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4 Minsk4
-                            Minsk4 Minsk4 Minsk4 Minsk4 Minsk4"
+                        defaultValue="Minsk4 Minsk4 Minsk4 Minsk4"
                         onEndEdit={(value) => console.log(value)}
                       />
                       <FavoriteButton />
+                      <PermisionLevelButton />
                       <BoardHeaderButton floatRight>222</BoardHeaderButton>
                     </div>
                     <div id="board-warnings"></div>
