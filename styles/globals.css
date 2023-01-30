@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix: как добавить тень и избавиться от маски */
+.search-modal {
+  overflow: unset !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 50% !important;
+  transform: translate(-50%, 0) !important;
+  bottom: auto !important;
+  right: auto !important;
+}
+.search-modal .search-results {
+  position: relative;
+}
+.search-modal .search-results::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0px;
+  bottom: 0;
+  right: 0;
+  left: 0px;
+  border-radius: 3px;
+  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%),
+    0 9px 28px 8px rgb(0 0 0 / 5%);
+}
+
 .ant-btn:not(.outline-none) {
   outline: revert !important;
 }

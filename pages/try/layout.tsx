@@ -19,7 +19,7 @@ import { Button, Input, Modal, Icon, Dropdown, Space, Divider, theme, renderClos
 import type { MenuProps } from 'antd'
 import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
-import { useWindowSize } from 'usehooks-ts'
+import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
 
 const map = {
   private: {
@@ -340,27 +340,29 @@ function SearchPrefixIcon({ onClick }) {
   )
 }
 
-function Search({ defaultValue }) {
-  const ref = React.useRef()
+function Search({ defaultValue, close }) {
+  const inputRef = React.useRef()
   React.useEffect(() => {
-    ref.current.focus()
+    inputRef.current.focus()
   }, [])
+  const ref = React.useRef(null)
+  useOnClickOutside(ref, close)
   return (
-    <>
+    <div ref={ref}>
       <Input
-        ref={ref}
+        ref={inputRef}
         className="ant-input-affix-wrapper-focused pointer-events-auto rounded-[5px] pl-1"
         placeholder="Поиск в CSP"
         prefix={<SearchPrefixIcon />}
         defaultValue={defaultValue}
       />
-      <div className="pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
+      <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
         <Button>OK</Button>
         <p>some contents...</p>
         <p>some contents...</p>
         <p>some contents...</p>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -371,6 +373,19 @@ function SearchButton() {
   const inputRef = React.useRef()
   const buttonContainerRef = React.useRef()
   const buttonRef = React.useRef()
+  const close = () => {
+    setSearch('')
+    setIsSearch(false)
+    setTimeout(() => {
+      if (window.getComputedStyle(inputContainerRef.current).display === 'block') {
+        inputRef.current.focus()
+        inputRef.current.blur()
+      } else if (window.getComputedStyle(buttonContainerRef.current).display === 'block') {
+        buttonRef.current.focus()
+        buttonRef.current.blur()
+      }
+    })
+  }
   return (
     <>
       <div ref={inputContainerRef} className={cx('hidden', isSearch || 'md:block')}>
@@ -397,33 +412,25 @@ function SearchButton() {
         />
       </div>
       <Modal
-        className="top-[6px]
+        className="top-[6px] pb-0
           [&>.ant-modal-content]:pointer-events-none
+          [&>.ant-modal-content]:rounded-[3px]
           [&>.ant-modal-content]:bg-white/0
-          [&>.ant-modal-content]:p-0"
+          [&>.ant-modal-content]:p-0
+          [&>.ant-modal-content]:shadow-none"
         open={isSearch}
-        onCancel={() => {
-          setSearch('')
-          setIsSearch(false)
-          setTimeout(() => {
-            if (window.getComputedStyle(inputContainerRef.current).display === 'block') {
-              inputRef.current.focus()
-              inputRef.current.blur()
-            } else if (window.getComputedStyle(buttonContainerRef.current).display === 'block') {
-              buttonRef.current.focus()
-              buttonRef.current.blur()
-            }
-          })
-        }}
+        onCancel={close}
         transitionName=""
-        maskTransitionName=""
+        // maskTransitionName=""
         // style={null}
         closable={false}
         footer={null}
         destroyOnClose
         width={760}
+        mask={false}
+        wrapClassName="search-modal"
       >
-        <Search defaultValue={search} />
+        <Search defaultValue={search} close={close} />
       </Modal>
     </>
   )
@@ -509,7 +516,23 @@ function TryLayoutPage({ issues }) {
                           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
                       }}
                     >
-                      <div id="board"></div>
+                      <div id="board">
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <Button>123</Button>
+                      </div>
                     </div>
                   </div>
                 </div>
