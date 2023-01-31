@@ -2,15 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fix: как добавить тень и избавиться от маски */
+/* FIX: для #board-main-content */
+.ant-drawer-content-wrapper {
+  transition-timing-function: ease-in !important;
+}
+
+/* FIX: как добавить тень и избавиться от маски */
 .search-modal {
-  overflow: unset !important;
+  /* overflow: unset !important;
   position: fixed !important;
   top: 0 !important;
   left: 50% !important;
   transform: translate(-50%, 0) !important;
   bottom: auto !important;
-  right: auto !important;
+  right: auto !important; */
+  pointer-events: none;
 }
 .search-modal .search-results {
   position: relative;
@@ -73,7 +79,7 @@ html {
   display: none;
 }
 
-/* Fix RBD */
+/* FIX: RBD */
 body {
   overflow-y: hidden;
   /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */

@@ -14,12 +14,35 @@ import {
   BlockOutlined,
   CheckOutlined,
   CloseOutlined,
+  MoreOutlined,
 } from '@ant-design/icons'
-import { Button, Input, Modal, Icon, Dropdown, Space, Divider, theme, renderCloseIcon } from 'antd'
+import {
+  Drawer,
+  Button,
+  Input,
+  Modal,
+  Icon,
+  Dropdown,
+  Space,
+  Divider,
+  theme,
+  renderCloseIcon,
+} from 'antd'
 import type { MenuProps } from 'antd'
 import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
 import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
+
+function MoreButton({ onClick }) {
+  // TODO: во время анимации появляется горизонтальная прокрутка окна
+  return (
+    <BoardHeaderButton
+      // floatRight
+      icon={<MoreOutlined rotate={90} />}
+      onClick={onClick}
+    ></BoardHeaderButton>
+  )
+}
 
 const map = {
   private: {
@@ -50,6 +73,32 @@ const map = {
     itemText: 'Публичная',
     title: 'Публичные доски доступны для всех в Интернете.',
   },
+}
+
+function CloseButton({ onClick }) {
+  // TODO: для Drawer нужно увеличить размер
+  return (
+    <button
+      tabIndex="-1"
+      className="h-[22px] w-[22px] rounded-[4px] text-[14px] leading-[22px]
+        transition-colors
+        hover:bg-black/[0.06]
+        active:bg-black/[0.15]
+        [&>.anticon]:m-0
+        [&>.anticon]:align-[-2px]
+        [&>.anticon]:text-black/[0.45]
+        [&:hover>.anticon]:text-black/[0.88]"
+      type="button"
+      aria-label="Close"
+      onClick={onClick}
+    >
+      <CloseOutlined
+      // style={{
+      //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
+      // }}
+      />
+    </button>
+  )
 }
 
 function PermisionLevelButton() {
@@ -106,6 +155,7 @@ function PermisionLevelButton() {
         setOpen(flag)
       }}
       open={open}
+      // placement={'bottom'}
       menu={{
         items,
         onClick: (event) => {
@@ -127,28 +177,11 @@ function PermisionLevelButton() {
               Изменение видимости
             </span>
             <div className="absolute right-0 top-0 py-[10px] pl-[8px] pr-[12px]">
-              <button
-                tabIndex="-1"
-                className="h-[22px] w-[22px] rounded-[4px]
-                  transition-colors
-                  hover:bg-black/[0.06]
-                  active:bg-black/[0.15]
-                  [&>.anticon]:m-0
-                  [&>.anticon]:align-[-2px]
-                  [&>.anticon]:text-black/[0.45]
-                  [&:hover>.anticon]:text-black/[0.88]"
-                type="button"
-                aria-label="Close"
+              <CloseButton
                 onClick={() => {
                   setOpen(false)
                 }}
-              >
-                <CloseOutlined
-                // style={{
-                //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
-                // }}
-                />
-              </button>
+              />
             </div>
           </div>
           <div
@@ -199,7 +232,7 @@ function FavoriteButton() {
 
 function BoardHeaderButton({
   title,
-  floatRight,
+  // floatRight,
   children,
   icon,
   switchState = null,
@@ -214,7 +247,7 @@ function BoardHeaderButton({
       className={cx(
         'mr-1 mb-1 rounded-[3px] border-0 bg-[var(--dynamic-button)]',
         'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
-        floatRight ? 'float-right' : 'float-left ',
+        // floatRight ? 'float-right' : 'float-left ',
         children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-1.5',
         switchState ? 'text-[#f2d600]' : 'text-[var(--dynamic-text)]',
         switchState !== null && 'scale-icon',
@@ -357,10 +390,16 @@ function Search({ defaultValue, close }) {
         defaultValue={defaultValue}
       />
       <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
-        <Button>OK</Button>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <div
+          // TODO: overflow-y-auto неправильно работает
+          className=""
+        >
+          <Button>OK</Button>
+          <p>some contents...</p>
+          <p>some contents...</p>
+          <p>some contents...</p>
+        </div>
+        <div>Footer</div>
       </div>
     </div>
   )
@@ -437,6 +476,8 @@ function SearchButton() {
 }
 
 function TryLayoutPage({ issues }) {
+  const [isMoreButton, setIsMoreButton] = React.useState(true)
+  const [isMenu, setIsMenu] = React.useState(false)
   return (
     <div
       id="chrome-container"
@@ -488,9 +529,12 @@ function TryLayoutPage({ issues }) {
                 <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
                   <div
                     id="board-main-content"
-                    className="mr-0 flex h-full flex-col"
+                    className={cx(
+                      isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
+                      'mr-0 flex h-full flex-col',
+                    )}
                     style={{
-                      transition: 'margin .1s ease-in',
+                      transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
                     }}
                   >
                     <div
@@ -505,7 +549,17 @@ function TryLayoutPage({ issues }) {
                       />
                       <FavoriteButton />
                       <PermisionLevelButton />
-                      <BoardHeaderButton floatRight>222</BoardHeaderButton>
+                      <div className="float-right">
+                        <BoardHeaderButton>Фильтр</BoardHeaderButton>
+                        {isMoreButton && (
+                          <MoreButton
+                            onClick={() => {
+                              setIsMoreButton(false)
+                              setIsMenu(true)
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
                     <div id="board-warnings"></div>
                     <div
@@ -531,10 +585,37 @@ function TryLayoutPage({ issues }) {
                         <br></br>
                         <br></br>
                         <br></br>
-                        <Button>123</Button>
+                        <Button onClick={() => console.log(123)}>123</Button>
                       </div>
                     </div>
                   </div>
+                  <Drawer
+                    className="bg-[var(--ds-surface-overlay,#f4f5f7)]"
+                    title="Меню"
+                    placement="right"
+                    onClose={() => {
+                      setIsMenu(false)
+                    }}
+                    afterOpenChange={() => {
+                      if (!isMenu) setIsMoreButton(true)
+                    }}
+                    open={isMenu}
+                    mask={false}
+                    getContainer={false}
+                    width={339}
+                    // closable={false}
+                    // extra={
+                    //   <CloseButton
+                    //     onClick={() => {
+                    //       setIsMenu(false)
+                    //     }}
+                    //   />
+                    // }
+                  >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                  </Drawer>
                 </div>
               </div>
             </div>
