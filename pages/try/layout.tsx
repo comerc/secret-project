@@ -15,6 +15,7 @@ import {
   CheckOutlined,
   CloseOutlined,
   MoreOutlined,
+  PlusOutlined,
 } from '@ant-design/icons'
 import {
   Drawer,
@@ -32,6 +33,27 @@ import type { MenuProps } from 'antd'
 import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
 import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
+
+function PlusButton() {
+  const handleClick = () => {}
+  return (
+    <div tabIndex={0} className="mr-1 mb-1">
+      <div className="lg:hidden">
+        <BoardHeaderButton
+          tabIndex={-1}
+          indent={false}
+          icon={<PlusOutlined />}
+          onClick={handleClick}
+        />
+      </div>
+      <div className="hidden lg:block">
+        <BoardHeaderButton tabIndex={-1} indent={false} onClick={handleClick}>
+          Создать
+        </BoardHeaderButton>
+      </div>
+    </div>
+  )
+}
 
 function MoreButton({ onClick }) {
   // TODO: во время анимации появляется горизонтальная прокрутка окна
@@ -238,6 +260,8 @@ function BoardHeaderButton({
   switchState = null,
   onClick,
   'aria-label': ariaLabel,
+  tabIndex = 0,
+  indent = true,
 }) {
   return (
     <Button
@@ -245,14 +269,16 @@ function BoardHeaderButton({
       title={title}
       icon={icon}
       className={cx(
-        'mr-1 mb-1 rounded-[3px] border-0 bg-[var(--dynamic-button)]',
+        'rounded-[3px] border-0 bg-[var(--dynamic-button)]',
         'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
         // floatRight ? 'float-right' : 'float-left ',
+        indent && 'mr-1 mb-1',
         children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-1.5',
         switchState ? 'text-[#f2d600]' : 'text-[var(--dynamic-text)]',
         switchState !== null && 'scale-icon',
       )}
       onClick={onClick}
+      tabIndex={tabIndex}
     >
       {children}
     </Button>
@@ -344,7 +370,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   )
 }
 
-function HeaderButton({ icon }) {
+function NavHeaderButton({ icon }) {
   return (
     <div role="presentation">
       <Button
@@ -508,17 +534,18 @@ function TryLayoutPage({ issues }) {
           >
             <Link
               href="/"
-              className="h-8 rounded-[3px] px-1.5 hover:bg-white/30"
+              className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-white/30 "
               aria-label="Вернуться на главную страницу"
             >
               <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
             </Link>
+            <PlusButton />
             <div className="flex grow"></div>
             <div className="flex space-x-1">
               <SearchButton />
-              <HeaderButton icon={<BellOutlined />} />
-              <HeaderButton icon={<QuestionCircleOutlined />} />
-              <HeaderButton icon={<UserOutlined />} />
+              <NavHeaderButton icon={<BellOutlined />} />
+              <NavHeaderButton icon={<QuestionCircleOutlined />} />
+              <NavHeaderButton icon={<UserOutlined />} />
             </div>
           </nav>
         </div>
