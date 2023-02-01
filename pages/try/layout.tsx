@@ -34,12 +34,44 @@ import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
 import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
 
+function FilterButton() {
+  return (
+    <CustomDropdown items={[]} placement="bottom">
+      <BoardHeaderButton
+      // aria-label=""
+      // title={value.title}
+      // onClick={(e) => e.preventDefault()}
+      // icon={value.buttonIcon}
+      >
+        Фильтр
+      </BoardHeaderButton>
+    </CustomDropdown>
+  )
+}
+
+function InFavoritesButton() {
+  return (
+    <CustomDropdown items={[]}>
+      <BoardHeaderButton
+        aria-label="Избранные"
+        // title={value.title}
+        // onClick={(e) => e.preventDefault()}
+        // icon={value.buttonIcon}
+      >
+        В избранном
+      </BoardHeaderButton>
+    </CustomDropdown>
+  )
+}
+
 function PlusButton() {
   const handleClick = () => {}
+  const ariaLabel = 'Создать доску или рабочее пространство'
   return (
     <div tabIndex={0} className="mr-1 mb-1">
       <div className="lg:hidden">
         <BoardHeaderButton
+          aria-label={ariaLabel}
           tabIndex={-1}
           indent={false}
           icon={<PlusOutlined />}
@@ -47,7 +79,12 @@ function PlusButton() {
         />
       </div>
       <div className="hidden lg:block">
-        <BoardHeaderButton tabIndex={-1} indent={false} onClick={handleClick}>
+        <BoardHeaderButton
+          aria-label={ariaLabel}
+          tabIndex={-1}
+          indent={false}
+          onClick={handleClick}
+        >
           Создать
         </BoardHeaderButton>
       </div>
@@ -123,7 +160,14 @@ function CloseButton({ onClick }) {
   )
 }
 
-function PermisionLevelButton() {
+function CustomDropdown({
+  header,
+  footer,
+  items = [],
+  onClick,
+  placement = 'bottomLeft',
+  children,
+}) {
   const [open, setOpen] = React.useState(false)
   const { width, height } = useWindowSize()
   const { token } = theme.useToken()
@@ -135,6 +179,73 @@ function PermisionLevelButton() {
   const menuStyle = {
     boxShadow: 'none',
   }
+  return (
+    <Dropdown
+      trigger={['click']}
+      onOpenChange={(flag) => {
+        setOpen(flag)
+      }}
+      open={open}
+      placement={placement}
+      menu={{
+        items,
+        onClick: (event) => {
+          if (onClick) {
+            onClick(event)
+          }
+          setOpen(false)
+        },
+      }}
+      dropdownRender={(menu) => (
+        <div
+          style={{ ...contentStyle, width: `${width}px` }}
+          className="relative max-w-[370px] rounded-[3px]"
+        >
+          {header && (
+            <div className="mb-2 h-10 text-center">
+              <span
+                className="mx-3 block truncate 
+              border-b border-[var(--ds-border,#091e4221)] 
+              px-8 leading-10"
+              >
+                {header}
+              </span>
+              <div className="absolute right-0 top-0 py-[10px] pl-[8px] pr-[12px]">
+                <CloseButton
+                  onClick={() => {
+                    setOpen(false)
+                  }}
+                />
+              </div>
+            </div>
+          )}
+          {items && (
+            <div
+              className="overflow-y-auto overflow-x-hidden
+              px-3 pb-3
+              [&>.ant-dropdown-menu]:p-0
+              [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
+              [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
+              style={{
+                maxHeight: `calc(${height}px - 48px)`,
+              }}
+            >
+              {React.cloneElement(menu as React.ReactElement, {
+                tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
+                style: menuStyle,
+              })}
+            </div>
+          )}
+          {footer && <div>{footer}</div>}
+        </div>
+      )}
+    >
+      {children}
+    </Dropdown>
+  )
+}
+
+function PermisionLevelButton() {
   const [selected, setSelected] = React.useState('public')
   const items = Object.entries(map).map(([key, { icon, itemText, title }]) => ({
     key,
@@ -146,7 +257,7 @@ function PermisionLevelButton() {
         onClick={(event) => {
           event.preventDefault()
         }}
-        className="mx-[-12px] block py-[6px] px-[12px] 
+        className="mx-[-12px] block py-[6px] px-[12px]
         hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
         active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]
         "
@@ -171,58 +282,12 @@ function PermisionLevelButton() {
   }))
   const value = map[selected]
   return (
-    <Dropdown
-      trigger={['click']}
-      onOpenChange={(flag) => {
-        setOpen(flag)
+    <CustomDropdown
+      header="Изменение видимости"
+      items={items}
+      onClick={(event) => {
+        setSelected(event.key)
       }}
-      open={open}
-      // placement={'bottom'}
-      menu={{
-        items,
-        onClick: (event) => {
-          setSelected(event.key)
-          setOpen(false)
-        },
-      }}
-      dropdownRender={(menu) => (
-        <div
-          style={{ ...contentStyle, width: `${width}px` }}
-          className="relative max-w-[370px] rounded-[3px]"
-        >
-          <div className="mb-2 h-10 text-center">
-            <span
-              className="mx-3 block truncate 
-                border-b border-[var(--ds-border,#091e4221)] 
-                px-8 leading-10"
-            >
-              Изменение видимости
-            </span>
-            <div className="absolute right-0 top-0 py-[10px] pl-[8px] pr-[12px]">
-              <CloseButton
-                onClick={() => {
-                  setOpen(false)
-                }}
-              />
-            </div>
-          </div>
-          <div
-            className="overflow-y-auto overflow-x-hidden
-              px-3 pb-3
-              [&>.ant-dropdown-menu]:p-0
-              [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
-              [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
-            style={{
-              maxHeight: `calc(${height}px - 48px)`,
-            }}
-          >
-            {React.cloneElement(menu as React.ReactElement, {
-              tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
-              style: menuStyle,
-            })}
-          </div>
-        </div>
-      )}
     >
       <BoardHeaderButton
         aria-label="Изменить уровень доступа к доске"
@@ -232,7 +297,7 @@ function PermisionLevelButton() {
       >
         {value.buttonText || value.itemText}
       </BoardHeaderButton>
-    </Dropdown>
+    </CustomDropdown>
   )
 }
 
@@ -539,6 +604,7 @@ function TryLayoutPage({ issues }) {
             >
               <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
             </Link>
+            <InFavoritesButton />
             <PlusButton />
             <div className="flex grow"></div>
             <div className="flex space-x-1">
@@ -577,7 +643,7 @@ function TryLayoutPage({ issues }) {
                       <FavoriteButton />
                       <PermisionLevelButton />
                       <div className="float-right">
-                        <BoardHeaderButton>Фильтр</BoardHeaderButton>
+                        <FilterButton />
                         {isMoreButton && (
                           <MoreButton
                             onClick={() => {
