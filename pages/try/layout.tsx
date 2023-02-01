@@ -16,6 +16,7 @@ import {
   CloseOutlined,
   MoreOutlined,
   PlusOutlined,
+  DownOutlined,
 } from '@ant-design/icons'
 import {
   Drawer,
@@ -33,6 +34,79 @@ import type { MenuProps } from 'antd'
 import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
 import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
+import { resetServerContext } from 'react-beautiful-dnd'
+import generateSentence from '.../utils/generateSentence'
+import { nanoid } from 'nanoid'
+import Image from 'next/image'
+
+type IProps = {
+  issues: []
+  boardId: string
+  favorites: []
+}
+
+export const getServerSideProps = async ({ query }): IProps => {
+  resetServerContext()
+  const issues = Array.from({ length: 100 }, (v, k) => k).map((k) => ({
+    id: `id-${k}`,
+    text: `Issue ${k} ` + generateSentence(),
+  }))
+  const boardId = nanoid(8)
+  const favorites = [
+    { boardId, name: 'Minsk4', title: '123', color: '#cd5a91', wallpapper: '/wallpapper.jpg' },
+  ]
+  return { props: { issues, boardId, favorites } }
+}
+
+function InFavoritesButton({ favorites, onChange }) {
+  const items = favorites.map(({ boardId, name, title }) => ({
+    key: boardId,
+    label: (
+      <a
+        tabIndex={-1}
+        href="#"
+        name={boardId}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+        className="mx-[-12px] block py-[6px] px-[12px]
+        hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
+        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
+      >
+        <span className="mr-1">{boardId}</span>
+        <div>{name}</div>
+        <span
+          className="inline-block text-xs
+          text-[var(--ds-text-subtle,#5e6c84)]"
+        >
+          {title}
+        </span>
+      </a>
+    ),
+  }))
+  return (
+    <CustomDropdown
+      items={items}
+      smallSize={true}
+      footer={
+        items.length === 0 && (
+          // TODO: добавить картинку
+          <div className="text-center">Чтобы быстро находить важные доски, отмечайте их.</div>
+        )
+      }
+    >
+      <BoardHeaderButton
+        aria-label="Избранные"
+        // title="" // TODO: добавить title
+      >
+        <Space>
+          В избранном
+          <DownOutlined />
+        </Space>
+      </BoardHeaderButton>
+    </CustomDropdown>
+  )
+}
 
 function FilterButton() {
   return (
@@ -44,21 +118,6 @@ function FilterButton() {
       // icon={value.buttonIcon}
       >
         Фильтр
-      </BoardHeaderButton>
-    </CustomDropdown>
-  )
-}
-
-function InFavoritesButton() {
-  return (
-    <CustomDropdown items={[]}>
-      <BoardHeaderButton
-        aria-label="Избранные"
-        // title={value.title}
-        // onClick={(e) => e.preventDefault()}
-        // icon={value.buttonIcon}
-      >
-        В избранном
       </BoardHeaderButton>
     </CustomDropdown>
   )
@@ -166,10 +225,11 @@ function CustomDropdown({
   items = [],
   onClick,
   placement = 'bottomLeft',
+  smallSize = false,
   children,
 }) {
   const [open, setOpen] = React.useState(false)
-  const { width, height } = useWindowSize()
+  // const { width, height } = useWindowSize() // TODO: ошибки в смещении при уменьшении размера экрана
   const { token } = theme.useToken()
   const contentStyle = {
     backgroundColor: token.colorBgElevated,
@@ -186,7 +246,7 @@ function CustomDropdown({
         setOpen(flag)
       }}
       open={open}
-      placement={placement}
+      placement={placement} // TODO: ошибки в смещении при уменьшении размера экрана
       menu={{
         items,
         onClick: (event) => {
@@ -198,15 +258,19 @@ function CustomDropdown({
       }}
       dropdownRender={(menu) => (
         <div
-          style={{ ...contentStyle, width: `${width}px` }}
-          className="relative max-w-[370px] rounded-[3px]"
+          style={{
+            ...contentStyle,
+            // TODO: ошибки в смещении при уменьшении размера экрана
+            // width: `${width}px`
+          }}
+          className={cx('relative rounded-[3px]', smallSize ? 'w-[304px]' : 'w-[370px]')} // TODO: max-w-
         >
           {header && (
             <div className="mb-2 h-10 text-center">
               <span
                 className="mx-3 block truncate 
-              border-b border-[var(--ds-border,#091e4221)] 
-              px-8 leading-10"
+                  border-b border-[var(--ds-border,#091e4221)] 
+                  px-8 leading-10"
               >
                 {header}
               </span>
@@ -219,16 +283,17 @@ function CustomDropdown({
               </div>
             </div>
           )}
-          {items && (
+          {items.length > 0 && (
             <div
               className="overflow-y-auto overflow-x-hidden
-              px-3 pb-3
-              [&>.ant-dropdown-menu]:p-0
-              [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
-              [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
-              style={{
-                maxHeight: `calc(${height}px - 48px)`,
-              }}
+                px-3 pb-3
+                [&>.ant-dropdown-menu]:p-0
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
+              // TODO: ошибки в смещении при уменьшении размера экрана
+              // style={{
+              //   maxHeight: `calc(${height}px - 48px)`,
+              // }}
             >
               {React.cloneElement(menu as React.ReactElement, {
                 tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
@@ -236,7 +301,7 @@ function CustomDropdown({
               })}
             </div>
           )}
-          {footer && <div>{footer}</div>}
+          {footer && <div className="px-3 py-5">{footer}</div>}
         </div>
       )}
     >
@@ -259,18 +324,19 @@ function PermisionLevelButton() {
         }}
         className="mx-[-12px] block py-[6px] px-[12px]
         hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
-        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]
-        "
+        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
       >
         <span className="mr-1">{icon}</span>
-        {itemText}&nbsp;&nbsp;
-        {key === selected && (
-          <span
-            style={{ color: '#42526e' }} // TODO: var(--ds-icon,#42526e);
-          >
-            <CheckOutlined />
-          </span>
-        )}
+        <Space>
+          {itemText}
+          {key === selected && (
+            <span
+              style={{ color: '#42526e' }} // TODO: var(--ds-icon,#42526e);
+            >
+              <CheckOutlined />
+            </span>
+          )}
+        </Space>
         <span
           className="inline-block text-xs
           text-[var(--ds-text-subtle,#5e6c84)]"
@@ -304,15 +370,20 @@ function PermisionLevelButton() {
 // TODO: Using <Button> results in "findDOMNode is deprecated in StrictMode" warning
 // https://github.com/ant-design/ant-design/issues/22493
 
-function FavoriteButton() {
-  const [switchState, setSwitchState] = React.useState(false)
+function FavoriteButton({ boardId, favorites, onChange }) {
+  const [switchState, setSwitchState] = React.useState(
+    favorites.findIndex((item) => item.boardId === boardId) > -1,
+  )
   return (
     <BoardHeaderButton
       aria-label="Добавить или удалить доску из избранного"
       title="Нажмите, чтобы добавить или удалить доску из избранного. Избранные доски отображаются вверху вашего списка досок."
       icon={switchState ? <StarFilled /> : <StarOutlined />}
       switchState={switchState}
-      onClick={() => setSwitchState(!switchState)}
+      onClick={() => {
+        onChange(!switchState)
+        setSwitchState(!switchState)
+      }}
     />
   )
 }
@@ -566,13 +637,21 @@ function SearchButton() {
   )
 }
 
-function TryLayoutPage({ issues }) {
+function TryLayoutPage(props: IProps) {
   const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
+  const [favorites, setFavorites] = React.useState(props.favorites)
+  const handleChangeFavorites = (value) => {
+    if (value) {
+      setFavorites([...favorites, props.boardId])
+    } else {
+      setFavorites(favorites.filter((item) => item.boardId !== props.boardId))
+    }
+  }
   return (
     <div
       id="chrome-container"
-      className="body-dark-board-background"
+      // className="body-dark-board-background"
       className="h-full" // overflow-hidden
       style={{
         '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
@@ -586,10 +665,7 @@ function TryLayoutPage({ issues }) {
       }}
     >
       <div id="surface" className="flex h-full flex-col">
-        <div
-          className="max-h-[44px] min-h-[44px]"
-          // overflow-hidden
-        >
+        <div className="max-h-[44px] min-h-[44px] overflow-hidden">
           <nav
             className="flex max-h-[44px]
               border-b border-[var(--dynamic-text-transparent)] 
@@ -604,7 +680,7 @@ function TryLayoutPage({ issues }) {
             >
               <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
             </Link>
-            <InFavoritesButton />
+            <InFavoritesButton favorites={favorites} onChange={handleChangeFavorites} />
             <PlusButton />
             <div className="flex grow"></div>
             <div className="flex space-x-1">
@@ -640,7 +716,11 @@ function TryLayoutPage({ issues }) {
                         defaultValue="Minsk4 Minsk4 Minsk4 Minsk4"
                         onEndEdit={(value) => console.log(value)}
                       />
-                      <FavoriteButton />
+                      <FavoriteButton
+                        boardId={props.boardId}
+                        favorites={favorites}
+                        onChange={handleChangeFavorites}
+                      />
                       <PermisionLevelButton />
                       <div className="float-right">
                         <FilterButton />
@@ -664,21 +744,15 @@ function TryLayoutPage({ issues }) {
                       }}
                     >
                       <div id="board">
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <Button onClick={() => console.log(123)}>123</Button>
+                        {/* <Image
+                          priority
+                          src="/wallpapper.jpg"
+                          fill
+                          // width="5760" height="3840"
+                          style={{
+                            objectFit: 'cover',
+                          }}
+                        /> */}
                       </div>
                     </div>
                   </div>
