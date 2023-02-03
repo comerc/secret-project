@@ -297,6 +297,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Top Most CrunchBase Rank related to me: techstars.com startupwiseguys.com antler.co venturecatalysts.in wefunder.com
 - [ ] PRINCE2 - A Structured Project Management Methodology
   - https://asana.com/ru/resources/prince2-methodology
+- [ ] Algolia
 
 ## Что нового (для меня) про вёрстку
 

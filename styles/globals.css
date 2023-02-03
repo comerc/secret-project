@@ -47,14 +47,6 @@
   box-shadow: 0 0 0 2px var(--ds-border-focused, #2684ff) !important;
 }
 
-.scale-icon:hover > .anticon {
-  transform: scale(1.2) !important;
-}
-
-.scale-icon:focus > .anticon {
-  transform: scale(1.2) !important;
-}
-
 .body-dark-board-background {
   --board-header-background-color: #0000003d;
 }

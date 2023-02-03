@@ -53,45 +53,64 @@ export const getServerSideProps = async ({ query }): IProps => {
   }))
   const boardId = nanoid(8)
   const favorites = [
-    { boardId, name: 'Minsk4', title: '123', color: '#cd5a91', wallpapper: '/wallpapper.jpg' },
+    {
+      boardId,
+      name: 'Minsk4',
+      workspace: 'Andrew Ka',
+      color: '#cd5a91',
+      wallpapper: '/wallpapper.jpg',
+    },
+    {
+      boardId: nanoid(8),
+      name: 'Minsk16',
+      workspace: 'Andrew Ka',
+      color: '#cd5a91',
+      wallpapper: '/wallpapper.jpg',
+    },
   ]
   return { props: { issues, boardId, favorites } }
 }
 
-function InFavoritesButton({ favorites, onChange }) {
-  const items = favorites.map(({ boardId, name, title }) => ({
-    key: boardId,
-    label: (
-      <a
-        tabIndex={-1}
-        href="#"
-        name={boardId}
-        onClick={(event) => {
-          event.preventDefault()
-        }}
-        className="mx-[-12px] block py-[6px] px-[12px]
-        hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
-        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
-      >
-        <span className="mr-1">{boardId}</span>
-        <div>{name}</div>
-        <span
-          className="inline-block text-xs
-          text-[var(--ds-text-subtle,#5e6c84)]"
-        >
-          {title}
-        </span>
-      </a>
-    ),
-  }))
+function InFavoritesButton({ favorites, onDelete }) {
+  const items = favorites.map(({ boardId, name, workspace, color, wallpapper }) => (
+    <div key={boardId} className="pt-1 pb-1">
+      <div className="flex h-8 rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
+        <div
+          className="h-8 w-[52px] flex-none rounded-[3px]"
+          style={{
+            backgroundColor: color,
+            // TODO: wallpapper
+          }}
+        />
+        <div className="grow flex-col truncate pl-2">
+          <div className="truncate text-[14px] font-[500] leading-[18px]">{name}</div>
+          <div className="truncate text-[12px] leading-[12px] text-[var(--ds-text-subtle,#5E6C84)]">
+            {workspace}
+          </div>
+        </div>
+        <div className="flex w-8 flex-none items-center justify-center">
+          <Button
+            className="[&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
+            title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
+            icon={<StarFilled />}
+            // ghost
+            size="small"
+            onClick={() => onDelete(boardId)}
+          ></Button>
+        </div>
+      </div>
+    </div>
+  ))
   return (
     <CustomDropdown
-      items={items}
       smallSize={true}
       footer={
-        items.length === 0 && (
+        items.length === 0 ? (
           // TODO: добавить картинку
-          <div className="text-center">Чтобы быстро находить важные доски, отмечайте их.</div>
+          <div className="mt-3 text-center">Чтобы быстро находить важные доски, отмечайте их.</div>
+        ) : (
+          // TODO: добавить перестановку через drag'n'drop
+          items
         )
       }
     >
@@ -283,6 +302,7 @@ function CustomDropdown({
               </div>
             </div>
           )}
+          {!header && !footer && <div className="pt-3" />}
           {items.length > 0 && (
             <div
               className="overflow-y-auto overflow-x-hidden
@@ -296,12 +316,12 @@ function CustomDropdown({
               // }}
             >
               {React.cloneElement(menu as React.ReactElement, {
-                tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
+                tabIndex: '-1', // TODO: пок`а отключил [TAB], надо включить
                 style: menuStyle,
               })}
             </div>
           )}
-          {footer && <div className="px-3 py-5">{footer}</div>}
+          {footer && <div className="px-3 pt-2 pb-5">{footer}</div>}
         </div>
       )}
     >
@@ -371,29 +391,28 @@ function PermisionLevelButton() {
 // https://github.com/ant-design/ant-design/issues/22493
 
 function FavoriteButton({ boardId, favorites, onChange }) {
-  const [switchState, setSwitchState] = React.useState(
-    favorites.findIndex((item) => item.boardId === boardId) > -1,
-  )
+  const switchState = favorites.findIndex((item) => item.boardId === boardId) > -1
   return (
     <BoardHeaderButton
+      className={cx(
+        '[&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125',
+        switchState && '[&>.anticon]:text-[#f2d600]',
+      )}
       aria-label="Добавить или удалить доску из избранного"
       title="Нажмите, чтобы добавить или удалить доску из избранного. Избранные доски отображаются вверху вашего списка досок."
       icon={switchState ? <StarFilled /> : <StarOutlined />}
-      switchState={switchState}
       onClick={() => {
         onChange(!switchState)
-        setSwitchState(!switchState)
       }}
-    />
+    ></BoardHeaderButton>
   )
 }
 
 function BoardHeaderButton({
+  className,
   title,
-  // floatRight,
   children,
   icon,
-  switchState = null,
   onClick,
   'aria-label': ariaLabel,
   tabIndex = 0,
@@ -407,11 +426,10 @@ function BoardHeaderButton({
       className={cx(
         'rounded-[3px] border-0 bg-[var(--dynamic-button)]',
         'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
-        // floatRight ? 'float-right' : 'float-left ',
+        'text-[var(--dynamic-text)]',
         indent && 'mr-1 mb-1',
-        children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-1.5',
-        switchState ? 'text-[#f2d600]' : 'text-[var(--dynamic-text)]',
-        switchState !== null && 'scale-icon',
+        children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-0',
+        className,
       )}
       onClick={onClick}
       tabIndex={tabIndex}
@@ -643,10 +661,22 @@ function TryLayoutPage(props: IProps) {
   const [favorites, setFavorites] = React.useState(props.favorites)
   const handleChangeFavorites = (value) => {
     if (value) {
-      setFavorites([...favorites, props.boardId])
+      setFavorites([
+        ...favorites,
+        {
+          boardId: props.boardId,
+          name: 'Minsk4',
+          workspace: 'Andrew Ka',
+          color: '#cd5a91',
+          wallpapper: '/wallpapper.jpg',
+        },
+      ])
     } else {
       setFavorites(favorites.filter((item) => item.boardId !== props.boardId))
     }
+  }
+  const handleDeleteFavorites = (boardId) => {
+    setFavorites(favorites.filter((item) => item.boardId !== boardId))
   }
   return (
     <div
@@ -680,7 +710,7 @@ function TryLayoutPage(props: IProps) {
             >
               <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
             </Link>
-            <InFavoritesButton favorites={favorites} onChange={handleChangeFavorites} />
+            <InFavoritesButton favorites={favorites} onDelete={handleDeleteFavorites} />
             <PlusButton />
             <div className="flex grow"></div>
             <div className="flex space-x-1">
