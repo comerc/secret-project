@@ -17,11 +17,16 @@ import {
   MoreOutlined,
   PlusOutlined,
   DownOutlined,
+  FilterOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons'
 import {
+  Form,
   Drawer,
   Button,
   Input,
+  Checkbox,
   Modal,
   Icon,
   Dropdown,
@@ -74,7 +79,7 @@ export const getServerSideProps = async ({ query }): IProps => {
 function InFavoritesButton({ favorites, onDelete }) {
   const items = favorites.map(({ boardId, name, workspace, color, wallpapper }) => (
     <div key={boardId} className="pt-1 pb-1">
-      <div className="flex h-8 rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
+      <div className="flex h-8 select-none rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
         <div
           className="h-8 w-[52px] flex-none rounded-[3px]"
           style={{
@@ -103,7 +108,7 @@ function InFavoritesButton({ favorites, onDelete }) {
   ))
   return (
     <CustomDropdown
-      smallSize={true}
+      smallSize
       footer={
         items.length === 0 ? (
           // TODO: добавить картинку
@@ -128,16 +133,195 @@ function InFavoritesButton({ favorites, onDelete }) {
 }
 
 function FilterButton() {
+  const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
+  const [filterCount, setFilterCount] = React.useState(8)
+  const isFilter = filterCount > 0
+  const [isOpen, setOpen] = React.useState(false)
+  const [form] = Form.useForm()
+  const memberItems = [
+    {
+      icon: <UserOutlined className="text-[var(--ds-icon-subtle,#6B778C)]" />,
+      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
+      text: 'Нет участников',
+    },
+    {
+      icon: <UserOutlined className="text-[white]" />,
+      background: 'bg-[green]',
+      text: 'Карточки, назначенные мне',
+    },
+  ]
+  const deadlineItems = [
+    {
+      icon: <CalendarOutlined className="text-[var(--ds-icon-subtle,#6B778C)]" />,
+      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
+      text: 'Без даты',
+    },
+    {
+      icon: <ClockCircleOutlined className="text-[var(--ds-icon-inverse,#FFFFFF)]" />,
+      background: 'bg-[var(--ds-background-danger-bold,#EB5A46)]',
+      text: 'Просроченные',
+    },
+    {
+      icon: <ClockCircleOutlined className="text-[var(--ds-icon-inverse,#FFFFFF)]" />,
+      background: 'bg-[var(--ds-background-warning-bold,#F2D600)]',
+      text: 'Срок истекает в течение суток',
+    },
+    {
+      icon: <ClockCircleOutlined className="var(--ds-icon,#42526E)" />,
+      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
+      text: 'Срок истекает в течение недели',
+    },
+    {
+      icon: <ClockCircleOutlined className="var(--ds-icon,#42526E)" />,
+      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
+      text: 'Срок истекает в течение месяца',
+    },
+    {
+      text: 'Отмечено как выполненное',
+    },
+    {
+      text: 'Не отмечено как выполненное',
+    },
+  ]
   return (
-    <CustomDropdown items={[]} placement="bottom">
-      <BoardHeaderButton
-      // aria-label=""
-      // title={value.title}
-      // onClick={(e) => e.preventDefault()}
-      // icon={value.buttonIcon}
-      >
-        Фильтр
-      </BoardHeaderButton>
+    <CustomDropdown
+      items={[]}
+      placement="bottom"
+      header="Фильтр"
+      footer={
+        <Form
+          className="w-full"
+          form={form}
+          layout="vertical"
+          // initialValues={{ requiredMarkValue: requiredMark }}
+          // onValuesChange={onRequiredTypeChange}
+          // requiredMark={requiredMark}
+        >
+          <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
+            <Input placeholder="Введите ключевое слово..." />
+          </Form.Item>
+          <Form.Item label="Участники">
+            <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
+              <Space direction="vertical" className="w-full">
+                {memberItems.map(({ background, icon, text }, index) => (
+                  <Checkbox
+                    value={index}
+                    className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
+                        [&>.ant-checkbox]:top-0"
+                  >
+                    {icon ? (
+                      <Space>
+                        <div
+                          className={cx(
+                            'flex h-6 w-6 items-center justify-center rounded-[50%]',
+                            background,
+                          )}
+                        >
+                          {icon}
+                        </div>
+                        {text}
+                      </Space>
+                    ) : (
+                      text
+                    )}
+                  </Checkbox>
+                ))}
+              </Space>
+            </Checkbox.Group>
+          </Form.Item>
+          <Form.Item label="Срок">
+            <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
+              <Space direction="vertical" className="w-full">
+                {(isAllDeadlineItems ? deadlineItems : deadlineItems.slice(0, 3)).map(
+                  ({ background, icon, text }, index) => (
+                    <Checkbox
+                      value={index}
+                      className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
+                        [&>.ant-checkbox]:top-0"
+                    >
+                      {icon ? (
+                        <Space>
+                          <div
+                            className={cx(
+                              'flex h-6 w-6 items-center justify-center rounded-[50%]',
+                              background,
+                            )}
+                          >
+                            {icon}
+                          </div>
+                          {text}
+                        </Space>
+                      ) : (
+                        text
+                      )}
+                    </Checkbox>
+                  ),
+                )}
+              </Space>
+            </Checkbox.Group>
+            {isAllDeadlineItems || (
+              <button
+                className="ml-6 mt-2 text-[var(--ds-link,#5e6c84)] hover:underline"
+                type="button"
+                onClick={() => setAllDeadlineItems(true)}
+              >
+                <Space>
+                  Показать все параметры
+                  <DownOutlined />
+                </Space>
+              </button>
+            )}
+          </Form.Item>
+        </Form>
+        // TODO: фильтр по меткам
+        // TODO: выбор типа совпадения
+      }
+      onOpenChange={(flag) => {
+        setOpen(flag)
+        if (flag) {
+          setAllDeadlineItems(false) // TODO: сворачивать, только если не отмечено из расширенного списка
+          // setFilter(true)
+        } else {
+          // setFilter(false)
+        }
+      }}
+    >
+      <div className="mb-1 mr-1 inline-flex">
+        <BoardHeaderButton
+          // aria-label=""
+          title="Фильтр карточек"
+          // onClick={(event) => {
+          //   event.preventDefault()
+          // }}
+          indent={false}
+          icon={<FilterOutlined />}
+          className={cx(
+            (isOpen || isFilter) &&
+              'bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]',
+            isFilter && 'rounded-r-none',
+          )}
+        >
+          Фильтр
+          {isFilter && (
+            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlighted-hovered)] px-1.5">
+              {filterCount}
+            </span>
+          )}{' '}
+        </BoardHeaderButton>
+        {isFilter && (
+          <BoardHeaderButton
+            // aria-label=""
+            title="Очистить фильтры"
+            indent={false}
+            className="rounded-l-none bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]"
+            icon={<CloseOutlined />}
+            onClick={(event) => {
+              event.stopPropagation()
+              setFilterCount(0)
+            }}
+          />
+        )}
+      </div>
     </CustomDropdown>
   )
 }
@@ -243,6 +427,7 @@ function CustomDropdown({
   footer,
   items = [],
   onClick,
+  onOpenChange,
   placement = 'bottomLeft',
   smallSize = false,
   children,
@@ -263,6 +448,9 @@ function CustomDropdown({
       trigger={['click']}
       onOpenChange={(flag) => {
         setOpen(flag)
+        if (onOpenChange) {
+          onOpenChange(flag)
+        }
       }}
       open={open}
       placement={placement} // TODO: ошибки в смещении при уменьшении размера экрана
@@ -428,7 +616,7 @@ function BoardHeaderButton({
         'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
         'text-[var(--dynamic-text)]',
         indent && 'mr-1 mb-1',
-        children ? (icon ? 'pl-2 pr-3' : 'px-3') : 'w-8 px-0',
+        children ? 'px-3' : 'w-8 px-0',
         className,
       )}
       onClick={onClick}
@@ -688,6 +876,9 @@ function TryLayoutPage(props: IProps) {
         '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
         '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
         '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
+        '--dynamic-button-highlighted': '#DFE1E6',
+        '--dynamic-button-highlighted-text': '#172B4D',
+        '--dynamic-button-highlighted-hovered': '#FFFFFF',
         '--dynamic-icon': '#ffffff',
         '--dynamic-text': '#ffffff',
         '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
@@ -743,7 +934,7 @@ function TryLayoutPage(props: IProps) {
                         pt-2 pr-1 pb-1 pl-3"
                     >
                       <BoardNameButton
-                        defaultValue="Minsk4 Minsk4 Minsk4 Minsk4"
+                        defaultValue="Minsk4"
                         onEndEdit={(value) => console.log(value)}
                       />
                       <FavoriteButton
