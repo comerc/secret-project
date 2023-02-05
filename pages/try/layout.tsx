@@ -134,7 +134,7 @@ function InFavoritesButton({ favorites, onDelete }) {
 
 function FilterButton() {
   const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
-  const [filterCount, setFilterCount] = React.useState(8)
+  const [filterCount, setFilterCount] = React.useState(0)
   const isFilter = filterCount > 0
   const [isOpen, setOpen] = React.useState(false)
   const [form] = Form.useForm()
@@ -205,6 +205,7 @@ function FilterButton() {
               <Space direction="vertical" className="w-full">
                 {memberItems.map(({ background, icon, text }, index) => (
                   <Checkbox
+                    key={index}
                     value={index}
                     className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
                         [&>.ant-checkbox]:top-0"
@@ -235,6 +236,7 @@ function FilterButton() {
                 {(isAllDeadlineItems ? deadlineItems : deadlineItems.slice(0, 3)).map(
                   ({ background, icon, text }, index) => (
                     <Checkbox
+                      key={index}
                       value={index}
                       className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
                         [&>.ant-checkbox]:top-0"
@@ -295,25 +297,26 @@ function FilterButton() {
           // }}
           indent={false}
           icon={<FilterOutlined />}
-          className={cx(
+          colors={cx(
             (isOpen || isFilter) &&
-              'bg-[var(--dynamic-button-highlight)] text-[var(--dynamic-button-highlight-text)] hover:bg-[var(--dynamic-button-highlight-hovered)] hover:text-[var(--dynamic-button-highlight-text)]',
-            isFilter && 'rounded-r-none',
+              'bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]',
           )}
+          className={cx(isFilter && 'rounded-r-none')}
         >
           Фильтр
           {isFilter && (
-            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlight-hovered)] px-1.5">
+            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlighted-hovered)] px-1.5">
               {filterCount}
             </span>
-          )}{' '}
+          )}
         </BoardHeaderButton>
         {isFilter && (
           <BoardHeaderButton
             // aria-label=""
             title="Очистить фильтры"
             indent={false}
-            className="rounded-l-none bg-[var(--dynamic-button-highlight)] text-[var(--dynamic-button-highlight-text)] hover:bg-[var(--dynamic-button-highlight-hovered)] hover:text-[var(--dynamic-button-highlight-text)]"
+            colors="bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]"
+            className="rounded-l-none"
             icon={<CloseOutlined />}
             onClick={(event) => {
               event.stopPropagation()
@@ -605,6 +608,7 @@ function BoardHeaderButton({
   'aria-label': ariaLabel,
   tabIndex = 0,
   indent = true,
+  colors,
 }) {
   return (
     <Button
@@ -612,9 +616,10 @@ function BoardHeaderButton({
       title={title}
       icon={icon}
       className={cx(
-        'rounded-[3px] border-0 bg-[var(--dynamic-button)]',
-        'leading-5 hover:bg-[var(--dynamic-button-hovered)]',
-        'text-[var(--dynamic-text)]',
+        // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
+        colors ||
+          'bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]',
+        'rounded-[3px] border-0 leading-5',
         indent && 'mr-1 mb-1',
         children ? 'px-3' : 'w-8 px-0',
         className,
@@ -876,9 +881,9 @@ function TryLayoutPage(props: IProps) {
         '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
         '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
         '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
-        '--dynamic-button-highlight': '#DFE1E6', // FIX: --dynamic-button-highlighted - не работает для FilterButton
-        '--dynamic-button-highlight-text': '#172B4D',
-        '--dynamic-button-highlight-hovered': '#FFFFFF',
+        '--dynamic-button-highlighted': '#DFE1E6',
+        '--dynamic-button-highlighted-text': '#172B4D',
+        '--dynamic-button-highlighted-hovered': '#FFFFFF',
         '--dynamic-icon': '#ffffff',
         '--dynamic-text': '#ffffff',
         '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
