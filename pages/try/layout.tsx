@@ -297,13 +297,13 @@ function FilterButton() {
           icon={<FilterOutlined />}
           className={cx(
             (isOpen || isFilter) &&
-              'bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]',
+              'bg-[var(--dynamic-button-highlight)] text-[var(--dynamic-button-highlight-text)] hover:bg-[var(--dynamic-button-highlight-hovered)] hover:text-[var(--dynamic-button-highlight-text)]',
             isFilter && 'rounded-r-none',
           )}
         >
           Фильтр
           {isFilter && (
-            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlighted-hovered)] px-1.5">
+            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlight-hovered)] px-1.5">
               {filterCount}
             </span>
           )}{' '}
@@ -313,7 +313,7 @@ function FilterButton() {
             // aria-label=""
             title="Очистить фильтры"
             indent={false}
-            className="rounded-l-none bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]"
+            className="rounded-l-none bg-[var(--dynamic-button-highlight)] text-[var(--dynamic-button-highlight-text)] hover:bg-[var(--dynamic-button-highlight-hovered)] hover:text-[var(--dynamic-button-highlight-text)]"
             icon={<CloseOutlined />}
             onClick={(event) => {
               event.stopPropagation()
@@ -876,9 +876,9 @@ function TryLayoutPage(props: IProps) {
         '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
         '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
         '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
-        '--dynamic-button-highlighted': '#DFE1E6',
-        '--dynamic-button-highlighted-text': '#172B4D',
-        '--dynamic-button-highlighted-hovered': '#FFFFFF',
+        '--dynamic-button-highlight': '#DFE1E6', // FIX: --dynamic-button-highlighted - не работает для FilterButton
+        '--dynamic-button-highlight-text': '#172B4D',
+        '--dynamic-button-highlight-hovered': '#FFFFFF',
         '--dynamic-icon': '#ffffff',
         '--dynamic-text': '#ffffff',
         '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
