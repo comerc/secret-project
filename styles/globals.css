@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.ant-avatar-group-popover .ant-popover-inner-content > a {
+  display: inline-block;
+  /* margin-bottom: 2px; */
+}
+.ant-avatar-group-popover .ant-popover-inner-content > a:not(:first-child) {
+  margin-inline-start: -2px;
+}
+.ant-avatar-group-popover .ant-avatar {
+  border: 0 !important;
+}
+/* для кнопки "+n", которая открывает popup */
+.ant-avatar-group > .ant-avatar {
+  border-color: transparent !important;
+  cursor: pointer;
+}
+.ant-avatar-group > a > .ant-avatar {
+  border: 0 !important;
+}
+.ant-avatar-group > :not(:first-child) {
+  margin-inline-start: -2px !important;
+}
+/* FIX: при переносе на второй ряд */
+.ant-avatar-group-popover .ant-avatar + .ant-avatar {
+  margin-inline-start: 0px !important;
+}
+
 /* FIX: для #board-main-content */
 .ant-drawer-content-wrapper {
   transition-timing-function: ease-in !important;

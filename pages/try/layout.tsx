@@ -22,6 +22,8 @@ import {
   ClockCircleOutlined,
 } from '@ant-design/icons'
 import {
+  Tooltip,
+  Avatar,
   Form,
   Drawer,
   Button,
@@ -48,10 +50,14 @@ type IProps = {
   issues: []
   boardId: string
   favorites: []
+  users: []
 }
 
 export const getServerSideProps = async ({ query }): IProps => {
   resetServerContext()
+  const users = await fetch('https://randomuser.me/api/?results=20')
+    .then((res) => res.json())
+    .then((data) => data.results)
   const issues = Array.from({ length: 100 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     text: `Issue ${k} ` + generateSentence(),
@@ -73,7 +79,40 @@ export const getServerSideProps = async ({ query }): IProps => {
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  return { props: { issues, boardId, favorites } }
+  return { props: { issues, boardId, favorites, users } }
+}
+
+function UsersButton({ users }) {
+  const maxCount = 5
+  return (
+    <Avatar.Group
+      className={cx(
+        'float-left mb-1 mr-1',
+        users.length > maxCount &&
+          '[&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)]',
+      )}
+      maxCount={maxCount}
+      maxPopoverPlacement="bottomLeft"
+      maxPopoverTrigger="click"
+    >
+      {users.map(({ login: { uuid, username }, picture: { thumbnail }, name }, index, a) => (
+        <a
+          key={uuid}
+          className="
+            hover:[&>.ant-avatar]:bg-[#c1c7d0]
+            hover:[&>.ant-avatar>img]:opacity-80"
+          href="#"
+          onClick={(event) => {
+            event.preventDefault()
+          }}
+        >
+          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottom">
+            <Avatar src={thumbnail} style={{ zIndex: a.length - index }} className="" />
+          </Tooltip>
+        </a>
+      ))}
+    </Avatar.Group>
+  )
 }
 
 function InFavoritesButton({ favorites, onDelete }) {
@@ -288,7 +327,7 @@ function FilterButton() {
         }
       }}
     >
-      <div className="mb-1 mr-1 inline-flex">
+      <div className="float-left mb-1 mr-1 inline-flex">
         <BoardHeaderButton
           // aria-label=""
           title="Фильтр карточек"
@@ -361,7 +400,7 @@ function MoreButton({ onClick }) {
   // TODO: во время анимации появляется горизонтальная прокрутка окна
   return (
     <BoardHeaderButton
-      // floatRight
+      className="float-left"
       icon={<MoreOutlined rotate={90} />}
       onClick={onClick}
     ></BoardHeaderButton>
@@ -849,7 +888,7 @@ function SearchButton() {
 }
 
 function TryLayoutPage(props: IProps) {
-  const [isMoreButton, setIsMoreButton] = React.useState(true)
+  // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
   const [favorites, setFavorites] = React.useState(props.favorites)
   const handleChangeFavorites = (value) => {
@@ -950,14 +989,15 @@ function TryLayoutPage(props: IProps) {
                       <PermisionLevelButton />
                       <div className="float-right">
                         <FilterButton />
-                        {isMoreButton && (
-                          <MoreButton
-                            onClick={() => {
-                              setIsMoreButton(false)
-                              setIsMenu(true)
-                            }}
-                          />
-                        )}
+                        <UsersButton users={props.users} />
+                        {/* {isMoreButton && ( */}
+                        <MoreButton
+                          onClick={() => {
+                            // setIsMoreButton(false)
+                            setIsMenu(true)
+                          }}
+                        />
+                        {/* )} */}
                       </div>
                     </div>
                     <div id="board-warnings"></div>
@@ -989,9 +1029,9 @@ function TryLayoutPage(props: IProps) {
                     onClose={() => {
                       setIsMenu(false)
                     }}
-                    afterOpenChange={() => {
-                      if (!isMenu) setIsMoreButton(true)
-                    }}
+                    // afterOpenChange={() => {
+                    //   if (!isMenu) setIsMoreButton(true)
+                    // }}
                     open={isMenu}
                     mask={false}
                     getContainer={false}
