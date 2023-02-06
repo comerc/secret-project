@@ -98,15 +98,13 @@ function UsersButton({ users }) {
       {users.map(({ login: { uuid, username }, picture: { thumbnail }, name }, index, a) => (
         <a
           key={uuid}
-          className="
-            hover:[&>.ant-avatar]:bg-[#c1c7d0]
-            hover:[&>.ant-avatar>img]:opacity-80"
+          className="hover:[&>.ant-avatar]:bg-[#c1c7d0] hover:[&>.ant-avatar>img]:opacity-80"
           href="#"
           onClick={(event) => {
             event.preventDefault()
           }}
         >
-          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottom">
+          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomRight">
             <Avatar src={thumbnail} style={{ zIndex: a.length - index }} className="" />
           </Tooltip>
         </a>
