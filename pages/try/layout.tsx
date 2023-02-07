@@ -20,6 +20,7 @@ import {
   FilterOutlined,
   CalendarOutlined,
   ClockCircleOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons'
 import {
   Tooltip,
@@ -80,6 +81,46 @@ export const getServerSideProps = async ({ query }): IProps => {
     },
   ]
   return { props: { issues, boardId, favorites, users } }
+}
+
+function ShareButton() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const close = () => {
+    setIsOpen(false)
+  }
+  return (
+    <>
+      <BoardHeaderButton
+        // aria-label=""
+        title="Поделиться доской"
+        onClick={(e) => {
+          setIsOpen(true)
+        }}
+        className="float-left"
+        icon={<UserAddOutlined />}
+        colors="bg-[var(--ds-background-input,#FFFFFF)] text-[var(--ds-text,#000000)] hover:bg-[var(--ds-background-input-hovered,#ffffffe5)]"
+      >
+        Поделиться
+      </BoardHeaderButton>
+      <Modal
+        open={isOpen}
+        onCancel={close}
+        title="Поделиться доской"
+        // transitionName=""
+        // maskTransitionName=""
+        // style={null}
+        // closable={false}
+        footer={null}
+        destroyOnClose
+        centered
+        // width={760}
+        // mask={false}
+        // wrapClassName="search-modal"
+      >
+        123
+      </Modal>
+    </>
+  )
 }
 
 function UsersButton({ users }) {
@@ -988,6 +1029,7 @@ function TryLayoutPage(props: IProps) {
                       <div className="float-right">
                         <FilterButton />
                         <UsersButton users={props.users} />
+                        <ShareButton />
                         {/* {isMoreButton && ( */}
                         <MoreButton
                           onClick={() => {
