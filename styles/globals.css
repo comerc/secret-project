@@ -94,7 +94,6 @@ html {
 #__next {
   height: 100%;
   /* overflow: hidden; */
-  background-color: rgb(205, 90, 145);
 }
 
 #nocss {
