@@ -981,7 +981,7 @@ function TryLayoutPage(props: IProps) {
     <div
       id="chrome-container"
       // className="body-dark-board-background"
-      className="h-full" // overflow-hidden
+      className="h-full bg-[#cd5a91]" // overflow-hidden
       style={{
         '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
         '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
@@ -1113,14 +1113,11 @@ function TryLayoutPage(props: IProps) {
                     //   />
                     // }
                   >
-                    <MenuButton
-                      icon={<QuestionCircleOutlined />}
-                      subtitle="Добавьте описание для доски"
-                    >
+                    <MenuButton icon={<ProjectOutlined />} subtitle="Добавьте описание для доски">
                       О доске
                     </MenuButton>
                     <MenuButton>Сменить фон</MenuButton>
-                    <MenuButton icon={<ProjectOutlined />}>Ещё</MenuButton>
+                    <MenuButton icon={<EllipsisOutlined />}>Ещё</MenuButton>
                     <hr className="my-4" />
                     <MenuButton icon={<BarsOutlined />}>Действия</MenuButton>
                   </Drawer>
