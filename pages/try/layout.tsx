@@ -14,13 +14,19 @@ import {
   BlockOutlined,
   CheckOutlined,
   CloseOutlined,
-  MoreOutlined,
   PlusOutlined,
   DownOutlined,
   FilterOutlined,
   CalendarOutlined,
   ClockCircleOutlined,
   UserAddOutlined,
+  BarsOutlined,
+  // LayoutOutlined,
+  EllipsisOutlined,
+  MoreOutlined,
+  BookOutlined,
+  ProjectOutlined,
+  // ProfileOutlined,
 } from '@ant-design/icons'
 import {
   Tooltip,
@@ -81,6 +87,28 @@ export const getServerSideProps = async ({ query }): IProps => {
     },
   ]
   return { props: { issues, boardId, favorites, users } }
+}
+
+function MenuButton({ icon, children, subtitle }) {
+  return (
+    <Button className="h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]">
+      <div className="flex h-5 w-3.5 items-center leading-none">{icon}</div>
+      <div className="ml-2 flex grow flex-col items-start leading-5">
+        <div className="font-semibold">{children}</div>
+        <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
+      </div>
+    </Button>
+  )
+  // return (
+  //   <a
+  //     role="button"
+  //     className="relative flex flex-col rounded-[3px] bg-transparent py-1.5 pl-9 pr-1.5 leading-5 text-[var(--ds-text-subtle,inherit)] hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]"
+  //   >
+  //     <div className="absolute left-[12px] top-[9px] leading-none">{icon}</div>
+  //     <div className="font-semibold">{children}</div>
+  //     <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
+  //   </a>
+  // )
 }
 
 function ShareButton() {
@@ -165,7 +193,7 @@ function InFavoritesButton({ favorites, onDelete }) {
             // TODO: wallpapper
           }}
         />
-        <div className="grow flex-col truncate pl-2">
+        <div className="flex grow flex-col truncate pl-2">
           <div className="truncate text-[14px] font-[500] leading-[18px]">{name}</div>
           <div className="truncate text-[12px] leading-[12px] text-[var(--ds-text-subtle,#5E6C84)]">
             {workspace}
@@ -440,7 +468,7 @@ function MoreButton({ onClick }) {
   return (
     <BoardHeaderButton
       className="float-left"
-      icon={<MoreOutlined rotate={90} />}
+      icon={<MoreOutlined />}
       onClick={onClick}
     ></BoardHeaderButton>
   )
@@ -1034,7 +1062,7 @@ function TryLayoutPage(props: IProps) {
                         <MoreButton
                           onClick={() => {
                             // setIsMoreButton(false)
-                            setIsMenu(true)
+                            setIsMenu(!isMenu)
                           }}
                         />
                         {/* )} */}
@@ -1085,9 +1113,16 @@ function TryLayoutPage(props: IProps) {
                     //   />
                     // }
                   >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <MenuButton
+                      icon={<QuestionCircleOutlined />}
+                      subtitle="Добавьте описание для доски"
+                    >
+                      О доске
+                    </MenuButton>
+                    <MenuButton>Сменить фон</MenuButton>
+                    <MenuButton icon={<ProjectOutlined />}>Ещё</MenuButton>
+                    <hr className="my-4" />
+                    <MenuButton icon={<BarsOutlined />}>Действия</MenuButton>
                   </Drawer>
                 </div>
               </div>

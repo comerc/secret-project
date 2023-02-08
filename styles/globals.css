@@ -78,9 +78,13 @@
 }
 
 /* Fix of vertical-align: -0.125em; */
-button > .anticon {
-  margin-top: 2px;
-  vertical-align: text-top;
+.ant-btn > .anticon {
+  vertical-align: unset !important;
+}
+.ant-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 html {
