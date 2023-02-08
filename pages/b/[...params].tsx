@@ -53,6 +53,7 @@ import { resetServerContext } from 'react-beautiful-dnd'
 import generateSentence from '.../utils/generateSentence'
 import { nanoid } from 'nanoid'
 import Image from 'next/image'
+import normalizeBoardName from '.../utils/normalizeBoardName'
 
 type IProps = {
   issues: []
@@ -71,7 +72,7 @@ export const getServerSideProps = async ({ query }): IProps => {
     text: `Issue ${k} ` + generateSentence(),
   }))
   const boardId = query.params[0]
-  const boardName = 'my-name' // TODO: get boardName from DB
+  const boardName = normalizeBoardName('Пупер: My  Name  43 - Супер!') // TODO: get boardName from DB
   const favorites = [
     {
       boardId,
