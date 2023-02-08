@@ -89,6 +89,12 @@ export const getServerSideProps = async ({ query }): IProps => {
   return { props: { issues, boardId, favorites, users } }
 }
 
+function HeaderDivider() {
+  return (
+    <div className="float-left ml-1 mr-2 mt-2 mb-3 inline-block h-4 border-l border-[var(--dynamic-text-transparent)]" />
+  )
+}
+
 function MenuButton({ icon, children, subtitle }) {
   return (
     <Button className="h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]">
@@ -677,6 +683,7 @@ function PermisionLevelButton() {
         title={value.title}
         onClick={(e) => e.preventDefault()}
         icon={value.buttonIcon}
+        className="float-left"
       >
         {value.buttonText || value.itemText}
       </BoardHeaderButton>
@@ -692,6 +699,7 @@ function FavoriteButton({ boardId, favorites, onChange }) {
   return (
     <BoardHeaderButton
       className={cx(
+        'float-left',
         '[&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125',
         switchState && '[&>.anticon]:text-[#f2d600]',
       )}
@@ -1053,11 +1061,14 @@ function TryLayoutPage(props: IProps) {
                         favorites={favorites}
                         onChange={handleChangeFavorites}
                       />
+                      <HeaderDivider />
                       <PermisionLevelButton />
                       <div className="float-right">
                         <FilterButton />
+                        <HeaderDivider />
                         <UsersButton users={props.users} />
                         <ShareButton />
+                        <HeaderDivider />
                         {/* {isMoreButton && ( */}
                         <MoreButton
                           onClick={() => {
