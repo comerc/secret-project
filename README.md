@@ -298,6 +298,11 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] PRINCE2 - A Structured Project Management Methodology
   - https://asana.com/ru/resources/prince2-methodology
 - [ ] Algolia
+- [ ] Nested Scroll for Board
+  - https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-719034014
+  - https://codesandbox.io/embed/vertical-list-lnmlr
+  - https://github.com/markusenglund/react-kanban/blob/master/src/app/components/Board/Board.jsx#L94-L105
+  - https://www.kanception.io/
 
 ## Что нового (для меня) про вёрстку
 
