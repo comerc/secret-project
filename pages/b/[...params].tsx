@@ -55,6 +55,88 @@ import { nanoid } from 'nanoid'
 import Image from 'next/image'
 import normalizeBoardName from '.../utils/normalizeBoardName'
 
+function ColumnHeader({ name }) {
+  const [value, setValue] = React.useState(name)
+  const [isFocused, setIsFocused] = React.useState(false)
+  const inputRef = React.useRef()
+  return (
+    <div className="relative flex-none py-1.5 pl-2.5 pr-10">
+      <Input.TextArea
+        // TODO: focus: box-shadow: inset 0 0 0 2px var(--ds-border-focused,#0079bf)
+        className="min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        spellCheck={false}
+        ref={inputRef}
+        autoSize
+        aria-label={name}
+        size={512}
+        value={value}
+        onChange={(event) => {
+          setValue(event.target.value)
+        }}
+        onBlur={() => {
+          setIsFocused(false)
+        }}
+        onFocus={() => {
+          setIsFocused(true)
+        }}
+      />
+      <div
+        className={cx(
+          isFocused && 'hidden',
+          'absolute top-0 left-0 right-0 bottom-0 cursor-pointer select-none',
+        )}
+        onClick={() => {
+          event.preventDefault()
+          inputRef.current.focus({
+            preventScroll: true,
+            cursor: 'all',
+          })
+        }}
+      ></div>
+      <div className="absolute top-1 right-1">
+        <Button
+          className="
+          rounded-[3px] border-0 
+          bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none
+          hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)]"
+          icon={<EllipsisOutlined />}
+        ></Button>
+      </div>
+    </div>
+  )
+}
+
+function Board() {
+  const columns = [
+    { id: 1, name: 'Backlog Backlog Backlog Backlog Backlog Backlog Backlog' },
+    { id: 2, name: 'To Do' },
+  ]
+
+  return (
+    <div id="board" className="ml-2.5 mr-2 flex h-full gap-2 pb-2">
+      {columns.map(({ id, name }) => (
+        <div
+          key={id}
+          className="flex min-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+        >
+          <ColumnHeader name={name} />
+
+          {id}
+        </div>
+      ))}
+      {/* <Image
+    priority
+    src="/wallpapper.jpg"
+    fill
+    // width="5760" height="3840"
+    style={{
+      objectFit: 'cover',
+    }}
+  /> */}
+    </div>
+  )
+}
+
 type IProps = {
   issues: []
   boardId: string
@@ -760,9 +842,6 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
     width: 0,
     value: defaultValue,
   })
-  React.useEffect(() => {
-    inputRef.current.input.spellcheck = false
-  }, [])
   return (
     <div
       className="relative float-left mr-1 mb-1 h-[32px] rounded-[3px] 
@@ -809,6 +888,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         )}
         ref={inputRef}
         maxlengt={512}
+        spellCheck={false}
         onBlur={() => {
           let value = state.value.trim()
           if (value == '') {
@@ -1075,7 +1155,7 @@ function BoardPage(props: IProps) {
                       id="board-header"
                       className="h-auto
                         bg-[var(--board-header-background-color)]
-                        pt-2 pr-1 pb-1 pl-3"
+                        pt-2 pr-1 pb-1 pl-2.5"
                     >
                       <BoardNameButton
                         defaultValue="Minsk4"
@@ -1113,17 +1193,7 @@ function BoardPage(props: IProps) {
                           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
                       }}
                     >
-                      <div id="board">
-                        {/* <Image
-                          priority
-                          src="/wallpapper.jpg"
-                          fill
-                          // width="5760" height="3840"
-                          style={{
-                            objectFit: 'cover',
-                          }}
-                        /> */}
-                      </div>
+                      <Board />
                     </div>
                   </div>
                   <Drawer
