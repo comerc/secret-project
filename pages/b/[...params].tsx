@@ -237,6 +237,9 @@ function InFavoritesButton({ favorites, onDelete }) {
       <BoardHeaderButton
         aria-label="Избранные"
         // title="" // TODO: добавить title
+        colors="bg-transparent text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]"
+        // var(--header-menu-background)
+        // var(--header-menu-color)
       >
         <Space>
           В избранном
@@ -448,7 +451,7 @@ function PlusButton() {
   const handleClick = () => {}
   const ariaLabel = 'Создать доску или рабочее пространство'
   return (
-    <div tabIndex={0} className="mr-1 mb-1">
+    <div tabIndex={0} className="mr-1 mb-1 ml-2">
       <div className="lg:hidden">
         <BoardHeaderButton
           aria-label={ariaLabel}
@@ -763,7 +766,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   return (
     <div
       className="relative float-left mr-1 mb-1 h-[32px] rounded-[3px] 
-        bg-[var(--dynamic-button)] text-[18px] font-bold leading-8 
+        text-[18px] font-bold leading-8 
         text-[var(--dynamic-text)]
         hover:bg-[var(--dynamic-button-hovered)]"
       style={{
@@ -1035,10 +1038,12 @@ function BoardPage(props: IProps) {
           >
             <Link
               href="/"
-              className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-white/30 "
+              className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-[var(--dynamic-button-hovered)]"
               aria-label="Вернуться на главную страницу"
             >
-              <div className="h-8 text-[18px] font-bold leading-8 text-white">CSP</div>
+              <div className="h-8 text-[18px] font-bold leading-8 text-[var(--dynamic-text)]">
+                CSP
+              </div>
             </Link>
             <InFavoritesButton favorites={favorites} onDelete={handleDeleteFavorites} />
             <PlusButton />
