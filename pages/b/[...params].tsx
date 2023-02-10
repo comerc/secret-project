@@ -61,6 +61,7 @@ import Image from 'next/image'
 import normalizeBoardName from '.../utils/normalizeBoardName'
 
 function Badge({ children }) {
+  // TODO: добавить title
   return (
     <div className="mr-1 mb-1 inline-flex max-w-full items-center truncate p-0.5 text-[var(--ds-text-subtle,#5e6c84)]">
       {children}
@@ -161,9 +162,9 @@ function ListHeader({ name }) {
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef()
   return (
-    <div className="relative flex-none py-2.5 pl-2 pr-10">
+    <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
-        className="my-[-4px] min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        className="mb-[-4px] min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
         spellCheck={false}
         ref={inputRef}
         autoSize
