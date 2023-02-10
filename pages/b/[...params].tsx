@@ -28,8 +28,13 @@ import {
   BookOutlined,
   ProjectOutlined,
   // ProfileOutlined,
+  EditOutlined,
+  EyeOutlined,
+  ContainerOutlined,
+  MessageOutlined,
 } from '@ant-design/icons'
 import {
+  // Layout,
   Tooltip,
   Avatar,
   Form,
@@ -38,7 +43,7 @@ import {
   Input,
   Checkbox,
   Modal,
-  Icon,
+  // Icon,
   Dropdown,
   Space,
   Divider,
@@ -55,15 +60,110 @@ import { nanoid } from 'nanoid'
 import Image from 'next/image'
 import normalizeBoardName from '.../utils/normalizeBoardName'
 
-function ColumnHeader({ name }) {
+function Badge({ children }) {
+  return (
+    <div className="mr-1 mb-1 inline-flex max-w-full items-center truncate p-0.5 text-[var(--ds-text-subtle,#5e6c84)]">
+      {children}
+    </div>
+  )
+}
+
+function Badges() {
+  return (
+    <div className="ml-[-2px] max-w-full">
+      <Badge>
+        <EyeOutlined className="badge-icon" />
+      </Badge>
+      <Badge>
+        <ContainerOutlined className="badge-icon" />
+      </Badge>
+      <Badge>
+        <MessageOutlined className="badge-icon" />
+        <span className="pl-0.5 pr-1">1</span>
+      </Badge>
+    </div>
+  )
+}
+
+function FrontLabels({ isExpanded, setIsExpanded }) {
+  const labels = [
+    {
+      id: 1,
+      colorName: 'Зелёная',
+      name: 'Готово',
+      style: {
+        '--background-color': 'var(--ds-background-accent-green-subtler, #D6ECD2)',
+        '--foreground-color': 'var(--ds-background-accent-green-subtle, #7BC86C)',
+        '--text-color': 'var(--ds-text-accent-green-bolder, #172b4d)',
+      },
+    },
+  ]
+  // TODO: добавить режим для дальтоников
+  return (
+    <div className="mb-1 flex flex-wrap gap-1">
+      <div className="inline-flex max-w-[calc(100%-4px)]">
+        {labels.map(({ id, colorName, name, style }) => (
+          <button
+            key={id}
+            style={style}
+            className={cx(
+              isExpanded
+                ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs text-[var(--text-color)]'
+                : 'my-1 h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
+              'relative inline-block rounded transition hover:brightness-[.85] hover:saturate-[.85]',
+            )}
+            tabIndex={-1}
+            aria-label={`Цвет: ${colorName}, название: «${name}»`}
+            onClick={(event) => {
+              event.preventDefault()
+              setIsExpanded(!isExpanded)
+            }}
+          >
+            {isExpanded && (
+              <>
+                <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
+                {name}
+              </>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ListCard({ id, name, isExpanded, setIsExpanded }) {
+  const urlName = name
+  return (
+    <a
+      href={`/c/${id}/${urlName}`}
+      className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow"
+    >
+      <div className="px-2 pt-1.5 pb-0.5">
+        <FrontLabels {...{ isExpanded, setIsExpanded }} />
+        <div className="mb-1 break-words">{name}</div>
+        <Badges />
+      </div>
+      {/* <Button
+        // TODO: добавить редактирование карточки на месте
+        icon={<EditOutlined />}
+        size="small"
+        className="absolute right-0.5 top-0.5 rounded-[3px] border-0
+        bg-[var(--ds-surface-raised-hovered,#f4f5f7)] opacity-80
+        "
+      /> */}
+    </a>
+  )
+}
+
+function ListHeader({ name }) {
   const [value, setValue] = React.useState(name)
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef()
   return (
-    <div className="relative flex-none py-1.5 pl-2.5 pr-10">
+    <div className="relative flex-none py-2.5 pl-2 pr-10">
       <Input.TextArea
-        // TODO: focus: box-shadow: inset 0 0 0 2px var(--ds-border-focused,#0079bf)
-        className="min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        className="my-[-4px] min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
         spellCheck={false}
         ref={inputRef}
         autoSize
@@ -80,10 +180,11 @@ function ColumnHeader({ name }) {
           setIsFocused(true)
         }}
       />
+      <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">98 карточек</p>
       <div
         className={cx(
           isFocused && 'hidden',
-          'absolute top-0 left-0 right-0 bottom-0 cursor-pointer select-none',
+          'absolute top-0 left-0 right-0 bottom-0 cursor-pointer',
         )}
         onClick={() => {
           event.preventDefault()
@@ -108,20 +209,27 @@ function ColumnHeader({ name }) {
 
 function Board() {
   const columns = [
-    { id: 1, name: 'Backlog Backlog Backlog Backlog Backlog Backlog Backlog' },
-    { id: 2, name: 'To Do' },
+    { id: 'column1', name: 'Backlog' },
+    { id: 'column2', name: 'To Do' },
   ]
-
+  const cards = [
+    { id: 'card1', name: 'Выполнить деплой' },
+    { id: 'card2', name: 'Прикрутить CI & CD' },
+  ]
+  const [isExpanded, setIsExpanded] = React.useState(false) // TODO: передавать через Context
   return (
-    <div id="board" className="ml-2.5 mr-2 flex h-full gap-2 pb-2">
+    <div id="board" className="ml-2.5 mr-2 flex h-full select-none gap-2 pb-2">
       {columns.map(({ id, name }) => (
         <div
           key={id}
           className="flex min-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
         >
-          <ColumnHeader name={name} />
-
-          {id}
+          <ListHeader name={name} />
+          <div className="px-2">
+            {cards.map((card) => (
+              <ListCard key={card.id} {...{ ...card, isExpanded, setIsExpanded }} />
+            ))}
+          </div>
         </div>
       ))}
       {/* <Image
@@ -883,7 +991,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
       <Input
         className={cx(
           'absolute top-0 left-0 right-0 bottom-0',
-          'h-[32px] rounded-[3px] text-[18px] font-bold leading-5 transition-none',
+          'h-[32px] rounded-[3px] px-3 py-0 text-[18px] font-bold leading-5',
           state.isInput || 'hidden',
         )}
         ref={inputRef}

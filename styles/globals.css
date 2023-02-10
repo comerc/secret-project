@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .badge-icon {
+    @apply inline-flex h-5 w-5 scale-90 justify-center;
+  }
+}
+
 .ant-avatar-group-popover .ant-popover-inner-content > a {
   display: inline-block;
   /* margin-bottom: 2px; */
@@ -78,7 +84,7 @@
 }
 
 /* Fix of vertical-align: -0.125em; */
-.ant-btn > .anticon {
+.anticon {
   vertical-align: unset !important;
 }
 .ant-btn {
@@ -98,6 +104,26 @@ html {
 
 #nocss {
   display: none;
+}
+
+/* fix border */
+.ant-input {
+  border-width: 0 !important;
+}
+.ant-input:focus {
+  box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
+}
+
+/* base font */
+body,
+button,
+html,
+input,
+select,
+textarea {
+  color: var(--ds-text, #172b4d);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 /* FIX: RBD */
