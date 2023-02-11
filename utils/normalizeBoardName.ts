@@ -1,9 +1,10 @@
 function normalizeBoardName(s) {
+  // const test = '`~!@#$%^&*()_+=[]{}\\|/;:\'",./<>?'
   return s
-    .replace(/\-/, ' ')
-    .replace(/[^a-z0-9\ ]/gi, '')
+    .replace(/[`~!@#\$%^&*()_+=\[\]{}\\|;:'",./<>?]/g, '')
+    .replace(/-/g, ' ')
     .trim()
-    .replace(/  +/g, '-')
+    .replace(/ +/g, '-')
     .toLowerCase()
 }
 
