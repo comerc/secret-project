@@ -92,6 +92,11 @@
   align-items: center;
   justify-content: center;
 }
+.ant-modal-close-x {
+  display: inline-flex !important;
+  height: 100%;
+  align-items: center;
+}
 
 html {
   text-size-adjust: 100%;
