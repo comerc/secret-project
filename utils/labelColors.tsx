@@ -242,4 +242,7 @@ const labelColors = [
   },
 ]
 
-export default labelColors
+export default labelColors.reduce((accumulator, currentValue, index) => {
+  accumulator[currentValue.id] = { ...currentValue, index }
+  return accumulator
+}, {})

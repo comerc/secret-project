@@ -48,7 +48,7 @@ import {
   Space,
   Divider,
   theme,
-  renderCloseIcon,
+  // TODO: renderCloseIcon,
 } from 'antd'
 import type { MenuProps } from 'antd'
 import cx from 'classnames'
@@ -59,6 +59,7 @@ import generateSentence from '.../utils/generateSentence'
 import { nanoid } from 'nanoid'
 import Image from 'next/image'
 import normalizeBoardName from '.../utils/normalizeBoardName'
+import labelColors from '.../utils/labelColors'
 
 function Badge({ children }) {
   // TODO: добавить title
@@ -86,54 +87,97 @@ function Badges() {
   )
 }
 
-function FrontLabels({ isExpanded, setIsExpanded }) {
-  const labels = [
-    {
-      id: 1,
-      colorName: 'Зелёная',
-      name: 'Готово',
-      style: {
-        '--background-color': 'var(--ds-background-accent-green-subtler, #D6ECD2)',
-        '--foreground-color': 'var(--ds-background-accent-green-subtle, #7BC86C)',
-        '--text-color': 'var(--ds-text-accent-green-bolder, #172b4d)',
-      },
-    },
-  ]
-  // TODO: добавить режим для дальтоников
+function FrontLabel({ id, colorId, name }) {
+  const { isExpanded, setIsExpanded } = React.useContext(LabelsContext)
+  const color = labelColors[colorId]
+  const title = `Цвет: ${color.name}, название: «${name}»`
   return (
-    <div className="mb-1 flex flex-wrap gap-1">
-      <div className="inline-flex max-w-[calc(100%-4px)]">
-        {labels.map(({ id, colorName, name, style }) => (
-          <button
-            key={id}
-            style={style}
-            className={cx(
-              isExpanded
-                ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs text-[var(--text-color)]'
-                : 'my-1 h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
-              'relative inline-block rounded transition hover:brightness-[.85] hover:saturate-[.85]',
-            )}
-            tabIndex={-1}
-            aria-label={`Цвет: ${colorName}, название: «${name}»`}
-            onClick={(event) => {
-              event.preventDefault()
-              setIsExpanded(!isExpanded)
-            }}
-          >
-            {isExpanded && (
-              <>
-                <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
-                {name}
-              </>
-            )}
-          </button>
-        ))}
-      </div>
+    <div className="inline-flex max-w-[calc(100%-4px)]">
+      <Tooltip
+        // TODO: добавить цвет
+        // overlayStyle={{ ...color.style }}
+        // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
+        // color={'var(--background-color)'}
+        placement="topLeft"
+        title={title}
+      >
+        <button
+          style={color.style}
+          className={cx(
+            isExpanded
+              ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs'
+              : 'h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
+            'relative inline-block rounded transition hover:brightness-[.85] hover:saturate-[.85]',
+          )}
+          tabIndex={-1}
+          aria-label={title}
+          onClick={(event) => {
+            event.preventDefault()
+            setIsExpanded(!isExpanded)
+          }}
+        >
+          {isExpanded && (
+            <>
+              <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
+              {name}
+            </>
+          )}
+        </button>
+      </Tooltip>
     </div>
   )
 }
 
-function ListCard({ id, name, isExpanded, setIsExpanded }) {
+function FrontLabels() {
+  const { isExpanded } = React.useContext(LabelsContext)
+  const labels = [
+    {
+      id: 1,
+      colorId: '1-1',
+      name: 'Готово',
+    },
+    {
+      id: 2,
+      colorId: '1-2',
+      name: 'Готово',
+    },
+    {
+      id: 3,
+      colorId: '1-3',
+      name: 'Готово',
+    },
+    {
+      id: 4,
+      colorId: '1-4',
+      name: 'Готово',
+    },
+    {
+      id: 5,
+      colorId: '1-5',
+      name: 'Готово',
+    },
+    {
+      id: 6,
+      colorId: '1-6',
+      name: 'Готово',
+    },
+    {
+      id: 7,
+      colorId: '5-6',
+      name: 'Моя очень-очень-очень длинная метка',
+    },
+  ]
+  // TODO: добавить режим для дальтоников
+  return (
+    <div className={cx(isExpanded ? 'mb-1' : 'my-1', 'flex flex-wrap gap-1')}>
+      {labels.map((label) => (
+        <FrontLabel key={label.id} {...label} />
+      ))}
+    </div>
+  )
+}
+
+function ListCard({ id, name }) {
   const urlName = name
   return (
     <a
@@ -141,7 +185,7 @@ function ListCard({ id, name, isExpanded, setIsExpanded }) {
       className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow"
     >
       <div className="px-2 pt-1.5 pb-0.5">
-        <FrontLabels {...{ isExpanded, setIsExpanded }} />
+        <FrontLabels />
         <div className="mb-1 break-words">{name}</div>
         <Badges />
       </div>
@@ -208,6 +252,17 @@ function ListHeader({ name }) {
   )
 }
 
+const LabelsContext = React.createContext(null)
+
+function LabelsState({ children }) {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  return (
+    <LabelsContext.Provider value={{ isExpanded, setIsExpanded }}>
+      {children}
+    </LabelsContext.Provider>
+  )
+}
+
 function Board() {
   const columns = [
     { id: 'column1', name: 'Backlog' },
@@ -217,22 +272,24 @@ function Board() {
     { id: 'card1', name: 'Выполнить деплой' },
     { id: 'card2', name: 'Прикрутить CI & CD' },
   ]
-  const [isExpanded, setIsExpanded] = React.useState(false) // TODO: передавать через Context
   return (
     <div id="board" className="ml-2.5 mr-2 flex h-full select-none gap-2 pb-2">
-      {columns.map(({ id, name }) => (
-        <div
-          key={id}
-          className="flex min-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
-        >
-          <ListHeader name={name} />
-          <div className="px-2">
-            {cards.map((card) => (
-              <ListCard key={card.id} {...{ ...card, isExpanded, setIsExpanded }} />
-            ))}
+      <LabelsState>
+        {columns.map(({ id, name }) => (
+          <div
+            key={id}
+            className="flex w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+          >
+            <ListHeader name={name} />
+            <div className="px-2">
+              {cards.map((card) => (
+                <ListCard key={card.id} {...card} />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </LabelsState>
+
       {/* <Image
     priority
     src="/wallpapper.jpg"
@@ -263,7 +320,7 @@ export const getServerSideProps = async ({ query }): IProps => {
     text: `Issue ${k} ` + generateSentence(),
   }))
   const boardId = query.params[0]
-  const boardName = normalizeBoardName('Пупер: My  Name  43 - Супер!') // TODO: get boardName from DB
+  const boardName = normalizeBoardName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
   const favorites = [
     {
       boardId,
@@ -373,7 +430,7 @@ function UsersButton({ users }) {
             event.preventDefault()
           }}
         >
-          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomRight">
+          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
             <Avatar src={thumbnail} style={{ zIndex: a.length - index }} className="" />
           </Tooltip>
         </a>
