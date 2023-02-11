@@ -32,6 +32,9 @@ import {
   EyeOutlined,
   ContainerOutlined,
   MessageOutlined,
+  CheckSquareOutlined,
+  PaperClipOutlined,
+  BorderOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -61,27 +64,132 @@ import Image from 'next/image'
 import normalizeBoardName from '.../utils/normalizeBoardName'
 import labelColors from '.../utils/labelColors'
 
-function Badge({ children }) {
+function DueDateBadge({}) {
+  const start = '9 фев'
+  const deadline = '11 фев'
+  const modes = {
+    normal: {
+      title: 'Срок карточки истекает не скоро',
+    },
+    past: {
+      status: 'просрочено',
+      title: 'Срок карточки истёк',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-danger-hovered,#eb5a46)',
+        '--background-color': 'var(--ds-background-danger,#ec9488)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+    danger: {
+      status: 'просрочено',
+      title: 'Карточка недавно просрочена',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-danger-bold-hovered,#b04632)',
+        '--background-color': 'var(--ds-background-danger-bold,#eb5a46)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+    warning: {
+      status: 'скоро истечёт',
+      title: 'До истечения срока карточки осталось менее 24 часов',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-warning-hovered,#d9b51c)',
+        '--background-color': 'var(--ds-background-warning,#f2d600)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+    success: {
+      status: 'выполнено',
+      title: 'Эта карточка выполнена',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-success-hovered,#519839)',
+        '--background-color': 'var(--ds-background-success,#61bd4f)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+  }
+  const [checked, setChecked] = React.useState(true)
+  const currentMode = modes['warning']
+  return (
+    <Badge
+      title={checked ? modes['success'].title : currentMode.title}
+      style={checked ? modes['success'].style : currentMode.style}
+      className="transition [&:hover>.badge-clock]:hidden [&:hover>.badge-check]:flex"
+      onClick={(event) => {
+        event.preventDefault()
+        setChecked(!checked)
+      }}
+    >
+      <ClockCircleOutlined className="badge-clock badge-icon" />
+      {checked ? (
+        <CheckSquareOutlined className="badge-check badge-icon hidden" />
+      ) : (
+        <BorderOutlined className="badge-check badge-icon hidden" />
+      )}
+      <BadgeText>
+        {start}
+        {start && ' - '}
+        {deadline}
+      </BadgeText>
+    </Badge>
+  )
+}
+
+function Badge({
+  children,
+  style = {
+    '--background-color-hovered': 'transparent',
+    '--background-color': 'transparent',
+    '--text-color': 'var(--ds-text-subtle,#5e6c84)',
+  },
+  className,
+  onClick,
+  title,
+}) {
   // TODO: добавить title
   return (
-    <div className="mr-1 mb-1 inline-flex max-w-full items-center truncate p-0.5 text-[var(--ds-text-subtle,#5e6c84)]">
-      {children}
-    </div>
+    <Tooltip title={title} placement="bottomLeft">
+      <div
+        role={onClick || null}
+        tabIndex={onClick || null}
+        onClick={onClick}
+        style={style}
+        className={cx(
+          'mr-1 mb-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
+          className,
+        )}
+      >
+        {children}
+      </div>
+    </Tooltip>
   )
+}
+
+function BadgeText({ children }) {
+  return <span className="whitespace-nowrap pl-0.5 pr-1 text-xs">{children}</span>
 }
 
 function Badges() {
   return (
     <div className="ml-[-2px] max-w-full">
-      <Badge>
+      <Badge title="Вы подписаны на эту карточку">
         <EyeOutlined className="badge-icon" />
       </Badge>
-      <Badge>
+      <DueDateBadge />
+      <Badge title="Эта карточка с описанием">
         <ContainerOutlined className="badge-icon" />
       </Badge>
-      <Badge>
+      <Badge title="Комментарии">
         <MessageOutlined className="badge-icon" />
-        <span className="pl-0.5 pr-1">1</span>
+        <BadgeText>3</BadgeText>
+      </Badge>
+      <Badge title="Вложения">
+        <PaperClipOutlined className="badge-icon" />
+        <BadgeText>3</BadgeText>
+      </Badge>
+      <Badge title="Элементы списка задач">
+        <CheckSquareOutlined className="badge-icon" />
+        <BadgeText>8/10</BadgeText>
       </Badge>
     </div>
   )
@@ -92,15 +200,15 @@ function FrontLabel({ id, colorId, name }) {
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
-    <div className="inline-flex max-w-[calc(100%-4px)]">
-      <Tooltip
-        // TODO: добавить цвет
-        // overlayStyle={{ ...color.style }}
-        // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
-        // color={'var(--background-color)'}
-        placement="topLeft"
-        title={title}
-      >
+    <Tooltip
+      // TODO: добавить цвет
+      // overlayStyle={{ ...color.style }}
+      // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
+      // color={'var(--background-color)'}
+      placement="topLeft"
+      title={title}
+    >
+      <div className="inline-flex max-w-[calc(100%-4px)]">
         <button
           style={color.style}
           className={cx(
@@ -123,8 +231,8 @@ function FrontLabel({ id, colorId, name }) {
             </>
           )}
         </button>
-      </Tooltip>
-    </div>
+      </div>
+    </Tooltip>
   )
 }
 
@@ -408,6 +516,22 @@ function ShareButton() {
   )
 }
 
+function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
+  return (
+    <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
+      <a
+        className="hover:[&>.ant-avatar]:bg-[#c1c7d0] hover:[&>.ant-avatar>img]:opacity-80"
+        href="#"
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <Avatar src={thumbnail} style={{ zIndex: zIndex }} />
+      </a>
+    </Tooltip>
+  )
+}
+
 function UsersButton({ users }) {
   const maxCount = 5
   return (
@@ -421,19 +545,8 @@ function UsersButton({ users }) {
       maxPopoverPlacement="bottomLeft"
       maxPopoverTrigger="click"
     >
-      {users.map(({ login: { uuid, username }, picture: { thumbnail }, name }, index, a) => (
-        <a
-          key={uuid}
-          className="hover:[&>.ant-avatar]:bg-[#c1c7d0] hover:[&>.ant-avatar>img]:opacity-80"
-          href="#"
-          onClick={(event) => {
-            event.preventDefault()
-          }}
-        >
-          <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
-            <Avatar src={thumbnail} style={{ zIndex: a.length - index }} className="" />
-          </Tooltip>
-        </a>
+      {users.map((user, index, a) => (
+        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
   )
