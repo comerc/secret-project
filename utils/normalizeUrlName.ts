@@ -1,4 +1,4 @@
-function normalizeBoardName(s) {
+function normalizeUrlName(s) {
   // const test = '`~!@#$%^&*()_+=[]{}\\|/;:\'",./<>?'
   return s
     .replace(/[`~!@#\$%^&*()_+=\[\]{}\\|;:'",./<>?]/g, '')
@@ -8,4 +8,4 @@ function normalizeBoardName(s) {
     .toLowerCase()
 }
 
-export default normalizeBoardName
+export default normalizeUrlName

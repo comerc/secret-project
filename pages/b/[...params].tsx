@@ -61,7 +61,7 @@ import { resetServerContext } from 'react-beautiful-dnd'
 import generateSentence from '.../utils/generateSentence'
 import { nanoid } from 'nanoid'
 import Image from 'next/image'
-import normalizeBoardName from '.../utils/normalizeBoardName'
+import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 
 function DueDateBadge({}) {
@@ -150,8 +150,8 @@ function Badge({
   return (
     <Tooltip title={title} placement="bottomLeft">
       <div
-        role={onClick || null}
-        tabIndex={onClick || null}
+        role={onClick ? 'button' : null}
+        tabIndex={onClick ? '-1' : null}
         onClick={onClick}
         style={style}
         className={cx(
@@ -285,8 +285,8 @@ function FrontLabels() {
   )
 }
 
-function ListCard({ id, name }) {
-  const urlName = name
+function ListCard({ id, title }) {
+  const urlName = React.useMemo(() => normalizeUrlName(title), [title])
   return (
     <a
       href={`/c/${id}/${urlName}`}
@@ -294,7 +294,7 @@ function ListCard({ id, name }) {
     >
       <div className="px-2 pt-1.5 pb-0.5">
         <FrontLabels />
-        <div className="mb-1 break-words">{name}</div>
+        <div className="mb-1 break-words">{title}</div>
         <Badges />
       </div>
       {/* <Button
@@ -360,6 +360,19 @@ function ListHeader({ name }) {
   )
 }
 
+function ListFooter() {
+  return (
+    <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
+      <Button
+        className="h-[28px] w-full justify-start rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)]"
+        icon={<PlusOutlined />}
+      >
+        Добавить карточку
+      </Button>
+    </div>
+  )
+}
+
 const LabelsContext = React.createContext(null)
 
 function LabelsState({ children }) {
@@ -371,17 +384,17 @@ function LabelsState({ children }) {
   )
 }
 
-function Board() {
+function Board({ issues }) {
   const columns = [
     { id: 'column1', name: 'Backlog' },
     { id: 'column2', name: 'To Do' },
   ]
-  const cards = [
-    { id: 'card1', name: 'Выполнить деплой' },
-    { id: 'card2', name: 'Прикрутить CI & CD' },
-  ]
+  // const cards = [
+  //   { id: 'card1', name: 'Выполнить деплой' },
+  //   { id: 'card2', name: 'Прикрутить CI & CD' },
+  // ]
   return (
-    <div id="board" className="ml-2.5 mr-2 flex h-full select-none gap-2 pb-2">
+    <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
       <LabelsState>
         {columns.map(({ id, name }) => (
           <div
@@ -389,11 +402,12 @@ function Board() {
             className="flex w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
           >
             <ListHeader name={name} />
-            <div className="px-2">
-              {cards.map((card) => (
-                <ListCard key={card.id} {...card} />
+            <div className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2">
+              {issues.map((issue) => (
+                <ListCard key={issue.id} {...issue} />
               ))}
             </div>
+            <ListFooter />
           </div>
         ))}
       </LabelsState>
@@ -423,12 +437,13 @@ export const getServerSideProps = async ({ query }): IProps => {
   const users = await fetch('https://randomuser.me/api/?results=20')
     .then((res) => res.json())
     .then((data) => data.results)
-  const issues = Array.from({ length: 100 }, (v, k) => k).map((k) => ({
+  const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
-    text: `Issue ${k} ` + generateSentence(),
+    title: `Issue ${k} ` + generateSentence(),
+    description: '',
   }))
   const boardId = query.params[0]
-  const boardName = normalizeBoardName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
+  const urlName = normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
   const favorites = [
     {
       boardId,
@@ -445,7 +460,7 @@ export const getServerSideProps = async ({ query }): IProps => {
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  return { props: { issues, boardId, boardName, favorites, users } }
+  return { props: { issues, boardId, urlName, favorites, users } }
 }
 
 function HeaderDivider() {
@@ -1330,17 +1345,17 @@ function SearchButton() {
 function BoardPage(props: IProps) {
   const router = useRouter()
   const { params } = router.query
-  const [isBoardName, setIsBoardName] = React.useState(false)
+  const [isUrlName, setIsUrlName] = React.useState(false)
   React.useEffect(() => {
     if (params === undefined) {
       return
     }
     const urlName = params[1]
-    if (urlName !== props.boardName) {
-      router.push(`/b/${props.boardId}/${props.boardName}`, undefined, { shallow: true })
+    if (urlName !== props.urlName) {
+      router.push(`/b/${props.boardId}/${props.urlName}`, undefined, { shallow: true })
       return
     }
-    setIsBoardName(true)
+    setIsUrlName(true)
   }, [params])
   // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
@@ -1364,7 +1379,7 @@ function BoardPage(props: IProps) {
   const handleDeleteFavorites = (boardId) => {
     setFavorites(favorites.filter((item) => item.boardId !== boardId))
   }
-  if (!isBoardName) {
+  if (!isUrlName) {
     return
   }
   return (
@@ -1472,7 +1487,7 @@ function BoardPage(props: IProps) {
                           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
                       }}
                     >
-                      <Board />
+                      <Board issues={props.issues} />
                     </div>
                   </div>
                   <Drawer
