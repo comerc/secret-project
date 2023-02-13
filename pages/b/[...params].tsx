@@ -63,6 +63,7 @@ import { nanoid } from 'nanoid'
 import Image from 'next/image'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
+import pluralize from '.../utils/pluralize'
 
 function ExtrasButton() {
   const data = [
@@ -365,6 +366,7 @@ function ListHeader({ name }) {
   const [value, setValue] = React.useState(name)
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef()
+  const issuesCount = 98
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
@@ -385,7 +387,9 @@ function ListHeader({ name }) {
           setIsFocused(true)
         }}
       />
-      <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">98 карточек</p>
+      <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
+        {pluralize(issuesCount, ['карточка', 'карточки', 'карточек'])}
+      </p>
       <div
         className={cx(
           isFocused && 'hidden',
@@ -513,6 +517,10 @@ function HeaderDivider() {
   return (
     <div className="float-left ml-1 mr-2 mt-2 mb-3 inline-block h-4 border-l border-[var(--dynamic-text-transparent)]" />
   )
+}
+
+function MenuDivider() {
+  return <hr className="my-2 border-[var(--ds-border,#091e4221)]" />
 }
 
 function MenuButton({ icon, children, subtitle }) {
@@ -675,7 +683,7 @@ function FilterItem({ key, background, icon, text, isFirst }) {
       value={text} // TODO: реализовать фильтр
       className={cx(
         'w-full items-center [&>.ant-checkbox]:top-0',
-        isFirst ? 'text-[var(--ds-text-subtle,#5e6c84)]' : 'text-[var(--ds-text, #172b4d)]',
+        isFirst ? 'text-[var(--ds-text-subtle,#5e6c84)]' : 'text-[var(--ds-text, #172b4d)]', // TODO: first:
       )}
     >
       {icon ? (
@@ -982,12 +990,12 @@ function CustomDropdown({
           )}
         >
           {header && (
-            <div className="relative mb-2 h-10 text-center">
-              <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-8 leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
+            <div className="relative mb-2 h-10">
+              <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-7 text-center leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
                 {header}
               </span>
               <a
-                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center py-2.5 pl-2 pr-3 text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
+                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
                 href="#"
                 onClick={(event) => {
                   event.preventDefault()
@@ -1006,7 +1014,8 @@ function CustomDropdown({
                 [&>.ant-dropdown-menu]:p-0
                 [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
                 [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2"
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:bg-[var(--ds-border,#091e4221)]"
               // TODO: ошибки в смещении при уменьшении размера экрана
               // style={{
               //   maxHeight: `calc(${height}px - 48px)`,
@@ -1517,20 +1526,23 @@ function BoardPage(props: IProps) {
                     </div>
                   </div>
                   <Drawer
-                    className="bg-[var(--ds-surface-overlay,#f4f5f7)]"
-                    title="Меню"
-                    placement="right"
-                    onClose={() => {
-                      setIsMenu(false)
+                    className="relative bg-[var(--ds-surface-overlay,#f4f5f7)]"
+                    bodyStyle={{
+                      padding: '0 12px',
                     }}
+                    // title="Меню"
+                    placement="right"
+                    // onClose={() => {
+                    //   setIsMenu(false)
+                    // }}
                     // afterOpenChange={() => {
                     //   if (!isMenu) setIsMoreButton(true)
                     // }}
                     open={isMenu}
                     mask={false}
                     getContainer={false}
-                    width={339}
-                    // closable={false}
+                    width={339 + 6}
+                    closable={false}
                     // extra={
                     //   <CloseButton
                     //     onClick={() => {
@@ -1539,12 +1551,26 @@ function BoardPage(props: IProps) {
                     //   />
                     // }
                   >
+                    <div className="flex h-12 items-center justify-center px-9">
+                      <h3 className="truncate text-base font-semibold leading-5">Меню</h3>
+                    </div>
+                    <a
+                      className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
+                      href="#"
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setIsMenu(false)
+                      }}
+                    >
+                      <CloseOutlined className="scale-125" />
+                    </a>
+                    <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
                     <MenuButton icon={<ProjectOutlined />} subtitle="Добавьте описание для доски">
                       О доске
                     </MenuButton>
                     <MenuButton>Сменить фон</MenuButton>
                     <MenuButton icon={<EllipsisOutlined />}>Ещё</MenuButton>
-                    <hr className="my-4" />
+                    <MenuDivider />
                     <MenuButton icon={<BarsOutlined />}>Действия</MenuButton>
                   </Drawer>
                 </div>
