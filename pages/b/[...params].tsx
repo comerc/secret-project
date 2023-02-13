@@ -662,10 +662,8 @@ function InFavoritesButton({ favorites, onDelete }) {
         // var(--header-menu-background)
         // var(--header-menu-color)
       >
-        <Space>
-          В избранном
-          <DownOutlined />
-        </Space>
+        В избранном
+        <DownOutlined />
       </BoardHeaderButton>
     </CustomDropdown>
   )
@@ -782,16 +780,14 @@ function FilterButton() {
               </Space>
             </Checkbox.Group>
             {isAllDeadlineItems || (
-              <button
-                className="ml-6 mt-2 text-[var(--ds-link,#5e6c84)] hover:underline"
-                type="button"
+              <Button
+                className="ml-6 mt-2 p-0 text-[var(--ds-link,#5e6c84)] hover:text-[var(--ds-link,#172b4d)] hover:underline "
+                type="link"
                 onClick={() => setAllDeadlineItems(true)}
               >
-                <Space>
-                  Показать все параметры
-                  <DownOutlined />
-                </Space>
-              </button>
+                Показать все параметры
+                <DownOutlined />
+              </Button>
             )}
           </Form.Item>
         </Form>
@@ -1067,17 +1063,15 @@ function PermisionLevelButton() {
     key,
     label: (
       <CustomDropdownItem>
-        <span className="mr-1">{icon}</span>
-        <Space>
+        <span className="flex items-center">
+          <span className="mr-1 inline-flex">{icon}</span>
           {itemText}
           {key === selected && (
-            <span
-              style={{ color: '#42526e' }} // TODO: var(--ds-icon,#42526e);
-            >
+            <span className="ml-2 inline-flex text-[var(--ds-icon,#42526e)]">
               <CheckOutlined />
             </span>
           )}
-        </Space>
+        </span>
         <span className="mt-1 inline-block text-xs text-[var(--ds-text-subtle,#5e6c84)]">
           {title}
         </span>
