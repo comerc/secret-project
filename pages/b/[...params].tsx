@@ -64,6 +64,58 @@ import Image from 'next/image'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 
+function ExtrasButton() {
+  const data = [
+    { 'add-card': 'Добавить карточку...' },
+    { 'copy-list': 'Копировать список...' },
+    { 'move-list': 'Переместить список...' },
+    { 'list-subscribe': 'Подписаться' },
+    'divider',
+    { 'sort-cards': 'Сортировать по...' },
+    'divider',
+    // TODO: добавить автоматизацию
+    // { group: 'Автоматизация' },
+    // { '': 'Когда карточка добавлена в список...' },
+    // { '': 'Каждый день, сортировать по...' },
+    // { '': 'Каждый понедельник, сортировать по...' },
+    // { '': 'Создать настраиваемое правило...' },
+    // 'divider',
+    { 'move-cards': 'Переместить все карточки списка...' },
+    { 'archive-cards': 'Архивировать все карточки списка...' },
+    'divider',
+    { 'close-list': 'Архивировать список' },
+  ]
+  const items = data.map((currentValue, index) => {
+    if (currentValue === 'divider') {
+      return { type: 'divider' }
+    }
+    const [key, itemText] = Object.entries(currentValue)[0]
+    return {
+      key,
+      label: (
+        <CustomDropdownItem>
+          <div className="truncate">{itemText}</div>
+        </CustomDropdownItem>
+      ),
+    }
+  })
+  return (
+    <CustomDropdown
+      header="Действия со списком"
+      items={items}
+      onClick={(event) => {
+        // setSelected(event.key)
+      }}
+      smallSize
+    >
+      <Button
+        className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)]"
+        icon={<EllipsisOutlined />}
+      />
+    </CustomDropdown>
+  )
+}
+
 function DueDateBadge({}) {
   const start = '9 фев'
   const deadline = '11 фев'
@@ -348,13 +400,7 @@ function ListHeader({ name }) {
         }}
       ></div>
       <div className="absolute top-1 right-1">
-        <Button
-          className="
-          rounded-[3px] border-0 
-          bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none
-          hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)]"
-          icon={<EllipsisOutlined />}
-        ></Button>
+        <ExtrasButton />
       </div>
     </div>
   )
@@ -625,6 +671,29 @@ function InFavoritesButton({ favorites, onDelete }) {
   )
 }
 
+function FilterItem({ key, background, icon, text, isFirst }) {
+  return (
+    <Checkbox
+      value={text} // TODO: реализовать фильтр
+      className={cx(
+        'w-full items-center [&>.ant-checkbox]:top-0',
+        isFirst ? 'text-[var(--ds-text-subtle,#5e6c84)]' : 'text-[var(--ds-text, #172b4d)]',
+      )}
+    >
+      {icon ? (
+        <Space>
+          <div className={cx('flex h-6 w-6 items-center justify-center rounded-[50%]', background)}>
+            {icon}
+          </div>
+          {text}
+        </Space>
+      ) : (
+        text
+      )}
+    </Checkbox>
+  )
+}
+
 function FilterButton() {
   const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
   const [filterCount, setFilterCount] = React.useState(0)
@@ -696,29 +765,8 @@ function FilterButton() {
           <Form.Item label="Участники">
             <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
               <Space direction="vertical" className="w-full">
-                {memberItems.map(({ background, icon, text }, index) => (
-                  <Checkbox
-                    key={index}
-                    value={index}
-                    className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
-                        [&>.ant-checkbox]:top-0"
-                  >
-                    {icon ? (
-                      <Space>
-                        <div
-                          className={cx(
-                            'flex h-6 w-6 items-center justify-center rounded-[50%]',
-                            background,
-                          )}
-                        >
-                          {icon}
-                        </div>
-                        {text}
-                      </Space>
-                    ) : (
-                      text
-                    )}
-                  </Checkbox>
+                {memberItems.map((item, index) => (
+                  <FilterItem key={index} {...item} isFirst={index === 0} />
                 ))}
               </Space>
             </Checkbox.Group>
@@ -727,29 +775,8 @@ function FilterButton() {
             <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
               <Space direction="vertical" className="w-full">
                 {(isAllDeadlineItems ? deadlineItems : deadlineItems.slice(0, 3)).map(
-                  ({ background, icon, text }, index) => (
-                    <Checkbox
-                      key={index}
-                      value={index}
-                      className="w-full items-center text-[var(--ds-text-subtle,#5e6c84)]
-                        [&>.ant-checkbox]:top-0"
-                    >
-                      {icon ? (
-                        <Space>
-                          <div
-                            className={cx(
-                              'flex h-6 w-6 items-center justify-center rounded-[50%]',
-                              background,
-                            )}
-                          >
-                            {icon}
-                          </div>
-                          {text}
-                        </Space>
-                      ) : (
-                        text
-                      )}
-                    </Checkbox>
+                  (item, index) => (
+                    <FilterItem key={index} {...item} isFirst={index === 0} />
                   ),
                 )}
               </Space>
@@ -861,38 +888,8 @@ function MoreButton({ onClick }) {
   )
 }
 
-const map = {
-  private: {
-    icon: <LockTwoTone twoToneColor="#eb5a46" />, // TODO: var(--ds-icon-accent-red,#eb5a46)
-    buttonIcon: <LockOutlined />,
-    itemText: 'Приватная',
-    title: 'Просматривать и изменять эту доску могут только её участники.',
-  },
-  workspace: {
-    icon: <TeamOutlined style={{ color: '#42526e' }} />, // TODO: var(--ds-icon,#42526e);
-    buttonIcon: <TeamOutlined />,
-    itemText: 'Рабочее пространство', // TODO: itemSubText
-    buttonText: 'Для рабочего пространства',
-    title: 'Просматривать и изменять эту доску могут все участники рабочего пространства.',
-  },
-  // TODO: добавить режим 'enterprise'
-  // enterprise: {
-  //   icon: <BlockOutlined style={{ color: '#6b778c' }} />, // TODO: var(--ds-icon-subtle,#6b778c);
-  //   buttonIcon: <BlockOutlined />,
-  //   itemText: 'Организация',
-  //   title:
-  //     'Просматривать эту доску могут все сотрудники организации. Чтобы предоставить это разрешение, доску нужно добавить в корпоративное рабочее пространство.',
-  // },
-  // TODO: добавить подтверждение перед включением публичного режима
-  public: {
-    icon: <GlobalOutlined style={{ color: '#61bd4f' }} />, // TODO: var(--ds-icon-accent-green,#61bd4f);
-    buttonIcon: <GlobalOutlined />,
-    itemText: 'Публичная',
-    title: 'Публичные доски доступны для всех в Интернете.',
-  },
-}
-
 function CloseButton({ onClick }) {
+  // неудачная попытка повторить кнопку модального диалога antd
   // TODO: для Drawer нужно увеличить размер
   return (
     <button
@@ -915,6 +912,21 @@ function CloseButton({ onClick }) {
       // }}
       />
     </button>
+  )
+}
+
+function CustomDropdownItem({ children }) {
+  return (
+    <a
+      tabIndex={-1}
+      href="#"
+      onClick={(event) => {
+        event.preventDefault()
+      }}
+      className="mx-[-12px] block py-[6px] px-[12px] text-sm text-[var(--ds-text,#172b4d)] hover:bg-[var(--ds-background-neutral-hovered,#091e420a)] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
+    >
+      {children}
+    </a>
   )
 }
 
@@ -966,24 +978,28 @@ function CustomDropdown({
             // TODO: ошибки в смещении при уменьшении размера экрана
             // width: `${width}px`
           }}
-          className={cx('relative rounded-[3px]', smallSize ? 'w-[304px]' : 'w-[370px]')} // TODO: max-w-
+          className={cx(
+            'rounded-[3px]',
+            // TODO: max-w-
+            // TODO: FilterButton - 384px (а надо?)
+            smallSize ? 'w-[304px]' : 'w-[370px]',
+          )}
         >
           {header && (
-            <div className="mb-2 h-10 text-center">
-              <span
-                className="mx-3 block truncate 
-                  border-b border-[var(--ds-border,#091e4221)] 
-                  px-8 leading-10"
-              >
+            <div className="relative mb-2 h-10 text-center">
+              <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-8 leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
                 {header}
               </span>
-              <div className="absolute right-0 top-0 py-[10px] pl-[8px] pr-[12px]">
-                <CloseButton
-                  onClick={() => {
-                    setOpen(false)
-                  }}
-                />
-              </div>
+              <a
+                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center py-2.5 pl-2 pr-3 text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault()
+                  setOpen(false)
+                }}
+              >
+                <CloseOutlined />
+              </a>
             </div>
           )}
           {!header && !footer && <div className="pt-3" />}
@@ -993,7 +1009,8 @@ function CustomDropdown({
                 px-3 pb-3
                 [&>.ant-dropdown-menu]:p-0
                 [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0"
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0
+                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2"
               // TODO: ошибки в смещении при уменьшении размера экрана
               // style={{
               //   maxHeight: `calc(${height}px - 48px)`,
@@ -1016,20 +1033,40 @@ function CustomDropdown({
 
 function PermisionLevelButton() {
   const [selected, setSelected] = React.useState('public')
+  const map = {
+    private: {
+      icon: <LockTwoTone twoToneColor="#eb5a46" />, // TODO: var(--ds-icon-accent-red,#eb5a46)
+      buttonIcon: <LockOutlined />,
+      itemText: 'Приватная',
+      title: 'Просматривать и изменять эту доску могут только её участники.',
+    },
+    workspace: {
+      icon: <TeamOutlined style={{ color: '#42526e' }} />, // TODO: var(--ds-icon,#42526e);
+      buttonIcon: <TeamOutlined />,
+      itemText: 'Рабочее пространство', // TODO: itemSubText
+      buttonText: 'Для рабочего пространства',
+      title: 'Просматривать и изменять эту доску могут все участники рабочего пространства.',
+    },
+    // TODO: добавить режим 'enterprise'
+    // enterprise: {
+    //   icon: <BlockOutlined style={{ color: '#6b778c' }} />, // TODO: var(--ds-icon-subtle,#6b778c);
+    //   buttonIcon: <BlockOutlined />,
+    //   itemText: 'Организация',
+    //   title:
+    //     'Просматривать эту доску могут все сотрудники организации. Чтобы предоставить это разрешение, доску нужно добавить в корпоративное рабочее пространство.',
+    // },
+    // TODO: добавить подтверждение перед включением публичного режима
+    public: {
+      icon: <GlobalOutlined style={{ color: '#61bd4f' }} />, // TODO: var(--ds-icon-accent-green,#61bd4f);
+      buttonIcon: <GlobalOutlined />,
+      itemText: 'Публичная',
+      title: 'Публичные доски доступны для всех в Интернете.',
+    },
+  }
   const items = Object.entries(map).map(([key, { icon, itemText, title }]) => ({
     key,
     label: (
-      <a
-        tabIndex={-1}
-        href="#"
-        name={key}
-        onClick={(event) => {
-          event.preventDefault()
-        }}
-        className="mx-[-12px] block py-[6px] px-[12px]
-        hover:bg-[var(--ds-background-neutral-hovered,#091e420a)]
-        active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
-      >
+      <CustomDropdownItem>
         <span className="mr-1">{icon}</span>
         <Space>
           {itemText}
@@ -1041,13 +1078,10 @@ function PermisionLevelButton() {
             </span>
           )}
         </Space>
-        <span
-          className="inline-block text-xs
-          text-[var(--ds-text-subtle,#5e6c84)]"
-        >
+        <span className="mt-1 inline-block text-xs text-[var(--ds-text-subtle,#5e6c84)]">
           {title}
         </span>
-      </a>
+      </CustomDropdownItem>
     ),
   }))
   const value = map[selected]
