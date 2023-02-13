@@ -589,7 +589,6 @@ function InFavoritesButton({ favorites, onDelete }) {
             className="[&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
-            // ghost
             size="small"
             onClick={() => onDelete(boardId)}
           ></Button>
@@ -1228,12 +1227,11 @@ function SearchPrefixIcon({ onClick }) {
   return (
     <Button
       className={cx(
-        'h-[22px] w-[22px] min-w-[22px] border-0',
+        'h-[22px] w-[22px] min-w-[22px] border-0 bg-transparent',
         onClick ? 'text-white' : 'text-black',
       )}
       size="small"
       shape="circle"
-      ghost
       icon={<SearchOutlined />}
       onClick={onClick}
     />
