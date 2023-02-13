@@ -990,7 +990,7 @@ function CustomDropdown({
           )}
         >
           {header && (
-            <div className="relative mb-2 h-10">
+            <div className="relative mb-2">
               <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-7 text-center leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
                 {header}
               </span>
