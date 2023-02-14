@@ -170,6 +170,7 @@ function DueDateBadge({}) {
       className="transition [&:hover>.badge-clock]:hidden [&:hover>.badge-check]:flex"
       onClick={(event) => {
         event.preventDefault()
+        event.stopPropagation()
         setChecked(!checked)
       }}
     >
@@ -274,6 +275,7 @@ function FrontLabel({ id, colorId, name }) {
           aria-label={title}
           onClick={(event) => {
             event.preventDefault()
+            event.stopPropagation()
             setIsExpanded(!isExpanded)
           }}
         >
@@ -339,11 +341,21 @@ function FrontLabels() {
 }
 
 function ListCard({ id, title }) {
+  const router = useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(title), [title])
+  // TODO: cover
   return (
     <a
       href={`/c/${id}/${urlName}`}
       className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow"
+      onClick={(event) => {
+        console.log('a')
+        event.preventDefault()
+        router.push(`/c/${id}/${urlName}`, undefined, {
+          shallow: true,
+        })
+        // TODO: открывать модальный диалог по месту для лучшей анимации
+      }}
     >
       <div className="px-2 pt-1.5 pb-0.5">
         <FrontLabels />
@@ -357,6 +369,10 @@ function ListCard({ id, title }) {
         className="absolute right-0.5 top-0.5 rounded-[3px] border-0
         bg-[var(--ds-surface-raised-hovered,#f4f5f7)] opacity-80
         "
+        onClick={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+        }}
       /> */}
     </a>
   )
@@ -402,7 +418,7 @@ function ListHeader({ name }) {
             cursor: 'all',
           })
         }}
-      ></div>
+      />
       <div className="absolute top-1 right-1">
         <ExtrasButton />
       </div>
@@ -500,7 +516,8 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     }
   }
   const boardId = breadcrumbs[1] // if route === 'b'
-  const urlName = normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
+  const urlName =
+    route === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
   const favorites = [
     {
       boardId,
@@ -684,7 +701,7 @@ function InFavoritesButton({ favorites, onDelete }) {
   )
 }
 
-function FilterItem({ key, background, icon, text, isFirst }) {
+function FilterItem({ background, icon, text, isFirst }) {
   return (
     <Checkbox
       value={text} // TODO: реализовать фильтр
@@ -709,7 +726,7 @@ function FilterItem({ key, background, icon, text, isFirst }) {
 
 function FilterButton() {
   const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
-  const [filterCount, setFilterCount] = React.useState(0)
+  const [filterCount, setFilterCount] = React.useState(8)
   const isFilter = filterCount > 0
   const [isOpen, setOpen] = React.useState(false)
   const [form] = Form.useForm()
@@ -1389,6 +1406,10 @@ function SearchButton() {
 }
 
 function BoardPage(props: IProps) {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const close = () => {
+    setIsOpen(false)
+  }
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
@@ -1396,14 +1417,20 @@ function BoardPage(props: IProps) {
     if (breadcrumbs === undefined) {
       return
     }
-    const urlName = breadcrumbs[2]
-    if (urlName !== props.urlName) {
-      router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
-        shallow: true,
-      })
-      return
+    const route = breadcrumbs[0]
+    if (route === 'b') {
+      const urlName = breadcrumbs[2]
+      if (urlName !== props.urlName) {
+        router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
+          shallow: true,
+        })
+        return
+      }
     }
     setIsUrlName(true)
+    if (route === 'c') {
+      setIsOpen(true)
+    }
   }, [breadcrumbs])
   // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
@@ -1435,19 +1462,6 @@ function BoardPage(props: IProps) {
       id="chrome-container"
       // className="body-dark-board-background"
       className="h-full bg-[#cd5a91]" // overflow-hidden
-      style={{
-        '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
-        '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
-        '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
-        '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
-        '--dynamic-button-highlighted': '#DFE1E6',
-        '--dynamic-button-highlighted-text': '#172B4D',
-        '--dynamic-button-highlighted-hovered': '#FFFFFF',
-        '--dynamic-icon': '#ffffff',
-        '--dynamic-text': '#ffffff',
-        '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
-        '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
-      }}
     >
       <div id="surface" className="flex h-full flex-col">
         <div className="max-h-[44px] min-h-[44px] overflow-hidden">
@@ -1592,6 +1606,23 @@ function BoardPage(props: IProps) {
           </div>
         </main>
       </div>
+      <Modal
+        open={isOpen}
+        onCancel={close}
+        title="Карточка"
+        // transitionName=""
+        // maskTransitionName=""
+        // style={null}
+        // closable={false}
+        footer={null}
+        destroyOnClose
+        centered
+        // width={760}
+        // mask={false}
+        // wrapClassName="search-modal"
+      >
+        <div className="bg-[var(--text-color)]">321</div>
+      </Modal>
     </div>
   )
 }
