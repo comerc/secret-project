@@ -640,7 +640,7 @@ function InFavoritesButton({ favorites, onDelete }) {
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
-            className="[&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
+            className="border-[var(--ds-border,#091e4221)] [&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
             size="small"
@@ -765,7 +765,11 @@ function FilterButton() {
           // onValuesChange={onRequiredTypeChange}
           // requiredMark={requiredMark}
         >
-          <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
+          <Form.Item
+            // className="bg-[red]"
+            label="Ключевое слово"
+            help="Поиск карточек, участников, меток и т. д."
+          >
             <Input placeholder="Введите ключевое слово..." />
           </Form.Item>
           <Form.Item label="Участники">
