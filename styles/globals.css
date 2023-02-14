@@ -4,7 +4,16 @@
 
 @layer components {
   .badge-icon {
-    @apply flex h-5 w-5 scale-90 justify-center;
+    @apply flex h-5 w-5 scale-90 justify-center !important;
+  }
+  .card-detail-window {
+    @apply top-12 !important;
+  }
+  .card-detail-window > .ant-modal-content {
+    @apply rounded-[3px] bg-[var(--ds-surface-overlay,#f4f5f7)] p-0 !important;
+  }
+  .card-detail-window > .ant-modal-content > .ant-modal-close {
+    @apply top-0 right-0 m-1 h-10 w-10 rounded-[50%] p-1 !important;
   }
 }
 

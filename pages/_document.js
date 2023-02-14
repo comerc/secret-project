@@ -29,6 +29,7 @@ class MyDocument extends Document {
     }
   }
   render() {
+    // const { breadcrumbs } = this.props.__NEXT_DATA__.query
     return (
       <Html>
         <Head />

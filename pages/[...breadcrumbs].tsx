@@ -35,6 +35,7 @@ import {
   CheckSquareOutlined,
   PaperClipOutlined,
   BorderOutlined,
+  CreditCardOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -64,6 +65,55 @@ import Image from 'next/image'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
+
+function CardDetailWindow() {
+  const [isOpen, setIsOpen] = React.useState(false) // TODO: состояние определяет '/c/...'
+  const close = () => {
+    setIsOpen(false)
+  }
+  return (
+    <Modal
+      open={isOpen}
+      onCancel={close}
+      // title="Карточка"
+      // transitionName=""
+      // maskTransitionName=""
+      // style={null}
+      // closable={false}
+      footer={null}
+      destroyOnClose
+      // centered
+      width={768}
+      // mask={false}
+      // TODO: адаптивность для мобилки
+      className="card-detail-window"
+    >
+      <div className="relative px-12 pt-3 pb-2">
+        <div className="absolute top-5 left-4 flex h-8 w-8 justify-center">
+          <CreditCardOutlined className="scale-125" />
+        </div>
+        <Input.TextArea
+          className="mb-[-4px] mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
+          spellCheck={false}
+          // ref={inputRef}
+          autoSize
+          // aria-label={name}
+          // size={512}
+          // value={'Выполнить деплой'}
+          // onChange={(event) => {
+          //   setValue(event.target.value)
+          // }}
+          // onBlur={() => {
+          //   setIsFocused(false)
+          // }}
+          // onFocus={() => {
+          //   setIsFocused(true)
+          // }}
+        />
+      </div>
+    </Modal>
+  )
+}
 
 function ExtrasButton() {
   const data = [
@@ -386,7 +436,7 @@ function ListHeader({ name }) {
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
-        className="mb-[-4px] min-h-[28px] overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
         spellCheck={false}
         ref={inputRef}
         autoSize
@@ -1406,10 +1456,6 @@ function SearchButton() {
 }
 
 function BoardPage(props: IProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const close = () => {
-    setIsOpen(false)
-  }
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
@@ -1606,23 +1652,7 @@ function BoardPage(props: IProps) {
           </div>
         </main>
       </div>
-      <Modal
-        open={isOpen}
-        onCancel={close}
-        title="Карточка"
-        // transitionName=""
-        // maskTransitionName=""
-        // style={null}
-        // closable={false}
-        footer={null}
-        destroyOnClose
-        centered
-        // width={760}
-        // mask={false}
-        // wrapClassName="search-modal"
-      >
-        <div className="bg-[var(--text-color)]">321</div>
-      </Modal>
+      <CardDetailWindow />
     </div>
   )
 }
