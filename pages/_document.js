@@ -32,7 +32,22 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body className="body-dark-board-background">
+        <body
+          className="body-dark-board-background"
+          style={{
+            '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
+            '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
+            '--dynamic-button-hovered': 'rgba(255, 255, 255, 0.3)',
+            '--dynamic-button-pressed': 'rgba(255, 255, 255, 0.4)',
+            '--dynamic-button-highlighted': '#DFE1E6',
+            '--dynamic-button-highlighted-text': '#172B4D',
+            '--dynamic-button-highlighted-hovered': '#FFFFFF',
+            '--dynamic-icon': '#ffffff',
+            '--dynamic-text': '#ffffff',
+            '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
+            '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
+          }}
+        >
           <div id="nocss">
             Your browser was unable to load all of resources. They may have been blocked by your
             firewall, proxy or browser configuration.
