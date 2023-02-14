@@ -482,7 +482,7 @@ type IProps = {
   users: []
 }
 
-export const getServerSideProps = async ({ query }): IProps => {
+export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
   resetServerContext()
   const users = await fetch('https://randomuser.me/api/?results=20')
     .then((res) => res.json())
@@ -492,13 +492,14 @@ export const getServerSideProps = async ({ query }): IProps => {
     title: `Issue ${k} ` + generateSentence(),
     description: '',
   }))
-  const route = query.params[0] // TODO: w || u || b || c
-  if (!['b', 'c'].includes(route)) {
+  const route = breadcrumbs[0] // TODO: w || u || b || c
+  const routes = ['b', 'c']
+  if (!routes.includes(route)) {
     return {
       notFound: true,
     }
   }
-  const boardId = query.params[1] // if route === 'b'
+  const boardId = breadcrumbs[1] // if route === 'b'
   const urlName = normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
   const favorites = [
     {
@@ -516,7 +517,7 @@ export const getServerSideProps = async ({ query }): IProps => {
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  return { props: { issues, boardId, urlName, favorites, users } }
+  return { props: { issues, boardId, issueId: null, urlName, favorites, users } }
 }
 
 function HeaderDivider() {
@@ -1389,19 +1390,21 @@ function SearchButton() {
 
 function BoardPage(props: IProps) {
   const router = useRouter()
-  const { params } = router.query
+  const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
   React.useEffect(() => {
-    if (params === undefined) {
+    if (breadcrumbs === undefined) {
       return
     }
-    const urlName = params[1]
+    const urlName = breadcrumbs[2]
     if (urlName !== props.urlName) {
-      router.push(`/b/${props.boardId}/${props.urlName}`, undefined, { shallow: true })
+      router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
+        shallow: true,
+      })
       return
     }
     setIsUrlName(true)
-  }, [params])
+  }, [breadcrumbs])
   // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
   const [favorites, setFavorites] = React.useState(props.favorites)
