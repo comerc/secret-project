@@ -492,7 +492,13 @@ export const getServerSideProps = async ({ query }): IProps => {
     title: `Issue ${k} ` + generateSentence(),
     description: '',
   }))
-  const boardId = query.params[0]
+  const route = query.params[0] // TODO: w || u || b || c
+  if (!['b', 'c'].includes(route)) {
+    return {
+      notFound: true,
+    }
+  }
+  const boardId = query.params[1] // if route === 'b'
   const urlName = normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') // TODO: get boardName from DB
   const favorites = [
     {
