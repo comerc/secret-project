@@ -66,15 +66,60 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 
+function CardLabels() {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {labels.map((label) => (
+        <CardLabel key={label.id} {...label} />
+      ))}
+      <Button
+        className="rounded-[3px] border-0 bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))] text-[var(--ds-text,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)] active:text-[var(--ds-text,#0079bf)]"
+        icon={<PlusOutlined />}
+      />
+    </div>
+  )
+}
+
+function CardLabel({ id, colorId, name }) {
+  const color = labelColors[colorId]
+  const title = `Цвет: ${color.name}, название: «${name}»`
+  return (
+    <Tooltip
+      // TODO: добавить цвет
+      // overlayStyle={{ ...color.style }}
+      // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
+      // color={'var(--background-color)'}
+      placement="bottomLeft"
+      title={title}
+    >
+      <button
+        style={color.style}
+        className="relative inline-block h-8 min-w-[48px] max-w-full truncate rounded-[3px] bg-[var(--background-color,var(--ds-skeleton,#DFE1E6))] pl-8 pr-3 text-left leading-8 text-[var(--text-color,var(--ds-text,#172b4d))] hover:brightness-[.85] hover:saturate-[.85] focus:ring-2"
+        tabIndex={0}
+        aria-label={title}
+        // onClick={(event) => {}}
+      >
+        <>
+          <div className="absolute top-2 bottom-2 left-2 h-4 w-4 rounded-[50%] bg-[var(--foreground-color)]" />
+          {name}
+        </>
+      </button>
+    </Tooltip>
+  )
+}
+
 function CardDetailWindow() {
-  const [isOpen, setIsOpen] = React.useState(false) // TODO: состояние определяет '/c/...'
+  const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
     setIsOpen(false)
   }
+  const columnName = 'Backlog'
+  const columnUrl = '/c/id-123/backlog'
   return (
     <Modal
       open={isOpen}
       onCancel={close}
+      afterClose={() => {}}
       // title="Карточка"
       // transitionName=""
       // maskTransitionName=""
@@ -93,13 +138,13 @@ function CardDetailWindow() {
           <CreditCardOutlined className="scale-125" />
         </div>
         <Input.TextArea
-          className="mb-[-4px] mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
+          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
           spellCheck={false}
           // ref={inputRef}
           autoSize
           // aria-label={name}
           // size={512}
-          // value={'Выполнить деплой'}
+          value={'Выполнить деплой'}
           // onChange={(event) => {
           //   setValue(event.target.value)
           // }}
@@ -110,6 +155,31 @@ function CardDetailWindow() {
           //   setIsFocused(true)
           // }}
         />
+        <div className="mb-3 cursor-default pl-2.5 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
+          в колонке{' '}
+          <a
+            className="text-[var(--ds-text-subtle,#5e6c84)] underline"
+            href={columnUrl}
+            onClick={(event) => {
+              event.preventDefault()
+              router.push(columnUrl, undefined, {
+                shallow: true,
+              })
+            }}
+          >
+            {columnName}
+          </a>
+        </div>
+      </div>
+      <div className="relative float-left w-[552px] pr-2 pb-2 pl-4">
+        <div className="mt-2 ml-10">
+          <div className="float-left mr-4 mb-4 max-w-full">
+            <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+              Метки
+            </h3>
+            <CardLabels />
+          </div>
+        </div>
       </div>
     </Modal>
   )
@@ -341,45 +411,46 @@ function FrontLabel({ id, colorId, name }) {
   )
 }
 
+const labels = [
+  {
+    id: 1,
+    colorId: '1-1',
+    name: 'Готово',
+  },
+  {
+    id: 2,
+    colorId: '1-2',
+    name: 'Готово',
+  },
+  {
+    id: 3,
+    colorId: '1-3',
+    name: 'Готово',
+  },
+  {
+    id: 4,
+    colorId: '1-4',
+    name: 'Готово',
+  },
+  {
+    id: 5,
+    colorId: '1-5',
+    name: 'Готово',
+  },
+  {
+    id: 6,
+    colorId: '1-6',
+    name: 'Готово',
+  },
+  {
+    id: 7,
+    colorId: '5-6',
+    name: 'Моя очень-очень-очень длинная метка',
+  },
+]
+
 function FrontLabels() {
   const { isExpanded } = React.useContext(LabelsContext)
-  const labels = [
-    {
-      id: 1,
-      colorId: '1-1',
-      name: 'Готово',
-    },
-    {
-      id: 2,
-      colorId: '1-2',
-      name: 'Готово',
-    },
-    {
-      id: 3,
-      colorId: '1-3',
-      name: 'Готово',
-    },
-    {
-      id: 4,
-      colorId: '1-4',
-      name: 'Готово',
-    },
-    {
-      id: 5,
-      colorId: '1-5',
-      name: 'Готово',
-    },
-    {
-      id: 6,
-      colorId: '1-6',
-      name: 'Готово',
-    },
-    {
-      id: 7,
-      colorId: '5-6',
-      name: 'Моя очень-очень-очень длинная метка',
-    },
-  ]
   // TODO: добавить режим для дальтоников
   return (
     <div className={cx(isExpanded ? 'mb-1' : 'my-1', 'flex flex-wrap gap-1')}>
@@ -399,7 +470,6 @@ function ListCard({ id, title }) {
       href={`/c/${id}/${urlName}`}
       className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow"
       onClick={(event) => {
-        console.log('a')
         event.preventDefault()
         router.push(`/c/${id}/${urlName}`, undefined, {
           shallow: true,
@@ -416,8 +486,8 @@ function ListCard({ id, title }) {
         // TODO: добавить редактирование карточки на месте
         icon={<EditOutlined />}
         size="small"
-        className="absolute right-0.5 top-0.5 rounded-[3px] border-0
-        bg-[var(--ds-surface-raised-hovered,#f4f5f7)] opacity-80
+        className="absolute right-0.5 top-0.5 rounded-[3px] border-0 bg-[var(--ds-surface-raised-hovered,#f4f5f7)]
+        opacity-80 shadow-none
         "
         onClick={(event) => {
           event.preventDefault()
@@ -714,7 +784,7 @@ function InFavoritesButton({ favorites, onDelete }) {
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
-            className="border-[var(--ds-border,#091e4221)] [&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
+            className="border-[var(--ds-border,#091e4221)] shadow-none [&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
             size="small"
@@ -1229,7 +1299,7 @@ function BoardHeaderButton({
         // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
         colors ||
           'bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]',
-        'rounded-[3px] border-0 leading-5',
+        'rounded-[3px] border-0 leading-5 shadow-none',
         indent && 'mr-1 mb-1',
         children ? 'px-3' : 'w-8 px-0',
         className,
@@ -1329,9 +1399,8 @@ function NavHeaderButton({ icon }) {
   return (
     <div role="presentation">
       <Button
-        className="border-white/0 hover:bg-white/30 hover:text-white"
+        className="border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
         shape="circle"
-        ghost
         icon={icon}
       ></Button>
     </div>
@@ -1342,7 +1411,7 @@ function SearchPrefixIcon({ onClick }) {
   return (
     <Button
       className={cx(
-        'h-[22px] w-[22px] min-w-[22px] border-0 bg-transparent',
+        'h-[22px] w-[22px] min-w-[22px] border-0 bg-transparent shadow-none',
         onClick ? 'text-white' : 'text-black',
       )}
       size="small"
@@ -1423,8 +1492,7 @@ function SearchButton() {
       </div>
       <div ref={buttonContainerRef} className={cx('md:hidden', isSearch && 'hidden')}>
         <Button
-          className="rounded-[3px] border-white/0 hover:bg-white/30 hover:text-white"
-          ghost
+          className="rounded-[3px] border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
           icon={<SearchOutlined />}
           onClick={() => setIsSearch(true)}
           ref={buttonRef}
@@ -1463,20 +1531,13 @@ function BoardPage(props: IProps) {
     if (breadcrumbs === undefined) {
       return
     }
-    const route = breadcrumbs[0]
-    if (route === 'b') {
-      const urlName = breadcrumbs[2]
-      if (urlName !== props.urlName) {
-        router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
-          shallow: true,
-        })
-        return
-      }
+    if (breadcrumbs[0] === 'b' && breadcrumbs[2] !== props.urlName) {
+      router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
+        shallow: true,
+      })
+      return
     }
     setIsUrlName(true)
-    if (route === 'c') {
-      setIsOpen(true)
-    }
   }, [breadcrumbs])
   // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
@@ -1652,7 +1713,7 @@ function BoardPage(props: IProps) {
           </div>
         </main>
       </div>
-      <CardDetailWindow />
+      {breadcrumbs[0] === 'c' && <CardDetailWindow />}
     </div>
   )
 }
