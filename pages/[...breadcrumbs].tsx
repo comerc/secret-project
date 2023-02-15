@@ -389,7 +389,7 @@ function FrontLabel({ id, colorId, name }) {
             isExpanded
               ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs'
               : 'h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
-            'relative inline-block rounded transition hover:brightness-[.85] hover:saturate-[.85]',
+            'relative inline-block rounded text-left transition hover:brightness-[.85] hover:saturate-[.85]',
           )}
           tabIndex={-1}
           aria-label={title}
@@ -415,36 +415,36 @@ const labels = [
   {
     id: 1,
     colorId: '1-1',
-    name: 'Готово',
+    name: '1-1',
   },
   {
     id: 2,
     colorId: '1-2',
-    name: 'Готово',
+    name: '1-2',
   },
   {
     id: 3,
     colorId: '1-3',
-    name: 'Готово',
+    name: '1-3',
   },
   {
     id: 4,
     colorId: '1-4',
-    name: 'Готово',
+    name: '1-4',
   },
   {
     id: 5,
     colorId: '1-5',
-    name: 'Готово',
+    name: '1-5',
   },
   {
     id: 6,
     colorId: '1-6',
-    name: 'Готово',
+    name: '1-6',
   },
   {
     id: 7,
-    colorId: '5-6',
+    colorId: '4-2',
     name: 'Моя очень-очень-очень длинная метка',
   },
 ]
@@ -468,7 +468,7 @@ function ListCard({ id, title }) {
   return (
     <a
       href={`/c/${id}/${urlName}`}
-      className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow"
+      className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
       onClick={(event) => {
         event.preventDefault()
         router.push(`/c/${id}/${urlName}`, undefined, {
