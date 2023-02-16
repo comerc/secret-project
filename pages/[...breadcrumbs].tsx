@@ -66,19 +66,19 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 
-function CardMembers({ members }) {
+function CardDetailMembers({ members }) {
   const maxCount = 5
   return (
     <Avatar.Group className="block">
       {members.map((user, index, a) => (
         <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
       ))}
-      <CardButton icon={<PlusOutlined />} shape="circle" />
+      <CardDetailButton icon={<PlusOutlined />} shape="circle" />
     </Avatar.Group>
   )
 }
 
-function CardDetail({ title, children }) {
+function CardDetailItem({ title, children }) {
   return (
     <div className="float-left mr-4 mb-4 max-w-full">
       <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
@@ -89,7 +89,7 @@ function CardDetail({ title, children }) {
   )
 }
 
-function CardButton({ className, icon, shape = 'default' }) {
+function CardDetailButton({ className, icon, shape = 'default' }) {
   return (
     <Button
       className={cx(
@@ -103,18 +103,18 @@ function CardButton({ className, icon, shape = 'default' }) {
   )
 }
 
-function CardLabels({ labels }) {
+function CardDetailLabels({ labels }) {
   return (
     <div className="flex flex-wrap gap-1">
       {labels.map((label) => (
-        <CardLabel key={label.id} {...label} />
+        <CardDetailLabel key={label.id} {...label} />
       ))}
-      <CardButton icon={<PlusOutlined />} />
+      <CardDetailButton icon={<PlusOutlined />} />
     </div>
   )
 }
 
-function CardLabel({ id, colorId, name }) {
+function CardDetailLabel({ id, colorId, name }) {
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
@@ -203,22 +203,18 @@ function CardDetailWindow({ issue: { members, labels } }) {
           >
             {columnName}
           </a>
-        </div>
-      </div>
-      <div className="relative float-left w-[552px] pr-2 pb-2 pl-4">
-        <div className="mt-2 ml-10">
-          {/* <CardDetail title="Список"> // TODO: реализовать кнопку "Список" </CardDetail> */}
-          <CardDetail title="Участники">
-            <CardMembers members={members} />
-          </CardDetail>
-          <CardDetail title="Метки">
-            <CardLabels labels={labels} />
-          </CardDetail>
-          <CardDetail title="Уведомления"></CardDetail>
-          {/* <CardDetail title="Начало"> // TODO: непонятно </CardDetail> */}
-          <CardDetail title="Срок"></CardDetail>
-          <CardDetail title="Голоса"></CardDetail>
-          <CardDetail title="Последнее обновление"></CardDetail>
+        </div <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
+          <CardDetailItem title="Участники">
+            <CardDetailMembers members={members} />
+          </CardDetailItem>
+          <CardDetailItem title="Метки">
+            <CardDetailLabels labels={labels} />
+          </CardDetailItem>
+          <CardDetailItem title="Уведомления"></CardDetailItem>
+          {/* <CardDetailItem title="Начало"> // TODO: непонятно </CardDetailItem> */}
+          <CardDetailItem title="Срок"></CardDetailItem>
+          {/* <CardDetailItem title="Голоса"> // TODO: непонятно </CardDetailItem> */}
+          {/* <CardDetailItem title="Последнее обновление"> // TODO: непонятно </CardDetailItem> */}
         </div>
       </div>
     </Modal>
@@ -659,7 +655,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     //   name: 'Моя очень-очень-очень длинная метка',
     // },
   ]
-  const members = await fetch('https://randomuser.me/api/?results=32')
+  const members = await fetch('https://randomuser.me/api/?results=6')
     .then((res) => res.json())
     .then((data) => data.results)
   const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
