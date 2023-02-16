@@ -66,6 +66,35 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 
+function CardDetailNotifications({ notifications }) {
+  const [isChecked, setIsChecked] = React.useState(false)
+  const title = isChecked
+    ? 'Вы подписаны на уведомления об обновлениях этой карточки. Нажмите, чтобы отменить подписку.'
+    : 'Подпишитесь на уведомления об обновлениях этой карточки'
+  // TODO: отказался от Tooltip
+  return (
+    <CardDetailButton
+      className={cx('transition-none', isChecked && 'relative pr-10')}
+      icon={<EyeOutlined />}
+      onClick={() => {
+        setIsChecked(!isChecked)
+      }}
+      aria-label={title}
+    >
+      {isChecked ? (
+        <>
+          {'Вы подписаны'}
+          <span className="absolute top-1 right-1 flex h-6 w-7 justify-center rounded-[3px] bg-[var(--ds-icon-subtle,#42526e)] text-[var(--ds-icon-inverse,#fff)]">
+            <CheckOutlined />
+          </span>
+        </>
+      ) : (
+        'Подписаться'
+      )}
+    </CardDetailButton>
+  )
+}
+
 function CardDetailMembers({ members }) {
   const maxCount = 5
   return (
@@ -89,17 +118,28 @@ function CardDetailItem({ title, children }) {
   )
 }
 
-function CardDetailButton({ className, icon, shape = 'default' }) {
+// TODO: объединить с BoardHeaderButton - формировать className, а не врапить Button
+function CardDetailButton({ className, icon, shape = 'default', children, onClick }) {
   return (
     <Button
       className={cx(
         shape === 'default' && 'rounded-[3px]',
-        'border-0 bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))] text-[var(--ds-text,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)] active:text-[var(--ds-text,#0079bf)]',
+        'border-0 leading-5 shadow-none',
+        'text-[var(--ds-text,inherit)]',
+        'bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))]',
+        'hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))]',
+        'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
+        'active:text-[var(--ds-text,#0079bf)]',
+        // indent && 'mr-1 mb-1',
+        children && 'px-3', // : 'w-8 px-0',
         className,
       )}
       shape={shape}
       icon={icon}
-    />
+      onClick={onClick}
+    >
+      {children}
+    </Button>
   )
 }
 
@@ -142,6 +182,7 @@ function CardDetailLabel({ id, colorId, name }) {
   )
 }
 
+// TODO: hover: active: для close-button
 function CardDetailWindow({ issue: { members, labels } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
@@ -149,6 +190,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
   }
   const columnName = 'Backlog'
   const columnUrl = '/c/id-123/backlog'
+  const notifications = true
   return (
     <Modal
       open={isOpen}
@@ -214,7 +256,9 @@ function CardDetailWindow({ issue: { members, labels } }) {
           <CardDetailItem title="Метки">
             <CardDetailLabels labels={labels} />
           </CardDetailItem>
-          <CardDetailItem title="Уведомления"></CardDetailItem>
+          <CardDetailItem title="Уведомления">
+            <CardDetailNotifications notifications={notifications} />
+          </CardDetailItem>
           {/* <CardDetailItem title="Начало"> // TODO: непонятно </CardDetailItem> */}
           <CardDetailItem title="Срок"></CardDetailItem>
           {/* <CardDetailItem title="Голоса"> // TODO: непонятно </CardDetailItem> */}
@@ -270,7 +314,7 @@ function ExtrasButton() {
       smallSize
     >
       <Button
-        className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)]"
+        className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<EllipsisOutlined />}
       />
     </CustomDropdown>
@@ -483,6 +527,7 @@ function ListCard({ id, title, labels }) {
         <FrontLabels labels={labels} />
         <div className="mb-1 break-words">{title}</div>
         <Badges />
+        {/* // TODO: list-card-members */}
       </div>
       {/* <Button
         // TODO: добавить редактирование карточки на месте
@@ -552,7 +597,7 @@ function ListFooter() {
   return (
     <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
       <Button
-        className="h-[28px] w-full justify-start rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)]"
+        className="h-[28px] w-full justify-start rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<PlusOutlined />}
       >
         Добавить карточку
@@ -770,11 +815,17 @@ function ShareButton() {
   )
 }
 
+// TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
 function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
   return (
     <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
       <a
-        className="hover:[&>.ant-avatar]:bg-[#c1c7d0] hover:[&>.ant-avatar>img]:opacity-80"
+        className={cx(
+          '[&>.ant-avatar>img]:overflow-clip [&>.ant-avatar>img]:rounded-[50%]',
+          '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
+          'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
+          'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
+        )}
         href="#"
         onClick={(event) => {
           event.preventDefault()
@@ -793,7 +844,7 @@ function MembersButton({ members }) {
       className={cx(
         'float-left mb-1 mr-1',
         members.length > maxCount &&
-          '[&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)]',
+          'select-none [&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)] active:[&>:last-child]:bg-[var(--dynamic-button-pressed)]',
       )}
       maxCount={maxCount}
       maxPopoverPlacement="bottomLeft"
@@ -1054,6 +1105,8 @@ function PlusButton() {
           indent={false}
           icon={<PlusOutlined />}
           onClick={handleClick}
+          // исключён active:bg-
+          colors="bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]"
         />
       </div>
       <div className="hidden lg:block">
@@ -1330,6 +1383,7 @@ function BoardHeaderButton({
   tabIndex = 0,
   indent = true,
   colors,
+  shape = 'default',
 }) {
   return (
     <Button
@@ -1339,14 +1393,16 @@ function BoardHeaderButton({
       className={cx(
         // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
         colors ||
-          'bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]',
-        'rounded-[3px] border-0 leading-5 shadow-none',
+          'bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)] active:bg-[var(--dynamic-button-pressed)]',
+        'border-0 leading-5 shadow-none',
+        shape === 'default' && 'rounded-[3px]',
         indent && 'mr-1 mb-1',
-        children ? 'px-3' : 'w-8 px-0',
+        children && 'px-3', // : 'w-8 px-0',
         className,
       )}
       onClick={onClick}
       tabIndex={tabIndex}
+      shape={shape}
     >
       {children}
     </Button>
@@ -1363,10 +1419,12 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   })
   return (
     <div
-      className="relative float-left mr-1 mb-1 h-[32px] rounded-[3px] 
-        text-[18px] font-bold leading-8 
-        text-[var(--dynamic-text)]
-        hover:bg-[var(--dynamic-button-hovered)]"
+      className={cx(
+        'relative float-left mr-1 mb-1 h-[32px] rounded-[3px] text-[18px] font-bold leading-8',
+        'text-[var(--dynamic-text)]',
+        'hover:bg-[var(--dynamic-button-hovered)]',
+        'active:bg-[var(--dynamic-button-pressed)]',
+      )}
       style={{
         maxWidth: 'calc(100% - 24px)',
         transition: '.1s ease',
