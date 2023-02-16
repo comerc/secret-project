@@ -203,7 +203,11 @@ function CardDetailWindow({ issue: { members, labels } }) {
           >
             {columnName}
           </a>
-        </div <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
+        </div>
+      </div>
+      <div className="relative float-left w-[552px] pr-2 pb-2 pl-4">
+        <div className="mt-2 ml-10">
+          {/* <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
           <CardDetailItem title="Участники">
             <CardDetailMembers members={members} />
           </CardDetailItem>
