@@ -66,16 +66,50 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 
-function CardLabels() {
+function CardMembers({ members }) {
+  const maxCount = 5
+  return (
+    <Avatar.Group className="block">
+      {members.map((user, index, a) => (
+        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
+      ))}
+      <CardButton icon={<PlusOutlined />} shape="circle" />
+    </Avatar.Group>
+  )
+}
+
+function CardDetail({ title, children }) {
+  return (
+    <div className="float-left mr-4 mb-4 max-w-full">
+      <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+        {title}
+      </h3>
+      {children}
+    </div>
+  )
+}
+
+function CardButton({ className, icon, shape = 'default' }) {
+  return (
+    <Button
+      className={cx(
+        shape === 'default' && 'rounded-[3px]',
+        'border-0 bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))] text-[var(--ds-text,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)] active:text-[var(--ds-text,#0079bf)]',
+        className,
+      )}
+      shape={shape}
+      icon={icon}
+    />
+  )
+}
+
+function CardLabels({ labels }) {
   return (
     <div className="flex flex-wrap gap-1">
       {labels.map((label) => (
         <CardLabel key={label.id} {...label} />
       ))}
-      <Button
-        className="rounded-[3px] border-0 bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))] text-[var(--ds-text,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)] active:text-[var(--ds-text,#0079bf)]"
-        icon={<PlusOutlined />}
-      />
+      <CardButton icon={<PlusOutlined />} />
     </div>
   )
 }
@@ -108,7 +142,7 @@ function CardLabel({ id, colorId, name }) {
   )
 }
 
-function CardDetailWindow() {
+function CardDetailWindow({ issue: { members, labels } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
     setIsOpen(false)
@@ -173,12 +207,18 @@ function CardDetailWindow() {
       </div>
       <div className="relative float-left w-[552px] pr-2 pb-2 pl-4">
         <div className="mt-2 ml-10">
-          <div className="float-left mr-4 mb-4 max-w-full">
-            <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
-              Метки
-            </h3>
-            <CardLabels />
-          </div>
+          {/* <CardDetail title="Список"> // TODO: реализовать кнопку "Список" </CardDetail> */}
+          <CardDetail title="Участники">
+            <CardMembers members={members} />
+          </CardDetail>
+          <CardDetail title="Метки">
+            <CardLabels labels={labels} />
+          </CardDetail>
+          <CardDetail title="Уведомления"></CardDetail>
+          {/* <CardDetail title="Начало"> // TODO: непонятно </CardDetail> */}
+          <CardDetail title="Срок"></CardDetail>
+          <CardDetail title="Голоса"></CardDetail>
+          <CardDetail title="Последнее обновление"></CardDetail>
         </div>
       </div>
     </Modal>
@@ -411,45 +451,7 @@ function FrontLabel({ id, colorId, name }) {
   )
 }
 
-const labels = [
-  {
-    id: 1,
-    colorId: '1-1',
-    name: '1-1',
-  },
-  {
-    id: 2,
-    colorId: '1-2',
-    name: '1-2',
-  },
-  {
-    id: 3,
-    colorId: '1-3',
-    name: '1-3',
-  },
-  {
-    id: 4,
-    colorId: '1-4',
-    name: '1-4',
-  },
-  {
-    id: 5,
-    colorId: '1-5',
-    name: '1-5',
-  },
-  {
-    id: 6,
-    colorId: '1-6',
-    name: '1-6',
-  },
-  {
-    id: 7,
-    colorId: '4-2',
-    name: 'Моя очень-очень-очень длинная метка',
-  },
-]
-
-function FrontLabels() {
+function FrontLabels({ labels }) {
   const { isExpanded } = React.useContext(LabelsContext)
   // TODO: добавить режим для дальтоников
   return (
@@ -461,7 +463,7 @@ function FrontLabels() {
   )
 }
 
-function ListCard({ id, title }) {
+function ListCard({ id, title, labels }) {
   const router = useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(title), [title])
   // TODO: cover
@@ -478,7 +480,7 @@ function ListCard({ id, title }) {
       }}
     >
       <div className="px-2 pt-1.5 pb-0.5">
-        <FrontLabels />
+        <FrontLabels labels={labels} />
         <div className="mb-1 break-words">{title}</div>
         <Badges />
       </div>
@@ -615,18 +617,57 @@ type IProps = {
   issues: []
   boardId: string
   favorites: []
-  users: []
+  members: []
 }
 
 export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
   resetServerContext()
-  const users = await fetch('https://randomuser.me/api/?results=20')
+  const labels = [
+    {
+      id: 1,
+      colorId: '1-1',
+      name: '1-1',
+    },
+    {
+      id: 2,
+      colorId: '1-2',
+      name: '1-2',
+    },
+    {
+      id: 3,
+      colorId: '1-3',
+      name: '1-3',
+    },
+    // {
+    //   id: 4,
+    //   colorId: '1-4',
+    //   name: '1-4',
+    // },
+    // {
+    //   id: 5,
+    //   colorId: '1-5',
+    //   name: '1-5',
+    // },
+    // {
+    //   id: 6,
+    //   colorId: '1-6',
+    //   name: '1-6',
+    // },
+    // {
+    //   id: 7,
+    //   colorId: '4-2',
+    //   name: 'Моя очень-очень-очень длинная метка',
+    // },
+  ]
+  const members = await fetch('https://randomuser.me/api/?results=32')
     .then((res) => res.json())
     .then((data) => data.results)
   const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
+    members,
+    labels,
   }))
   const route = breadcrumbs[0] // TODO: w || u || b || c
   const routes = ['b', 'c']
@@ -654,7 +695,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  return { props: { issues, boardId, issueId: null, urlName, favorites, users } }
+  return { props: { issues, boardId, issueId: null, urlName, favorites, members } }
 }
 
 function HeaderDivider() {
@@ -745,20 +786,20 @@ function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIn
   )
 }
 
-function UsersButton({ users }) {
+function MembersButton({ members }) {
   const maxCount = 5
   return (
     <Avatar.Group
       className={cx(
         'float-left mb-1 mr-1',
-        users.length > maxCount &&
+        members.length > maxCount &&
           '[&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)]',
       )}
       maxCount={maxCount}
       maxPopoverPlacement="bottomLeft"
       maxPopoverTrigger="click"
     >
-      {users.map((user, index, a) => (
+      {members.map((user, index, a) => (
         <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
@@ -1634,7 +1675,7 @@ function BoardPage(props: IProps) {
                       <div className="float-right">
                         <FilterButton />
                         <HeaderDivider />
-                        <UsersButton users={props.users} />
+                        <MembersButton members={props.members} />
                         <ShareButton />
                         <HeaderDivider />
                         {/* {isMoreButton && ( */}
@@ -1713,7 +1754,7 @@ function BoardPage(props: IProps) {
           </div>
         </main>
       </div>
-      {breadcrumbs[0] === 'c' && <CardDetailWindow />}
+      {breadcrumbs[0] === 'c' && <CardDetailWindow issue={props.issues[0]} />}
     </div>
   )
 }
