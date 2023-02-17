@@ -302,6 +302,11 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-719034014
   - https://github.com/markusenglund/react-kanban/blob/master/src/app/components/Board/Board.jsx#L94-L105
   - https://codesandbox.io/s/simple-react-beautiful-dnd-board-v2cns (fail)
+- [ ] Custom Scrollbar
+  - https://www.thisdot.co/blog/creating-custom-scrollbars-with-react
+  - https://kingsora.github.io/OverlayScrollbars/
+  - https://github.com/buzinas/simple-scrollbar/
+  - https://github.com/Diokuz/react-baron
 
 ## Что нового (для меня) про вёрстку
 

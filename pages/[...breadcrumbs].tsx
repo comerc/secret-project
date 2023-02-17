@@ -816,12 +816,12 @@ function ShareButton() {
 }
 
 // TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
+// TODO: drag'n'drop для Avatar на ListCard
 function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
   return (
     <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
       <a
         className={cx(
-          '[&>.ant-avatar>img]:overflow-clip [&>.ant-avatar>img]:rounded-[50%]',
           '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
           'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
           'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
