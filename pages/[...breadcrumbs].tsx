@@ -188,7 +188,7 @@ function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
     forCardDetail: true,
   })
   return (
-    <Tooltip title={currentMode.title}>
+    <div title={currentMode.title}>
       <Checkbox
         className="mr-1"
         onClick={() => {
@@ -208,7 +208,7 @@ function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
         )}
         <DownOutlined />
       </CardDetailButton>
-    </Tooltip>
+    </div>
   )
 }
 
@@ -327,7 +327,6 @@ function CardDetailLabel({ id, colorId, name }) {
   )
 }
 
-// TODO: hover: active: для close-button
 function CardDetailWindow({ issue: { members, labels } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
@@ -514,20 +513,19 @@ function DueDateBadge({ start, deadline, mode = 'warning' }) {
 
 function Badge({ children, style, className, onClick, title }) {
   return (
-    <Tooltip title={title} placement="bottomLeft">
-      <div
-        role={onClick ? 'button' : null}
-        tabIndex={onClick ? '-1' : null}
-        onClick={onClick}
-        style={style}
-        className={cx(
-          'mr-1 mb-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
-          className,
-        )}
-      >
-        {children}
-      </div>
-    </Tooltip>
+    <div
+      title={title}
+      role={onClick ? 'button' : null}
+      tabIndex={onClick ? '-1' : null}
+      onClick={onClick}
+      style={style}
+      className={cx(
+        'mr-1 mb-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
+        className,
+      )}
+    >
+      {children}
+    </div>
   )
 }
 
@@ -569,7 +567,7 @@ function FrontLabel({ id, colorId, name }) {
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
     <Tooltip
-      // TODO: добавить цвет
+      // TODO: добавить цвет?
       // overlayStyle={{ ...color.style }}
       // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
       // color={'var(--background-color)'}
@@ -929,22 +927,21 @@ function ShareButton() {
 // TODO: drag'n'drop для Avatar на ListCard
 function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
   return (
-    <Tooltip title={`${name.first} ${name.last} (${username})`} placement="bottomLeft">
-      <a
-        className={cx(
-          '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
-          'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
-          'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
-        )}
-        role="button"
-        // href="#" // убирает видимый "drag" ссылки
-        onClick={(event) => {
-          // event.preventDefault()
-        }}
-      >
-        <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
-      </a>
-    </Tooltip>
+    <a
+      title={`${name.first} ${name.last} (${username})`}
+      className={cx(
+        '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
+        'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
+        'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
+      )}
+      role="button"
+      // href="#" // убирает видимый "drag" ссылки
+      onClick={(event) => {
+        // event.preventDefault()
+      }}
+    >
+      <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
+    </a>
   )
 }
 

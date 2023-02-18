@@ -13,7 +13,7 @@
     @apply overflow-auto rounded-[3px] bg-[var(--ds-surface-overlay,#f4f5f7)] p-0 !important;
   }
   .card-detail-window > .ant-modal-content > .ant-modal-close {
-    @apply top-0 right-0 m-1 h-10 w-10 rounded-[50%] p-1 !important;
+    @apply top-0 right-0 m-1 h-10 w-10 rounded-[50%] p-1 text-[var(--ds-icon,#42526e)] hover:bg-[var(--ds-background-neutral,#091e4214)] active:bg-[var(--ds-background-neutral-hovered,#091e4240)] !important;
   }
 }
 
