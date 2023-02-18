@@ -65,6 +65,142 @@ import Image from 'next/image'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
+import dayjs from 'dayjs'
+
+function getLiteralDate(date) {
+  const literalDates = {
+    near: ['Вчера', 'Сегодня', 'Завтра'],
+    past: [
+      'В прошлое воскресенье',
+      'В прошлый понедельник',
+      'В прошлый вторник',
+      'В прошлую среду',
+      'В прошлый четверг',
+      'В прошлую пятницу',
+      'В прошлую субботу',
+    ],
+    future: [
+      'В воскресенье',
+      'В понедельник',
+      'Во вторник',
+      'В среду',
+      'В четверг',
+      'В пятницу',
+      'В субботу',
+    ],
+  }
+  const now = dayjs()
+  const delta = Math.ceil(date.diff(now, 'day', true))
+  if (delta >= -1 && delta <= 1) {
+    return literalDates.near[delta + 1]
+  }
+  if (delta < 0 && delta > -7) {
+    return literalDates.past[date.day()]
+  }
+  if (delta > 0 && delta < 7) {
+    return literalDates.future[date.day()]
+  }
+  return date.format('D MMM')
+}
+
+function getDueDateMode({ deadline, mode, forCardDetail = false }) {
+  const dueDateModes = {
+    normal: {
+      title: 'Срок карточки истекает не скоро',
+      style: {
+        '--background-color-hovered': 'transparent',
+        '--background-color': 'transparent',
+        '--text-color': 'var(--ds-text-subtle,#5e6c84)',
+      },
+    },
+    danger: {
+      status: 'просрочено',
+      title: 'Срок карточки истёк',
+      title2: 'Карточка недавно просрочена!',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-danger-bold-hovered,#b04632)',
+        '--background-color': 'var(--ds-background-danger-bold,#eb5a46)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+    warning: {
+      status: 'скоро истечёт',
+      title: 'До истечения срока карточки осталось менее 24 часов',
+      title2: 'До истечения срока карточки осталось менее часа',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-warning-hovered,#d9b51c)',
+        '--background-color': 'var(--ds-background-warning,#f2d600)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+    success: {
+      status: 'выполнено',
+      title: 'Эта карточка выполнена',
+      style: {
+        '--background-color-hovered': 'var(--ds-background-success-hovered,#519839)',
+        '--background-color': 'var(--ds-background-success,#61bd4f)',
+        '--text-color': 'var(--ds-text-inverse,#fff)',
+      },
+    },
+  }
+  const result = dueDateModes[mode]
+  if (['danger', 'warning'].includes(mode)) {
+    const isLastHour = false // TODO: by deadline
+    if (isLastHour) {
+      result.title = result.title2
+    }
+  }
+  if (forCardDetail && mode === 'warning') {
+    result.style['--text-color'] = 'var(--ds-text, #172B4D)'
+  }
+  return result
+}
+
+// TODO: https://react-component.github.io/calendar/examples/antd-range-calendar.html
+function CardDetailStartDateBadge({ start }) {
+  return (
+    <CardDetailButton
+      onClick={() => {
+        console.log()
+      }}
+    >
+      {getLiteralDate(start)}
+      <DownOutlined />
+    </CardDetailButton>
+  )
+}
+
+function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
+  const [checked, setChecked] = React.useState(false)
+  const currentMode = getDueDateMode({
+    deadline,
+    mode: checked ? 'success' : mode,
+    forCardDetail: true,
+  })
+  return (
+    <Tooltip title={currentMode.title}>
+      <Checkbox
+        className="mr-1"
+        onClick={() => {
+          setChecked(!checked)
+        }}
+      />
+      <CardDetailButton onClick={() => {}}>
+        {!!start && start.format('D MMM - ')}
+        {start ? deadline.format('D MMM') : getLiteralDate(deadline)}
+        {!!currentMode.status && (
+          <span
+            className="ml-2 rounded-[2px] bg-[var(--background-color)] px-1 text-xs text-[var(--text-color)]"
+            style={currentMode.style}
+          >
+            {currentMode.status}
+          </span>
+        )}
+        <DownOutlined />
+      </CardDetailButton>
+    </Tooltip>
+  )
+}
 
 function CardDetailNotifications({ notifications }) {
   const [isChecked, setIsChecked] = React.useState(false)
@@ -191,6 +327,8 @@ function CardDetailWindow({ issue: { members, labels } }) {
   const columnName = 'Backlog'
   const columnUrl = '/c/id-123/backlog'
   const notifications = true
+  const start = dayjs('2023-02-23')
+  const deadline = dayjs('2023-02-24')
   return (
     <Modal
       open={isOpen}
@@ -251,16 +389,23 @@ function CardDetailWindow({ issue: { members, labels } }) {
         <div className="mt-2 ml-10">
           {/* <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
           <CardDetailItem title="Участники">
-            <CardDetailMembers members={members} />
+            <CardDetailMembers {...{ members }} />
           </CardDetailItem>
           <CardDetailItem title="Метки">
-            <CardDetailLabels labels={labels} />
+            <CardDetailLabels {...{ labels }} />
           </CardDetailItem>
           <CardDetailItem title="Уведомления">
-            <CardDetailNotifications notifications={notifications} />
+            <CardDetailNotifications {...{ notifications }} />
           </CardDetailItem>
-          {/* <CardDetailItem title="Начало"> // TODO: непонятно </CardDetailItem> */}
-          <CardDetailItem title="Срок"></CardDetailItem>
+          {deadline ? (
+            <CardDetailItem title={start ? 'Даты' : 'Срок'}>
+              <CardDetailDueDateBadge {...{ start, deadline }} />
+            </CardDetailItem>
+          ) : (
+            <CardDetailItem title="Начало">
+              <CardDetailStartDateBadge {...{ start }} />
+            </CardDetailItem>
+          )}
           {/* <CardDetailItem title="Голоса"> // TODO: непонятно </CardDetailItem> */}
           {/* <CardDetailItem title="Последнее обновление"> // TODO: непонятно </CardDetailItem> */}
         </div>
@@ -321,56 +466,22 @@ function ExtrasButton() {
   )
 }
 
-function DueDateBadge({}) {
-  const start = '9 фев'
-  const deadline = '11 фев'
-  const modes = {
-    normal: {
-      title: 'Срок карточки истекает не скоро',
-    },
-    past: {
-      status: 'просрочено',
-      title: 'Срок карточки истёк',
-      style: {
-        '--background-color-hovered': 'var(--ds-background-danger-hovered,#eb5a46)',
-        '--background-color': 'var(--ds-background-danger,#ec9488)',
-        '--text-color': 'var(--ds-text-inverse,#fff)',
-      },
-    },
-    danger: {
-      status: 'просрочено',
-      title: 'Карточка недавно просрочена',
-      style: {
-        '--background-color-hovered': 'var(--ds-background-danger-bold-hovered,#b04632)',
-        '--background-color': 'var(--ds-background-danger-bold,#eb5a46)',
-        '--text-color': 'var(--ds-text-inverse,#fff)',
-      },
-    },
-    warning: {
-      status: 'скоро истечёт',
-      title: 'До истечения срока карточки осталось менее 24 часов',
-      style: {
-        '--background-color-hovered': 'var(--ds-background-warning-hovered,#d9b51c)',
-        '--background-color': 'var(--ds-background-warning,#f2d600)',
-        '--text-color': 'var(--ds-text-inverse,#fff)',
-      },
-    },
-    success: {
-      status: 'выполнено',
-      title: 'Эта карточка выполнена',
-      style: {
-        '--background-color-hovered': 'var(--ds-background-success-hovered,#519839)',
-        '--background-color': 'var(--ds-background-success,#61bd4f)',
-        '--text-color': 'var(--ds-text-inverse,#fff)',
-      },
-    },
-  }
-  const [checked, setChecked] = React.useState(true)
-  const currentMode = modes['warning']
+function StartDateBadge({ start }) {
+  return (
+    <Badge>
+      <ClockCircleOutlined className="badge-clock badge-icon" />
+      <BadgeText>Дата начала: {start.format('D MMM')}</BadgeText>
+    </Badge>
+  )
+}
+
+function DueDateBadge({ start, deadline, mode = 'warning' }) {
+  const [checked, setChecked] = React.useState(false)
+  const currentMode = getDueDateMode({ deadline, mode: checked ? 'success' : mode })
   return (
     <Badge
-      title={checked ? modes['success'].title : currentMode.title}
-      style={checked ? modes['success'].style : currentMode.style}
+      title={currentMode.title}
+      style={currentMode.style}
       className="transition [&:hover>.badge-clock]:hidden [&:hover>.badge-check]:flex"
       onClick={(event) => {
         event.preventDefault()
@@ -385,26 +496,14 @@ function DueDateBadge({}) {
         <BorderOutlined className="badge-check badge-icon hidden" />
       )}
       <BadgeText>
-        {start}
-        {start && ' - '}
-        {deadline}
+        {!!start && start.format('D MMM - ')}
+        {deadline.format('D MMM')}
       </BadgeText>
     </Badge>
   )
 }
 
-function Badge({
-  children,
-  style = {
-    '--background-color-hovered': 'transparent',
-    '--background-color': 'transparent',
-    '--text-color': 'var(--ds-text-subtle,#5e6c84)',
-  },
-  className,
-  onClick,
-  title,
-}) {
-  // TODO: добавить title
+function Badge({ children, style, className, onClick, title }) {
   return (
     <Tooltip title={title} placement="bottomLeft">
       <div
@@ -428,12 +527,14 @@ function BadgeText({ children }) {
 }
 
 function Badges() {
+  const start = dayjs('2023-02-23')
+  const deadline = dayjs('2023-02-24')
   return (
     <div className="ml-[-2px] max-w-full">
       <Badge title="Вы подписаны на эту карточку">
         <EyeOutlined className="badge-icon" />
       </Badge>
-      <DueDateBadge />
+      {deadline ? <DueDateBadge {...{ start, deadline }} /> : <StartDateBadge {...{ start }} />}
       <Badge title="Эта карточка с описанием">
         <ContainerOutlined className="badge-icon" />
       </Badge>
