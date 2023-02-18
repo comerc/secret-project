@@ -826,12 +826,13 @@ function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIn
           'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
           'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
         )}
-        href="#"
+        role="button"
+        // href="#" // убирает видимый "drag" ссылки
         onClick={(event) => {
-          event.preventDefault()
+          // event.preventDefault()
         }}
       >
-        <Avatar src={thumbnail} style={{ zIndex: zIndex }} />
+        <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
       </a>
     </Tooltip>
   )
@@ -1165,7 +1166,7 @@ function CustomDropdownItem({ children }) {
   return (
     <a
       tabIndex={-1}
-      href="#"
+      href="#" // TODO: role="button"
       onClick={(event) => {
         event.preventDefault()
       }}
@@ -1238,7 +1239,7 @@ function CustomDropdown({
               </span>
               <a
                 className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                href="#"
+                href="#" // TODO: role="button"
                 onClick={(event) => {
                   event.preventDefault()
                   setOpen(false)
@@ -1431,7 +1432,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
       }}
     >
       <a
-        href="#"
+        href="#" // TODO: role="button"
         aria-label="Редактировать название доски"
         title="Нажмите, чтобы отредактировать название доски."
         onClick={(event) => {
@@ -1789,7 +1790,7 @@ function BoardPage(props: IProps) {
                     </div>
                     <a
                       className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                      href="#"
+                      href="#" // TODO: role="button"
                       onClick={(event) => {
                         event.preventDefault()
                         setIsMenu(false)
