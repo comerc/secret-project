@@ -67,6 +67,16 @@ import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
 
+function ListCardMembers({ members }) {
+  return (
+    <Avatar.Group className="float-right mb-1 mr-[-2px] block" size="small">
+      {members.map((user, index, a) => (
+        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
+      ))}
+    </Avatar.Group>
+  )
+}
+
 function getLiteralDate(date) {
   const literalDates = {
     near: ['Вчера', 'Сегодня', 'Завтра'],
@@ -232,7 +242,6 @@ function CardDetailNotifications({ notifications }) {
 }
 
 function CardDetailMembers({ members }) {
-  const maxCount = 5
   return (
     <Avatar.Group className="block">
       {members.map((user, index, a) => (
@@ -530,7 +539,7 @@ function Badges() {
   const start = dayjs('2023-02-23')
   const deadline = dayjs('2023-02-24')
   return (
-    <div className="ml-[-2px] max-w-full">
+    <div className="float-left ml-[-2px] max-w-full">
       <Badge title="Вы подписаны на эту карточку">
         <EyeOutlined className="badge-icon" />
       </Badge>
@@ -608,7 +617,7 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ id, title, labels }) {
+function ListCard({ id, title, labels, members }) {
   const router = useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(title), [title])
   // TODO: cover
@@ -624,11 +633,11 @@ function ListCard({ id, title, labels }) {
         // TODO: открывать модальный диалог по месту для лучшей анимации
       }}
     >
-      <div className="px-2 pt-1.5 pb-0.5">
-        <FrontLabels labels={labels} />
+      <div className="overflow-hidden px-2 pt-1.5 pb-0.5">
+        <FrontLabels {...{ labels }} />
         <div className="mb-1 break-words">{title}</div>
         <Badges />
-        {/* // TODO: list-card-members */}
+        <ListCardMembers {...{ members }} />
       </div>
       {/* <Button
         // TODO: добавить редактирование карточки на месте
@@ -944,10 +953,11 @@ function MembersButton({ members }) {
   return (
     <Avatar.Group
       className={cx(
-        'float-left mb-1 mr-1',
+        'float-left mb-1 mr-1 inline-flex h-8 items-center px-1',
         members.length > maxCount &&
           'select-none [&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)] active:[&>:last-child]:bg-[var(--dynamic-button-pressed)]',
       )}
+      size="small"
       maxCount={maxCount}
       maxPopoverPlacement="bottomLeft"
       maxPopoverTrigger="click"
@@ -1020,7 +1030,7 @@ function FilterItem({ background, icon, text, isFirst }) {
     <Checkbox
       value={text} // TODO: реализовать фильтр
       className={cx(
-        'w-full items-center [&>.ant-checkbox]:top-0',
+        'flex items-center [&>.ant-checkbox]:top-0',
         isFirst ? 'text-[var(--ds-text-subtle,#5e6c84)]' : 'text-[var(--ds-text, #172b4d)]', // TODO: first:
       )}
     >
