@@ -55,7 +55,7 @@
   border-color: transparent !important;
   cursor: pointer;
 }
-.ant-avatar-group > a > .ant-avatar {
+.ant-avatar-group > button > .ant-avatar {
   border: 0 !important;
 }
 .ant-avatar-group > :not(:first-child) {
