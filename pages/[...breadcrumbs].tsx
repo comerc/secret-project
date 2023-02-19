@@ -865,7 +865,7 @@ function MenuDivider() {
 
 function MenuButton({ icon, children, subtitle }) {
   return (
-    <Button className="h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]">
+    <Button className="h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] active:bg-[var(--ds-background-neutral-subtle-pressed,#e4f0f6)]">
       <div className="flex h-5 w-3.5 items-center leading-none">{icon}</div>
       <div className="ml-2 flex grow flex-col items-start leading-5">
         <div className="font-semibold">{children}</div>
