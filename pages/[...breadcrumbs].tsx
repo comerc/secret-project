@@ -25,7 +25,7 @@ import {
   // LayoutOutlined,
   EllipsisOutlined,
   MoreOutlined,
-  BookOutlined,
+  // BookOutlined,
   ProjectOutlined,
   // ProfileOutlined,
   EditOutlined,
@@ -36,6 +36,12 @@ import {
   PaperClipOutlined,
   BorderOutlined,
   CreditCardOutlined,
+  TagOutlined,
+  ArrowRightOutlined,
+  CopyOutlined,
+  LikeOutlined,
+  DatabaseOutlined,
+  ShareAltOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -66,6 +72,57 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
+
+function HorizontalDivider() {
+  return <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
+}
+
+function WindowSidebarButton({ icon, children }) {
+  return (
+    <CardDetailButton className="mb-2 w-full max-w-[300px]" {...{ icon }}>
+      {children}
+    </CardDetailButton>
+  )
+}
+
+function WindowModule({ className, children }) {
+  return <div className={cx('relative clear-both mb-6', className)}>{children}</div>
+}
+
+function WindowSidebar() {
+  return (
+    <div
+      className="float-right overflow-hidden pr-4 pl-2"
+      style={{
+        width: `calc(100% - ${mainWidth}px)`,
+      }}
+    >
+      <WindowModule
+      // TODO: className="u-clearfix"
+      >
+        <CardDetailItemTitle>Добавить на карточку</CardDetailItemTitle>
+        <WindowSidebarButton icon={<UserOutlined />}>Участники</WindowSidebarButton>
+        <WindowSidebarButton icon={<TagOutlined />}>Метки</WindowSidebarButton>
+        <WindowSidebarButton icon={<CheckSquareOutlined />}>Чек-лист</WindowSidebarButton>
+        <WindowSidebarButton icon={<ClockCircleOutlined />}>Даты</WindowSidebarButton>
+        <WindowSidebarButton icon={<PaperClipOutlined />}>Вложение</WindowSidebarButton>
+        {/* <WindowSidebarButton icon={}>// TODO: Обложка</WindowSidebarButton> */}
+      </WindowModule>
+      <WindowModule
+      // TODO: className="u-clearfix"
+      >
+        <CardDetailItemTitle>Действия</CardDetailItemTitle>
+        <WindowSidebarButton icon={<ArrowRightOutlined />}>Перемещение</WindowSidebarButton>
+        <WindowSidebarButton icon={<CopyOutlined />}>Копирование</WindowSidebarButton>
+        {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
+        {/* <WindowSidebarButton icon={<LikeOutlined />}>// TODO: Голосовать</WindowSidebarButton> */}
+        <HorizontalDivider />
+        <WindowSidebarButton icon={<DatabaseOutlined />}>Архивация</WindowSidebarButton>
+        <WindowSidebarButton icon={<ShareAltOutlined />}>Поделиться</WindowSidebarButton>
+      </WindowModule>
+    </div>
+  )
+}
 
 function ListCardMembers({ members }) {
   return (
@@ -252,12 +309,18 @@ function CardDetailMembers({ members }) {
   )
 }
 
+function CardDetailItemTitle({ children }) {
+  return (
+    <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+      {children}
+    </h3>
+  )
+}
+
 function CardDetailItem({ title, children }) {
   return (
     <div className="float-left mr-4 mb-4 max-w-full">
-      <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
-        {title}
-      </h3>
+      <CardDetailItemTitle>{title}</CardDetailItemTitle>
       {children}
     </div>
   )
@@ -327,6 +390,8 @@ function CardDetailLabel({ id, colorId, name }) {
   )
 }
 
+const mainWidth = 576
+
 function CardDetailWindow({ issue: { members, labels } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
@@ -350,10 +415,11 @@ function CardDetailWindow({ issue: { members, labels } }) {
       footer={null}
       destroyOnClose
       // centered
-      width={768}
+      // width={768}
       // mask={false}
       // TODO: адаптивность для мобилки
-      className="card-detail-window"
+      className="card-detail-window min-w-[768px] max-w-[768px]"
+      wrapClassName="overflow-x-hidden"
     >
       <div className="relative px-12 pt-3 pb-2">
         <div className="absolute top-5 left-4 flex h-8 w-8 justify-center">
@@ -394,7 +460,12 @@ function CardDetailWindow({ issue: { members, labels } }) {
           </a>
         </div>
       </div>
-      <div className="relative float-left w-[552px] pr-2 pb-2 pl-4">
+      <div
+        className="relative float-left pr-2 pb-2 pl-4"
+        style={{
+          width: `${mainWidth}px`,
+        }}
+      >
         <div className="mt-2 ml-10">
           {/* <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
           <CardDetailItem title="Участники">
@@ -419,6 +490,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
           {/* <CardDetailItem title="Последнее обновление"> // TODO: непонятно </CardDetailItem> */}
         </div>
       </div>
+      <WindowSidebar />
     </Modal>
   )
 }
@@ -729,8 +801,13 @@ function LabelsState({ children }) {
 
 function Board({ issues }) {
   const columns = [
-    { id: 'column1', name: 'Backlog' },
-    { id: 'column2', name: 'To Do' },
+    // { id: 'column0', name: 'Backlog' },
+    {
+      id: 'column1',
+      name: 'To Do To Do To Do To Do To Do To Do To Do To Do To Do To Do To Do',
+    },
+    { id: 'column2', name: 'In Progress' },
+    { id: 'column3', name: 'Done' },
   ]
   // const cards = [
   //   { id: 'card1', name: 'Выполнить деплой' },
@@ -740,17 +817,16 @@ function Board({ issues }) {
     <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
       <LabelsState>
         {columns.map(({ id, name }) => (
-          <div
-            key={id}
-            className="flex w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
-          >
-            <ListHeader name={name} />
-            <div className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2">
-              {issues.map((issue) => (
-                <ListCard key={issue.id} {...issue} />
-              ))}
+          <div key={id}>
+            <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+              <ListHeader name={name} />
+              <div className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2">
+                {issues.map((issue) => (
+                  <ListCard key={issue.id} {...issue} />
+                ))}
+              </div>
+              <ListFooter />
             </div>
-            <ListFooter />
           </div>
         ))}
       </LabelsState>
@@ -865,8 +941,8 @@ function MenuDivider() {
 
 function MenuButton({ icon, children, subtitle }) {
   return (
-    <Button className="h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] active:bg-[var(--ds-background-neutral-subtle-pressed,#e4f0f6)]">
-      <div className="flex h-5 w-3.5 items-center leading-none">{icon}</div>
+    <Button className="flex h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] active:bg-[var(--ds-background-neutral-subtle-pressed,#e4f0f6)]">
+      <div className="flex h-5 w-3.5 items-center justify-center leading-none">{icon}</div>
       <div className="ml-2 flex grow flex-col items-start leading-5">
         <div className="font-semibold">{children}</div>
         <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
@@ -1113,7 +1189,7 @@ function FilterButton() {
           <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
             <Input
               placeholder="Введите ключевое слово..."
-              className="bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
             />
           </Form.Item>
           <Form.Item label="Участники">
@@ -1910,7 +1986,7 @@ function BoardPage(props: IProps) {
                     >
                       <CloseOutlined className="scale-125" />
                     </a>
-                    <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
+                    <HorizontalDivider />
                     <MenuButton icon={<ProjectOutlined />} subtitle="Добавьте описание для доски">
                       О доске
                     </MenuButton>

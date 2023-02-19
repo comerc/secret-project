@@ -23,13 +23,19 @@
   }
 }
 
+/* .u-clearfix::after {
+  clear: both;
+  content: '';
+  display: table;
+} */
+
 .ant-avatar-sm {
   width: 28px !important;
   height: 28px !important;
   line-height: 26px !important;
 }
 
-/* .card-detail-window > .ant-modal-content:after {
+/* .card-detail-window > .ant-modal-content::after {
   clear: both;
   content: '';
   display: table;
@@ -121,7 +127,7 @@
 }
 .ant-btn {
   display: inline-flex !important;
-  align-items: center !important;
+  align-items: center; /* not !important */
 }
 .ant-btn-icon-only {
   justify-content: center !important;
