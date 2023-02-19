@@ -1139,6 +1139,7 @@ function FilterButton() {
               <Button
                 className="ml-6 mt-2 p-0 text-[var(--ds-link,#5e6c84)] hover:text-[var(--ds-link,#172b4d)] hover:underline "
                 type="link"
+                size="small"
                 onClick={() => setAllDeadlineItems(true)}
               >
                 Показать все параметры
