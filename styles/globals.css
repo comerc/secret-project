@@ -122,8 +122,11 @@
 .ant-btn {
   display: inline-flex !important;
   align-items: center !important;
-  justify-content: center; /* not !important */
 }
+.ant-btn-icon-only {
+  justify-content: center !important;
+}
+
 .ant-modal-close-x {
   display: inline-flex !important;
   height: 100% !important;
