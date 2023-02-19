@@ -707,7 +707,7 @@ function ListFooter() {
   return (
     <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
       <Button
-        className="h-[28px] w-full justify-start rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+        className="flex h-[28px] w-full justify-start rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<PlusOutlined />}
       >
         Добавить карточку
@@ -1004,7 +1004,7 @@ function InFavoritesButton({ favorites, onDelete }) {
           <div className="mt-3 text-center">Чтобы быстро находить важные доски, отмечайте их.</div>
         ) : (
           // TODO: добавить перестановку через drag'n'drop
-          items
+          <div className="mb-2">{items}</div>
         )
       }
     >
@@ -1103,7 +1103,7 @@ function FilterButton() {
       header="Фильтр"
       footer={
         <Form
-          className="w-full"
+          className="w-full pt-1"
           form={form}
           layout="vertical"
           // initialValues={{ requiredMarkValue: requiredMark }}
@@ -1378,7 +1378,7 @@ function CustomDropdown({
               })}
             </div>
           )}
-          {footer && <div className="px-3 pt-4 pb-5">{footer}</div>}
+          {footer && <div className="px-3 py-3">{footer}</div>}
         </div>
       )}
     >
