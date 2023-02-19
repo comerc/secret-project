@@ -15,6 +15,12 @@
   .card-detail-window > .ant-modal-content > .ant-modal-close {
     @apply top-0 right-0 m-1 h-10 w-10 rounded-[50%] p-1 text-[var(--ds-icon,#42526e)] hover:bg-[var(--ds-background-neutral,#091e4214)] active:bg-[var(--ds-background-neutral-hovered,#091e4240)] !important;
   }
+  .root .ant-form-item-label > label {
+    @apply text-xs font-semibold text-[var(--ds-text-subtle,#5e6c84)] !important;
+  }
+  .root .ant-form-item .ant-form-item-explain {
+    @apply text-xs !important;
+  }
 }
 
 .ant-avatar-sm {
@@ -140,6 +146,10 @@ html {
 /* fix border */
 .ant-input {
   border-width: 0 !important;
+  border-radius: 3px !important;
+}
+.ant-input:not(.ant-input-borderless) {
+  box-shadow: inset 0 0 0 2px var(--ds-border-input, #dfe1e6) !important;
 }
 .ant-input:focus {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;

@@ -361,6 +361,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         </div>
         <Input.TextArea
           className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
+          bordered={false}
           spellCheck={false}
           // ref={inputRef}
           autoSize
@@ -662,6 +663,7 @@ function ListHeader({ name }) {
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
         className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        bordered={false}
         spellCheck={false}
         ref={inputRef}
         autoSize
@@ -1108,12 +1110,11 @@ function FilterButton() {
           // onValuesChange={onRequiredTypeChange}
           // requiredMark={requiredMark}
         >
-          <Form.Item
-            // className="bg-[red]"
-            label="Ключевое слово"
-            help="Поиск карточек, участников, меток и т. д."
-          >
-            <Input placeholder="Введите ключевое слово..." />
+          <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
+            <Input
+              placeholder="Введите ключевое слово..."
+              className="bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+            />
           </Form.Item>
           <Form.Item label="Участники">
             <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
@@ -1376,7 +1377,7 @@ function CustomDropdown({
               })}
             </div>
           )}
-          {footer && <div className="px-3 pt-2 pb-5">{footer}</div>}
+          {footer && <div className="px-3 pt-4 pb-5">{footer}</div>}
         </div>
       )}
     >
@@ -1568,8 +1569,10 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         className={cx(
           'absolute top-0 left-0 right-0 bottom-0',
           'h-[32px] rounded-[3px] px-3 py-0 text-[18px] font-bold leading-5',
+          'bg-[var(--ds-background-input,#fff)]',
           state.isInput || 'hidden',
         )}
+        bordered={false}
         ref={inputRef}
         maxlengt={512}
         spellCheck={false}
@@ -1639,7 +1642,8 @@ function Search({ defaultValue, close }) {
     <div ref={ref}>
       <Input
         ref={inputRef}
-        className="ant-input-affix-wrapper-focused pointer-events-auto rounded-[5px] pl-1"
+        className="pointer-events-auto rounded-[5px] border border-solid border-[var(--ds-border-focused,#388BFF)] bg-[white] pl-1"
+        bordered={false}
         placeholder="Поиск в CSP"
         prefix={<SearchPrefixIcon />}
         defaultValue={defaultValue}
@@ -1684,7 +1688,8 @@ function SearchButton() {
     <>
       <div ref={inputContainerRef} className={cx('hidden', isSearch || 'md:block')}>
         <Input
-          className="rounded-[5px] border-white/30 bg-white/[.15] pl-1 text-white caret-white hover:bg-white/30 [&>input]:bg-white/0 [&>input::placeholder]:text-white"
+          className="rounded-[5px] border border-solid border-white/30 bg-white/[.15] pl-1 caret-white hover:bg-white/30 [&>input::placeholder]:text-white"
+          bordered={false}
           placeholder="Поиск"
           prefix={<SearchPrefixIcon onClick={() => setIsSearch(true)} />}
           onClick={() => setIsSearch(true)}

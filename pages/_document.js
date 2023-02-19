@@ -34,7 +34,7 @@ class MyDocument extends Document {
       <Html>
         <Head />
         <body
-          className="body-dark-board-background"
+          className="body-dark-board-background root"
           style={{
             '--dynamic-background': 'hsla(0, 0%, 0%, 0.16)',
             '--dynamic-button': 'rgba(255, 255, 255, 0.2)',
