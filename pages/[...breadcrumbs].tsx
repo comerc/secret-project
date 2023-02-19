@@ -873,7 +873,7 @@ function MenuButton({ icon, children, subtitle }) {
   )
   // return (
   //   <a
-  //     role="button"
+  //     role="button" // TODO: replace to <button />
   //     className="relative flex flex-col rounded-[3px] bg-transparent py-1.5 pl-9 pr-1.5 leading-5 text-[var(--ds-text-subtle,inherit)] hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]"
   //   >
   //     <div className="absolute left-[12px] top-[9px] leading-none">{icon}</div>
@@ -927,21 +927,19 @@ function ShareButton() {
 // TODO: drag'n'drop для Avatar на ListCard
 function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
   return (
-    <a
+    <button
       title={`${name.first} ${name.last} (${username})`}
       className={cx(
         '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
         'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
         'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
       )}
-      role="button"
-      // href="#" // убирает видимый "drag" ссылки
       onClick={(event) => {
         // event.preventDefault()
       }}
     >
       <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
-    </a>
+    </button>
   )
 }
 
@@ -1274,7 +1272,7 @@ function CustomDropdownItem({ children }) {
   return (
     <a
       tabIndex={-1}
-      href="#" // TODO: role="button"
+      href="#" // TODO: replace to role="button" or <button />
       onClick={(event) => {
         event.preventDefault()
       }}
@@ -1347,7 +1345,7 @@ function CustomDropdown({
               </span>
               <a
                 className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                href="#" // TODO: role="button"
+                href="#" // TODO: replace to role="button" or <button />
                 onClick={(event) => {
                   event.preventDefault()
                   setOpen(false)
@@ -1540,7 +1538,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
       }}
     >
       <a
-        href="#" // TODO: role="button"
+        href="#" // TODO: replace to role="button" or <button />
         aria-label="Редактировать название доски"
         title="Нажмите, чтобы отредактировать название доски."
         onClick={(event) => {
@@ -1898,7 +1896,7 @@ function BoardPage(props: IProps) {
                     </div>
                     <a
                       className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                      href="#" // TODO: role="button"
+                      href="#" // TODO: replace to role="button" or <button />
                       onClick={(event) => {
                         event.preventDefault()
                         setIsMenu(false)
