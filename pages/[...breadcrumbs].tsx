@@ -830,16 +830,16 @@ function Board({ issues }) {
           </div>
         ))}
       </LabelsState>
-
       {/* <Image
-    priority
-    src="/wallpapper.jpg"
-    fill
-    // width="5760" height="3840"
-    style={{
-      objectFit: 'cover',
-    }}
-  /> */}
+        // TODO: обои
+        priority
+        src="/wallpapper.jpg"
+        fill
+        // width="5760" height="3840"
+        style={{
+          objectFit: 'cover',
+        }}
+      /> */}
     </div>
   )
 }
@@ -1290,7 +1290,7 @@ function PlusButton() {
           indent={false}
           icon={<PlusOutlined />}
           onClick={handleClick}
-          // исключён active:bg-
+          // исключён active:bg- (как в оригинале)
           colors="bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]"
         />
       </div>
@@ -1319,32 +1319,32 @@ function MoreButton({ onClick }) {
   )
 }
 
-function CloseButton({ onClick }) {
-  // неудачная попытка повторить кнопку модального диалога antd
-  // TODO: для Drawer нужно увеличить размер
-  return (
-    <button
-      tabIndex="-1"
-      className="h-[22px] w-[22px] rounded-[4px] text-[14px] leading-[22px]
-        transition-colors
-        hover:bg-black/[0.06]
-        active:bg-black/[0.15]
-        [&>.anticon]:m-0
-        [&>.anticon]:align-[-2px]
-        [&>.anticon]:text-black/[0.45]
-        [&:hover>.anticon]:text-black/[0.88]"
-      type="button"
-      aria-label="Close"
-      onClick={onClick}
-    >
-      <CloseOutlined
-      // style={{
-      //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
-      // }}
-      />
-    </button>
-  )
-}
+// function CloseButton({ onClick }) {
+//   // неудачная попытка повторить кнопку модального диалога antd
+//   // TODO: для Drawer нужно увеличить размер
+//   return (
+//     <button
+//       tabIndex="-1"
+//       className="h-[22px] w-[22px] rounded-[4px] text-[14px] leading-[22px]
+//         transition-colors
+//         hover:bg-black/[0.06]
+//         active:bg-black/[0.15]
+//         [&>.anticon]:m-0
+//         [&>.anticon]:align-[-2px]
+//         [&>.anticon]:text-black/[0.45]
+//         [&:hover>.anticon]:text-black/[0.88]"
+//       type="button"
+//       aria-label="Close"
+//       onClick={onClick}
+//     >
+//       <CloseOutlined
+//       // style={{
+//       //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
+//       // }}
+//       />
+//     </button>
+//   )
+// }
 
 function CustomDropdownItem({ children }) {
   return (
