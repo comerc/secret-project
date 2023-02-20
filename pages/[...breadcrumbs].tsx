@@ -1436,20 +1436,21 @@ function CustomDropdown({
           {!header && !footer && <div className="pt-3" />}
           {items.length > 0 && (
             <div
-              className="overflow-y-auto overflow-x-hidden
-                px-3 pb-3
-                [&>.ant-dropdown-menu]:p-0
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2
-                [&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:bg-[var(--ds-border,#091e4221)]"
+              className={cx(
+                'overflow-y-auto overflow-x-hidden px-3 pb-3',
+                '[&>.ant-dropdown-menu]:p-0',
+                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0',
+                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0',
+                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2',
+                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:bg-[var(--ds-border,#091e4221)]',
+              )}
               // TODO: ошибки в смещении при уменьшении размера экрана
               // style={{
               //   maxHeight: `calc(${height}px - 48px)`,
               // }}
             >
               {React.cloneElement(menu as React.ReactElement, {
-                tabIndex: '-1', // TODO: пок`а отключил [TAB], надо включить
+                tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
                 style: menuStyle,
               })}
             </div>
@@ -1634,11 +1635,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
           })
         }}
       >
-        <h1
-          ref={textRef}
-          className="mb-3 min-w-[25px] max-w-full 
-            truncate whitespace-pre px-3"
-        >
+        <h1 ref={textRef} className="mb-3 min-w-[25px] max-w-full truncate whitespace-pre px-3">
           {state.value}
         </h1>
       </a>
@@ -1787,12 +1784,14 @@ function SearchButton() {
         />
       </div>
       <Modal
-        className="top-[6px] pb-0
-          [&>.ant-modal-content]:pointer-events-none
-          [&>.ant-modal-content]:rounded-[3px]
-          [&>.ant-modal-content]:bg-white/0
-          [&>.ant-modal-content]:p-0
-          [&>.ant-modal-content]:shadow-none"
+        className={cx(
+          'top-[6px] pb-0',
+          '[&>.ant-modal-content]:pointer-events-none',
+          '[&>.ant-modal-content]:rounded-[3px]',
+          '[&>.ant-modal-content]:bg-white/0',
+          '[&>.ant-modal-content]:p-0',
+          '[&>.ant-modal-content]:shadow-none',
+        )}
         open={isSearch}
         onCancel={close}
         transitionName=""
@@ -1861,11 +1860,8 @@ function BoardPage(props: IProps) {
       <div id="surface" className="flex h-full flex-col">
         <div className="max-h-[44px] min-h-[44px] overflow-hidden">
           <nav
-            className="flex max-h-[44px]
-              border-b border-[var(--dynamic-text-transparent)] 
-              bg-[var(--dynamic-background)]  
-              px-1 py-1.5
-              backdrop-blur-[6px]" // TODO: transition
+            // TODO: transition
+            className="flex max-h-[44px] border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
           >
             <Link
               href="/"
@@ -1904,9 +1900,7 @@ function BoardPage(props: IProps) {
                   >
                     <div
                       id="board-header"
-                      className="h-auto
-                        bg-[var(--board-header-background-color)]
-                        pt-2 pr-1 pb-1 pl-2.5"
+                      className="h-auto bg-[var(--board-header-background-color)] pt-2 pr-1 pb-1 pl-2.5"
                     >
                       <BoardNameButton
                         defaultValue="Minsk4"
