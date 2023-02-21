@@ -42,6 +42,8 @@ import {
   LikeOutlined,
   DatabaseOutlined,
   ShareAltOutlined,
+  ExceptionOutlined,
+  FileDoneOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -63,7 +65,7 @@ import {
 import type { MenuProps } from 'antd'
 import cx from 'classnames'
 import ClientOnly from '.../components/ClientOnly'
-import { useWindowSize, useOnClickOutside } from 'usehooks-ts'
+import { useWindowSize, useOnClickOutside, useIsFirstRender } from 'usehooks-ts'
 import { resetServerContext } from 'react-beautiful-dnd'
 import generateSentence from '.../utils/generateSentence'
 import { nanoid } from 'nanoid'
@@ -72,6 +74,129 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
+
+function LinkButton({ className, onClick, children }) {
+  return (
+    <a
+      role="button"
+      onClick={onClick}
+      className={cx(
+        'text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]',
+        className,
+      )}
+    >
+      {children}
+    </a>
+  )
+}
+
+function CardDetailDescription() {
+  const text = generateSentence(40)
+  const [isEdit, setIsEdit] = React.useState(text === '')
+  const [isMore, setIsMore] = React.useState(false)
+  const descriptionRef = React.useRef()
+  const isFirst = useIsFirstRender()
+  React.useEffect(() => {
+    if (isFirst && !isEdit) {
+      const rect = descriptionRef.current.getBoundingClientRect()
+      if (rect.height > 432) {
+        setIsMore(true)
+      }
+    }
+  }, [])
+  const hasNotSavedChanges = false
+  const isSaveError = false
+  return (
+    <WindowModule>
+      <div className="relative mb-1 ml-10 flex items-center py-2">
+        <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center">
+          <ExceptionOutlined className="scale-125" />
+        </div>
+        <BoardTitle>Описание</BoardTitle>
+        <CardDetailButton
+          className="ml-2"
+          onClick={() => {
+            setIsMore(false)
+            setIsEdit(true)
+          }}
+        >
+          Изменить
+        </CardDetailButton>
+      </div>
+      <div className="relative ml-10">
+        {isMore && (
+          <div
+            role="button"
+            onClick={() => {
+              setIsMore(false)
+            }}
+            className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
+          >
+            <div className="truncate p-2 text-center leading-5 underline">
+              Показать полное описание.
+            </div>
+          </div>
+        )}
+        {!isEdit && (
+          <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
+            {text}
+          </div>
+        )}
+        {!isEdit && text === '' && (
+          <div className="mb-2">
+            <CardDetailButton
+              className="h-14 py-2"
+              onClick={() => {
+                setIsEdit(true)
+              }}
+            >
+              <div className="h-10">Добавить более подробное описание…</div>
+            </CardDetailButton>
+          </div>
+        )}
+        {isEdit && (
+          <div>
+            Edit{' '}
+            <Button
+              OnClick={() => {
+                setIsEdit(false)
+              }}
+            >
+              Отмена
+            </Button>
+          </div>
+        )}
+        {!isMore && hasNotSavedChanges && (
+          <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
+            В этом поле есть несохранённые изменения.{' '}
+            <LinkButton
+              onClick={() => {
+                setIsEdit(true)
+              }}
+            >
+              Посмотреть изменения
+            </LinkButton>
+            {' • '}
+            <LinkButton
+              onClick={() => {
+                // TODO: отменить изменения
+              }}
+            >
+              Отменить
+            </LinkButton>
+          </div>
+        )}
+        {!isMore && isSaveError && (
+          <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
+        )}
+      </div>
+    </WindowModule>
+  )
+}
+
+function BoardTitle({ children }) {
+  return <h3 className="truncate text-base font-semibold leading-5">{children}</h3>
+}
 
 function HorizontalDivider() {
   return <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
@@ -421,6 +546,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
       className="card-detail-window min-w-[768px] max-w-[768px]"
       wrapClassName="overflow-x-hidden"
     >
+      {/* // TODO: Обложка */}
       <div className="relative px-12 pt-3 pb-2">
         <div className="absolute top-5 left-4 flex h-8 w-8 justify-center">
           <CreditCardOutlined className="scale-125" />
@@ -489,6 +615,12 @@ function CardDetailWindow({ issue: { members, labels } }) {
           {/* <CardDetailItem title="Голоса"> // TODO: непонятно </CardDetailItem> */}
           {/* <CardDetailItem title="Последнее обновление"> // TODO: непонятно </CardDetailItem> */}
         </div>
+        <CardDetailDescription />
+        {/* // TODO: Местоположение */}
+        {/* // TODO: Поля пользователя */}
+        {/* // TODO: Вложения системы         */}
+        {/* <PaperClipOutlined  className="scale-125"/> */}
+        {/* <FileDoneOutlined  className="scale-125"/> */}
       </div>
       <WindowSidebar />
     </Modal>
@@ -497,22 +629,22 @@ function CardDetailWindow({ issue: { members, labels } }) {
 
 function ExtrasButton() {
   const data = [
-    { 'add-card': 'Добавить карточку...' },
-    { 'copy-list': 'Копировать список...' },
-    { 'move-list': 'Переместить список...' },
+    { 'add-card': 'Добавить карточку…' },
+    { 'copy-list': 'Копировать список…' },
+    { 'move-list': 'Переместить список…' },
     { 'list-subscribe': 'Подписаться' },
     'divider',
-    { 'sort-cards': 'Сортировать по...' },
+    { 'sort-cards': 'Сортировать по…' },
     'divider',
     // TODO: добавить автоматизацию
     // { group: 'Автоматизация' },
-    // { '': 'Когда карточка добавлена в список...' },
-    // { '': 'Каждый день, сортировать по...' },
-    // { '': 'Каждый понедельник, сортировать по...' },
-    // { '': 'Создать настраиваемое правило...' },
+    // { '': 'Когда карточка добавлена в список…' },
+    // { '': 'Каждый день, сортировать по…' },
+    // { '': 'Каждый понедельник, сортировать по…' },
+    // { '': 'Создать настраиваемое правило…' },
     // 'divider',
-    { 'move-cards': 'Переместить все карточки списка...' },
-    { 'archive-cards': 'Архивировать все карточки списка...' },
+    { 'move-cards': 'Переместить все карточки списка…' },
+    { 'archive-cards': 'Архивировать все карточки списка…' },
     'divider',
     { 'close-list': 'Архивировать список' },
   ]
@@ -1188,7 +1320,7 @@ function FilterButton() {
         >
           <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
             <Input
-              placeholder="Введите ключевое слово..."
+              placeholder="Введите ключевое слово…"
               className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
             />
           </Form.Item>
@@ -1213,7 +1345,7 @@ function FilterButton() {
             </Checkbox.Group>
             {isAllDeadlineItems || (
               <Button
-                className="ml-6 mt-2 p-0 text-[var(--ds-link,#5e6c84)] hover:text-[var(--ds-link,#172b4d)] hover:underline "
+                className="ml-6 mt-2 p-0 text-[var(--ds-link,#5e6c84)] hover:text-[var(--ds-link,#172b4d)] hover:underline"
                 type="link"
                 size="small"
                 onClick={() => setAllDeadlineItems(true)}
@@ -1728,9 +1860,9 @@ function Search({ defaultValue, close }) {
           className=""
         >
           <Button>OK</Button>
-          <p>some contents...</p>
-          <p>some contents...</p>
-          <p>some contents...</p>
+          <p>some contents…</p>
+          <p>some contents…</p>
+          <p>some contents…</p>
         </div>
         <div>Footer</div>
       </div>
@@ -1814,7 +1946,7 @@ function BoardPage(props: IProps) {
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (breadcrumbs === undefined) {
       return
     }
@@ -1968,7 +2100,7 @@ function BoardPage(props: IProps) {
                     // }
                   >
                     <div className="flex h-12 items-center justify-center px-9">
-                      <h3 className="truncate text-base font-semibold leading-5">Меню</h3>
+                      <BoardTitle>Меню</BoardTitle>
                     </div>
                     <a
                       className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"

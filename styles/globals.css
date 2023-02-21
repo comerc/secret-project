@@ -23,6 +23,17 @@
   }
 }
 
+.description-content-fade-button {
+  background-image: linear-gradient(180deg, #0000 0, #0000 370px, #f4f5f7 410px);
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  transition: background 0.1s ease-in;
+}
+
+.description-content-fade-button:hover {
+  background-position: 50% 15px;
+}
+
 /* .u-clearfix::after {
   clear: both;
   content: '';

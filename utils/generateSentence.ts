@@ -11,6 +11,6 @@ const lorem = new LoremIpsum({
   },
 })
 
-export default function generateSentence() {
-  return lorem.generateSentences(1)
+export default function generateSentence(num = 1) {
+  return lorem.generateSentences(num)
 }
