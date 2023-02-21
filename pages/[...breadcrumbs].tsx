@@ -42,7 +42,6 @@ import {
   LikeOutlined,
   DatabaseOutlined,
   ShareAltOutlined,
-  ExceptionOutlined,
   FileDoneOutlined,
 } from '@ant-design/icons'
 import {
@@ -110,7 +109,7 @@ function CardDetailDescription() {
     <WindowModule>
       <div className="relative mb-1 ml-10 flex items-center py-2">
         <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center">
-          <ExceptionOutlined className="scale-125" />
+          <ContainerOutlined className="scale-125" />
         </div>
         <BoardTitle>Описание</BoardTitle>
         <CardDetailButton
