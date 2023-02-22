@@ -96,7 +96,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
   const isImage = false
   return (
     <div
-      className="relative mb-2 leading-5 hover:[&>.details]:bg-[var(--ds-background-neutral,#091e420a)]"
+      className="relative mb-2 leading-5 [&:hover>.details]:bg-[var(--ds-background-neutral,#091e420a)]"
       // color: var(--ds-text-subtle,#5e6c84);
       role="button"
       onClick={() => {
@@ -105,7 +105,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
     >
       <a
         // для поддержки контекстного меню по правой кнопки мышки
-        className="absolute left-0 top-[50%] mt-[-40px] h-[80px] w-[112px] rounded-[3px] bg-[var(--ds-background-neutral,#091e420a)] bg-contain bg-[50%] bg-no-repeat text-center text-lg font-bold leading-[80px] text-[var(--ds-text-subtle,#5e6c84)]"
+        className="absolute left-0 top-[50%] z-10 mt-[-40px] h-[80px] w-[112px] rounded-[3px] bg-[var(--ds-background-neutral,#091e420a)] bg-contain bg-[50%] bg-no-repeat text-center text-lg font-bold leading-[80px] text-[var(--ds-text-subtle,#5e6c84)]"
         href={url}
         onClick={(event) => {
           event.preventDefault()
