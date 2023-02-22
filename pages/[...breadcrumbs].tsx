@@ -45,6 +45,8 @@ import {
   FileDoneOutlined,
   UndoOutlined,
   MinusOutlined,
+  PictureOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -76,6 +78,167 @@ import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
 
+function CardDetailSection({ icon, title, headerActions, children }) {
+  return (
+    <WindowModule>
+      <div className="relative mb-1 ml-10 flex h-12 items-center py-2">
+        <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center">{icon}</div>
+        <BoardTitle>{title}</BoardTitle>
+        {headerActions}
+      </div>
+      <div className="relative ml-10">{children}</div>
+    </WindowModule>
+  )
+}
+
+function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
+  // TODO: drag'n'drop для сортировки по orderIndex
+  const isImage = false
+  return (
+    <div
+      className="relative mb-2 leading-5 hover:[&>.details]:bg-[var(--ds-background-neutral,#091e420a)]"
+      // color: var(--ds-text-subtle,#5e6c84);
+      role="button"
+      onClick={() => {
+        console.log('onClick')
+      }}
+    >
+      <a
+        // для поддержки контекстного меню по правой кнопки мышки
+        className="absolute left-0 top-[50%] mt-[-40px] h-[80px] w-[112px] rounded-[3px] bg-[var(--ds-background-neutral,#091e420a)] bg-contain bg-[50%] bg-no-repeat text-center text-lg font-bold leading-[80px] text-[var(--ds-text-subtle,#5e6c84)]"
+        href={url}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        123
+      </a>
+      <p className="details py-2 pl-[128px] pr-2">
+        <span className="text-sm font-bold">{title || url.split('/').pop()}</span>
+        <a
+          className="relative ml-1 h-5"
+          target="_blank"
+          href={url}
+          onClick={(event) => {
+            event.stopPropagation()
+          }}
+        >
+          <DownloadOutlined className="absolute top-[1px] text-[var(--ds-icon,#42526e)]" />
+        </a>
+        <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
+          <div
+            className="mr-1 inline-block"
+            // TODO: Добавлено час назад || Добавлено 14 фев в 16:13
+          >
+            {createdBy}
+          </div>
+          <LinkButton
+            dot
+            onClick={() => {
+              // TODO: Комментарий
+            }}
+          >
+            Комментарий
+          </LinkButton>
+          <LinkButton
+            dot
+            onClick={() => {
+              // TODO: Удалить
+            }}
+          >
+            Удалить
+          </LinkButton>
+          <LinkButton
+            dot
+            onClick={() => {
+              // TODO: Изменить
+            }}
+          >
+            Изменить
+          </LinkButton>
+        </div>
+        {isImage && (
+          <div>
+            <Button
+              // make-cover
+              // HACK: h-4 - уменьшает высоту <p> до требуемых 88px
+              className="mr-2 h-4 border-0 p-0 leading-5 text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]"
+              type="link"
+              size="small"
+              icon={<PictureOutlined className="text-[var(--ds-icon,#42526e)]" />}
+              onClick={() => {
+                // TODO: Сделать обложкой
+              }}
+            >
+              Сделать обложкой
+            </Button>
+            <Button
+              // remove-cover
+              // HACK: h-4 - уменьшает высоту <p> до требуемых 88px
+              className="mr-2 h-4 border-0 p-0 leading-5 text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]"
+              type="link"
+              size="small"
+              icon={<PictureOutlined className="text-[var(--ds-icon,#42526e)]" />}
+              onClick={() => {
+                // TODO: Убрать обложку
+              }}
+            >
+              Убрать обложку
+            </Button>
+          </div>
+        )}
+      </p>
+    </div>
+  )
+}
+
+function CardDetailAttachments() {
+  const attachments = [
+    {
+      id: 'id-1',
+      url: '/attachments/screen.png',
+      title: 'title title title title title title title title title title title', // TODO: or filename
+      createdBy: '2023-02-22 10:11:12',
+      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+    },
+    {
+      id: 'id-2',
+      url: '/attachments/LICENSE',
+      // title: '', // TODO: or filename
+      createdBy: '2023-02-22 10:11:12',
+      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+    },
+    {
+      id: 'id-3',
+      url: '/attachments/postcss.config.js',
+      // title: '', // TODO: or filename
+      createdBy: '2023-02-22 10:11:12',
+      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+    },
+    {
+      id: 'id-4',
+      url: '/attachments/tailwind.config.js',
+      // title: '', // TODO: or filename
+      createdBy: '2023-02-22 10:11:12',
+      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+    },
+    {
+      id: 'id-5',
+      url: '/attachments/tsconfig.json',
+      // title: '', // TODO: or filename
+      createdBy: '2023-02-22 10:11:12',
+      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+    },
+  ]
+  return (
+    <CardDetailSection icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
+      {attachments.map((attachment) => (
+        <CardDetailAttachment key={attachment.id} {...attachment} />
+      ))}
+    </CardDetailSection>
+  )
+}
+
 function Dropzone() {
   return (
     // TODO: не больше 50 members из-за z-50 - как создать "локальный контекст наложения z-index"?
@@ -85,18 +248,18 @@ function Dropzone() {
   )
 }
 
-function LinkButton({ className, onClick, children }) {
+function LinkButton({ dot, onClick, children }) {
   return (
-    <a
-      role="button"
-      onClick={onClick}
-      className={cx(
-        'text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]',
-        className,
-      )}
-    >
-      {children}
-    </a>
+    <div className="mr-1 inline-block">
+      {dot && '• '}
+      <a
+        role="button"
+        onClick={onClick}
+        className="text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]"
+      >
+        {children}
+      </a>
+    </div>
   )
 }
 
@@ -114,15 +277,13 @@ function CardDetailDescription() {
       }
     }
   }, [])
-  const hasNotSavedChanges = false
+  const hasNotSavedChanges = true
   const isSaveError = false
   return (
-    <WindowModule>
-      <div className="relative mb-1 ml-10 flex items-center py-2">
-        <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center">
-          <ContainerOutlined className="scale-125" />
-        </div>
-        <BoardTitle>Описание</BoardTitle>
+    <CardDetailSection
+      icon={<ContainerOutlined className="scale-125" />}
+      title="Описание"
+      headerActions={
         <CardDetailButton
           className="ml-2"
           onClick={() => {
@@ -132,75 +293,74 @@ function CardDetailDescription() {
         >
           Изменить
         </CardDetailButton>
-      </div>
-      <div className="relative ml-10">
-        {isMore && (
-          <div
-            role="button"
+      }
+    >
+      {isMore && (
+        <div
+          role="button"
+          onClick={() => {
+            setIsMore(false)
+          }}
+          className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
+        >
+          <div className="truncate p-2 text-center leading-5 underline">
+            Показать полное описание.
+          </div>
+        </div>
+      )}
+      {!isEdit && (
+        <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
+          {text}
+        </div>
+      )}
+      {!isEdit && text === '' && (
+        <div className="mb-2">
+          <CardDetailButton
+            className="h-14 py-2"
             onClick={() => {
-              setIsMore(false)
+              setIsEdit(true)
             }}
-            className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
           >
-            <div className="truncate p-2 text-center leading-5 underline">
-              Показать полное описание.
-            </div>
-          </div>
-        )}
-        {!isEdit && (
-          <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
-            {text}
-          </div>
-        )}
-        {!isEdit && text === '' && (
-          <div className="mb-2">
-            <CardDetailButton
-              className="h-14 py-2"
-              onClick={() => {
-                setIsEdit(true)
-              }}
-            >
-              <div className="h-10">Добавить более подробное описание…</div>
-            </CardDetailButton>
-          </div>
-        )}
-        {isEdit && (
-          <div>
-            Edit{' '}
-            <Button
-              OnClick={() => {
-                setIsEdit(false)
-              }}
-            >
-              Отмена
-            </Button>
-          </div>
-        )}
-        {!isMore && hasNotSavedChanges && (
-          <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
-            В этом поле есть несохранённые изменения.{' '}
-            <LinkButton
-              onClick={() => {
-                setIsEdit(true)
-              }}
-            >
-              Посмотреть изменения
-            </LinkButton>
-            {' • '}
-            <LinkButton
-              onClick={() => {
-                // TODO: отменить изменения
-              }}
-            >
-              Отменить
-            </LinkButton>
-          </div>
-        )}
-        {!isMore && isSaveError && (
-          <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
-        )}
-      </div>
-    </WindowModule>
+            <div className="h-10">Добавить более подробное описание…</div>
+          </CardDetailButton>
+        </div>
+      )}
+      {isEdit && (
+        <div>
+          Edit{' '}
+          <Button
+            onClick={() => {
+              setIsEdit(false)
+            }}
+          >
+            Отмена
+          </Button>
+        </div>
+      )}
+      {!isMore && hasNotSavedChanges && (
+        <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
+          В этом поле есть несохранённые изменения.{' '}
+          <LinkButton
+            onClick={() => {
+              setIsEdit(true)
+            }}
+          >
+            Посмотреть изменения
+          </LinkButton>
+          <LinkButton
+            dot
+            onClick={() => {
+              // TODO: отменить изменения
+            }}
+          >
+            Отменить
+          </LinkButton>
+        </div>
+      )}
+      {!isMore && isSaveError && (
+        <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
+      )}
+    </CardDetailSection>
   )
 }
 
@@ -675,7 +835,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         {/* // TODO: Местоположение */}
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}
-        {/* <PaperClipOutlined  className="scale-125"/> */}
+        <CardDetailAttachments />
         {/* <FileDoneOutlined  className="scale-125"/> */}
       </div>
       <WindowSidebar {...{ isArchive, setIsArchive }} />
@@ -920,6 +1080,7 @@ function ListHeader({ name }) {
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef()
   const issuesCount = 98
+  const isFilter = true // TODO: реализовать isFilter через Context
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
@@ -941,9 +1102,11 @@ function ListHeader({ name }) {
           setIsFocused(true)
         }}
       />
-      <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
-        {pluralize(issuesCount, ['карточка', 'карточки', 'карточек'])}
-      </p>
+      {isFilter && (
+        <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
+          {pluralize(issuesCount, ['карточка', 'карточки', 'карточек'])}
+        </p>
+      )}
       <div
         className={cx(
           isFocused && 'hidden',
@@ -1008,7 +1171,7 @@ function Board({ issues }) {
         {columns.map(({ id, name }) => (
           <div key={id}>
             <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-              <ListHeader name={name} />
+              <ListHeader {...{ name }} />
               <div className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2">
                 {issues.map((issue) => (
                   <ListCard key={issue.id} {...issue} />
@@ -1266,7 +1429,9 @@ function InFavoritesButton({ favorites, onDelete }) {
       footer={
         items.length === 0 ? (
           // TODO: добавить картинку
-          <div className="mt-3 text-center">Чтобы быстро находить важные доски, отмечайте их.</div>
+          <div className="mt-3 mb-2 text-center">
+            Чтобы быстро находить важные доски, отмечайте их.
+          </div>
         ) : (
           // TODO: добавить перестановку через drag'n'drop
           <div className="mb-2">{items}</div>
@@ -2008,7 +2173,7 @@ function BoardPage(props: IProps) {
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (breadcrumbs === undefined) {
       return
     }
