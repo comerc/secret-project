@@ -74,6 +74,15 @@ import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
 
+function Dropzone() {
+  return (
+    // TODO: не больше 50 members из-за z-50 - как создать "локальный контекст наложения z-index"?
+    <div className="absolute top-0 left-0 right-0 bottom-0 z-50 flex flex-col justify-center bg-[var(--ds-surface-overlay,#ffffffb3)] text-center text-xl font-bold">
+      Перетяните файлы, чтобы загрузить.
+    </div>
+  )
+}
+
 function LinkButton({ className, onClick, children }) {
   return (
     <a
@@ -526,6 +535,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
   const notifications = true
   const start = dayjs('2023-02-23')
   const deadline = dayjs('2023-02-24')
+  const isDrag = false // TODO: перетаскивание файлов
   return (
     <Modal
       open={isOpen}
@@ -622,6 +632,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         {/* <FileDoneOutlined  className="scale-125"/> */}
       </div>
       <WindowSidebar />
+      {isDrag && <Dropzone />}
     </Modal>
   )
 }
