@@ -23,6 +23,21 @@
   }
 }
 
+.card-back-archive-banner {
+  background-color: var(--ds-background-warning, #fdfae5);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--ds-background-neutral, rgba(0, 0, 0, 0.05)) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--ds-background-neutral, rgba(0, 0, 0, 0.05)) 50%,
+    var(--ds-background-neutral, rgba(0, 0, 0, 0.05)) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 14px 14px;
+}
+
 .description-content-fade-button {
   background-image: linear-gradient(180deg, #0000 0, #0000 370px, #f4f5f7 410px);
   background-position: 50% 0;

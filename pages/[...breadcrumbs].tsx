@@ -43,6 +43,8 @@ import {
   DatabaseOutlined,
   ShareAltOutlined,
   FileDoneOutlined,
+  UndoOutlined,
+  MinusOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -210,9 +212,9 @@ function HorizontalDivider() {
   return <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
 }
 
-function WindowSidebarButton({ icon, children }) {
+function WindowSidebarButton({ colors, icon, onClick, children }) {
   return (
-    <CardDetailButton className="mb-2 w-full max-w-[300px]" {...{ icon }}>
+    <CardDetailButton className="mb-2 w-full max-w-[300px]" {...{ colors, icon, onClick }}>
       {children}
     </CardDetailButton>
   )
@@ -222,7 +224,7 @@ function WindowModule({ className, children }) {
   return <div className={cx('relative clear-both mb-6', className)}>{children}</div>
 }
 
-function WindowSidebar() {
+function WindowSidebar({ isArchive, setIsArchive }) {
   return (
     <div
       className="float-right overflow-hidden pr-4 pl-2"
@@ -250,7 +252,42 @@ function WindowSidebar() {
         {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
         {/* <WindowSidebarButton icon={<LikeOutlined />}>// TODO: Голосовать</WindowSidebarButton> */}
         <HorizontalDivider />
-        <WindowSidebarButton icon={<DatabaseOutlined />}>Архивация</WindowSidebarButton>
+        {isArchive || (
+          <WindowSidebarButton
+            icon={<DatabaseOutlined />}
+            onClick={() => {
+              setIsArchive(true)
+            }}
+          >
+            Архивация
+          </WindowSidebarButton>
+        )}
+        {isArchive && (
+          <WindowSidebarButton
+            icon={<UndoOutlined rotate={90} />}
+            onClick={() => {
+              setIsArchive(false)
+            }}
+          >
+            Вернуть
+          </WindowSidebarButton>
+        )}
+        {isArchive && (
+          <WindowSidebarButton
+            icon={<MinusOutlined />}
+            colors={cx(
+              'text-[var(--ds-text-inverse,#fff)]',
+              'bg-[var(--ds-background-danger-bold,#b04632)]',
+              'hover:bg-[var(--ds-background-danger-bold-hovered,#933b27)]',
+              'active:bg-[var(--ds-background-danger-bold-pressed,#6e2f1a)]',
+            )}
+            onClick={() => {
+              // TODO: подтверждение удаления карточки
+            }}
+          >
+            Удалить
+          </WindowSidebarButton>
+        )}
         <WindowSidebarButton icon={<ShareAltOutlined />}>Поделиться</WindowSidebarButton>
       </WindowModule>
     </div>
@@ -460,24 +497,25 @@ function CardDetailItem({ title, children }) {
 }
 
 // TODO: объединить с BoardHeaderButton - формировать className, а не врапить Button
-function CardDetailButton({ className, icon, shape = 'default', children, onClick }) {
+function CardDetailButton({ className, colors, icon, shape = 'default', children, onClick }) {
   return (
     <Button
       className={cx(
         shape === 'default' && 'rounded-[3px]',
         'border-0 leading-5 shadow-none',
-        'text-[var(--ds-text,inherit)]',
-        'bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))]',
-        'hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))]',
-        'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
-        'active:text-[var(--ds-text,#0079bf)]',
+        colors ||
+          [
+            'text-[var(--ds-text,inherit)]',
+            'bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))]',
+            'hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))]',
+            'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
+            'active:text-[var(--ds-text,#0079bf)]',
+          ].join(' '),
         // indent && 'mr-1 mb-1',
         children && 'px-3', // : 'w-8 px-0',
         className,
       )}
-      shape={shape}
-      icon={icon}
-      onClick={onClick}
+      {...{ shape, icon, onClick }}
     >
       {children}
     </Button>
@@ -536,6 +574,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
   const start = dayjs('2023-02-23')
   const deadline = dayjs('2023-02-24')
   const isDrag = false // TODO: перетаскивание файлов
+  const [isArchive, setIsArchive] = React.useState(false) // TODO: архивация карточки
   return (
     <Modal
       open={isOpen}
@@ -556,9 +595,17 @@ function CardDetailWindow({ issue: { members, labels } }) {
       wrapClassName="overflow-x-hidden"
     >
       {/* // TODO: Обложка */}
+      {isArchive && (
+        <div className="card-back-archive-banner relative py-3 pl-12 pr-3">
+          <div className="absolute top-3 left-2 flex h-8 w-8 justify-center">
+            <DatabaseOutlined className="scale-125" />
+          </div>
+          <span className="text-base leading-8">Архивная карточка</span>
+        </div>
+      )}
       <div className="relative px-12 pt-3 pb-2">
         <div className="absolute top-5 left-4 flex h-8 w-8 justify-center">
-          <CreditCardOutlined className="scale-125" />
+          <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
           className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
@@ -631,7 +678,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         {/* <PaperClipOutlined  className="scale-125"/> */}
         {/* <FileDoneOutlined  className="scale-125"/> */}
       </div>
-      <WindowSidebar />
+      <WindowSidebar {...{ isArchive, setIsArchive }} />
       {isDrag && <Dropzone />}
     </Modal>
   )
@@ -1721,7 +1768,12 @@ function BoardHeaderButton({
       className={cx(
         // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
         colors ||
-          'bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)] active:bg-[var(--dynamic-button-pressed)]',
+          [
+            'bg-[var(--dynamic-button)]',
+            'text-[var(--dynamic-text)]',
+            'hover:bg-[var(--dynamic-button-hovered)]',
+            'active:bg-[var(--dynamic-button-pressed)]',
+          ].join(' '),
         'border-0 leading-5 shadow-none',
         shape === 'default' && 'rounded-[3px]',
         indent && 'mr-1 mb-1',
