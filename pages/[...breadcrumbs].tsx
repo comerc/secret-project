@@ -261,7 +261,7 @@ function CardDetailAttachments() {
     {
       id: 'id-1',
       url: '/attachments/screen.png',
-      title: 'title title title title title title title title title title title', // TODO: or filename
+      title: 'title title title title title title title title title title title title title', // TODO: or filename
       createdBy: '2023-02-22',
       thumbnail: '/images/transparent1.png', // TODO: from Image or fileext or PaperClipOutlined
     },
@@ -814,6 +814,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
   const deadline = dayjs('2023-02-24')
   const isDrag = false // TODO: перетаскивание файлов
   const [isArchive, setIsArchive] = React.useState(false) // TODO: архивация карточки
+  const isSubscribed = true // TODO: подписка на карточку
   return (
     <Modal
       open={isOpen}
@@ -868,7 +869,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         <div className="mb-3 cursor-default pl-2.5 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
           в колонке{' '}
           <a
-            className="text-[var(--ds-text-subtle,#5e6c84)] underline"
+            className=" text-[var(--ds-text-subtle,#5e6c84)] underline"
             href={columnUrl}
             onClick={(event) => {
               event.preventDefault()
@@ -879,6 +880,11 @@ function CardDetailWindow({ issue: { members, labels } }) {
           >
             {columnName}
           </a>
+          {isSubscribed && (
+            <span className="relative ml-3 h-5">
+              <EyeOutlined className="absolute top-0.5 text-[var(--ds-icon,#42526e)]" />
+            </span>
+          )}
         </div>
       </div>
       <div
