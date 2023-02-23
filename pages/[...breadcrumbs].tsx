@@ -131,8 +131,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
   const [thumbnailColor, setThumbnailColor] = React.useState([])
   return (
     <div
-      className="[&:hover>div]:bg-[var(--ds-background-neutral,rgba(9, 30, 66, 0.039))] relative mb-2 leading-5"
-      // color: var(--ds-text-subtle,#5e6c84);
+      className="relative mb-2 overflow-hidden rounded-[3px] leading-5 [&:hover>div]:bg-[var(--ds-background-neutral,#091e420a)]"
       role="button"
       onClick={() => {
         console.log('onClick')
@@ -178,7 +177,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
           fileExtension || <PaperClipOutlined className="scale-125" />
         )}
       </a>
-      <div className="py-2 pl-[128px] pr-2">
+      <div className="min-h-[80px] py-2 pl-[128px] pr-2">
         <span className="text-sm font-bold">{title || filename}</span>
         <a
           className="relative ml-1 h-5"
@@ -190,7 +189,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
         >
           <DownloadOutlined className="absolute top-0.5 text-[var(--ds-icon,#42526e)]" />
         </a>
-        <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
+        <div className="text-[var(--ds-text-subtle,#5e6c84)]">
           <div
             className="mr-1 inline-block"
             // TODO: Добавлено час назад || Добавлено 14 фев в 16:13
@@ -263,14 +262,14 @@ function CardDetailAttachments() {
       id: 'id-1',
       url: '/attachments/screen.png',
       title: 'title title title title title title title title title title title', // TODO: or filename
-      createdBy: '2023-02-22 10:11:12',
-      thumbnail: '/wallpapper.jpg', // TODO: from Image or fileext or PaperClipOutlined
+      createdBy: '2023-02-22',
+      thumbnail: '/images/transparent1.png', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-2',
       url: '/attachments/LICENSE',
       // title: '', // TODO: or filename
-      createdBy: '2023-02-22 10:11:12',
+      createdBy: '2023-02-22',
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
@@ -295,11 +294,26 @@ function CardDetailAttachments() {
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
   ]
+  const shortCount = 4
+  const [isExpanded, setIsExpanded] = React.useState(false)
   return (
     <CardDetailSection icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
-      {attachments.map((attachment) => (
+      {(isExpanded ? attachments : attachments.slice(0, shortCount)).map((attachment) => (
         <CardDetailAttachment key={attachment.id} {...attachment} />
       ))}
+      <Space direction="vertical">
+        <CardDetailButton
+          // className="mb-1"
+          onClick={() => {
+            setIsExpanded(!isExpanded)
+          }}
+        >
+          {isExpanded
+            ? 'Показать меньше вложений'
+            : `Посмотреть все вложения (скрыто ${attachments.length - shortCount})`}
+        </CardDetailButton>
+        <CardDetailButton>Добавить вложение</CardDetailButton>
+      </Space>
     </CardDetailSection>
   )
 }
