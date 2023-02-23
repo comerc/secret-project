@@ -77,12 +77,15 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
+import ColorThief from 'colorthief'
 
 function CardDetailSection({ icon, title, headerActions, children }) {
   return (
     <WindowModule>
       <div className="relative mb-1 ml-10 flex h-12 items-center py-2">
-        <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center">{icon}</div>
+        <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center text-base">
+          {icon}
+        </div>
         <BoardTitle>{title}</BoardTitle>
         {headerActions}
       </div>
@@ -91,12 +94,42 @@ function CardDetailSection({ icon, title, headerActions, children }) {
   )
 }
 
+function getFilename(url) {
+  return url.split('/').pop()
+}
+
+function getFileExtension(filename) {
+  const a = filename.split('.')
+  if (a.length === 1) {
+    return
+  }
+  return a.pop()
+}
+
+// function hasAlpha(context, canvas) {
+//   var data = context.getImageData(0, 0, canvas.width, canvas.height).data,
+//       hasAlphaPixels = false;
+//   for (var i = 3, n = data.length; i < n; i+=4) {
+//       if (data[i] < 255) {
+//           hasAlphaPixels = true;
+//           break;
+//       }
+//  }
+//  return hasAlphaPixels;
+// }
+
 function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
   // TODO: drag'n'drop для сортировки по orderIndex
-  const isImage = false
+  const [filename, fileExtension] = React.useMemo(() => {
+    const filename = getFilename(url)
+    const fileExtension = getFileExtension(filename)
+    return [filename, fileExtension]
+  }, [url])
+  const imgRef = React.useRef()
+  const [thumbnailColor, setThumbnailColor] = React.useState([])
   return (
     <div
-      className="relative mb-2 leading-5 [&:hover>.details]:bg-[var(--ds-background-neutral,#091e420a)]"
+      className="relative mb-2 leading-5 [&:hover>div]:bg-[var(--ds-background-neutral,#091e420a)]"
       // color: var(--ds-text-subtle,#5e6c84);
       role="button"
       onClick={() => {
@@ -105,16 +138,44 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
     >
       <a
         // для поддержки контекстного меню по правой кнопки мышки
-        className="absolute left-0 top-[50%] z-10 mt-[-40px] h-[80px] w-[112px] rounded-[3px] bg-[var(--ds-background-neutral,#091e420a)] bg-contain bg-[50%] bg-no-repeat text-center text-lg font-bold leading-[80px] text-[var(--ds-text-subtle,#5e6c84)]"
+        className={cx(
+          thumbnail ? '' : fileExtension ? 'text-lg' : 'text-base',
+          'absolute top-[50%] flex h-[80px] w-[112px] translate-y-[-50%] items-center justify-center overflow-hidden rounded-[3px] bg-[var(--background-color)] font-bold text-[var(--ds-text-subtle,#5e6c84)]',
+        )}
+        style={{
+          '--background-color':
+            thumbnailColor.length === 3
+              ? `var(--ds-background-thumbnail,rgb(${thumbnailColor[0]},${thumbnailColor[1]},${thumbnailColor[2]}))`
+              : 'var(--ds-background-neutral,#091e420a)',
+        }}
         href={url}
         onClick={(event) => {
           event.preventDefault()
         }}
       >
-        123
+        {thumbnail ? (
+          <img
+            className="h-[80px] w-[112px] object-contain"
+            crossOrigin={'anonymous'}
+            ref={imgRef}
+            // TODO: если на картинки есть прозрачный фон - hasAlpha(), то не устанавливать цвет
+            // src="/images/transparent1.png"
+            // src="/images/transparent2.png"
+            src={thumbnail}
+            onLoad={() => {
+              const colorThief = new ColorThief()
+              const img = imgRef.current
+              const result = colorThief.getColor(img, 25)
+              console.log(result)
+              setThumbnailColor(result)
+            }}
+          />
+        ) : (
+          fileExtension || <PaperClipOutlined className="scale-125" />
+        )}
       </a>
-      <p className="details py-2 pl-[128px] pr-2">
-        <span className="text-sm font-bold">{title || url.split('/').pop()}</span>
+      <div className="py-2 pl-[128px] pr-2">
+        <span className="text-sm font-bold">{title || filename}</span>
         <a
           className="relative ml-1 h-5"
           target="_blank"
@@ -123,7 +184,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             event.stopPropagation()
           }}
         >
-          <DownloadOutlined className="absolute top-[1px] text-[var(--ds-icon,#42526e)]" />
+          <DownloadOutlined className="absolute top-0.5 text-[var(--ds-icon,#42526e)]" />
         </a>
         <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
           <div
@@ -157,7 +218,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             Изменить
           </LinkButton>
         </div>
-        {isImage && (
+        {thumbnail && (
           <div>
             <Button
               // make-cover
@@ -187,7 +248,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             </Button>
           </div>
         )}
-      </p>
+      </div>
     </div>
   )
 }
@@ -199,7 +260,7 @@ function CardDetailAttachments() {
       url: '/attachments/screen.png',
       title: 'title title title title title title title title title title title', // TODO: or filename
       createdBy: '2023-02-22 10:11:12',
-      // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
+      thumbnail: '/wallpapper.jpg', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-2',
@@ -304,7 +365,7 @@ function CardDetailDescription() {
           className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
         >
           <div className="truncate p-2 text-center leading-5 underline">
-            Показать полное описание.
+            Показать полное описание
           </div>
         </div>
       )}
