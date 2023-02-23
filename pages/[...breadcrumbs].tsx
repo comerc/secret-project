@@ -197,7 +197,6 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             {createdBy}
           </div>
           <LinkButton
-            dot
             onClick={() => {
               // TODO: Комментарий
             }}
@@ -205,7 +204,6 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             Комментарий
           </LinkButton>
           <LinkButton
-            dot
             onClick={() => {
               // TODO: Удалить
             }}
@@ -213,7 +211,6 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             Удалить
           </LinkButton>
           <LinkButton
-            dot
             onClick={() => {
               // TODO: Изменить
             }}
@@ -327,10 +324,10 @@ function Dropzone() {
   )
 }
 
-function LinkButton({ dot, onClick, children }) {
+function LinkButton({ onClick, children }) {
   return (
     <div className="mr-1 inline-block">
-      {dot && '• '}
+      {'• '}
       <a
         role="button"
         onClick={onClick}
@@ -418,7 +415,7 @@ function CardDetailDescription() {
       )}
       {!isMore && hasNotSavedChanges && (
         <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
-          В этом поле есть несохранённые изменения.{' '}
+          В этом поле есть несохранённые изменения{' '}
           <LinkButton
             onClick={() => {
               setIsEdit(true)
@@ -427,7 +424,6 @@ function CardDetailDescription() {
             Посмотреть изменения
           </LinkButton>
           <LinkButton
-            dot
             onClick={() => {
               // TODO: отменить изменения
             }}
