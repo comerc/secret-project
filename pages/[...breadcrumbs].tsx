@@ -78,6 +78,7 @@ import labelColors from '.../utils/labelColors'
 import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
+import convertRGBToHSL from '.../utils/convertRGBToHSL'
 
 function CardDetailSection({ icon, title, headerActions, children }) {
   return (
@@ -106,6 +107,7 @@ function getFileExtension(filename) {
   return a.pop()
 }
 
+// TODO: добавить в функционал ColorThief
 // function hasAlpha(context, canvas) {
 //   var data = context.getImageData(0, 0, canvas.width, canvas.height).data,
 //       hasAlphaPixels = false;
@@ -129,7 +131,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
   const [thumbnailColor, setThumbnailColor] = React.useState([])
   return (
     <div
-      className="relative mb-2 leading-5 [&:hover>div]:bg-[var(--ds-background-neutral,#091e420a)]"
+      className="[&:hover>div]:bg-[var(--ds-background-neutral,rgba(9, 30, 66, 0.039))] relative mb-2 leading-5"
       // color: var(--ds-text-subtle,#5e6c84);
       role="button"
       onClick={() => {
@@ -166,6 +168,8 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
               const colorThief = new ColorThief()
               const img = imgRef.current
               const result = colorThief.getColor(img, 25)
+              // TODO: в зависимости от light, инвертировать кнопку "Обложка"
+              const [_hue, _saturation, light] = convertRGBToHSL(...result)
               console.log(result)
               setThumbnailColor(result)
             }}
