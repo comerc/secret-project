@@ -153,7 +153,7 @@ function CardDetailActions() {
             placeholder="Напишите комментарий…"
             className={cx(
               isFocused
-                ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)]'
+                ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
                 : isShowControls
                 ? ''
                 : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
@@ -179,6 +179,7 @@ function CardDetailActions() {
               isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
             )}
           >
+            {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
             <CardDetailButton
               disabled={!isShowControls}
               colors={
