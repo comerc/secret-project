@@ -47,6 +47,7 @@ import {
   MinusOutlined,
   PictureOutlined,
   DownloadOutlined,
+  SmileOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -80,6 +81,147 @@ import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 
+const myThumbnail = 'https://avatars.githubusercontent.com/u/1025241?s=32&v=4'
+
+function CommentBoxOptionsButton({ icon, title, onClick }) {
+  return (
+    <Button
+      className={cx(
+        'text-[var(--ds-icon,#42526e)]',
+        'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
+        'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
+        'rounded-[3px] border-0 px-3 leading-5 shadow-none',
+      )}
+      {...{ icon, title, onClick }}
+    />
+  )
+}
+
+function CardDetailActions() {
+  {
+    /* <FileDoneOutlined  className="scale-125"/> */
+  }
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  // const [form] = Form.useForm()
+  // const [value, setValue] = React.useState('')
+  const [isFocused, setIsFocused] = React.useState(false)
+  const [isShowControls, setIsShowControls] = React.useState(false)
+  const ref = React.useRef(null)
+  useOnClickOutside(ref, () => {
+    if (!isShowControls) {
+      setIsFocused(false)
+    }
+  })
+  return (
+    <CardDetailSection
+      icon={<FileDoneOutlined className="scale-125" />}
+      title="Действия"
+      headerActions={
+        <CardDetailButton
+          className="float-right ml-2"
+          onClick={() => {
+            setIsExpanded(!isExpanded)
+          }}
+        >
+          {isExpanded ? 'Скрыть подробности' : 'Показать подробности'}
+        </CardDetailButton>
+      }
+    >
+      <div className="relative ml-10 mb-3" ref={ref}>
+        <Avatar
+          draggable={false}
+          src={myThumbnail}
+          className="absolute left-[-40px] top-0 border-0"
+        />
+        <div
+          className={cx(
+            'new-comment',
+            isFocused ? 'is-focused pb-14' : 'pb-2',
+            'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
+          )}
+        >
+          {/* <Form
+          // className="w-full pt-1"
+          form={form}
+          layout="vertical"
+          // initialValues={{ requiredMarkValue: requiredMark }}
+          // onValuesChange={onRequiredTypeChange}
+          // requiredMark={requiredMark}
+        > */}
+          {/* <Form.Item> */}
+          <Input.TextArea
+            placeholder="Напишите комментарий…"
+            className={cx(
+              isFocused
+                ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)]'
+                : isShowControls
+                ? ''
+                : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
+              isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
+              'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+            )}
+            bordered={false}
+            // ref={inputRef}
+            autoSize
+            aria-label="Написать комментарий"
+            // value={value}
+            onChange={(event) => {
+              // setValue(event.target.value)
+              setIsShowControls(event.target.value !== '')
+            }}
+            onFocus={() => {
+              setIsFocused(true)
+            }}
+          />
+          <div
+            className={cx(
+              'absolute bottom-2 left-3 right-2 transition-[transform,opacity]',
+              isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
+            )}
+          >
+            <CardDetailButton
+              disabled={!isShowControls}
+              colors={
+                isShowControls
+                  ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
+                  : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
+              }
+              onClick={() => console.log('2222')}
+            >
+              Сохранить
+            </CardDetailButton>
+            <div className="float-right ml-1 inline-flex gap-1">
+              <CommentBoxOptionsButton
+                icon={<PaperClipOutlined />}
+                title="Добавить вложение…"
+                onClick={(event) => {
+                  console.log('onClick')
+                }}
+              />
+              <CommentBoxOptionsButton icon={<UserAddOutlined />} title="Упомянуть участника…" />
+              <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
+              <CommentBoxOptionsButton
+                icon={<CreditCardOutlined rotate={180} />}
+                title="Добавить карточку…"
+              />
+            </div>
+          </div>
+          {/* </Form.Item> */}
+          {/* </Form> */}
+        </div>
+      </div>
+
+      <div className="relative ml-10 rounded-[3px] bg-[gray] ">123</div>
+
+      {/* {(actions.map((action) => (
+              <CardDetailAction key={action.id} {...action} />
+            ))} */}
+
+      {/* <CardDetailButton>Показать все действия…</CardDetailButton> */}
+    </CardDetailSection>
+  )
+}
+
 function CardDetailSection({ icon, title, headerActions, children }) {
   return (
     <WindowModule>
@@ -88,9 +230,9 @@ function CardDetailSection({ icon, title, headerActions, children }) {
           {icon}
         </div>
         <BoardTitle>{title}</BoardTitle>
-        {headerActions}
+        {headerActions && <div className="grow">{headerActions}</div>}
       </div>
-      <div className="relative ml-10">{children}</div>
+      {children}
     </WindowModule>
   )
 }
@@ -190,12 +332,12 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
           <DownloadOutlined className="absolute top-0.5 text-[var(--ds-icon,#42526e)]" />
         </a>
         <div className="text-[var(--ds-text-subtle,#5e6c84)]">
-          <div
-            className="mr-1 inline-block"
+          <span
+            className="mr-1"
             // TODO: Добавлено час назад || Добавлено 14 фев в 16:13
           >
             {createdBy}
-          </div>
+          </span>
           <LinkButton
             onClick={() => {
               // TODO: Комментарий
@@ -219,7 +361,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
           </LinkButton>
         </div>
         {thumbnail && (
-          <div>
+          <div className="mt-2">
             <Button
               // make-cover
               // HACK: h-4 - уменьшает высоту <p> до требуемых 88px
@@ -295,22 +437,24 @@ function CardDetailAttachments() {
   const [isExpanded, setIsExpanded] = React.useState(false)
   return (
     <CardDetailSection icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
-      {(isExpanded ? attachments : attachments.slice(0, shortCount)).map((attachment) => (
-        <CardDetailAttachment key={attachment.id} {...attachment} />
-      ))}
-      <Space direction="vertical">
-        <CardDetailButton
-          // className="mb-1"
-          onClick={() => {
-            setIsExpanded(!isExpanded)
-          }}
-        >
-          {isExpanded
-            ? 'Показать меньше вложений'
-            : `Посмотреть все вложения (скрыто ${attachments.length - shortCount})`}
-        </CardDetailButton>
-        <CardDetailButton>Добавить вложение</CardDetailButton>
-      </Space>
+      <div className="ml-10">
+        {(isExpanded ? attachments : attachments.slice(0, shortCount)).map((attachment) => (
+          <CardDetailAttachment key={attachment.id} {...attachment} />
+        ))}
+        <Space direction="vertical">
+          <CardDetailButton
+            // className="mb-1"
+            onClick={() => {
+              setIsExpanded(!isExpanded)
+            }}
+          >
+            {isExpanded
+              ? 'Показать меньше вложений'
+              : `Посмотреть все вложения (скрыто ${attachments.length - shortCount})`}
+          </CardDetailButton>
+          <CardDetailButton>Добавить вложение</CardDetailButton>
+        </Space>
+      </div>
     </CardDetailSection>
   )
 }
@@ -371,70 +515,72 @@ function CardDetailDescription() {
         </CardDetailButton>
       }
     >
-      {isMore && (
-        <div
-          role="button"
-          onClick={() => {
-            setIsMore(false)
-          }}
-          className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
-        >
-          <div className="truncate p-2 text-center leading-5 underline">
-            Показать полное описание
+      <div className="relative ml-10">
+        {isMore && (
+          <div
+            role="button"
+            onClick={() => {
+              setIsMore(false)
+            }}
+            className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
+          >
+            <div className="truncate p-2 text-center leading-5 underline">
+              Показать полное описание
+            </div>
           </div>
-        </div>
-      )}
-      {!isEdit && (
-        <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
-          {text}
-        </div>
-      )}
-      {!isEdit && text === '' && (
-        <div className="mb-2">
-          <CardDetailButton
-            className="h-14 py-2"
-            onClick={() => {
-              setIsEdit(true)
-            }}
-          >
-            <div className="h-10">Добавить более подробное описание…</div>
-          </CardDetailButton>
-        </div>
-      )}
-      {isEdit && (
-        <div>
-          Edit{' '}
-          <Button
-            onClick={() => {
-              setIsEdit(false)
-            }}
-          >
-            Отмена
-          </Button>
-        </div>
-      )}
-      {!isMore && hasNotSavedChanges && (
-        <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
-          В этом поле есть несохранённые изменения{' '}
-          <LinkButton
-            onClick={() => {
-              setIsEdit(true)
-            }}
-          >
-            Посмотреть изменения
-          </LinkButton>
-          <LinkButton
-            onClick={() => {
-              // TODO: отменить изменения
-            }}
-          >
-            Отменить
-          </LinkButton>
-        </div>
-      )}
-      {!isMore && isSaveError && (
-        <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
-      )}
+        )}
+        {!isEdit && (
+          <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
+            {text}
+          </div>
+        )}
+        {!isEdit && text === '' && (
+          <div className="mb-2">
+            <CardDetailButton
+              className="h-14 py-2"
+              onClick={() => {
+                setIsEdit(true)
+              }}
+            >
+              <div className="h-10">Добавить более подробное описание…</div>
+            </CardDetailButton>
+          </div>
+        )}
+        {isEdit && (
+          <div>
+            Edit{' '}
+            <Button
+              onClick={() => {
+                setIsEdit(false)
+              }}
+            >
+              Отмена
+            </Button>
+          </div>
+        )}
+        {!isMore && hasNotSavedChanges && (
+          <div className="mb-2 text-[var(--ds-text-subtle,#5e6c84)]">
+            <span className="mr-1">В этом поле есть несохранённые изменения</span>
+            <LinkButton
+              onClick={() => {
+                setIsEdit(true)
+              }}
+            >
+              Посмотреть изменения
+            </LinkButton>
+            <LinkButton
+              onClick={() => {
+                // TODO: отменить изменения
+              }}
+            >
+              Отменить
+            </LinkButton>
+          </div>
+        )}
+        {!isMore && isSaveError && (
+          <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
+        )}
+      </div>
     </CardDetailSection>
   )
 }
@@ -732,7 +878,15 @@ function CardDetailItem({ title, children }) {
 }
 
 // TODO: объединить с BoardHeaderButton - формировать className, а не врапить Button
-function CardDetailButton({ className, colors, icon, shape = 'default', children, onClick }) {
+function CardDetailButton({
+  className,
+  colors,
+  icon,
+  shape = 'default',
+  children,
+  onClick,
+  disabled,
+}) {
   return (
     <Button
       className={cx(
@@ -750,7 +904,7 @@ function CardDetailButton({ className, colors, icon, shape = 'default', children
         children && 'px-3', // : 'w-8 px-0',
         className,
       )}
-      {...{ shape, icon, onClick }}
+      {...{ shape, icon, onClick, disabled }}
     >
       {children}
     </Button>
@@ -917,7 +1071,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}
         <CardDetailAttachments />
-        {/* <FileDoneOutlined  className="scale-125"/> */}
+        <CardDetailActions />
       </div>
       <WindowSidebar {...{ isArchive, setIsArchive }} />
       {isDrag && <Dropzone />}
@@ -1621,10 +1775,14 @@ function FilterButton() {
           // onValuesChange={onRequiredTypeChange}
           // requiredMark={requiredMark}
         >
-          <Form.Item label="Ключевое слово" help="Поиск карточек, участников, меток и т. д.">
+          <Form.Item
+            label="Ключевое слово"
+            help="Поиск карточек, участников, меток и т. д."
+            // TODO: label var(--ds-text-subtle, #5e6c84)
+          >
             <Input
               placeholder="Введите ключевое слово…"
-              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
             />
           </Form.Item>
           <Form.Item label="Участники">
@@ -2009,8 +2167,6 @@ function BoardHeaderButton({
   return (
     <Button
       aria-label={ariaLabel}
-      title={title}
-      icon={icon}
       className={cx(
         // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
         colors ||
@@ -2026,9 +2182,7 @@ function BoardHeaderButton({
         children && 'px-3', // : 'w-8 px-0',
         className,
       )}
-      onClick={onClick}
-      tabIndex={tabIndex}
-      shape={shape}
+      {...{ title, icon, onClick, tabIndex, shape }}
     >
       {children}
     </Button>
