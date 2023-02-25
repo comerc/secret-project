@@ -254,7 +254,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] as Open Source Alternative
   - https://www.producthunt.com/products/erxes
   - https://rocket.chat
-- [ ] Интеграция с fullcalendar.io
+- [x] Интеграция с fullcalendar.io - nope
 - [ ] Добавить в список open-source-alternatives
   - https://www.btw.so/open-source-alternatives
 - [ ] Как спрятать от Wappalyzer (как Linear)
