@@ -97,7 +97,15 @@ function CommentBoxOptionsButton({ icon, title, onClick }) {
   )
 }
 
-function CardDetailActions() {
+function CardDetailAction({ id, member, createdBy }) {
+  return (
+    <div className="relative ml-10 rounded-[3px] bg-[gray] ">
+      <div className=""></div>
+    </div>
+  )
+}
+
+function CardDetailActions({ actions }) {
   {
     /* <FileDoneOutlined  className="scale-125"/> */
   }
@@ -211,14 +219,10 @@ function CardDetailActions() {
           {/* </Form> */}
         </div>
       </div>
-
-      <div className="relative ml-10 rounded-[3px] bg-[gray] ">123</div>
-
-      {/* {(actions.map((action) => (
-              <CardDetailAction key={action.id} {...action} />
-            ))} */}
-
-      {/* <CardDetailButton>Показать все действия…</CardDetailButton> */}
+      {actions.map((action) => (
+        <CardDetailAction key={action.id} {...action} />
+      ))}
+      <CardDetailButton>Показать все действия…</CardDetailButton>
     </CardDetailSection>
   )
 }
@@ -679,8 +683,8 @@ function WindowSidebar({ isArchive, setIsArchive }) {
 function ListCardMembers({ members }) {
   return (
     <Avatar.Group className="float-right mb-1 mr-[-2px] block" size="small">
-      {members.map((user, index, a) => (
-        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
+      {members.map((member, index, a) => (
+        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
   )
@@ -853,8 +857,8 @@ function CardDetailNotifications({ notifications }) {
 function CardDetailMembers({ members }) {
   return (
     <Avatar.Group className="block">
-      {members.map((user, index, a) => (
-        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
+      {members.map((member, index, a) => (
+        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
       ))}
       <CardDetailButton icon={<PlusOutlined />} shape="circle" />
     </Avatar.Group>
@@ -953,7 +957,7 @@ function CardDetailLabel({ id, colorId, name }) {
 
 const mainWidth = 576
 
-function CardDetailWindow({ issue: { members, labels } }) {
+function CardDetailWindow({ issue: { members, labels, actions } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
     setIsOpen(false)
@@ -1072,7 +1076,7 @@ function CardDetailWindow({ issue: { members, labels } }) {
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}
         <CardDetailAttachments />
-        <CardDetailActions />
+        <CardDetailActions {...{ actions }} />
       </div>
       <WindowSidebar {...{ isArchive, setIsArchive }} />
       {isDrag && <Dropzone />}
@@ -1478,15 +1482,17 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     //   name: 'Моя очень-очень-очень длинная метка',
     // },
   ]
-  const members = await fetch('https://randomuser.me/api/?results=6')
+  const members = await fetch('https://randommember.me/api/?results=6')
     .then((res) => res.json())
     .then((data) => data.results)
+  const actions = [{ id: 'a-1', member: member[0], createdBy: '2023-02-23', type = 'text' }]
   const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
     members,
     labels,
+    actions,
   }))
   const route = breadcrumbs[0] // TODO: w || u || b || c
   const routes = ['b', 'c']
@@ -1591,10 +1597,10 @@ function ShareButton() {
 
 // TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
 // TODO: drag'n'drop для Avatar на ListCard
-function UserIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
+function MemberIcon({ login: { uuid, membername }, picture: { thumbnail }, name, zIndex }) {
   return (
     <button
-      title={`${name.first} ${name.last} (${username})`}
+      title={`${name.first} ${name.last} (${membername})`}
       className={cx(
         '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
         'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
@@ -1623,8 +1629,8 @@ function MembersButton({ members }) {
       maxPopoverPlacement="bottomLeft"
       maxPopoverTrigger="click"
     >
-      {members.map((user, index, a) => (
-        <UserIcon key={user.login.uuid} {...user} zIndex={a.length - index} />
+      {members.map((member, index, a) => (
+        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
   )
