@@ -81,6 +81,8 @@ import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 
+// TODO: CardDetailChecklist(s)
+
 const myThumbnail = 'https://avatars.githubusercontent.com/u/1025241?s=32&v=4'
 
 function CommentBoxOptionsButton({ icon, title, onClick }) {
@@ -316,7 +318,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
               const result = colorThief.getColor(img, 25)
               // TODO: в зависимости от light, инвертировать кнопку "Обложка"
               const [_hue, _saturation, light] = convertRGBToHSL(...result)
-              console.log(result)
+              // console.log(result)
               setThumbnailColor(result)
             }}
           />
@@ -784,7 +786,7 @@ function CardDetailStartDateBadge({ start }) {
   return (
     <CardDetailButton
       onClick={() => {
-        console.log()
+        // console.log()
       }}
     >
       {getLiteralDate(start)}
@@ -1436,6 +1438,28 @@ function Board({ issues }) {
   )
 }
 
+const actionRecords = {
+  text: () => '',
+  addAttachment: (filename) => `прикрепил(а) вложение ${filename}`,
+  deleteAttachment: (filename) => `удалил(а) вложение ${filename}`,
+  inviteMember: () => `присоединился(-ась) к этой карточке`,
+  leftMember: () => 'покинул(а) эту карточку',
+  addCard: (listTitle) => `добавил(а) эту карточку в список ${listTitle}`,
+  moveCard: (oldListTitle, newListTitle) =>
+    `переместил(а) эту карточку из списка ${oldListTitle} в список ${newListTitle}`,
+  archiveCard: () => 'архивировал(а) эту карточку',
+  unarchiveCard: () => 'вернул(а) из архива эту карточку',
+  closeDueDate: () => 'отметил(а) срок как завершённый',
+  reopenDueDate: () => 'отметил(а) срок как незавершённый',
+  setDueDate: (dueDate) => `установил(а) срок ${dueDate}`,
+  changeDueDate: (dueDate) => `изменил(а) срок на ${dueDate}`,
+  deleteDueDate: () => 'удалил(а) срок',
+  addChecklist: (checklistTitle) => `добавил(а) чек-лист ${checklistTitle}`,
+  deleteChecklist: (checklistTitle) => `удадил(а) чек-лист ${checklistTitle}`,
+  renameChecklist: (oldChecklistTitle, newChecklistTitle) =>
+    `переименовал(а) чек-лист ${newChecklistTitle} (с ${oldChecklistTitle})`,
+}
+
 type IProps = {
   issues: []
   boardId: string
@@ -1482,17 +1506,134 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     //   name: 'Моя очень-очень-очень длинная метка',
     // },
   ]
-  const members = await fetch('https://randommember.me/api/?results=6')
+  const members = await fetch('https://randomuser.me/api/?results=6')
     .then((res) => res.json())
     .then((data) => data.results)
-  const actions = [{ id: 'a-1', member: member[0], createdBy: '2023-02-23', type = 'text' }]
+  const actions = [
+    {
+      id: 'a-0',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'text',
+      text: '123',
+    },
+    {
+      id: 'a-1',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'addAttachment',
+      url: '/images/transparent1.png',
+    },
+    {
+      id: 'a-2',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'deleteAttachment',
+      url: '/attachments/LICENSE',
+    },
+    {
+      id: 'a-3',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'inviteMember',
+      member: members[0],
+    },
+    {
+      id: 'a-4',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'leftMember',
+      member: members[0],
+    },
+    {
+      id: 'a-5',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'addCard',
+      listTitle: 'Backlog',
+    },
+    {
+      id: 'a-51',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'moveCard',
+      listTitle1: 'Backlog',
+      listTitle2: 'To Do',
+    },
+    {
+      id: 'a-6',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'archiveCard',
+    },
+    {
+      id: 'a-7',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'unarchiveCard',
+    },
+    {
+      id: 'a-8',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'closeDueDate',
+    },
+    {
+      id: 'a-9',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'reopenDueDate',
+    },
+    {
+      id: 'a-10',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'setDueDate',
+      dueDate: '2023-02-23 20:21:22',
+    },
+    {
+      id: 'a-11',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'changeDueDate',
+      dueDate: '2023-02-23 20:21:22',
+    },
+    {
+      id: 'a-12',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'deleteDueDate',
+    },
+    {
+      id: 'a-13',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'addChecklist',
+      checklistTitle: 'Чек-лист',
+    },
+    {
+      id: 'a-14',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'deleteChecklist',
+      checklistTitle: 'Чек-лист',
+    },
+    {
+      id: 'a-15',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'renameChecklist',
+      oldChecklistTitle: 'Чек-лист',
+      newChecklistTitle: 'Проверить',
+    },
+  ]
   const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
     members,
     labels,
-    actions,
+    actions: [],
   }))
   const route = breadcrumbs[0] // TODO: w || u || b || c
   const routes = ['b', 'c']
