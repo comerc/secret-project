@@ -99,10 +99,87 @@ function CommentBoxOptionsButton({ icon, title, onClick }) {
   )
 }
 
-function CardDetailAction({ id, member, createdBy }) {
+function InlineSpacer() {
+  return <span className="inline-block min-w-[4px]" />
+}
+
+function getActionContent({ record, args, createdByLink }) {
+  const fn = actionRecords[record]
+  if (record === 'comment') {
+    return (
+      <>
+        {/* // TODO: текст MD */}
+        <InlineSpacer />
+        {createdByLink}
+      </>
+    )
+  }
+  if (['addAttachment', 'deleteAttachment'].includes(record)) {
+    return (
+      <>
+        {fn()}{' '}
+        <a href={args.url} className="text-[var(--ds-link,#172b4d)] underline">
+          {getFilename(args.url)}
+        </a>{' '}
+        <InlineSpacer />
+        {createdByLink}
+        {/* // TODO: картинка */}
+        <div>
+          <button
+            className="text-xs text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
+            onClick={() => {
+              // TODO: заполнить коммент ссылкой на текущий action
+            }}
+          >
+            Ответить
+          </button>
+        </div>
+      </>
+    )
+  }
   return (
-    <div className="relative ml-10 rounded-[3px] bg-[gray] ">
-      <div className=""></div>
+    <>
+      {fn(args)}
+      <div>{createdByLink}</div>
+    </>
+  )
+}
+
+function CardDetailAction({ id, member, record, args, createdBy }) {
+  const actionUrl = '#'
+  return (
+    <div className="relative ml-10 rounded-[3px] py-2">
+      <div className="absolute left-[-40px] top-[8px]">
+        <MemberIcon {...member} />
+      </div>
+      <div className="leading-5">
+        <button
+          title={`${member.name.first} ${member.name.last} (${member.login.username})`}
+          className="mr-1 font-bold"
+          onClick={() => {
+            // event.preventDefault()
+            // TODO: popup профиля
+          }}
+        >
+          {member.name.first} {member.name.last}
+        </button>
+        {getActionContent({
+          record,
+          args,
+          createdByLink: (
+            <a
+              className="whitespace-pre text-xs text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
+              href={actionUrl}
+              onClick={() => {
+                event.preventDefault()
+                // TODO: router.push(actionUrl, undefined, { shallow: true, })
+              }}
+            >
+              {getLiteralDate(dayjs(createdBy), { withTime: true })}
+            </a>
+          ),
+        })}
+      </div>
     </div>
   )
 }
@@ -692,7 +769,7 @@ function ListCardMembers({ members }) {
   )
 }
 
-function getLiteralDate(date) {
+function getLiteralDate(date, { withTime = false }) {
   const literalDates = {
     near: ['Вчера', 'Сегодня', 'Завтра'],
     past: [
@@ -714,18 +791,19 @@ function getLiteralDate(date) {
       'В субботу',
     ],
   }
+  const time = withTime ? ' в ' + date.format('HH:mm') : ''
   const now = dayjs()
   const delta = Math.ceil(date.diff(now, 'day', true))
   if (delta >= -1 && delta <= 1) {
-    return literalDates.near[delta + 1]
+    return literalDates.near[delta + 1] + time
   }
   if (delta < 0 && delta > -7) {
-    return literalDates.past[date.day()]
+    return literalDates.past[date.day()] + time
   }
   if (delta > 0 && delta < 7) {
-    return literalDates.future[date.day()]
+    return literalDates.future[date.day()] + time
   }
-  return date.format('D MMM')
+  return date.format('D MMM') + time
 }
 
 function getDueDateMode({ deadline, mode, forCardDetail = false }) {
@@ -812,7 +890,7 @@ function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
       />
       <CardDetailButton onClick={() => {}}>
         {!!start && start.format('D MMM - ')}
-        {start ? deadline.format('D MMM') : getLiteralDate(deadline)}
+        {start ? deadline.format('D MMM') : getLiteralDate(deadline, { withTime: true })}
         {!!currentMode.status && (
           <span
             className="ml-2 rounded-[2px] bg-[var(--background-color)] px-1 text-xs text-[var(--text-color)]"
@@ -1439,24 +1517,27 @@ function Board({ issues }) {
 }
 
 const actionRecords = {
-  text: () => '',
-  addAttachment: (filename) => `прикрепил(а) вложение ${filename}`,
-  deleteAttachment: (filename) => `удалил(а) вложение ${filename}`,
-  inviteMember: () => `присоединился(-ась) к этой карточке`,
+  comment: () => null,
+  addAttachment: () => 'прикрепил(а) вложение',
+  deleteAttachment: () => 'удалил(а) вложение',
+  inviteMember: () => 'присоединился(-ась) к этой карточке',
   leftMember: () => 'покинул(а) эту карточку',
-  addCard: (listTitle) => `добавил(а) эту карточку в список ${listTitle}`,
-  moveCard: (oldListTitle, newListTitle) =>
+  addCard: ({ listTitle }) => `добавил(а) эту карточку в список ${listTitle}`,
+  moveCard: ({ oldListTitle, newListTitle }) =>
     `переместил(а) эту карточку из списка ${oldListTitle} в список ${newListTitle}`,
   archiveCard: () => 'архивировал(а) эту карточку',
   unarchiveCard: () => 'вернул(а) из архива эту карточку',
   closeDueDate: () => 'отметил(а) срок как завершённый',
   reopenDueDate: () => 'отметил(а) срок как незавершённый',
-  setDueDate: (dueDate) => `установил(а) срок ${dueDate}`,
-  changeDueDate: (dueDate) => `изменил(а) срок на ${dueDate}`,
+  setDueDate: ({ dueDate }) =>
+    (({ dueDate }) => `установил(а) срок ${dueDate}`)({
+      dueDate: getLiteralDate(dayjs(dueDate), { withTime: true }),
+    }),
+  changeDueDate: ({ dueDate }) => `изменил(а) срок на ${dueDate}`,
   deleteDueDate: () => 'удалил(а) срок',
-  addChecklist: (checklistTitle) => `добавил(а) чек-лист ${checklistTitle}`,
-  deleteChecklist: (checklistTitle) => `удадил(а) чек-лист ${checklistTitle}`,
-  renameChecklist: (oldChecklistTitle, newChecklistTitle) =>
+  addChecklist: ({ checklistTitle }) => `добавил(а) чек-лист ${checklistTitle}`,
+  deleteChecklist: ({ checklistTitle }) => `удадил(а) чек-лист ${checklistTitle}`,
+  renameChecklist: ({ oldChecklistTitle, newChecklistTitle }) =>
     `переименовал(а) чек-лист ${newChecklistTitle} (с ${oldChecklistTitle})`,
 }
 
@@ -1514,51 +1595,50 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       id: 'a-0',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
-      record: 'text',
-      text: '123',
+      record: 'comment',
+      args: { text: '123' },
     },
     {
       id: 'a-1',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'addAttachment',
-      url: '/images/transparent1.png',
+      args: { url: '/images/transparent1.png' },
     },
     {
       id: 'a-2',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'deleteAttachment',
-      url: '/attachments/LICENSE',
+      args: { url: '/attachments/LICENSE' },
     },
     {
       id: 'a-3',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'inviteMember',
-      member: members[0],
+      args: { member: members[0] },
     },
     {
       id: 'a-4',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'leftMember',
-      member: members[0],
+      args: { member: members[0] },
     },
     {
       id: 'a-5',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'addCard',
-      listTitle: 'Backlog',
+      args: { listTitle: 'Backlog' },
     },
     {
       id: 'a-51',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'moveCard',
-      listTitle1: 'Backlog',
-      listTitle2: 'To Do',
+      args: { listTitle1: 'Backlog', listTitle2: 'To Do' },
     },
     {
       id: 'a-6',
@@ -1589,14 +1669,14 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'setDueDate',
-      dueDate: '2023-02-23 20:21:22',
+      args: { dueDate: '2023-02-23 20:21:22' },
     },
     {
       id: 'a-11',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'changeDueDate',
-      dueDate: '2023-02-23 20:21:22',
+      args: { dueDate: '2023-02-23 20:21:22' },
     },
     {
       id: 'a-12',
@@ -1609,22 +1689,21 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'addChecklist',
-      checklistTitle: 'Чек-лист',
+      args: { checklistTitle: 'Чек-лист' },
     },
     {
       id: 'a-14',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'deleteChecklist',
-      checklistTitle: 'Чек-лист',
+      args: { checklistTitle: 'Чек-лист' },
     },
     {
       id: 'a-15',
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'renameChecklist',
-      oldChecklistTitle: 'Чек-лист',
-      newChecklistTitle: 'Проверить',
+      args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
   const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
@@ -1633,7 +1712,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     description: '',
     members,
     labels,
-    actions: [],
+    actions,
   }))
   const route = breadcrumbs[0] // TODO: w || u || b || c
   const routes = ['b', 'c']
@@ -1738,10 +1817,10 @@ function ShareButton() {
 
 // TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
 // TODO: drag'n'drop для Avatar на ListCard
-function MemberIcon({ login: { uuid, membername }, picture: { thumbnail }, name, zIndex }) {
+function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
   return (
     <button
-      title={`${name.first} ${name.last} (${membername})`}
+      title={`${name.first} ${name.last} (${username})`}
       className={cx(
         '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
         'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
@@ -1749,6 +1828,7 @@ function MemberIcon({ login: { uuid, membername }, picture: { thumbnail }, name,
       )}
       onClick={(event) => {
         // event.preventDefault()
+        // TODO: popup профиля
       }}
     >
       <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
