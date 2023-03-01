@@ -23,21 +23,29 @@
   }
 }
 
-.new-comment.is-focused {
-  box-shadow: var(
-    --ds-shadow-overlay,
-    0 4px 8px -2px #091e4240,
-    0 0 0 1px var(--ds-border, #091e4214)
-  );
-}
-.new-comment:not(.is-focused):not(:hover) {
+.action-comment {
   box-shadow: var(
     --ds-shadow-raised,
     0 1px 2px -1px #091e4240,
     0 0 0 1px var(--ds-border, #091e4214)
   );
 }
-.new-comment:not(.is-focused):hover {
+
+.comment-box.is-focused {
+  box-shadow: var(
+    --ds-shadow-overlay,
+    0 4px 8px -2px #091e4240,
+    0 0 0 1px var(--ds-border, #091e4214)
+  );
+}
+.comment-box:not(.is-focused):not(:hover) {
+  box-shadow: var(
+    --ds-shadow-raised,
+    0 1px 2px -1px #091e4240,
+    0 0 0 1px var(--ds-border, #091e4214)
+  );
+}
+.comment-box:not(.is-focused):hover {
   box-shadow: var(--ds-shadow-raised, 0 1px 1px #091e4240, 0 0 0 1px var(--ds-border, #091e4214));
 }
 
@@ -167,14 +175,16 @@
 
 /* Fix of vertical-align: -0.125em; */
 .anticon {
-  vertical-align: unset !important;
+  /* vertical-align: unset !important; */
+  vertical-align: 1px !important;
 }
 .ant-btn {
-  display: inline-flex !important;
-  align-items: center; /* not !important */
+  /* display: inline-flex !important; */
+  /* align-items: center; */
+  /* not !important */
 }
 .ant-btn-icon-only {
-  justify-content: center !important;
+  /* justify-content: center; */
 }
 
 .ant-modal-close-x {

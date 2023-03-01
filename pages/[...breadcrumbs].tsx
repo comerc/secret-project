@@ -92,7 +92,7 @@ function CommentBoxOptionsButton({ icon, title, onClick }) {
         'text-[var(--ds-icon,#42526e)]',
         'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
         'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
-        'rounded-[3px] border-0 px-3 leading-5 shadow-none',
+        'rounded-[3px] border-0 leading-5 shadow-none',
       )}
       {...{ icon, title, onClick }}
     />
@@ -108,9 +108,47 @@ function getActionContent({ record, args, createdByLink }) {
   if (record === 'comment') {
     return (
       <>
-        {/* // TODO: текст MD */}
         <InlineSpacer />
         {createdByLink}
+        <div className="my-1 ">
+          {/* <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[var(--ds-text,#172b4d)]">
+          {args.text}
+        </div> */}
+          <CommentBox />
+        </div>
+        <div className="text-xs leading-6 text-[var(--ds-text-subtle,#5e6c84)]">
+          <Button
+            className={cx(
+              'mr-1 bg-transparent',
+              'text-[var(--ds-icon-subtle,#6b778c)]',
+              'hover:text-[var(--ds-icon-accent-gray,#172b4d)]',
+              'h-6 w-4 rounded-none border-0 p-0 leading-6 shadow-none',
+            )}
+            icon={
+              <SmileOutlined
+                className="scale-95"
+                onClick={() => {
+                  // TODO: добавить смайлик для комментария
+                }}
+              />
+            }
+          ></Button>
+          <LinkButton
+            onClick={() => {
+              // TODO: изменить комментарий
+            }}
+          >
+            Изменить
+          </LinkButton>
+          <LinkButton
+            onClick={() => {
+              // TODO: удалить комментарий
+            }}
+          >
+            Удалить
+          </LinkButton>
+          {/* // TODO: • В этом поле есть несохранённые изменения */}
+        </div>
       </>
     )
   }
@@ -124,6 +162,7 @@ function getActionContent({ record, args, createdByLink }) {
         <InlineSpacer />
         {createdByLink}
         {/* // TODO: картинка */}
+        {/* <div>{args.thumbnail}</div> */}
         <div>
           <button
             className="text-xs text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
@@ -148,37 +187,154 @@ function getActionContent({ record, args, createdByLink }) {
 function CardDetailAction({ id, member, record, args, createdBy }) {
   const actionUrl = '#'
   return (
-    <div className="relative ml-10 rounded-[3px] py-2">
+    <div className="relative ml-10 rounded-[3px] py-2 leading-5">
       <div className="absolute left-[-40px] top-[8px]">
         <MemberIcon {...member} />
       </div>
-      <div className="leading-5">
-        <button
-          title={`${member.name.first} ${member.name.last} (${member.login.username})`}
-          className="mr-1 font-bold"
-          onClick={() => {
-            // event.preventDefault()
-            // TODO: popup профиля
+      <button
+        title={`${member.name.first} ${member.name.last} (${member.login.username})`}
+        className="mr-1 font-bold"
+        onClick={() => {
+          // event.preventDefault()
+          // TODO: popup профиля
+        }}
+      >
+        {member.name.first} {member.name.last}
+      </button>
+      {getActionContent({
+        record,
+        args,
+        createdByLink: (
+          <a
+            className="whitespace-pre text-xs text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
+            href={actionUrl}
+            onClick={() => {
+              event.preventDefault()
+              // TODO: router.push(actionUrl, undefined, { shallow: true, })
+            }}
+          >
+            {getLiteralDate(dayjs(createdBy), { withTime: true })}
+          </a>
+        ),
+      })}
+    </div>
+  )
+}
+
+function CommentBox({ avatar, isNewComment = false }) {
+  const [isFocused, setIsFocused] = React.useState(false)
+  const [isShowControls, setIsShowControls] = React.useState(false)
+  const ref = React.useRef(null)
+  if (isNewComment) {
+    useOnClickOutside(ref, () => {
+      if (!isShowControls) {
+        setIsFocused(false)
+      }
+    })
+  }
+  return (
+    <div ref={ref}>
+      {avatar}
+      <div
+        className={cx(
+          'comment-box',
+          isFocused ? 'is-focused pb-14' : 'pb-2',
+          'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
+        )}
+      >
+        {/* <Form
+        // className="w-full pt-1"
+        form={form}
+        layout="vertical"
+        // initialValues={{ requiredMarkValue: requiredMark }}
+        // onValuesChange={onRequiredTypeChange}
+        // requiredMark={requiredMark}
+      > */}
+        {/* <Form.Item> */}
+        <Input.TextArea
+          placeholder={isNewComment ? 'Напишите комментарий…' : null}
+          className={
+            isNewComment
+              ? cx(
+                  isFocused
+                    ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
+                    : isShowControls
+                    ? ''
+                    : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
+                  isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
+                  'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+                )
+              : 'focus-borderless box-content min-h-[20px] overflow-hidden leading-5'
+          }
+          bordered={false}
+          // ref={inputRef}
+          autoSize
+          aria-label={isNewComment ? 'Написать комментарий' : 'Изменить комментарий'}
+          // value={value}
+          onChange={(event) => {
+            // setValue(event.target.value)
+            if (isNewComment) {
+              setIsShowControls(event.target.value !== '')
+            }
           }}
+          onFocus={() => {
+            if (isNewComment) {
+              setIsFocused(true)
+            }
+          }}
+        />
+        <div
+          className={cx(
+            'absolute bottom-2 left-3 right-2 transition-[transform,opacity]',
+            isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
+          )}
         >
-          {member.name.first} {member.name.last}
-        </button>
-        {getActionContent({
-          record,
-          args,
-          createdByLink: (
-            <a
-              className="whitespace-pre text-xs text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
-              href={actionUrl}
+          {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
+          <CardDetailButton
+            disabled={!isShowControls}
+            colors={
+              isShowControls
+                ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
+                : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
+            }
+            onClick={() => console.log('2222')}
+          >
+            Сохранить
+          </CardDetailButton>
+          {isNewComment || (
+            <Button
+              className="ml-1 rounded-none border-0 text-[var(--ds-icon,#42526e)] shadow-none hover:text-[var(--ds-icon,#172b4d)]"
+              aria-label="Отменить изменения"
+              icon={<CloseOutlined className="scale-125" />}
               onClick={() => {
-                event.preventDefault()
-                // TODO: router.push(actionUrl, undefined, { shallow: true, })
+                //
               }}
-            >
-              {getLiteralDate(dayjs(createdBy), { withTime: true })}
-            </a>
-          ),
-        })}
+            />
+          )}
+          <div className="float-right ml-1 inline-flex gap-1">
+            <CommentBoxOptionsButton
+              icon={<PaperClipOutlined />}
+              title="Добавить вложение…"
+              onClick={(event) => {
+                console.log('onClick')
+              }}
+            />
+            <CommentBoxOptionsButton
+              icon={<UserAddOutlined className="scale-95" />}
+              title="Упомянуть участника…"
+            />
+            <CommentBoxOptionsButton
+              icon={<SmileOutlined className="scale-95" />}
+              title="Добавить эмодзи…"
+            />
+            <CommentBoxOptionsButton
+              icon={<CreditCardOutlined className="scale-95" rotate={180} />}
+              title="Добавить карточку…"
+            />
+          </div>
+        </div>
+        {/* </Form.Item> */}
+        {/* </Form> */}
       </div>
     </div>
   )
@@ -191,14 +347,6 @@ function CardDetailActions({ actions }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   // const [form] = Form.useForm()
   // const [value, setValue] = React.useState('')
-  const [isFocused, setIsFocused] = React.useState(false)
-  const [isShowControls, setIsShowControls] = React.useState(false)
-  const ref = React.useRef(null)
-  useOnClickOutside(ref, () => {
-    if (!isShowControls) {
-      setIsFocused(false)
-    }
-  })
   return (
     <CardDetailSection
       icon={<FileDoneOutlined className="scale-125" />}
@@ -214,89 +362,17 @@ function CardDetailActions({ actions }) {
         </CardDetailButton>
       }
     >
-      <div className="relative ml-10 mb-3" ref={ref}>
-        <Avatar
-          draggable={false}
-          src={myThumbnail}
-          className="absolute left-[-40px] top-0 border-0"
+      <div className="relative ml-10 mb-3">
+        <CommentBox
+          avatar={
+            <Avatar
+              draggable={false}
+              src={myThumbnail}
+              className="absolute left-[-40px] top-0 border-0"
+            />
+          }
+          isNewComment
         />
-        <div
-          className={cx(
-            'new-comment',
-            isFocused ? 'is-focused pb-14' : 'pb-2',
-            'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
-          )}
-        >
-          {/* <Form
-          // className="w-full pt-1"
-          form={form}
-          layout="vertical"
-          // initialValues={{ requiredMarkValue: requiredMark }}
-          // onValuesChange={onRequiredTypeChange}
-          // requiredMark={requiredMark}
-        > */}
-          {/* <Form.Item> */}
-          <Input.TextArea
-            placeholder="Напишите комментарий…"
-            className={cx(
-              isFocused
-                ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
-                : isShowControls
-                ? ''
-                : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
-              isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
-              'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
-            )}
-            bordered={false}
-            // ref={inputRef}
-            autoSize
-            aria-label="Написать комментарий"
-            // value={value}
-            onChange={(event) => {
-              // setValue(event.target.value)
-              setIsShowControls(event.target.value !== '')
-            }}
-            onFocus={() => {
-              setIsFocused(true)
-            }}
-          />
-          <div
-            className={cx(
-              'absolute bottom-2 left-3 right-2 transition-[transform,opacity]',
-              isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
-            )}
-          >
-            {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
-            <CardDetailButton
-              disabled={!isShowControls}
-              colors={
-                isShowControls
-                  ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
-                  : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
-              }
-              onClick={() => console.log('2222')}
-            >
-              Сохранить
-            </CardDetailButton>
-            <div className="float-right ml-1 inline-flex gap-1">
-              <CommentBoxOptionsButton
-                icon={<PaperClipOutlined />}
-                title="Добавить вложение…"
-                onClick={(event) => {
-                  console.log('onClick')
-                }}
-              />
-              <CommentBoxOptionsButton icon={<UserAddOutlined />} title="Упомянуть участника…" />
-              <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
-              <CommentBoxOptionsButton
-                icon={<CreditCardOutlined rotate={180} />}
-                title="Добавить карточку…"
-              />
-            </div>
-          </div>
-          {/* </Form.Item> */}
-          {/* </Form> */}
-        </div>
       </div>
       {actions.map((action) => (
         <CardDetailAction key={action.id} {...action} />
@@ -386,8 +462,8 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
             crossOrigin={'anonymous'}
             ref={imgRef}
             // TODO: если на картинки есть прозрачный фон - hasAlpha(), то не устанавливать цвет
-            // src="/images/transparent1.png"
-            // src="/images/transparent2.png"
+            // src="/attachments/previews/transparent1.png"
+            // src="/attachments/previews/transparent2.png"
             src={thumbnail}
             onLoad={() => {
               const colorThief = new ColorThief()
@@ -483,10 +559,10 @@ function CardDetailAttachments() {
   const attachments = [
     {
       id: 'id-1',
-      url: '/attachments/screen.png',
+      url: '/attachments/transparent1.png',
       title: 'title title title title title title title title title title title title title', // TODO: or filename
       createdBy: '2023-02-22',
-      thumbnail: '/images/transparent1.png', // TODO: from Image or fileext or PaperClipOutlined
+      thumbnail: '/attachments/previews/transparent1.png', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-2',
@@ -679,7 +755,10 @@ function HorizontalDivider() {
 
 function WindowSidebarButton({ colors, icon, onClick, children }) {
   return (
-    <CardDetailButton className="mb-2 w-full max-w-[300px]" {...{ colors, icon, onClick }}>
+    <CardDetailButton
+      className="mb-2 w-full max-w-[300px] text-start"
+      {...{ colors, icon, onClick }}
+    >
       {children}
     </CardDetailButton>
   )
@@ -1451,7 +1530,7 @@ function ListFooter() {
   return (
     <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
       <Button
-        className="h-[28px] w-full rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+        className="h-[28px] w-full rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<PlusOutlined />}
       >
         Добавить карточку
@@ -1533,7 +1612,10 @@ const actionRecords = {
     (({ dueDate }) => `установил(а) срок ${dueDate}`)({
       dueDate: getLiteralDate(dayjs(dueDate), { withTime: true }),
     }),
-  changeDueDate: ({ dueDate }) => `изменил(а) срок на ${dueDate}`,
+  changeDueDate: ({ dueDate }) =>
+    (({ dueDate }) => `изменил(а) срок на ${dueDate}`)({
+      dueDate: getLiteralDate(dayjs(dueDate), { withTime: true }),
+    }),
   deleteDueDate: () => 'удалил(а) срок',
   addChecklist: ({ checklistTitle }) => `добавил(а) чек-лист ${checklistTitle}`,
   deleteChecklist: ({ checklistTitle }) => `удадил(а) чек-лист ${checklistTitle}`,
@@ -1603,7 +1685,10 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'addAttachment',
-      args: { url: '/images/transparent1.png' },
+      args: {
+        url: '/attachments/transparent1.png',
+        thumbnail: '/attachments/previews/transparent1.png',
+      },
     },
     {
       id: 'a-2',
