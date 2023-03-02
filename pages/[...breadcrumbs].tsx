@@ -80,6 +80,7 @@ import pluralize from '.../utils/pluralize'
 import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
+import isHTMLControl from '.../utils/isHTMLControl'
 
 // TODO: CardDetailChecklist(s)
 
@@ -106,15 +107,26 @@ function InlineSpacer() {
 function getActionContent({ record, args, createdByLink }) {
   const fn = actionRecords[record]
   if (record === 'comment') {
+    const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
+    const [isEditComment, setIsEditComment] = React.useState(false)
+    React.useEffect(() => {
+      if (!isExpanded) {
+        setIsEditComment(false)
+      }
+    }, [isExpanded])
     return (
       <>
         <InlineSpacer />
         {createdByLink}
+        {/* // TODO: (изменён) */}
         <div className="my-1 ">
-          {/* <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[var(--ds-text,#172b4d)]">
-          {args.text}
-        </div> */}
-          <CommentBox />
+          {isExpanded && isEditComment ? (
+            <CommentBox defaultValue={args.text} close={() => setIsEditComment(false)} />
+          ) : (
+            <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[var(--ds-text,#172b4d)]">
+              {args.text}
+            </div>
+          )}
         </div>
         <div className="text-xs leading-6 text-[var(--ds-text-subtle,#5e6c84)]">
           <Button
@@ -135,7 +147,8 @@ function getActionContent({ record, args, createdByLink }) {
           ></Button>
           <LinkButton
             onClick={() => {
-              // TODO: изменить комментарий
+              setIsEditComment(true)
+              setIsExpanded(true)
             }}
           >
             Изменить
@@ -221,16 +234,37 @@ function CardDetailAction({ id, member, record, args, createdBy }) {
   )
 }
 
-function CommentBox({ avatar, isNewComment = false }) {
-  const [isFocused, setIsFocused] = React.useState(false)
-  const [isShowControls, setIsShowControls] = React.useState(false)
+const CommentBoxContext = React.createContext(null)
+
+function CommentBoxState({ children }) {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  return (
+    <CommentBoxContext.Provider value={{ isExpanded, setIsExpanded }}>
+      {children}
+    </CommentBoxContext.Provider>
+  )
+}
+
+function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) {
+  const { setIsExpanded } = React.useContext(CommentBoxContext)
+  const [isFocused, setIsFocused] = React.useState(!isNewComment)
+  const [isShowControls, setIsShowControls] = React.useState(defaultValue !== '')
   const ref = React.useRef(null)
+  const inputRef = React.useRef(null)
   if (isNewComment) {
-    useOnClickOutside(ref, () => {
-      if (!isShowControls) {
-        setIsFocused(false)
+    useOnClickOutside(ref, (event) => {
+      if (isShowControls || isHTMLControl(event.target)) {
+        return
       }
+      setIsFocused(false)
     })
+  } else {
+    React.useEffect(() => {
+      inputRef.current.focus({
+        preventScroll: true,
+        cursor: 'all',
+      })
+    }, [])
   }
   return (
     <div ref={ref}>
@@ -253,35 +287,32 @@ function CommentBox({ avatar, isNewComment = false }) {
         {/* <Form.Item> */}
         <Input.TextArea
           placeholder={isNewComment ? 'Напишите комментарий…' : null}
-          className={
-            isNewComment
-              ? cx(
-                  isFocused
-                    ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
-                    : isShowControls
-                    ? ''
-                    : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
-                  isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
-                  'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
-                )
-              : 'focus-borderless box-content min-h-[20px] overflow-hidden leading-5'
-          }
+          className={cx(
+            isFocused
+              ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
+              : isShowControls
+              ? ''
+              : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
+            isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
+            'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+          )}
           bordered={false}
           // ref={inputRef}
           autoSize
           aria-label={isNewComment ? 'Написать комментарий' : 'Изменить комментарий'}
           // value={value}
+          defaultValue={defaultValue}
           onChange={(event) => {
             // setValue(event.target.value)
-            if (isNewComment) {
-              setIsShowControls(event.target.value !== '')
-            }
+            setIsShowControls(event.target.value !== '')
           }}
           onFocus={() => {
             if (isNewComment) {
-              setIsFocused(true)
+              setIsExpanded(false)
             }
+            setIsFocused(true)
           }}
+          ref={inputRef}
         />
         <div
           className={cx(
@@ -297,18 +328,18 @@ function CommentBox({ avatar, isNewComment = false }) {
                 ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
                 : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
             }
-            onClick={() => console.log('2222')}
+            onClick={() => {
+              console.log('2222')
+            }}
           >
             Сохранить
           </CardDetailButton>
           {isNewComment || (
             <Button
-              className="ml-1 rounded-none border-0 text-[var(--ds-icon,#42526e)] shadow-none hover:text-[var(--ds-icon,#172b4d)]"
+              className="ml-1 rounded-[3px] border-0 text-[var(--ds-icon,#42526e)] shadow-none hover:text-[var(--ds-icon,#172b4d)]"
               aria-label="Отменить изменения"
               icon={<CloseOutlined className="scale-125" />}
-              onClick={() => {
-                //
-              }}
+              onClick={close}
             />
           )}
           <div className="float-right ml-1 inline-flex gap-1">
@@ -362,21 +393,23 @@ function CardDetailActions({ actions }) {
         </CardDetailButton>
       }
     >
-      <div className="relative ml-10 mb-3">
-        <CommentBox
-          avatar={
-            <Avatar
-              draggable={false}
-              src={myThumbnail}
-              className="absolute left-[-40px] top-0 border-0"
-            />
-          }
-          isNewComment
-        />
-      </div>
-      {actions.map((action) => (
-        <CardDetailAction key={action.id} {...action} />
-      ))}
+      <CommentBoxState>
+        <div className="relative ml-10 mb-3">
+          <CommentBox
+            avatar={
+              <Avatar
+                draggable={false}
+                src={myThumbnail}
+                className="absolute left-[-40px] top-0 border-0"
+              />
+            }
+            isNewComment
+          />
+        </div>
+        {actions.map((action) => (
+          <CardDetailAction key={action.id} {...action} />
+        ))}
+      </CommentBoxState>
       <CardDetailButton>Показать все действия…</CardDetailButton>
     </CardDetailSection>
   )
@@ -1034,7 +1067,7 @@ function CardDetailItemTitle({ children }) {
 
 function CardDetailItem({ title, children }) {
   return (
-    <div className="float-left mr-4 mb-4 max-w-full">
+    <div className="mr-4 mb-4 inline-block">
       <CardDetailItemTitle>{title}</CardDetailItemTitle>
       {children}
     </div>
@@ -1383,7 +1416,7 @@ function Badges() {
 }
 
 function FrontLabel({ id, colorId, name }) {
-  const { isExpanded, setIsExpanded } = React.useContext(LabelsContext)
+  const { isExpanded, setIsExpanded } = React.useContext(FrontLabelsContext)
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
@@ -1425,7 +1458,7 @@ function FrontLabel({ id, colorId, name }) {
 }
 
 function FrontLabels({ labels }) {
-  const { isExpanded } = React.useContext(LabelsContext)
+  const { isExpanded } = React.useContext(FrontLabelsContext)
   // TODO: добавить режим для дальтоников
   return (
     <div className={cx(isExpanded ? 'mb-1' : 'my-1', 'flex flex-wrap gap-1')}>
@@ -1539,14 +1572,14 @@ function ListFooter() {
   )
 }
 
-const LabelsContext = React.createContext(null)
+const FrontLabelsContext = React.createContext(null)
 
-function LabelsState({ children }) {
+function FrontLabelsState({ children }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   return (
-    <LabelsContext.Provider value={{ isExpanded, setIsExpanded }}>
+    <FrontLabelsContext.Provider value={{ isExpanded, setIsExpanded }}>
       {children}
-    </LabelsContext.Provider>
+    </FrontLabelsContext.Provider>
   )
 }
 
@@ -1566,7 +1599,7 @@ function Board({ issues }) {
   // ]
   return (
     <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
-      <LabelsState>
+      <FrontLabelsState>
         {columns.map(({ id, name }) => (
           <div key={id}>
             <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
@@ -1580,7 +1613,7 @@ function Board({ issues }) {
             </div>
           </div>
         ))}
-      </LabelsState>
+      </FrontLabelsState>
       {/* <Image
         // TODO: обои
         priority
@@ -1679,6 +1712,13 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       createdBy: '2023-02-23 20:21:22',
       record: 'comment',
       args: { text: '123' },
+    },
+    {
+      id: 'a-01',
+      member: members[0],
+      createdBy: '2023-02-23 20:21:22',
+      record: 'comment',
+      args: { text: '321' },
     },
     {
       id: 'a-1',
@@ -2811,7 +2851,9 @@ function BoardPage(props: IProps) {
                     >
                       <BoardNameButton
                         defaultValue="Minsk4"
-                        onEndEdit={(value) => console.log(value)}
+                        onEndEdit={(value) => {
+                          console.log(value)
+                        }}
                       />
                       <FavoriteButton
                         boardId={props.boardId}
