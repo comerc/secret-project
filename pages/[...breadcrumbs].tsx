@@ -156,6 +156,7 @@ function getActionContent({ record, args, createdByLink }) {
           <LinkButton
             onClick={() => {
               // TODO: удалить комментарий
+              Modal.confirm()
             }}
           >
             Удалить
@@ -253,7 +254,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
   const inputRef = React.useRef(null)
   if (isNewComment) {
     useOnClickOutside(ref, (event) => {
-      if (isShowControls || isHTMLControl(event.target)) {
+      if (isShowControls || isHTMLControl(event.target, ref.current)) {
         return
       }
       setIsFocused(false)
