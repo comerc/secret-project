@@ -273,6 +273,10 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://levelup.gitconnected.com/build-on-hover-custom-scrollbar-in-react-d846194a7ea4
   - https://github.com/hkurra/react-on-hover-scrollbar
   - https://css-tricks.com/scrollbars-on-hover/
+  - https://www.thisdot.co/blog/creating-custom-scrollbars-with-react
+  - https://kingsora.github.io/OverlayScrollbars/
+  - https://github.com/buzinas/simple-scrollbar/
+  - https://github.com/Diokuz/react-baron
 - [ ] Memoization
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
   - https://www.npmjs.com/package/use-memo-one
@@ -302,11 +306,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-719034014
   - https://github.com/markusenglund/react-kanban/blob/master/src/app/components/Board/Board.jsx#L94-L105
   - https://codesandbox.io/s/simple-react-beautiful-dnd-board-v2cns (fail)
-- [ ] Custom Scrollbar
-  - https://www.thisdot.co/blog/creating-custom-scrollbars-with-react
-  - https://kingsora.github.io/OverlayScrollbars/
-  - https://github.com/buzinas/simple-scrollbar/
-  - https://github.com/Diokuz/react-baron
 
 ## Что нового (для меня) про вёрстку
 
