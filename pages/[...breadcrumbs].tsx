@@ -48,6 +48,7 @@ import {
   PictureOutlined,
   DownloadOutlined,
   SmileOutlined,
+  HeartOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -128,7 +129,7 @@ function getActionContent({ record, args, createdByLink }) {
             </div>
           )}
         </div>
-        <div className="text-xs leading-6 text-[var(--ds-text-subtle,#5e6c84)]">
+        <div className="text-[12px] leading-6 text-[var(--ds-text-subtle,#5e6c84)]">
           <Button
             className={cx(
               'mr-1 bg-transparent',
@@ -198,11 +199,20 @@ function getActionContent({ record, args, createdByLink }) {
   )
 }
 
-function CardDetailAction({ id, member, record, args, createdBy }) {
+// TODO: routing for highligted
+
+function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
   const actionUrl = '#'
   return (
-    <div className="relative ml-10 rounded-[3px] py-2 leading-5">
-      <div className="absolute left-[-40px] top-[8px]">
+    <div
+      className={cx(
+        highligted
+          ? 'border-l-[var(--ds-border-information,#0079bf)] bg-[var(--ds-background-information,#e4f0f6)]'
+          : 'border-transparent',
+        'relative ml-[-12px] border-l-4 py-2 pl-12 pr-0.5 leading-5',
+      )}
+    >
+      <div className="absolute top-2 left-2">
         <MemberIcon {...member} />
       </div>
       <button
@@ -395,7 +405,7 @@ function CardDetailActions({ actions }) {
       }
     >
       <CommentBoxState>
-        <div className="relative ml-10 mb-3">
+        <div className="relative ml-10 mb-3 pr-0.5">
           <CommentBox
             avatar={
               <Avatar
@@ -407,7 +417,7 @@ function CardDetailActions({ actions }) {
             isNewComment
           />
         </div>
-        {actions.map((action) => (
+        {actions.map((action, id) => (
           <CardDetailAction key={action.id} {...action} />
         ))}
       </CommentBoxState>
@@ -780,7 +790,7 @@ function CardDetailDescription() {
 }
 
 function BoardTitle({ children }) {
-  return <h3 className="truncate text-base font-semibold leading-5">{children}</h3>
+  return <h3 className="truncate text-[16px] font-semibold leading-5">{children}</h3>
 }
 
 function HorizontalDivider() {
@@ -1060,7 +1070,7 @@ function CardDetailMembers({ members }) {
 
 function CardDetailItemTitle({ children }) {
   return (
-    <h3 className="mr-2 mb-1 truncate text-xs font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+    <h3 className="mr-2 mb-1 truncate text-[12px] font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
       {children}
     </h3>
   )
@@ -1188,7 +1198,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           <div className="absolute top-3 left-2 flex h-8 w-8 justify-center">
             <DatabaseOutlined className="scale-125" />
           </div>
-          <span className="text-base leading-8">Архивная карточка</span>
+          <span className="text-[16px] leading-8">Архивная карточка</span>
         </div>
       )}
       <div className="relative px-12 pt-3 pb-2">
@@ -1196,7 +1206,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
-          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-xl font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
+          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
           bordered={false}
           spellCheck={false}
           // ref={inputRef}
@@ -2803,7 +2813,7 @@ function BoardPage(props: IProps) {
     <div
       id="chrome-container"
       // className="body-dark-board-background"
-      className="h-full bg-[#cd5a91]" // overflow-hidden
+      className="h-full bg-[#cd5a91] p-4" // overflow-hidden
     >
       <div id="surface" className="flex h-full flex-col">
         <div className="max-h-[44px] min-h-[44px] overflow-hidden">
@@ -2816,8 +2826,9 @@ function BoardPage(props: IProps) {
               className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-[var(--dynamic-button-hovered)]"
               aria-label="Вернуться на главную страницу"
             >
-              <div className="h-8 text-[18px] font-bold leading-8 text-[var(--dynamic-text)]">
-                CSP
+              <div className="flex h-8 items-center gap-1 text-[18px] font-bold leading-8 text-[var(--dynamic-text)]">
+                <HeartOutlined />
+                Secret
               </div>
             </Link>
             <InFavoritesButton favorites={favorites} onDelete={handleDeleteFavorites} />
