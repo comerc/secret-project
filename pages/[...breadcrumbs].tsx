@@ -2813,7 +2813,7 @@ function BoardPage(props: IProps) {
     <div
       id="chrome-container"
       // className="body-dark-board-background"
-      className="h-full bg-[#cd5a91] p-4" // overflow-hidden
+      className="h-full bg-[#cd5a91]" // overflow-hidden
     >
       <div id="surface" className="flex h-full flex-col">
         <div className="max-h-[44px] min-h-[44px] overflow-hidden">
