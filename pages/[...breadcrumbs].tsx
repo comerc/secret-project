@@ -152,12 +152,14 @@ function getActionContent({ record, args, createdByLink }) {
         <div className="pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
           <Button
             className={cx(
-              'mr-1 bg-transparent',
+              'm-[-4px] box-content p-[4px]',
+              // TODO: так же увеличить кликабельную область для ссылок (по высоте, минимум 24px)
+              'bg-transparent',
               'text-[var(--ds-icon-subtle,#6b778c)]',
               'hover:text-[var(--ds-icon-accent-gray,#172b4d)]',
-              'h-4 w-4 rounded-none border-0 p-0 leading-4 shadow-none',
+              'h-4 w-4 rounded-[3px] border-0 leading-4 shadow-none',
             )}
-            // TODO: как увеличить кликабельную область?
+            title="Добавить реакцию"
             icon={
               <SmileOutlined
                 className="scale-95"
@@ -167,6 +169,7 @@ function getActionContent({ record, args, createdByLink }) {
               />
             }
           />
+          <InlineSpacer />
           {isLoading ? (
             <div className="inline-block select-none [&>:last-child]:ml-1">
               {'• '}
