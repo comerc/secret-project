@@ -49,6 +49,7 @@ import {
   DownloadOutlined,
   SmileOutlined,
   HeartOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -105,8 +106,24 @@ function InlineSpacer() {
   return <span className="inline-block min-w-[4px]" />
 }
 
+function ActionSpin() {
+  return (
+    <Button
+      className="mr-1 h-5 cursor-default rounded-[3px] border-0 bg-transparent p-0 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none"
+      icon={<LoadingOutlined />}
+      size="small"
+      onClick={() => {
+        // TODO: отмена отправки
+      }}
+    >
+      Отправка…
+    </Button>
+  )
+}
+
 function getActionContent({ record, args, createdByLink }) {
   const fn = actionRecords[record]
+  const isLoading = false
   if (record === 'comment') {
     const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
     const [isEditComment, setIsEditComment] = React.useState(false)
@@ -118,7 +135,7 @@ function getActionContent({ record, args, createdByLink }) {
     return (
       <>
         <InlineSpacer />
-        {createdByLink}
+        {isLoading || createdByLink}
         {/* // TODO: (изменён) */}
         <div className="my-1 ">
           {isExpanded && isEditComment ? (
@@ -129,14 +146,15 @@ function getActionContent({ record, args, createdByLink }) {
             </div>
           )}
         </div>
-        <div className="text-[12px] leading-6 text-[var(--ds-text-subtle,#5e6c84)]">
+        <div className="pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
           <Button
             className={cx(
               'mr-1 bg-transparent',
               'text-[var(--ds-icon-subtle,#6b778c)]',
               'hover:text-[var(--ds-icon-accent-gray,#172b4d)]',
-              'h-6 w-4 rounded-none border-0 p-0 leading-6 shadow-none',
+              'h-4 w-4 rounded-none border-0 p-0 leading-4 shadow-none',
             )}
+            // TODO: как увеличить кликабельную область?
             icon={
               <SmileOutlined
                 className="scale-95"
@@ -145,24 +163,33 @@ function getActionContent({ record, args, createdByLink }) {
                 }}
               />
             }
-          ></Button>
-          <LinkButton
-            onClick={() => {
-              setIsEditComment(true)
-              setIsExpanded(true)
-            }}
-          >
-            Изменить
-          </LinkButton>
-          <LinkButton
-            onClick={() => {
-              // TODO: удалить комментарий
-              Modal.confirm()
-            }}
-          >
-            Удалить
-          </LinkButton>
-          {/* // TODO: • В этом поле есть несохранённые изменения */}
+          />
+          {isLoading ? (
+            <div className="inline-block select-none [&>:last-child]:ml-1">
+              {'• '}
+              <ActionSpin />
+            </div>
+          ) : (
+            <>
+              <LinkButton
+                onClick={() => {
+                  setIsEditComment(true)
+                  setIsExpanded(true)
+                }}
+              >
+                Изменить
+              </LinkButton>
+              <LinkButton
+                onClick={() => {
+                  // TODO: удалить комментарий
+                  Modal.confirm()
+                }}
+              >
+                Удалить
+              </LinkButton>
+              {/* // TODO: • В этом поле есть несохранённые изменения */}
+            </>
+          )}
         </div>
       </>
     )
@@ -175,18 +202,25 @@ function getActionContent({ record, args, createdByLink }) {
           {getFilename(args.url)}
         </a>{' '}
         <InlineSpacer />
-        {createdByLink}
+        {isLoading || createdByLink}
         {/* // TODO: картинка */}
         {/* <div>{args.thumbnail}</div> */}
         <div>
-          <button
-            className="text-xs text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
-            onClick={() => {
-              // TODO: заполнить коммент ссылкой на текущий action
-            }}
-          >
-            Ответить
-          </button>
+          {isLoading ? (
+            <ActionSpin />
+          ) : (
+            <>
+              <button
+                className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
+                onClick={() => {
+                  // TODO: заполнить коммент ссылкой на текущий action
+                }}
+              >
+                Ответить
+              </button>
+              {/* // TODO: • В этом поле есть несохранённые изменения */}
+            </>
+          )}
         </div>
       </>
     )
@@ -194,7 +228,16 @@ function getActionContent({ record, args, createdByLink }) {
   return (
     <>
       {fn(args)}
-      <div>{createdByLink}</div>
+      <div>
+        {isLoading ? (
+          <ActionSpin />
+        ) : (
+          <>
+            {createdByLink}
+            {/* // TODO: В этом поле есть несохранённые изменения */}
+          </>
+        )}
+      </div>
     </>
   )
 }
@@ -230,7 +273,7 @@ function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
         args,
         createdByLink: (
           <a
-            className="whitespace-pre text-xs text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
+            className="whitespace-pre text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
             href={actionUrl}
             onClick={() => {
               event.preventDefault()
@@ -674,7 +717,7 @@ function Dropzone() {
 
 function LinkButton({ onClick, children }) {
   return (
-    <div className="mr-1 inline-block">
+    <div className="mr-1 inline-block select-none">
       {'• '}
       <a
         role="button"
