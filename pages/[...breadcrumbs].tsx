@@ -84,6 +84,8 @@ import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 
+// TODO: выделение-копирование текста должно выполняться с пробелами независимо от отступов HTML-элементов и пропуская "лишние" контролы
+
 // TODO: CardDetailChecklist(s)
 
 const myThumbnail = 'https://avatars.githubusercontent.com/u/1025241?s=32&v=4'
@@ -134,6 +136,7 @@ function getActionContent({ record, args, createdByLink }) {
     }, [isExpanded])
     return (
       <>
+        {' '}
         <InlineSpacer />
         {isLoading || createdByLink}
         {/* // TODO: (изменён) */}
@@ -197,14 +200,28 @@ function getActionContent({ record, args, createdByLink }) {
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
     return (
       <>
+        {' '}
         {fn()}{' '}
-        <a href={args.url} className="text-[var(--ds-link,#172b4d)] underline">
+        <a
+          className="text-[var(--ds-link,#172b4d)] underline"
+          // для поддержки контекстного меню по правой кнопки мышки
+          href={args.url}
+          onClick={(event) => {
+            event.preventDefault()
+          }}
+        >
           {getFilename(args.url)}
         </a>{' '}
         <InlineSpacer />
         {isLoading || createdByLink}
-        {/* // TODO: картинка */}
-        {/* <div>{args.thumbnail}</div> */}
+        {args.thumbnail && (
+          <a target="_blank" href={args.url}>
+            <img
+              className="action-image-preview mt-2 mb-1 max-h-[500px] max-w-full rounded-[3px]"
+              src={args.thumbnail}
+            />
+          </a>
+        )}
         <div>
           {isLoading ? (
             <ActionSpin />
@@ -227,6 +244,7 @@ function getActionContent({ record, args, createdByLink }) {
   }
   return (
     <>
+      {' '}
       {fn(args)}
       <div>
         {isLoading ? (
@@ -260,7 +278,7 @@ function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
       </div>
       <button
         title={`${member.name.first} ${member.name.last} (${member.login.username})`}
-        className="mr-1 font-bold"
+        className="font-bold"
         onClick={() => {
           // event.preventDefault()
           // TODO: popup профиля
@@ -527,7 +545,6 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
       }}
     >
       <a
-        // для поддержки контекстного меню по правой кнопки мышки
         className={cx(
           thumbnail ? '' : fileExtension ? 'text-lg' : 'text-base',
           'absolute top-[50%] flex h-[80px] w-[112px] translate-y-[-50%] items-center justify-center overflow-hidden rounded-[3px] bg-[var(--background-color)] font-bold text-[var(--ds-text-subtle,#5e6c84)]',
@@ -538,6 +555,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
               ? `var(--ds-background-thumbnail,rgb(${thumbnailColor[0]},${thumbnailColor[1]},${thumbnailColor[2]}))`
               : 'var(--ds-background-neutral,#091e420a)',
         }}
+        // для поддержки контекстного меню по правой кнопки мышки
         href={url}
         onClick={(event) => {
           event.preventDefault()
@@ -1780,8 +1798,8 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       createdBy: '2023-02-23 20:21:22',
       record: 'addAttachment',
       args: {
-        url: '/attachments/transparent1.png',
-        thumbnail: '/attachments/previews/transparent1.png',
+        url: '/attachments/screen1.png',
+        thumbnail: '/attachments/previews/screen1.png',
       },
     },
     {

@@ -23,6 +23,14 @@
   }
 }
 
+.action-image-preview {
+  box-shadow: 0 0 0 1px var(--ds-border, #dfe1e6);
+}
+
+.action-image-preview:hover {
+  box-shadow: 0 0 0 1px var(--ds-border, #a5adba);
+}
+
 .action-comment {
   box-shadow: var(
     --ds-shadow-raised,
