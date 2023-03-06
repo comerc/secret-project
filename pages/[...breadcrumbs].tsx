@@ -67,6 +67,7 @@ import {
   Divider,
   theme,
   // TODO: renderCloseIcon,
+  Progress,
 } from 'antd'
 import type { MenuProps } from 'antd'
 import cx from 'classnames'
@@ -84,9 +85,186 @@ import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 
-// TODO: выделение-копирование текста должно выполняться с пробелами независимо от отступов HTML-элементов и пропуская "лишние" контролы
+function ChecklistNewItemText({}) {
+  const inputRef = React.useRef()
+  React.useEffect(() => {
+    inputRef.current.focus()
+  }, [])
+  return (
+    <Input.TextArea
+      // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
+      className="min-h-[32px] resize-y overflow-hidden border-0 bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]"
+      placeholder="Добавить элемент"
+      bordered={false}
+      ref={inputRef}
+      autoSize={{ minRows: 2 }}
+    />
+  )
+}
 
-// TODO: CardDetailChecklist(s)
+function ChecklistNewItem() {
+  const [isEdit, setIsEdit] = React.useState(false)
+  const ref = React.useRef()
+  useOnClickOutside(ref, (event) => {
+    // if (isHTMLControl(event.target, ref.current)) {
+    //   return
+    // }
+    setIsEdit(false)
+  })
+  return isEdit ? (
+    <div className="mt-[6px]" ref={ref}>
+      <ChecklistNewItemText />
+    </div>
+  ) : (
+    <div className="mt-2">
+      <CardDetailButton
+        onClick={() => {
+          setIsEdit(true)
+        }}
+      >
+        Добавить элемент
+      </CardDetailButton>
+    </div>
+  )
+}
+
+function CardDetailChecklistItemButton({ icon, circle, transparent }) {
+  return (
+    <Button
+      className={cx(
+        'text-[var(--ds-text,#172b4d)]',
+        'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
+        'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
+        'h-6 w-6 border-0 leading-4 shadow-none',
+        circle ? 'rounded-[50%]' : 'rounded-[3px]',
+        // TODO: это баг или фича? два раза используется alpha от #091e420a
+        transparent ? 'bg-transparent' : 'bg-[var(--ds-background-neutral-subtle,#091e420a)]',
+      )}
+      icon={icon}
+    />
+  )
+}
+
+function CardDetailChecklistItem({ text }) {
+  const complete = true // TODO: complete
+  return (
+    // TODO: в оригинале тут анимация для hover между чекбоксами
+    <div className="relative rounded-[3px] pl-10 hover:bg-[var(--ds-background-neutral,#091e420a)] [&:hover>.checklist-item-text-and-controls>.checklist-item-controls]:z-0">
+      <Checkbox className="absolute top-[8px] left-[4px] m-[-6px] box-content h-5 w-5 justify-center p-[6px]" />
+      <div className="checklist-item-text-and-controls flex cursor-pointer py-[6px]">
+        <span
+          className={cx(
+            complete
+              ? 'text-[var(--ds-text-subtle,#5e6c84)] line-through'
+              : 'text-[var(--ds-text,#172b4d)]',
+            'flex-1 self-center leading-5',
+          )}
+        >
+          {text}
+        </span>
+        <div
+          // HACK: visible выполняется с transition, a если z-index - без него
+          className="checklist-item-controls z-[-1] ml-1 inline-flex gap-1"
+        >
+          <CardDetailChecklistItemButton icon={<ClockCircleOutlined className="scale-95" />} />
+          <CardDetailChecklistItemButton icon={<UserAddOutlined className="scale-95" />} circle />
+          <CardDetailChecklistItemButton
+            icon={<EllipsisOutlined className="scale-95" />}
+            transparent
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CardDetailChecklist({ title, items }) {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  const checkedCount = 1
+  const percent = 80
+  return (
+    <CardDetailSection
+      icon={<CheckSquareOutlined className="scale-125" />}
+      title={title}
+      right
+      actions={
+        <div className="flex flex-wrap gap-2">
+          <CardDetailButton
+            onClick={() => {
+              setIsExpanded(!isExpanded)
+            }}
+          >
+            {isExpanded
+              ? `Показать отмеченные элементы (${checkedCount})`
+              : 'Скрывать отмеченные элементы'}
+          </CardDetailButton>
+          <CardDetailButton onClick={() => {}}>Удалить</CardDetailButton>
+        </div>
+      }
+      // TODO: isEditTitle={true}
+    >
+      <div className="relative mb-2 leading-[10px]">
+        <span className="absolute top-[1px] w-8 text-center text-[11px] text-[var(--ds-text-subtle,#5e6c84)]">
+          {percent}%
+        </span>
+        <div className="ml-10 ">
+          <Progress
+            className="m-0 leading-[10px] [&>.ant-progress-outer>.ant-progress-inner]:rounded-full"
+            strokeColor={
+              percent === 100
+                ? 'var(--ds-background-success-bold,#61bd4f)'
+                : 'var(--ds-background-accent-blue-subtle,#5ba4cf)'
+            }
+            strokeLinecap="square"
+            percent={percent}
+            showInfo={false}
+          ></Progress>
+        </div>
+      </div>
+      <div className="mb-2 ml-10 leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+        Отмечены все элементы!
+      </div>
+      <div
+      // TODO: drag'n'drop элементов
+      >
+        {items.map((item) => (
+          <CardDetailChecklistItem key={item.id} {...item} />
+        ))}
+      </div>
+      <div className="ml-10">
+        <ChecklistNewItem />
+      </div>
+      {/* // TODO: "В этом списке слишком много элементов. Удалите некоторые из них, чтобы добавить новые." - как минимум, можно добавить 100 элементов (дальше не проверял) */}
+    </CardDetailSection>
+  )
+}
+
+function CardDetailChecklistList() {
+  const lists = [
+    {
+      id: 'checklist-1',
+      title: 'Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1',
+      items: [
+        {
+          id: 'item-1-1',
+          text: 'ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ',
+        },
+        { id: 'item-1-2', text: 'element2' },
+      ],
+    },
+    {
+      id: 'checklist-2',
+      title: 'Чек-лист2',
+      items: [
+        { id: 'item-2-1', text: 'element1' },
+        { id: 'item-2-2', text: 'element2' },
+      ],
+    },
+  ]
+  return lists.map((list) => <CardDetailChecklist key={list.id} {...list} />)
+}
+
+// TODO: выделение-копирование текста должно выполняться с пробелами независимо от отступов HTML-элементов и пропуская "лишние" контролы
 
 const myThumbnail = 'https://avatars.githubusercontent.com/u/1025241?s=32&v=4'
 
@@ -149,7 +327,7 @@ function getActionContent({ record, args, createdByLink }) {
             </div>
           )}
         </div>
-        <div className="pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+        <div className="flex flex-wrap items-center pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
           <Button
             className={cx(
               'm-[-4px] box-content p-[4px]',
@@ -193,7 +371,7 @@ function getActionContent({ record, args, createdByLink }) {
               >
                 Удалить
               </LinkButton>
-              {/* // TODO: • В этом поле есть несохранённые изменения */}
+              {/* // TODO: <div>• В этом поле есть несохранённые изменения</div> */}
             </>
           )}
         </div>
@@ -277,6 +455,7 @@ function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
       )}
     >
       <div className="absolute top-2 left-2">
+        {/* // TODO: надо 32px и без бардюра */}
         <MemberIcon {...member} />
       </div>
       <button
@@ -324,8 +503,8 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
   const { setIsExpanded } = React.useContext(CommentBoxContext)
   const [isFocused, setIsFocused] = React.useState(!isNewComment)
   const [isShowControls, setIsShowControls] = React.useState(defaultValue !== '')
-  const ref = React.useRef(null)
-  const inputRef = React.useRef(null)
+  const ref = React.useRef()
+  const inputRef = React.useRef()
   if (isNewComment) {
     useOnClickOutside(ref, (event) => {
       if (isShowControls || isHTMLControl(event.target, ref.current)) {
@@ -361,6 +540,8 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
       > */}
         {/* <Form.Item> */}
         <Input.TextArea
+          // TODO: Вы ничего не написали!
+          // TODO: Ваш комментарий слишком длинный.
           placeholder={isNewComment ? 'Напишите комментарий…' : null}
           className={cx(
             isFocused
@@ -369,7 +550,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
               ? ''
               : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
             isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
-            'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+            'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
           )}
           bordered={false}
           // ref={inputRef}
@@ -447,9 +628,6 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
 }
 
 function CardDetailActions({ actions }) {
-  {
-    /* <FileDoneOutlined  className="scale-125"/> */
-  }
   const [isExpanded, setIsExpanded] = React.useState(false)
   // const [form] = Form.useForm()
   // const [value, setValue] = React.useState('')
@@ -457,9 +635,9 @@ function CardDetailActions({ actions }) {
     <CardDetailSection
       icon={<FileDoneOutlined className="scale-125" />}
       title="Действия"
-      headerActions={
+      right
+      actions={
         <CardDetailButton
-          className="float-right ml-2"
           onClick={() => {
             setIsExpanded(!isExpanded)
           }}
@@ -481,24 +659,40 @@ function CardDetailActions({ actions }) {
             isNewComment
           />
         </div>
-        {actions.map((action, id) => (
-          <CardDetailAction key={action.id} {...action} />
-        ))}
+        {actions.map(
+          (action, id) =>
+            (isExpanded || action.record === 'comment') && (
+              <CardDetailAction key={action.id} {...action} />
+            ),
+        )}
       </CommentBoxState>
-      <CardDetailButton>Показать все действия…</CardDetailButton>
+      {/* <CardDetailButton
+        onClick={() => {
+          // TODO: Показать все действия
+        }}
+      >
+        Показать все действия…
+      </CardDetailButton> */}
     </CardDetailSection>
   )
 }
 
-function CardDetailSection({ icon, title, headerActions, children }) {
+function CardDetailSection({ icon, title, actions, right = false, isEditTitle = false, children }) {
   return (
     <WindowModule>
-      <div className="relative mb-1 ml-10 flex h-12 items-center py-2">
+      <div className="relative mb-1 ml-10 flex flex-wrap py-2">
         <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center text-base">
           {icon}
         </div>
-        <BoardTitle>{title}</BoardTitle>
-        {headerActions && <div className="grow">{headerActions}</div>}
+        {isEditTitle ? (
+          <div>EDIT</div>
+        ) : (
+          <>
+            <BoardTitle>{title}</BoardTitle>
+            <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
+            {actions}
+          </>
+        )}
       </div>
       {children}
     </WindowModule>
@@ -771,9 +965,8 @@ function CardDetailDescription() {
     <CardDetailSection
       icon={<ContainerOutlined className="scale-125" />}
       title="Описание"
-      headerActions={
+      actions={
         <CardDetailButton
-          className="ml-2"
           onClick={() => {
             setIsMore(false)
             setIsEdit(true)
@@ -854,7 +1047,7 @@ function CardDetailDescription() {
 }
 
 function BoardTitle({ children }) {
-  return <h3 className="truncate text-[16px] font-semibold leading-5">{children}</h3>
+  return <h3 className="my-[6px] text-[16px] font-semibold leading-5">{children}</h3>
 }
 
 function HorizontalDivider() {
@@ -1163,7 +1356,7 @@ function CardDetailButton({
     <Button
       className={cx(
         shape === 'default' && 'rounded-[3px]',
-        'border-0 leading-5 shadow-none',
+        'h-auto min-h-[32px] border-0 leading-5 shadow-none',
         colors ||
           [
             'text-[var(--ds-text,inherit)]',
@@ -1173,7 +1366,7 @@ function CardDetailButton({
             'active:text-[var(--ds-text,#0079bf)]',
           ].join(' '),
         // indent && 'mr-1 mb-1',
-        children && 'px-3', // : 'w-8 px-0',
+        children && 'whitespace-normal px-3 text-left', // : 'w-8 px-0',
         className,
       )}
       {...{ shape, icon, onClick, disabled }}
@@ -1270,9 +1463,8 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
-          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] focus:bg-[var(--ds-background-input,#fff)]"
+          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
           bordered={false}
-          spellCheck={false}
           // ref={inputRef}
           autoSize
           // aria-label={name}
@@ -1343,6 +1535,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}
         <CardDetailAttachments />
+        <CardDetailChecklistList />
         <CardDetailActions {...{ actions }} />
       </div>
       <WindowSidebar {...{ isArchive, setIsArchive }} />
@@ -1591,7 +1784,7 @@ function ListHeader({ name }) {
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
-        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] focus:bg-[var(--ds-background-input,#fff)]"
+        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
         bordered={false}
         spellCheck={false}
         ref={inputRef}
@@ -1638,7 +1831,7 @@ function ListFooter() {
   return (
     <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
       <Button
-        className="h-[28px] w-full rounded-[3px] border-0 bg-transparent px-2 py-1 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+        className="h-[28px] w-full rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<PlusOutlined />}
       >
         Добавить карточку
@@ -2210,7 +2403,7 @@ function FilterButton() {
           >
             <Input
               placeholder="Введите ключевое слово…"
-              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
             />
           </Form.Item>
           <Form.Item label="Участники">
@@ -2665,7 +2858,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         className={cx(
           'absolute top-0 left-0 right-0 bottom-0',
           'h-[32px] rounded-[3px] px-3 py-0 text-[18px] font-bold leading-5',
-          'bg-[var(--ds-background-input,#fff)]',
+          'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
           state.isInput || 'hidden',
         )}
         bordered={false}
@@ -2732,13 +2925,13 @@ function Search({ defaultValue, close }) {
   React.useEffect(() => {
     inputRef.current.focus()
   }, [])
-  const ref = React.useRef(null)
+  const ref = React.useRef()
   useOnClickOutside(ref, close)
   return (
     <div ref={ref}>
       <Input
         ref={inputRef}
-        className="pointer-events-auto rounded-[5px] border border-solid border-[var(--ds-border-focused,#388BFF)] bg-[white] pl-1"
+        className="pointer-events-auto rounded-[5px] border border-solid border-[var(--ds-border-focused,#388BFF)] bg-[white] pl-1 text-[var(--ds-text,#172b4d)]"
         bordered={false}
         placeholder="Поиск в CSP"
         prefix={<SearchPrefixIcon />}

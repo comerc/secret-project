@@ -184,7 +184,7 @@
 /* Fix of vertical-align: -0.125em; */
 .anticon {
   /* vertical-align: unset !important; */
-  vertical-align: 1px !important;
+  vertical-align: 0.1em !important;
 }
 .ant-btn {
   /* display: inline-flex !important; */
