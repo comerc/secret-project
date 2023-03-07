@@ -50,6 +50,7 @@ import {
   SmileOutlined,
   HeartOutlined,
   LoadingOutlined,
+  FireOutlined,
 } from '@ant-design/icons'
 import {
   // Layout,
@@ -85,41 +86,107 @@ import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 
-function ChecklistNewItemText({}) {
-  const inputRef = React.useRef()
-  React.useEffect(() => {
-    inputRef.current.focus()
-  }, [])
-  return (
-    <Input.TextArea
-      // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
-      className="min-h-[32px] resize-y overflow-hidden border-0 bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]"
-      placeholder="Добавить элемент"
-      bordered={false}
-      ref={inputRef}
-      autoSize={{ minRows: 2 }}
-    />
-  )
-}
-
 function ChecklistNewItem() {
   const [isEdit, setIsEdit] = React.useState(false)
   const ref = React.useRef()
+  const inputRef = React.useRef()
   useOnClickOutside(ref, (event) => {
-    // if (isHTMLControl(event.target, ref.current)) {
-    //   return
-    // }
+    if (isHTMLControl(event.target, ref.current)) {
+      return
+    }
     setIsEdit(false)
   })
+  const [value, setValue] = React.useState('')
   return isEdit ? (
-    <div className="mt-[6px]" ref={ref}>
-      <ChecklistNewItemText />
+    <div className="mt-[6px]">
+      <div ref={ref}>
+        <Input.TextArea
+          // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
+          className="focus-borderless focused-input min-h-[32px] resize-y overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]"
+          placeholder="Добавить элемент"
+          bordered={false}
+          ref={inputRef}
+          autoSize={{ minRows: 2 }}
+          value={value}
+          onChange={(event) => {
+            setValue(event.target.value)
+          }}
+        />
+      </div>
+      <div className="mt-2 flex gap-1">
+        <CardDetailButton
+          primary
+          onClick={() => {
+            if (value.trim() === '') {
+              inputRef.current.focus()
+              return
+            }
+            setIsEdit(false)
+            console.log('1111')
+          }}
+        >
+          Добавить
+        </CardDetailButton>
+        <CardDetailButton
+          ghost
+          onClick={() => {
+            setIsEdit(false)
+            console.log('2222')
+          }}
+        >
+          Отмена
+        </CardDetailButton>
+        <div className="ml-[-8px] grow" />
+        <CardDetailButton
+          truncated
+          ghost
+          icon={<UserAddOutlined />}
+          onClick={() => {
+            console.log('3333')
+          }}
+        >
+          Назначить
+        </CardDetailButton>
+        <CardDetailButton
+          className="min-w-[96px]"
+          truncated
+          ghost
+          icon={<ClockCircleOutlined />}
+          onClick={() => {
+            console.log('4444')
+          }}
+        >
+          Срок
+        </CardDetailButton>
+        <CardDetailButton
+          className="min-w-[32px]"
+          ghost
+          icon={<FireOutlined />}
+          onClick={() => {
+            console.log('5555')
+          }}
+        />
+        <CardDetailButton
+          className="min-w-[32px]"
+          ghost
+          icon={<SmileOutlined />}
+          onClick={() => {
+            console.log('6666')
+          }}
+        />
+      </div>
     </div>
   ) : (
     <div className="mt-2">
       <CardDetailButton
         onClick={() => {
           setIsEdit(true)
+          setTimeout(() => {
+            inputRef.current.focus({
+              preventScroll: true,
+              cursor: 'all',
+            })
+          })
         }}
       >
         Добавить элемент
@@ -166,12 +233,9 @@ function CardDetailChecklistItem({ text }) {
           // HACK: visible выполняется с transition, a если z-index - без него
           className="checklist-item-controls z-[-1] ml-1 inline-flex gap-1"
         >
-          <CardDetailChecklistItemButton icon={<ClockCircleOutlined className="scale-95" />} />
-          <CardDetailChecklistItemButton icon={<UserAddOutlined className="scale-95" />} circle />
-          <CardDetailChecklistItemButton
-            icon={<EllipsisOutlined className="scale-95" />}
-            transparent
-          />
+          <CardDetailChecklistItemButton icon={<ClockCircleOutlined />} />
+          <CardDetailChecklistItemButton icon={<UserAddOutlined />} circle />
+          <CardDetailChecklistItemButton icon={<EllipsisOutlined />} transparent />
         </div>
       </div>
     </div>
@@ -340,7 +404,6 @@ function getActionContent({ record, args, createdByLink }) {
             title="Добавить реакцию"
             icon={
               <SmileOutlined
-                className="scale-95"
                 onClick={() => {
                   // TODO: добавить смайлик для комментария
                 }}
@@ -550,7 +613,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
               ? ''
               : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
             isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
-            'focus-borderless box-content min-h-[20px] overflow-hidden leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+            'focus-borderless box-content min-h-[20px] overflow-hidden rounded-[3px] leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
           )}
           bordered={false}
           // ref={inputRef}
@@ -579,11 +642,12 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
           {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
           <CardDetailButton
             disabled={!isShowControls}
-            colors={
-              isShowControls
-                ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
-                : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
-            }
+            primary
+            // colors={
+            //   isShowControls
+            //     ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
+            //     : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
+            // }
             onClick={() => {
               console.log('2222')
             }}
@@ -606,16 +670,10 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
                 console.log('onClick')
               }}
             />
+            <CommentBoxOptionsButton icon={<FireOutlined />} title="Упомянуть участника…" />
+            <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
             <CommentBoxOptionsButton
-              icon={<UserAddOutlined className="scale-95" />}
-              title="Упомянуть участника…"
-            />
-            <CommentBoxOptionsButton
-              icon={<SmileOutlined className="scale-95" />}
-              title="Добавить эмодзи…"
-            />
-            <CommentBoxOptionsButton
-              icon={<CreditCardOutlined className="scale-95" rotate={180} />}
+              icon={<CreditCardOutlined rotate={180} />}
               title="Добавить карточку…"
             />
           </div>
@@ -1054,12 +1112,9 @@ function HorizontalDivider() {
   return <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
 }
 
-function WindowSidebarButton({ colors, icon, onClick, children }) {
+function WindowSidebarButton({ children, ...rest }) {
   return (
-    <CardDetailButton
-      className="mb-2 w-full max-w-[300px] text-start"
-      {...{ colors, icon, onClick }}
-    >
+    <CardDetailButton className="mb-2 w-full" truncated {...rest}>
       {children}
     </CardDetailButton>
   )
@@ -1120,12 +1175,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
         {isArchive && (
           <WindowSidebarButton
             icon={<MinusOutlined />}
-            colors={cx(
-              'text-[var(--ds-text-inverse,#fff)]',
-              'bg-[var(--ds-background-danger-bold,#b04632)]',
-              'hover:bg-[var(--ds-background-danger-bold-hovered,#933b27)]',
-              'active:bg-[var(--ds-background-danger-bold-pressed,#6e2f1a)]',
-            )}
+            danger
             onClick={() => {
               // TODO: подтверждение удаления карточки
             }}
@@ -1345,28 +1395,53 @@ function CardDetailItem({ title, children }) {
 // TODO: объединить с BoardHeaderButton - формировать className, а не врапить Button
 function CardDetailButton({
   className,
-  colors,
   icon,
   shape = 'default',
   children,
   onClick,
   disabled,
+  ghost,
+  primary,
+  danger,
+  truncated,
 }) {
   return (
     <Button
       className={cx(
+        truncated
+          ? 'flex items-center overflow-hidden [&>:last-child]:truncate'
+          : 'whitespace-normal',
+        children && 'px-3 text-start', // : 'w-8 px-0',
+        // indent && 'mr-1 mb-1',
         shape === 'default' && 'rounded-[3px]',
         'h-auto min-h-[32px] border-0 leading-5 shadow-none',
-        colors ||
-          [
-            'text-[var(--ds-text,inherit)]',
-            'bg-[var(--ds-background-neutral,rgba(9,30,66,0.04))]',
-            'hover:bg-[var(--ds-background-neutral-hovered,rgba(9,30,66,0.08))]',
-            'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
-            'active:text-[var(--ds-text,#0079bf)]',
-          ].join(' '),
-        // indent && 'mr-1 mb-1',
-        children && 'whitespace-normal px-3 text-left', // : 'w-8 px-0',
+        (disabled
+          ? [
+              'text-[var(--ds-text-disabled,#a5adba)]',
+              'bg-[var(--ds-background-disabled,#091e420a)]',
+            ]
+          : danger
+          ? [
+              'text-[var(--ds-text-inverse,#fff)]',
+              'bg-[var(--ds-background-danger-bold,#b04632)]',
+              'hover:bg-[var(--ds-background-danger-bold-hovered,#933b27)]',
+              'active:bg-[var(--ds-background-danger-bold-pressed,#6e2f1a)]',
+            ]
+          : primary
+          ? [
+              'text-[var(--ds-text-inverse,#fff)]',
+              'bg-[var(--ds-background-brand-bold,#0079bf)]',
+              'hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)]',
+              'active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]',
+            ]
+          : [
+              'text-[var(--ds-text,inherit)]',
+              ghost ? 'bg-transparent' : 'bg-[var(--ds-background-neutral,#091e420a)]',
+              'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
+              'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
+              'active:text-[var(--ds-text,#0079bf)]',
+            ]
+        ).join(' '),
         className,
       )}
       {...{ shape, icon, onClick, disabled }}
@@ -1428,7 +1503,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
   const start = dayjs('2023-02-23')
   const deadline = dayjs('2023-02-24')
   const isDrag = false // TODO: перетаскивание файлов
-  const [isArchive, setIsArchive] = React.useState(false) // TODO: архивация карточки
+  const [isArchive, setIsArchive] = React.useState(true) // TODO: архивация карточки
   const isSubscribed = true // TODO: подписка на карточку
   return (
     <Modal
@@ -1463,7 +1538,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
-          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
+          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
           bordered={false}
           // ref={inputRef}
           autoSize
@@ -1784,7 +1859,7 @@ function ListHeader({ name }) {
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
-        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] border-0 bg-transparent px-2 py-1 font-semibold leading-[20px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
+        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-[20px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
         bordered={false}
         spellCheck={false}
         ref={inputRef}
@@ -1831,7 +1906,7 @@ function ListFooter() {
   return (
     <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
       <Button
-        className="h-[28px] w-full rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+        className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
       >
         Добавить карточку
@@ -2403,7 +2478,7 @@ function FilterButton() {
           >
             <Input
               placeholder="Введите ключевое слово…"
-              className="mt-[-2px] bg-[var(--ds-background-input,#fafbfc)] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+              className="mt-[-2px] rounded-[3px] bg-[var(--ds-background-input,#fafbfc)] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
             />
           </Form.Item>
           <Form.Item label="Участники">

@@ -217,12 +217,14 @@ html {
 /* fix border */
 .ant-input {
   border-width: 0 !important;
-  border-radius: 3px !important;
 }
 .ant-input:not(.ant-input-borderless) {
   box-shadow: inset 0 0 0 2px var(--ds-border-input, #dfe1e6) !important;
 }
 .ant-input:focus:not(.focus-borderless) {
+  box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
+}
+.focused-input {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
 }
 
