@@ -398,6 +398,7 @@ function CardDetailChecklist({ title, items }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   const checkedCount = 1
   const percent = 80
+  // TODO: у Checklist тоже есть drag'n'drop
   return (
     <CardDetailSection
       getCustomTitleBox={getChecklistTitleBox}
@@ -905,7 +906,7 @@ function CardDetailActions({ actions }) {
 function CardDetailSection({ icon, title, actions, right = false, getCustomTitleBox, children }) {
   const getDefaultTitleBox = ({ onClick }) => (
     <div className="flex flex-wrap" onClick={onClick}>
-      <BoardTitle>{title}</BoardTitle>
+      <BoardTitle className={cx(onClick && 'cursor-pointer')}>{title}</BoardTitle>
       <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
       {actions}
     </div>
@@ -1270,8 +1271,10 @@ function CardDetailDescription() {
   )
 }
 
-function BoardTitle({ children }) {
-  return <h3 className="my-[6px] text-[16px] font-semibold leading-5">{children}</h3>
+function BoardTitle({ className, children }) {
+  return (
+    <h3 className={cx('my-[6px] text-[16px] font-semibold leading-5', className)}>{children}</h3>
+  )
 }
 
 function HorizontalDivider() {
