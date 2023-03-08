@@ -224,8 +224,11 @@ html {
 .ant-input:focus:not(.focus-borderless) {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
 }
-.focused-input {
+.border-for-new-checkbox-item {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
+}
+.border-for-edit-checkbox-item {
+  box-shadow: inset 0 0 0 1px var(--ds-border-input, #091e4221) !important;
 }
 
 /* base font */

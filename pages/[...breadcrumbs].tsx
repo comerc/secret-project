@@ -86,106 +86,51 @@ import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 
+function EditCloseButton({ onClick }) {
+  return (
+    <Button
+      className={cx(
+        [
+          'text-[var(--ds-icon,#42526e)]',
+          'bg-transparent',
+          'hover:text-[var(--ds-icon,#172b4d)]',
+          'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
+          'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
+        ].join(' '),
+        'min-w-[32px] rounded-[3px] border-0 bg-transparent shadow-none',
+      )}
+      aria-label="Отменить изменения"
+      icon={<CloseOutlined className="scale-125" />}
+      onClick={onClick}
+    />
+  )
+}
+
 function ChecklistNewItem() {
+  const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
-  const ref = React.useRef()
-  const inputRef = React.useRef()
-  useOnClickOutside(ref, (event) => {
-    if (isHTMLControl(event.target, ref.current)) {
-      return
-    }
-    setIsEdit(false)
-  })
+  // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
   const [value, setValue] = React.useState('')
   return isEdit ? (
-    <div className="mt-[6px]">
-      <div ref={ref}>
-        <Input.TextArea
-          // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
-          className="focus-borderless focused-input min-h-[32px] resize-y overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]"
-          placeholder="Добавить элемент"
-          bordered={false}
-          ref={inputRef}
-          autoSize={{ minRows: 2 }}
-          value={value}
-          onChange={(event) => {
-            setValue(event.target.value)
-          }}
-        />
-      </div>
-      <div className="mt-2 flex gap-1">
-        <CardDetailButton
-          primary
-          onClick={() => {
-            if (value.trim() === '') {
-              inputRef.current.focus()
-              return
-            }
-            setIsEdit(false)
-            console.log('1111')
-          }}
-        >
-          Добавить
-        </CardDetailButton>
-        <CardDetailButton
-          ghost
-          onClick={() => {
-            setIsEdit(false)
-            console.log('2222')
-          }}
-        >
-          Отмена
-        </CardDetailButton>
-        <div className="ml-[-8px] grow" />
-        <CardDetailButton
-          truncated
-          ghost
-          icon={<UserAddOutlined />}
-          onClick={() => {
-            console.log('3333')
-          }}
-        >
-          Назначить
-        </CardDetailButton>
-        <CardDetailButton
-          className="min-w-[96px]"
-          truncated
-          ghost
-          icon={<ClockCircleOutlined />}
-          onClick={() => {
-            console.log('4444')
-          }}
-        >
-          Срок
-        </CardDetailButton>
-        <CardDetailButton
-          className="min-w-[32px]"
-          ghost
-          icon={<FireOutlined />}
-          onClick={() => {
-            console.log('5555')
-          }}
-        />
-        <CardDetailButton
-          className="min-w-[32px]"
-          ghost
-          icon={<SmileOutlined />}
-          onClick={() => {
-            console.log('6666')
-          }}
-        />
-      </div>
-    </div>
+    <ChecklistItemBox
+      className="mt-[6px]"
+      value={value}
+      onChange={(event) => {
+        setValue(event.target.value)
+      }}
+      close={() => {
+        setIsEdit(false)
+      }}
+      isNew
+    />
   ) : (
     <div className="mt-2">
       <CardDetailButton
         onClick={() => {
-          setIsEdit(true)
+          setIsExpanded(false)
           setTimeout(() => {
-            inputRef.current.focus({
-              preventScroll: true,
-              cursor: 'all',
-            })
+            setIsExpanded(true)
+            setIsEdit(true)
           })
         }}
       >
@@ -195,7 +140,7 @@ function ChecklistNewItem() {
   )
 }
 
-function CardDetailChecklistItemButton({ icon, circle, transparent }) {
+function CardDetailChecklistItemButton({ icon, circle, transparent, onClick }) {
   return (
     <Button
       className={cx(
@@ -207,37 +152,199 @@ function CardDetailChecklistItemButton({ icon, circle, transparent }) {
         // TODO: это баг или фича? два раза используется alpha от #091e420a
         transparent ? 'bg-transparent' : 'bg-[var(--ds-background-neutral-subtle,#091e420a)]',
       )}
-      icon={icon}
+      {...{ icon, onClick }}
     />
+  )
+}
+
+function ChecklistItemBox({ className, value, onChange, close, isNew }) {
+  const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
+  React.useEffect(() => {
+    if (isExpanded) {
+      inputRef.current.focus({
+        preventScroll: true,
+        cursor: 'all',
+      })
+    } else {
+      close()
+    }
+  }, [isExpanded])
+  const ref = React.useRef()
+  const inputRef = React.useRef()
+  useOnClickOutside(
+    ref,
+    (event) => {
+      if (isHTMLControl(event.target, ref.current)) {
+        return
+      }
+      setIsExpanded(false)
+    },
+    'mouseup',
+  )
+  return (
+    <div className={className}>
+      <div ref={ref}>
+        <Input.TextArea
+          className={cx(
+            isNew
+              ? 'border-for-new-checkbox-item min-h-[32px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
+              : 'border-for-edit-checkbox-item bg-[var(--ds-background-input,#091e420a)]',
+            'focus-borderless overflow-hidden rounded-[3px] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)]',
+          )}
+          placeholder={isNew && 'Добавить элемент'}
+          bordered={false}
+          ref={inputRef}
+          autoSize={{ minRows: 2 }}
+          {...{ value, onChange }}
+        />
+      </div>
+      <div className="mt-2 flex gap-1">
+        <CardDetailButton
+          primary
+          onClick={() => {
+            if (value.trim() === '') {
+              if (isNew) {
+                inputRef.current.focus()
+                return
+              } else {
+                // TODO: удалить item из BD
+              }
+            }
+            close()
+          }}
+        >
+          Добавить
+        </CardDetailButton>
+        {isNew ? (
+          <CardDetailButton ghost onClick={close}>
+            Отмена
+          </CardDetailButton>
+        ) : (
+          <EditCloseButton onClick={close} />
+        )}
+        <div className="ml-[-4px] grow" />
+        <CardDetailButton
+          truncated
+          asLink
+          icon={<UserAddOutlined />}
+          onClick={() => {
+            console.log('3333')
+          }}
+        >
+          Назначить
+        </CardDetailButton>
+        <CardDetailButton
+          className="min-w-[96px]"
+          truncated
+          asLink
+          icon={<ClockCircleOutlined />}
+          onClick={() => {
+            console.log('4444')
+          }}
+        >
+          Срок
+        </CardDetailButton>
+        <CardDetailButton
+          className="min-w-[32px]"
+          asLink
+          icon={<FireOutlined />}
+          onClick={() => {
+            console.log('5555')
+          }}
+        />
+        <CardDetailButton
+          className="min-w-[32px]"
+          asLink
+          icon={<SmileOutlined />}
+          onClick={() => {
+            console.log('6666')
+          }}
+        />
+        {isNew || (
+          <CardDetailButton
+            className="min-w-[32px]"
+            asLink
+            icon={<EllipsisOutlined />}
+            onClick={() => {
+              console.log('7777')
+            }}
+          />
+        )}
+      </div>
+    </div>
   )
 }
 
 function CardDetailChecklistItem({ text }) {
   const complete = true // TODO: complete
+  const { setIsExpanded } = React.useContext(ChecklistListContext)
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [value, setValue] = React.useState(text)
   return (
-    // TODO: в оригинале тут анимация для hover между чекбоксами
-    <div className="relative rounded-[3px] pl-10 hover:bg-[var(--ds-background-neutral,#091e420a)] [&:hover>.checklist-item-text-and-controls>.checklist-item-controls]:z-0">
+    //transition-[background-color] duration-300
+    <div className="relative cursor-pointer rounded-[3px] pl-10 hover:bg-[var(--ds-background-neutral,#091e420a)] [&:hover>.checklist-item-text-and-controls>.checklist-item-controls]:z-0">
       <Checkbox className="absolute top-[8px] left-[4px] m-[-6px] box-content h-5 w-5 justify-center p-[6px]" />
-      <div className="checklist-item-text-and-controls flex cursor-pointer py-[6px]">
-        <span
-          className={cx(
-            complete
-              ? 'text-[var(--ds-text-subtle,#5e6c84)] line-through'
-              : 'text-[var(--ds-text,#172b4d)]',
-            'flex-1 self-center leading-5',
-          )}
-        >
-          {text}
-        </span>
+      {isEdit ? (
+        <ChecklistItemBox
+          className="pb-2"
+          value={value}
+          onChange={(event) => {
+            setValue(event.target.value)
+          }}
+          close={() => {
+            setIsEdit(false)
+          }}
+        />
+      ) : (
         <div
-          // HACK: visible выполняется с transition, a если z-index - без него
-          className="checklist-item-controls z-[-1] ml-1 inline-flex gap-1"
+          className="checklist-item-text-and-controls flex py-[6px]"
+          onClick={() => {
+            console.log(1)
+            setIsExpanded(false)
+            setTimeout(() => {
+              setIsExpanded(true)
+              setIsEdit(true)
+            })
+          }}
         >
-          <CardDetailChecklistItemButton icon={<ClockCircleOutlined />} />
-          <CardDetailChecklistItemButton icon={<UserAddOutlined />} circle />
-          <CardDetailChecklistItemButton icon={<EllipsisOutlined />} transparent />
+          <span
+            className={cx(
+              complete
+                ? 'text-[var(--ds-text-subtle,#5e6c84)] line-through'
+                : 'text-[var(--ds-text,#172b4d)]',
+              'flex-1 self-center leading-5',
+            )}
+          >
+            {text}
+          </span>
+          <div
+            // HACK: visible выполняется с transition, a если z-index - без него
+            className="checklist-item-controls z-[-1] ml-1 inline-flex gap-1"
+          >
+            <CardDetailChecklistItemButton
+              icon={<ClockCircleOutlined />}
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
+            />
+            <CardDetailChecklistItemButton
+              icon={<UserAddOutlined />}
+              circle
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
+            />
+            <CardDetailChecklistItemButton
+              icon={<EllipsisOutlined />}
+              transparent
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
+            />
+          </div>
         </div>
-      </div>
+        // TODO: В этом поле есть несохранённые изменения. Посмотреть изменения • Отменить
+      )}
     </div>
   )
 }
@@ -303,6 +410,17 @@ function CardDetailChecklist({ title, items }) {
   )
 }
 
+const ChecklistListContext = React.createContext(null)
+
+function ChecklistListState({ children }) {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  return (
+    <ChecklistListContext.Provider value={{ isExpanded, setIsExpanded }}>
+      {children}
+    </ChecklistListContext.Provider>
+  )
+}
+
 function CardDetailChecklistList() {
   const lists = [
     {
@@ -325,7 +443,13 @@ function CardDetailChecklistList() {
       ],
     },
   ]
-  return lists.map((list) => <CardDetailChecklist key={list.id} {...list} />)
+  return (
+    <ChecklistListState>
+      {lists.map((list) => (
+        <CardDetailChecklist key={list.id} {...list} />
+      ))}
+    </ChecklistListState>
+  )
 }
 
 // TODO: выделение-копирование текста должно выполняться с пробелами независимо от отступов HTML-элементов и пропуская "лишние" контролы
@@ -339,7 +463,7 @@ function CommentBoxOptionsButton({ icon, title, onClick }) {
         'text-[var(--ds-icon,#42526e)]',
         'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
         'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
-        'rounded-[3px] border-0 leading-5 shadow-none',
+        'min-w-[32px] rounded-[3px] border-0 leading-5 shadow-none',
       )}
       {...{ icon, title, onClick }}
     />
@@ -370,10 +494,10 @@ function getActionContent({ record, args, createdByLink }) {
   const isLoading = false
   if (record === 'comment') {
     const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
-    const [isEditComment, setIsEditComment] = React.useState(false)
+    const [isEdit, setIsEdit] = React.useState(false)
     React.useEffect(() => {
       if (!isExpanded) {
-        setIsEditComment(false)
+        setIsEdit(false)
       }
     }, [isExpanded])
     return (
@@ -383,8 +507,13 @@ function getActionContent({ record, args, createdByLink }) {
         {isLoading || createdByLink}
         {/* // TODO: (изменён) */}
         <div className="my-1 ">
-          {isExpanded && isEditComment ? (
-            <CommentBox defaultValue={args.text} close={() => setIsEditComment(false)} />
+          {isExpanded && isEdit ? (
+            <CommentBox
+              defaultValue={args.text}
+              close={() => {
+                setIsEdit(false)
+              }}
+            />
           ) : (
             <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[var(--ds-text,#172b4d)]">
               {args.text}
@@ -420,8 +549,8 @@ function getActionContent({ record, args, createdByLink }) {
             <>
               <LinkButton
                 onClick={() => {
-                  setIsEditComment(true)
                   setIsExpanded(true)
+                  setIsEdit(true)
                 }}
               >
                 Изменить
@@ -635,7 +764,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
         />
         <div
           className={cx(
-            'absolute bottom-2 left-3 right-2 transition-[transform,opacity]',
+            'absolute bottom-2 left-3 right-2 flex gap-1 transition-[transform,opacity]',
             isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
           )}
         >
@@ -654,29 +783,21 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
           >
             Сохранить
           </CardDetailButton>
-          {isNewComment || (
-            <Button
-              className="ml-1 rounded-[3px] border-0 text-[var(--ds-icon,#42526e)] shadow-none hover:text-[var(--ds-icon,#172b4d)]"
-              aria-label="Отменить изменения"
-              icon={<CloseOutlined className="scale-125" />}
-              onClick={close}
-            />
-          )}
-          <div className="float-right ml-1 inline-flex gap-1">
-            <CommentBoxOptionsButton
-              icon={<PaperClipOutlined />}
-              title="Добавить вложение…"
-              onClick={(event) => {
-                console.log('onClick')
-              }}
-            />
-            <CommentBoxOptionsButton icon={<FireOutlined />} title="Упомянуть участника…" />
-            <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
-            <CommentBoxOptionsButton
-              icon={<CreditCardOutlined rotate={180} />}
-              title="Добавить карточку…"
-            />
-          </div>
+          {isNewComment || <EditCloseButton onClick={close} />}
+          <div className="ml-[-4px] grow" />
+          <CommentBoxOptionsButton
+            icon={<PaperClipOutlined />}
+            title="Добавить вложение…"
+            onClick={(event) => {
+              console.log('onClick')
+            }}
+          />
+          <CommentBoxOptionsButton icon={<FireOutlined />} title="Упомянуть участника…" />
+          <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
+          <CommentBoxOptionsButton
+            icon={<CreditCardOutlined rotate={180} />}
+            title="Добавить карточку…"
+          />
         </div>
         {/* </Form.Item> */}
         {/* </Form> */}
@@ -1400,10 +1521,11 @@ function CardDetailButton({
   children,
   onClick,
   disabled,
-  ghost,
+  truncated,
   primary,
   danger,
-  truncated,
+  asLink,
+  ghost,
 }) {
   return (
     <Button
@@ -1434,14 +1556,27 @@ function CardDetailButton({
               'hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)]',
               'active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]',
             ]
+          : asLink
+          ? [
+              'text-[var(--ds-text-subtle,#5e6c84)]',
+              'bg-transparent',
+              'hover:text-[var(--ds-text,#172b4d)]',
+              'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
+              'active:bg-[var(--ds-background-neutral-pressed,#091e4221)]',
+            ]
           : [
               'text-[var(--ds-text,inherit)]',
               ghost ? 'bg-transparent' : 'bg-[var(--ds-background-neutral,#091e420a)]',
               'hover:bg-[var(--ds-background-neutral-hovered,#091e4214)]',
-              'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
               'active:text-[var(--ds-text,#0079bf)]',
+              'active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]',
             ]
         ).join(' '),
+        asLink && children && 'underline hover:no-underline',
+        asLink &&
+          icon &&
+          '[&>.anticon]:text-[var(--ds-icon,#42526e)] [&:hover>.anticon]:text-[var(--ds-icon,#172b4d)]',
+        asLink && children && icon && '[&>:last-child]:ml-1',
         className,
       )}
       {...{ shape, icon, onClick, disabled }}
