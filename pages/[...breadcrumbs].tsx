@@ -106,17 +106,20 @@ function EditCloseButton({ onClick }) {
   )
 }
 
-function ChecklistNewItem() {
+function CardDetailChecklistNewItem() {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
   // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
   const [value, setValue] = React.useState('')
   return isEdit ? (
-    <ChecklistItemBox
+    <ChecklistInputBox
       className="mt-[6px]"
       value={value}
       onChange={(event) => {
         setValue(event.target.value)
+      }}
+      onSubmit={() => {
+        console.log('onSubmit')
       }}
       close={() => {
         setIsEdit(false)
@@ -157,7 +160,7 @@ function CardDetailChecklistItemButton({ icon, circle, transparent, onClick }) {
   )
 }
 
-function ChecklistItemBox({ className, value, onChange, close, isNew }) {
+function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew, isTitle }) {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   React.useEffect(() => {
     if (isExpanded) {
@@ -187,9 +190,10 @@ function ChecklistItemBox({ className, value, onChange, close, isNew }) {
         <Input.TextArea
           className={cx(
             isNew
-              ? 'border-for-new-checkbox-item min-h-[32px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
-              : 'border-for-edit-checkbox-item bg-[var(--ds-background-input,#091e420a)]',
-            'focus-borderless overflow-hidden rounded-[3px] py-2 px-3 text-[14px] leading-[20px] text-[var(--ds-text,#172b4d)]',
+              ? 'border-for-new-checklist-input min-h-[32px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
+              : 'border-for-checklist-input bg-[var(--ds-background-input,#091e420a)]',
+            isTitle ? 'text-[16px] font-semibold' : 'text-[14px]',
+            'focus-borderless overflow-hidden rounded-[3px] py-2 px-3 leading-5 text-[var(--ds-text,#172b4d)]',
           )}
           placeholder={isNew && 'Добавить элемент'}
           bordered={false}
@@ -203,18 +207,20 @@ function ChecklistItemBox({ className, value, onChange, close, isNew }) {
           primary
           onClick={() => {
             if (value.trim() === '') {
-              if (isNew) {
+              if (isNew || isTitle) {
                 inputRef.current.focus()
                 return
               } else {
                 // TODO: удалить item из BD
               }
             }
+            onSubmit()
             close()
           }}
         >
-          Добавить
+          {isNew ? 'Добавить' : 'Сохранить'}
         </CardDetailButton>
+        {/* // TODO: сбрасывать defaultValue по кнопке Отмена/Close */}
         {isNew ? (
           <CardDetailButton ghost onClick={close}>
             Отмена
@@ -222,53 +228,57 @@ function ChecklistItemBox({ className, value, onChange, close, isNew }) {
         ) : (
           <EditCloseButton onClick={close} />
         )}
-        <div className="ml-[-4px] grow" />
-        <CardDetailButton
-          truncated
-          asLink
-          icon={<UserAddOutlined />}
-          onClick={() => {
-            console.log('3333')
-          }}
-        >
-          Назначить
-        </CardDetailButton>
-        <CardDetailButton
-          className="min-w-[96px]"
-          truncated
-          asLink
-          icon={<ClockCircleOutlined />}
-          onClick={() => {
-            console.log('4444')
-          }}
-        >
-          Срок
-        </CardDetailButton>
-        <CardDetailButton
-          className="min-w-[32px]"
-          asLink
-          icon={<FireOutlined />}
-          onClick={() => {
-            console.log('5555')
-          }}
-        />
-        <CardDetailButton
-          className="min-w-[32px]"
-          asLink
-          icon={<SmileOutlined />}
-          onClick={() => {
-            console.log('6666')
-          }}
-        />
-        {isNew || (
-          <CardDetailButton
-            className="min-w-[32px]"
-            asLink
-            icon={<EllipsisOutlined />}
-            onClick={() => {
-              console.log('7777')
-            }}
-          />
+        {isTitle || (
+          <>
+            <div className="ml-[-4px] grow" />
+            <CardDetailButton
+              truncated
+              asLink
+              icon={<UserAddOutlined />}
+              onClick={() => {
+                console.log('3333')
+              }}
+            >
+              Назначить
+            </CardDetailButton>
+            <CardDetailButton
+              className="min-w-[96px]"
+              truncated
+              asLink
+              icon={<ClockCircleOutlined />}
+              onClick={() => {
+                console.log('4444')
+              }}
+            >
+              Срок
+            </CardDetailButton>
+            <CardDetailButton
+              className="min-w-[32px]"
+              asLink
+              icon={<FireOutlined />}
+              onClick={() => {
+                console.log('5555')
+              }}
+            />
+            <CardDetailButton
+              className="min-w-[32px]"
+              asLink
+              icon={<SmileOutlined />}
+              onClick={() => {
+                console.log('6666')
+              }}
+            />
+            {isNew || (
+              <CardDetailButton
+                className="min-w-[32px]"
+                asLink
+                icon={<EllipsisOutlined />}
+                onClick={() => {
+                  console.log('7777')
+                }}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
@@ -285,11 +295,14 @@ function CardDetailChecklistItem({ text }) {
     <div className="relative cursor-pointer rounded-[3px] pl-10 hover:bg-[var(--ds-background-neutral,#091e420a)] [&:hover>.checklist-item-text-and-controls>.checklist-item-controls]:z-0">
       <Checkbox className="absolute top-[8px] left-[4px] m-[-6px] box-content h-5 w-5 justify-center p-[6px]" />
       {isEdit ? (
-        <ChecklistItemBox
+        <ChecklistInputBox
           className="pb-2"
           value={value}
           onChange={(event) => {
             setValue(event.target.value)
+          }}
+          onSubmit={() => {
+            console.log('onSubmit')
           }}
           close={() => {
             setIsEdit(false)
@@ -349,12 +362,45 @@ function CardDetailChecklistItem({ text }) {
   )
 }
 
+function getChecklistTitleBox(title, getDefaultTitleBox) {
+  const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [value, setValue] = React.useState(title)
+  return isEdit ? (
+    <ChecklistInputBox
+      className="pb-2"
+      value={value}
+      onChange={(event) => {
+        setValue(event.target.value)
+      }}
+      onSubmit={() => {
+        console.log('onSubmit')
+      }}
+      close={() => {
+        setIsEdit(false)
+      }}
+      isTitle
+    />
+  ) : (
+    getDefaultTitleBox({
+      onClick: () => {
+        setIsExpanded(false)
+        setTimeout(() => {
+          setIsExpanded(true)
+          setIsEdit(true)
+        })
+      },
+    })
+  )
+}
+
 function CardDetailChecklist({ title, items }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   const checkedCount = 1
   const percent = 80
   return (
     <CardDetailSection
+      getCustomTitleBox={getChecklistTitleBox}
       icon={<CheckSquareOutlined className="scale-125" />}
       title={title}
       right
@@ -403,7 +449,7 @@ function CardDetailChecklist({ title, items }) {
         ))}
       </div>
       <div className="ml-10">
-        <ChecklistNewItem />
+        <CardDetailChecklistNewItem />
       </div>
       {/* // TODO: "В этом списке слишком много элементов. Удалите некоторые из них, чтобы добавить новые." - как минимум, можно добавить 100 элементов (дальше не проверял) */}
     </CardDetailSection>
@@ -856,22 +902,21 @@ function CardDetailActions({ actions }) {
   )
 }
 
-function CardDetailSection({ icon, title, actions, right = false, isEditTitle = false, children }) {
+function CardDetailSection({ icon, title, actions, right = false, getCustomTitleBox, children }) {
+  const getDefaultTitleBox = ({ onClick }) => (
+    <div className="flex flex-wrap" onClick={onClick}>
+      <BoardTitle>{title}</BoardTitle>
+      <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
+      {actions}
+    </div>
+  )
   return (
     <WindowModule>
-      <div className="relative mb-1 ml-10 flex flex-wrap py-2">
+      <div className="relative mb-1 ml-10 py-2">
         <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center text-base">
           {icon}
         </div>
-        {isEditTitle ? (
-          <div>EDIT</div>
-        ) : (
-          <>
-            <BoardTitle>{title}</BoardTitle>
-            <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
-            {actions}
-          </>
-        )}
+        {getCustomTitleBox ? getCustomTitleBox(title, getDefaultTitleBox) : getDefaultTitleBox({})}
       </div>
       {children}
     </WindowModule>
@@ -1673,7 +1718,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
-          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 text-[20px] font-semibold leading-[24px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
+          className="mt-2 min-h-[32px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 text-[20px] font-semibold leading-6 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
           bordered={false}
           // ref={inputRef}
           autoSize
@@ -1994,7 +2039,7 @@ function ListHeader({ name }) {
   return (
     <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
-        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-[20px] text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
+        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
         bordered={false}
         spellCheck={false}
         ref={inputRef}
