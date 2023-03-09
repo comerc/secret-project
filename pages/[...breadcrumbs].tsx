@@ -101,7 +101,7 @@ function EditCloseButton({ onClick }) {
       )}
       aria-label="Отменить изменения"
       icon={<CloseOutlined className="scale-125" />}
-      onClick={onClick}
+      {...{ onClick }}
     />
   )
 }
@@ -185,7 +185,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
     'mouseup',
   )
   return (
-    <div className={className}>
+    <div {...{ className }}>
       <div ref={ref}>
         <Input.TextArea
           className={cx(
@@ -434,8 +434,8 @@ function CardDetailChecklist({ title, items }) {
                 : 'var(--ds-background-accent-blue-subtle,#5ba4cf)'
             }
             strokeLinecap="square"
-            percent={percent}
             showInfo={false}
+            {...{ percent }}
           ></Progress>
         </div>
       </div>
@@ -620,8 +620,7 @@ function getActionContent({ record, args, createdByLink }) {
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
     return (
       <>
-        {' '}
-        {fn()}{' '}
+        {` ${fn()} `}
         <a
           className="text-[var(--ds-link,#172b4d)] underline"
           // для поддержки контекстного меню по правой кнопки мышки
@@ -760,7 +759,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
     }, [])
   }
   return (
-    <div ref={ref}>
+    <div {...{ ref }}>
       {avatar}
       <div
         className={cx(
@@ -905,7 +904,7 @@ function CardDetailActions({ actions }) {
 
 function CardDetailSection({ icon, title, actions, right = false, getCustomTitleBox, children }) {
   const getDefaultTitleBox = ({ onClick }) => (
-    <div className="flex flex-wrap" onClick={onClick}>
+    <div className="flex flex-wrap" {...{ onClick }}>
       <BoardTitle className={cx(onClick && 'cursor-pointer')}>{title}</BoardTitle>
       <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
       {actions}
@@ -1161,8 +1160,8 @@ function LinkButton({ onClick, children }) {
       {'• '}
       <a
         role="button"
-        onClick={onClick}
         className="text-[var(--ds-link,#5e6c84)] underline hover:text-[var(--ds-link,#172b4d)]"
+        {...{ onClick }}
       >
         {children}
       </a>
@@ -1655,7 +1654,7 @@ function CardDetailLabel({ id, colorId, name }) {
       // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
       // color={'var(--background-color)'}
       placement="bottomLeft"
-      title={title}
+      {...{ title }}
     >
       <button
         style={color.style}
@@ -1891,18 +1890,16 @@ function DueDateBadge({ start, deadline, mode = 'warning' }) {
   )
 }
 
-function Badge({ children, style, className, onClick, title }) {
+function Badge({ className, style, onClick, title, children }) {
   return (
     <div
-      title={title}
       role={onClick ? 'button' : null}
       tabIndex={onClick ? '-1' : null}
-      onClick={onClick}
-      style={style}
       className={cx(
         'mr-1 mb-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
         className,
       )}
+      {...{ style, onClick, title }}
     >
       {children}
     </div>
@@ -2187,6 +2184,8 @@ type IProps = {
   boardId: string
   favorites: []
   members: []
+  urlName: string
+  issueId: string
 }
 
 export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
@@ -2482,7 +2481,7 @@ function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, z
         // TODO: popup профиля
       }}
     >
-      <Avatar draggable={false} src={thumbnail} style={{ zIndex: zIndex }} />
+      <Avatar draggable={false} src={thumbnail} style={{ zIndex }} />
     </button>
   )
 }
@@ -2497,9 +2496,9 @@ function MembersButton({ members }) {
           'select-none [&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)] active:[&>:last-child]:bg-[var(--dynamic-button-pressed)]',
       )}
       size="small"
-      maxCount={maxCount}
       maxPopoverPlacement="bottomLeft"
       maxPopoverTrigger="click"
+      {...{ maxCount }}
     >
       {members.map((member, index, a) => (
         <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
@@ -2648,11 +2647,11 @@ function FilterButton() {
       footer={
         <Form
           className="w-full pt-1"
-          form={form}
           layout="vertical"
           // initialValues={{ requiredMarkValue: requiredMark }}
           // onValuesChange={onRequiredTypeChange}
           // requiredMark={requiredMark}
+          {...{ form }}
         >
           <Form.Item
             label="Ключевое слово"
@@ -2786,7 +2785,7 @@ function MoreButton({ onClick }) {
     <BoardHeaderButton
       className="float-left"
       icon={<MoreOutlined />}
-      onClick={onClick}
+      {...{ onClick }}
     ></BoardHeaderButton>
   )
 }
@@ -2856,15 +2855,6 @@ function CustomDropdown({
   }
   return (
     <Dropdown
-      trigger={['click']}
-      onOpenChange={(flag) => {
-        setOpen(flag)
-        if (onOpenChange) {
-          onOpenChange(flag)
-        }
-      }}
-      open={open}
-      placement={placement} // TODO: ошибки в смещении при уменьшении размера экрана
       menu={{
         items,
         onClick: (event) => {
@@ -2930,6 +2920,15 @@ function CustomDropdown({
           {footer && <div className="px-3 py-3">{footer}</div>}
         </div>
       )}
+      trigger={['click']}
+      onOpenChange={(flag) => {
+        setOpen(flag)
+        if (onOpenChange) {
+          onOpenChange(flag)
+        }
+      }}
+      // TODO: placement - ошибки в смещении при уменьшении размера экрана
+      {...{ open, placement }}
     >
       {children}
     </Dropdown>
@@ -2991,10 +2990,10 @@ function PermisionLevelButton() {
   return (
     <CustomDropdown
       header="Изменение видимости"
-      items={items}
       onClick={(event) => {
         setSelected(event.key)
       }}
+      {...{ items }}
     >
       <BoardHeaderButton
         aria-label="Изменить уровень доступа к доске"
@@ -3157,7 +3156,7 @@ function NavHeaderButton({ icon }) {
       <Button
         className="border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
         shape="circle"
-        icon={icon}
+        {...{ icon }}
       ></Button>
     </div>
   )
@@ -3173,7 +3172,7 @@ function SearchPrefixIcon({ onClick }) {
       size="small"
       shape="circle"
       icon={<SearchOutlined />}
-      onClick={onClick}
+      {...{ onClick }}
     />
   )
 }
@@ -3193,7 +3192,7 @@ function Search({ defaultValue, close }) {
         bordered={false}
         placeholder="Поиск в CSP"
         prefix={<SearchPrefixIcon />}
-        defaultValue={defaultValue}
+        {...{ defaultValue }}
       />
       <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
         <div
@@ -3277,13 +3276,13 @@ function SearchButton() {
         mask={false}
         wrapClassName="search-modal"
       >
-        <Search defaultValue={search} close={close} />
+        <Search defaultValue={search} {...{ close }} />
       </Modal>
     </>
   )
 }
 
-function BoardPage(props: IProps) {
+function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
@@ -3291,8 +3290,8 @@ function BoardPage(props: IProps) {
     if (breadcrumbs === undefined) {
       return
     }
-    if (breadcrumbs[0] === 'b' && breadcrumbs[2] !== props.urlName) {
-      router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${props.urlName}`, undefined, {
+    if (breadcrumbs[0] === 'b' && breadcrumbs[2] !== urlName) {
+      router.push(`/${breadcrumbs[0]}/${breadcrumbs[1]}/${urlName}`, undefined, {
         shallow: true,
       })
       return
@@ -3301,13 +3300,13 @@ function BoardPage(props: IProps) {
   }, [breadcrumbs])
   // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
-  const [favorites, setFavorites] = React.useState(props.favorites)
+  const [favorites, setFavorites] = React.useState(defaultFavorites)
   const handleChangeFavorites = (value) => {
     if (value) {
       setFavorites([
         ...favorites,
         {
-          boardId: props.boardId,
+          boardId,
           name: 'Minsk4',
           workspace: 'Andrew Ka',
           color: '#cd5a91',
@@ -3315,11 +3314,11 @@ function BoardPage(props: IProps) {
         },
       ])
     } else {
-      setFavorites(favorites.filter((item) => item.boardId !== props.boardId))
+      setFavorites(favorites.filter((item) => item.boardId !== boardId))
     }
   }
-  const handleDeleteFavorites = (boardId) => {
-    setFavorites(favorites.filter((item) => item.boardId !== boardId))
+  const handleDeleteFavorites = (deletedBoardId) => {
+    setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
   }
   if (!isUrlName) {
     return
@@ -3346,7 +3345,7 @@ function BoardPage(props: IProps) {
                 Secret
               </div>
             </Link>
-            <InFavoritesButton favorites={favorites} onDelete={handleDeleteFavorites} />
+            <InFavoritesButton onDelete={handleDeleteFavorites} {...{ favorites }} />
             <PlusButton />
             <div className="flex grow"></div>
             <div className="flex space-x-1">
@@ -3383,16 +3382,15 @@ function BoardPage(props: IProps) {
                         }}
                       />
                       <FavoriteButton
-                        boardId={props.boardId}
-                        favorites={favorites}
                         onChange={handleChangeFavorites}
+                        {...{ favorites, boardId }}
                       />
                       <HeaderDivider />
                       <PermisionLevelButton />
                       <div className="float-right">
                         <FilterButton />
                         <HeaderDivider />
-                        <MembersButton members={props.members} />
+                        <MembersButton {...{ members }} />
                         <ShareButton />
                         <HeaderDivider />
                         {/* {isMoreButton && ( */}
@@ -3414,7 +3412,7 @@ function BoardPage(props: IProps) {
                           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
                       }}
                     >
-                      <Board issues={props.issues} />
+                      <Board {...{ issues }} />
                     </div>
                   </div>
                   <Drawer
@@ -3471,7 +3469,7 @@ function BoardPage(props: IProps) {
           </div>
         </main>
       </div>
-      {breadcrumbs[0] === 'c' && <CardDetailWindow issue={props.issues[0]} />}
+      {breadcrumbs[0] === 'c' && <CardDetailWindow issue={issues[0]} />}
     </div>
   )
 }
