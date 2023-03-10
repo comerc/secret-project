@@ -249,22 +249,34 @@ body {
   overflow-y: hidden;
   /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
 }
-
 body::-webkit-scrollbar {
   width: 16px;
-  height: 16px;
+  height: 32px;
   background: #1d212e;
 }
-
 body::-webkit-scrollbar-thumb {
-  background-color: rgba(223, 232, 250, 0.5);
-  border-radius: 8px;
+  /* background-color: rgba(223, 232, 250, 0.5); */
+  background-color: red;
+  border-radius: 80px;
+  background-clip: content-box;
+
+  border: 10px solid transparent;
+}
+body::-webkit-scrollbar-track {
+  border-radius: 80px;
+  background-color: green;
+  border: 10px solid #1d212e;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
-body::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background-color: red;
-  /* margin-left: 200px; */
+/* // TODO: как спрятать системный скролл */
+#body {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+#body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 /* Lexical */
@@ -327,3 +339,49 @@ a {
   } 
 }
 */
+
+/* nicescroll */
+#boxscroll {
+  padding: 40px;
+  height: 220px;
+  width: 300px;
+  border: 2px solid #00f;
+  overflow: auto;
+  margin-bottom: 30px;
+}
+#boxscroll2 {
+  padding: 40px;
+  height: 120px;
+  width: 730px;
+  border: 2px solid #f00;
+  overflow: auto;
+}
+#boxscroll3 {
+  overflow: hidden;
+}
+#boxframe {
+  position: absolute;
+  top: 28px;
+  left: 420px;
+  width: 400px;
+  height: 300px;
+  overflow: auto;
+  border: 2px solid #0f0;
+}
+#boxscroll4 {
+  height: 300px;
+  margin-top: 40px;
+  background-color: #00ff66;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 18px;
+  padding: 20px;
+  color: #006633;
+  overflow: auto;
+}
+#a1-hr {
+  /* padding: 0 8px; */
+  /* transform: scale(0.5); */
+  /* margin: 0 10px; */
+  /* border-left-width: 100px; */
+  /* border-right-width: 100px; */
+}

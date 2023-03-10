@@ -277,6 +277,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://kingsora.github.io/OverlayScrollbars/
   - https://github.com/buzinas/simple-scrollbar/
   - https://github.com/Diokuz/react-baron
+  - https://manos.malihu.gr/jquery-custom-content-scroller/
+  - https://github.com/inuyaksa/jquery.nicescroll - support .pageXOffset
 - [ ] Memoization
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
   - https://www.npmjs.com/package/use-memo-one
