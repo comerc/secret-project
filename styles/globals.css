@@ -287,6 +287,16 @@ body::-webkit-scrollbar {
   /* margin-right: 100px; */
 }
 
+.os-theme-dark.list-cards {
+  --os-size: 7px;
+  --os-handle-interactive-area-offset: 1px;
+  --os-padding-axis: 0;
+  --os-padding-perpendicular: 2px;
+  --os-handle-bg: rgba(0, 0, 0, 0.3);
+  --os-handle-bg-hover: rgba(0, 0, 0, 0.4);
+  --os-handle-bg-active: rgba(0, 0, 0, 0.5);
+}
+
 /* Lexical */
 body {
   /* font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif; */

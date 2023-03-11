@@ -2122,7 +2122,7 @@ function ListCards({ issues }) {
       // paddingAbsolute: true,
       // showNativeOverlaidScrollbars: true,
       scrollbars: {
-        theme: 'os-theme-dark',
+        theme: 'os-theme-dark list-cards',
         visibility: 'auto',
         autoHide: 'leave',
         autoHideDelay: 1300,
