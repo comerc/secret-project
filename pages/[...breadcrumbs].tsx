@@ -85,6 +85,7 @@ import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
+import { useScrollWithShadow } from '.../utils/useScrollWithShadow'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -2108,6 +2109,22 @@ function FrontLabelsState({ children }) {
   )
 }
 
+function ListCards({ issues }) {
+  // TODO: нужно починить z-index
+  // const { boxShadow, onScrollHandler } = useScrollWithShadow()
+  return (
+    <div
+      className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2"
+      // onScroll={onScrollHandler}
+      // style={{ boxShadow }}
+    >
+      {issues.map((issue) => (
+        <ListCard key={issue.id} {...issue} />
+      ))}
+    </div>
+  )
+}
+
 function Board({ issues }) {
   const columns = [
     // { id: 'column0', name: 'Backlog' },
@@ -2129,11 +2146,7 @@ function Board({ issues }) {
           <div key={id}>
             <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
               <ListHeader {...{ name }} />
-              <div className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2">
-                {issues.map((issue) => (
-                  <ListCard key={issue.id} {...issue} />
-                ))}
-              </div>
+              <ListCards {...{ issues }} />
               <ListFooter />
             </div>
           </div>
