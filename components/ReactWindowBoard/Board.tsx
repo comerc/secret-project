@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 're
 import getInitialData from './getInitialData'
 import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'
-import AutoSizer from 'react-virtualized-auto-sizer'
+// import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
 import { nanoid } from 'nanoid'
 import cx from 'classnames'
@@ -222,7 +222,7 @@ const Column = React.memo(function Column({ column, index, height }) {
   )
 })
 
-function Board() {
+function Board({ height }) {
   const [state, setState] = useState(() => getInitialData())
 
   React.useLayoutEffect(() => {
@@ -525,31 +525,31 @@ function Board() {
           value={{ onAddItem, onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed }}
         >
           <DragDropContext onDragEnd={onDragEnd}>
-            <AutoSizer>
-              {({ height }) => (
-                <div className={styles.container}>
-                  <Droppable droppableId="all-droppables" direction="horizontal" type="column">
-                    {(provided) => (
-                      <div
-                        className={styles.columns}
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                      >
-                        {state.columnOrder.map((columnId, index) => (
-                          <Column
-                            key={columnId}
-                            column={state.columns[columnId]}
-                            index={index}
-                            height={height}
-                          />
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
-              )}
-            </AutoSizer>
+            {/* <AutoSizer>
+              {({ height }) => ( */}
+            <div className={styles.container}>
+              <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+                {(provided) => (
+                  <div
+                    className={styles.columns}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {state.columnOrder.map((columnId, index) => (
+                      <Column
+                        key={columnId}
+                        column={state.columns[columnId]}
+                        index={index}
+                        height={height}
+                      />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+            {/* )}
+            </AutoSizer> */}
           </DragDropContext>
         </BoardContext.Provider>
       )}

@@ -47,6 +47,7 @@ class MyDocument extends Document {
             '--dynamic-text': '#ffffff',
             '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
             '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
+            '--custom-body': 'white',
           }}
         >
           <div id="nocss">
@@ -58,6 +59,13 @@ class MyDocument extends Document {
           </div>
           <Main />
           <NextScript />
+          {/* <link type="text/css" href="path/to/overlayscrollbars.css" rel="stylesheet" /> */}
+          {/* <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/2.1.0/browser/overlayscrollbars.browser.es6.min.js"
+            integrity="sha512-1ZEhZBqxxLcq+dqd/djJm4jmpuT2qvHvsLGHkvKbCwde7AN6uz+WSIQpEOmDirXOrbeUIy0hbgajST3wtykKNw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+          ></script> */}
         </body>
       </Html>
     )

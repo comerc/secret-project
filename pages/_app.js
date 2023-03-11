@@ -22,6 +22,7 @@ import 'antd/dist/reset.css'
 import '.../styles/globals.css'
 import '.../styles/auth.css'
 // import '.../styles/antd.css'
+import 'overlayscrollbars/overlayscrollbars.css'
 
 // Use of the <SessionProvider> is mandatory to allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
