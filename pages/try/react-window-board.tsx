@@ -18,8 +18,8 @@ function TryReactWindowBoardPage() {
         x: 'scroll',
         y: 'hidden',
       },
-      paddingAbsolute: true,
-      // // showNativeOverlaidScrollbars: true,
+      // paddingAbsolute: true,
+      // showNativeOverlaidScrollbars: true,
       scrollbars: {
         theme: 'os-theme-light',
         visibility: 'auto',

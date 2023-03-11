@@ -85,7 +85,8 @@ import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
-import { useScrollWithShadow } from '.../utils/useScrollWithShadow'
+// import { useScrollWithShadow } from '.../utils/useScrollWithShadow'
+import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -2110,13 +2111,35 @@ function FrontLabelsState({ children }) {
 }
 
 function ListCards({ issues }) {
-  // TODO: нужно починить z-index
+  const ref = React.useRef()
+  React.useEffect(() => {
+    // OverlayScrollbars.plugin(ClickScrollPlugin)
+    OverlayScrollbars(ref.current, {
+      overflow: {
+        x: 'hidden',
+        y: 'scroll',
+      },
+      // paddingAbsolute: true,
+      // showNativeOverlaidScrollbars: true,
+      scrollbars: {
+        theme: 'os-theme-dark',
+        visibility: 'auto',
+        autoHide: 'leave',
+        autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: false,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    })
+  }, [])
+  // TODO: тут нужно починить z-index
   // const { boxShadow, onScrollHandler } = useScrollWithShadow()
   return (
     <div
-      className="max-h-[500px] overflow-x-hidden overflow-y-scroll px-2"
+      className="max-h-[500px] overflow-hidden px-2"
       // onScroll={onScrollHandler}
       // style={{ boxShadow }}
+      ref={ref}
     >
       {issues.map((issue) => (
         <ListCard key={issue.id} {...issue} />
