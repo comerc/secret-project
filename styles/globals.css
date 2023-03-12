@@ -245,7 +245,7 @@ textarea {
 }
 
 body {
-  /* background: var(--custom-body); */
+  background: var(--custom-body);
 }
 
 /* FIX: RBD */
@@ -283,8 +283,8 @@ body::-webkit-scrollbar {
 
 /* overlayscrollbars */
 .os-scrollbar-horizontal {
-  margin-left: 300px;
-  /* margin-right: 100px; */
+  /* margin-left: 300px; */
+  margin-right: 300px;
 }
 
 .os-theme-dark.list-cards {

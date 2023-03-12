@@ -38,8 +38,16 @@ function TryReactWindowBoardPage() {
           <>
             <div className="fixed top-0 left-0 right-0 z-[1000]">
               {/* <div className="relative"> */}
-              <div
+              {/* <div
                 className="absolute top-0 left-0 flex w-[300px] flex-col bg-[orange] pt-10"
+                style={{ height }}
+              >
+                <div className="">123</div>
+                <div className="grow"></div>
+                <div className="">123</div>
+              </div> */}
+              <div
+                className="absolute top-0 right-0 flex w-[300px] flex-col bg-[pink] pt-10"
                 style={{ height }}
               >
                 <div className="">123</div>
@@ -54,13 +62,13 @@ function TryReactWindowBoardPage() {
               {/* </div> */}
             </div>
             <div
-              className="pl-[300px] pt-10 "
+              className="pt-10"
               style={{
                 height,
                 width,
               }}
             >
-              <ReactWindowBoard height={height - 40} />
+              <ReactWindowBoard height={height - 40} right={300} />
             </div>
           </>
         )}

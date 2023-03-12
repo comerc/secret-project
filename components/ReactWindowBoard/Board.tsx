@@ -214,7 +214,7 @@ const Column = React.memo(function Column({ column, index, height }) {
   )
 })
 
-function Board({ height }) {
+function Board({ height, right }) {
   const [state, setState] = useState(() => getInitialData())
 
   React.useLayoutEffect(() => {
@@ -524,6 +524,9 @@ function Board({ height }) {
                 {(provided) => (
                   <div
                     className={styles.columns}
+                    style={{
+                      paddingRight: `${right}px`,
+                    }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
