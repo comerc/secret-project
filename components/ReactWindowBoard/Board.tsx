@@ -12,14 +12,6 @@ import cx from 'classnames'
 
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
-// TODO: как спрятать прокрутку колонки? (by kanception)
-//  .column {
-//    scrollbar-width: none;  /* Firefox */
-//  }
-//  .column::-webkit-scrollbar {
-//      display: none;  /* Safari and Chrome */
-//  }
-
 const GRID = 8
 const WIDTH = 300
 const FONT_FAMILY = 'Vibur'
