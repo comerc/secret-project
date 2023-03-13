@@ -30,7 +30,47 @@ function TryReactWindowBoardPage() {
         pointers: ['mouse', 'touch', 'pen'],
       },
     })
+    // window.addEventListener('mousedown', handleMouseDown)
+    // window.addEventListener('mouseup', handleMouseUp)
+    // window.addEventListener('mousemove', handleMouseMove)
   }, [])
+  const positionRef = React.useRef({
+    startX: null,
+    startScrollX: null,
+  })
+  const handleMouseDown = ({ target, clientX }) => {
+    console.log('handleMouseDown')
+    positionRef.current = {
+      startX: clientX,
+      startScrollX: window.scrollX,
+    }
+    // window.addEventListener('mouseup', handleMouseUp)
+    // window.addEventListener('mousemove', handleMouseMove)
+  }
+  const handleMouseMove = ({ clientX }) => {
+    const { startX, startScrollX } = positionRef.current
+    if (startScrollX !== null) {
+      const scrollX = startScrollX + clientX - startX
+      window.scrollTo(scrollX, 0)
+      const windowScrollX = window.scrollX
+      console.log('handleMouseMove', scrollX, windowScrollX)
+      if (scrollX !== windowScrollX) {
+        positionRef.current = {
+          startX: clientX - windowScrollX + startScrollX,
+          startScrollX,
+        }
+      }
+    }
+  }
+  const handleMouseUp = () => {
+    console.log('handleMouseUp')
+    // window.removeEventListener('mousemove', handleMouseMove)
+    // window.removeEventListener('mouseup', handleMouseUp)
+    positionRef.current = {
+      startX: null,
+      startScrollX: null,
+    }
+  }
   return (
     <ClientOnly>
       <AutoSizer>
@@ -67,6 +107,8 @@ function TryReactWindowBoardPage() {
                 height,
                 width,
               }}
+              // onMouseDown={handleMouseDown}
+              // onMouseMove={handleMouseMove}
             >
               <ReactWindowBoard height={height - 40} right={300} />
             </div>
