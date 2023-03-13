@@ -71,13 +71,15 @@
   user-select: none;
   font-family: var(--item-fontFamily), cursive;
   cursor: pointer !important;
+  padding: 8px;
 }
 
+/* нельзя применять display: flex - добавляет погрешность для переноса текста */
 /* center align text */
 .item {
-  display: flex;
+  /* display: flex; */
   /* justify-content: center; */
-  align-items: center;
+  /* align-items: center; */
 }
 
 .item.is-dragging {

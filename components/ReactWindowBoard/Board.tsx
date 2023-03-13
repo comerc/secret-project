@@ -136,7 +136,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
     const dummy = document.getElementById('board-dummy')
     dummy.innerText = item.text
     const rect = dummy.getBoundingClientRect()
-    const size = rect.height
+    const size = rect.height + GRID
     return size
   }
   // Increases accuracy by calculating an average row height
