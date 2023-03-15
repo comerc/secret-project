@@ -269,7 +269,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] TreeView via react-window
   - https://codesandbox.io/s/a-quick-react-tree-component-based-on-react-window-tyxnm
   - https://lodin.github.io/react-vtree/
-- [ ] Custom Scrollbar
+- [+] Custom Scrollbar
   - https://levelup.gitconnected.com/build-on-hover-custom-scrollbar-in-react-d846194a7ea4
   - https://github.com/hkurra/react-on-hover-scrollbar
   - https://css-tricks.com/scrollbars-on-hover/
