@@ -312,7 +312,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-719034014
   - https://github.com/markusenglund/react-kanban/blob/master/src/app/components/Board/Board.jsx#L94-L105
   - https://codesandbox.io/s/simple-react-beautiful-dnd-board-v2cns (fail)
-- [ ] recharts.org
+- [ ] recharts.org (as FinamTrade)
+- [ ] Temporal for clone Trello Butler
 
 ## Что нового (для меня) про вёрстку
 
