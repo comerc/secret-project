@@ -423,7 +423,6 @@ function CardDetailChecklist({ title, items }) {
           <CardDetailButton onClick={() => {}}>Удалить</CardDetailButton>
         </div>
       }
-      // TODO: isEditTitle={true}
     >
       <div className="relative mb-2 leading-[10px]">
         <span className="absolute top-[1px] w-8 text-center text-[11px] text-[var(--ds-text-subtle,#5e6c84)]">
@@ -683,7 +682,7 @@ function getActionContent({ record, args, createdByLink }) {
   )
 }
 
-// TODO: routing for highligted
+// TODO: routing for highligted action
 
 function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
   const actionUrl = '#'
@@ -1003,6 +1002,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
               const [_hue, _saturation, light] = convertRGBToHSL(...result)
               // console.log(result)
               setThumbnailColor(result)
+              // TODO: телега рисует подложку интереснее, как ambilight
             }}
           />
         ) : (
