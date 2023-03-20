@@ -188,6 +188,17 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [x] Как выдать сообщение в консоль Хрома (как Linear)
 - [x] Навигация кнопками от элемента под мышкой (как в Trello и Linear)
   - https://codepen.io/kc3svj/pen/MWVPQXz
+- [x] Интеграция с fullcalendar.io - nope
+- [x] Custom Scrollbar
+  - https://levelup.gitconnected.com/build-on-hover-custom-scrollbar-in-react-d846194a7ea4
+  - https://github.com/hkurra/react-on-hover-scrollbar
+  - https://css-tricks.com/scrollbars-on-hover/
+  - https://www.thisdot.co/blog/creating-custom-scrollbars-with-react
+  - https://kingsora.github.io/OverlayScrollbars/
+  - https://github.com/buzinas/simple-scrollbar/
+  - https://github.com/Diokuz/react-baron
+  - https://manos.malihu.gr/jquery-custom-content-scroller/
+  - https://github.com/inuyaksa/jquery.nicescroll - support .pageXOffset
 - [ ] RBD - мигает курсор стрелки
   - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
 - [ ] Оценить интерфейсы Trello
@@ -262,7 +273,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] as Open Source Alternative
   - https://www.producthunt.com/products/erxes
   - https://rocket.chat
-- [x] Интеграция с fullcalendar.io - nope
 - [ ] Добавить в список open-source-alternatives
   - https://www.btw.so/open-source-alternatives
 - [ ] Как спрятать от Wappalyzer (как Linear)
@@ -277,16 +287,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] TreeView via react-window
   - https://codesandbox.io/s/a-quick-react-tree-component-based-on-react-window-tyxnm
   - https://lodin.github.io/react-vtree/
-- [+] Custom Scrollbar
-  - https://levelup.gitconnected.com/build-on-hover-custom-scrollbar-in-react-d846194a7ea4
-  - https://github.com/hkurra/react-on-hover-scrollbar
-  - https://css-tricks.com/scrollbars-on-hover/
-  - https://www.thisdot.co/blog/creating-custom-scrollbars-with-react
-  - https://kingsora.github.io/OverlayScrollbars/
-  - https://github.com/buzinas/simple-scrollbar/
-  - https://github.com/Diokuz/react-baron
-  - https://manos.malihu.gr/jquery-custom-content-scroller/
-  - https://github.com/inuyaksa/jquery.nicescroll - support .pageXOffset
 - [ ] Memoization
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
   - https://www.npmjs.com/package/use-memo-one
