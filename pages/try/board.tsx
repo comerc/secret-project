@@ -1,4 +1,4 @@
-import Board from '.../components/Board'
+import Board from '.../components/try/Board'
 import { resetServerContext } from 'react-beautiful-dnd'
 import generateSentence from '.../utils/generateSentence'
 

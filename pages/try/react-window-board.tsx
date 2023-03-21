@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactWindowBoard from '.../components/ReactWindowBoard'
+import ReactWindowBoard from '.../components/try/ReactWindowBoard'
 // import { resetServerContext } from 'react-beautiful-dnd'
 import ClientOnly from '.../components/ClientOnly'
 import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars'

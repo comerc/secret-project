@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import Layout from '.../components/Layout'
-import AccessDenied from '.../components/AccessDenied'
+import Layout from '.../components/try/Layout'
+import AccessDenied from '.../components/try/AccessDenied'
 
 export default function ProtectedPage() {
   const { data: session } = useSession()

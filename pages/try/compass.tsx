@@ -1,4 +1,4 @@
-import Editor from '.../components/Compass'
+import Editor from '.../components/try/Compass'
 import ClientOnly from '.../components/ClientOnly'
 import prepopulatedRichText from '.../utils/prepopulatedRichText'
 

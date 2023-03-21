@@ -1,4 +1,4 @@
-import ReactVirtuozoBoard from '.../components/ReactVirtuozoBoard'
+import ReactVirtuozoBoard from '.../components/try/ReactVirtuozoBoard'
 import { resetServerContext } from 'react-beautiful-dnd'
 
 export const getServerSideProps = async ({ query }) => {
