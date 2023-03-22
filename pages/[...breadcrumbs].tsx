@@ -1,24 +1,21 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import {
-  SearchOutlined,
+  // SearchOutlined,
   UserOutlined,
-  BellOutlined,
-  QuestionCircleOutlined,
-  StarOutlined,
-  StarFilled,
-  LockTwoTone,
-  LockOutlined,
-  GlobalOutlined,
-  TeamOutlined,
-  BlockOutlined,
+  // StarOutlined,
+  // StarFilled,
+  // LockTwoTone,
+  // LockOutlined,
+  // GlobalOutlined,
+  // TeamOutlined,
+  // BlockOutlined,
   CheckOutlined,
   CloseOutlined,
   PlusOutlined,
   DownOutlined,
-  FilterOutlined,
-  CalendarOutlined,
+  // FilterOutlined,
+  // CalendarOutlined,
   ClockCircleOutlined,
   UserAddOutlined,
   BarsOutlined,
@@ -48,7 +45,6 @@ import {
   PictureOutlined,
   DownloadOutlined,
   SmileOutlined,
-  HeartOutlined,
   LoadingOutlined,
   FireOutlined,
 } from '@ant-design/icons'
@@ -56,17 +52,14 @@ import {
   // Layout,
   Tooltip,
   Avatar,
-  Form,
+  // Form,
   Drawer,
   Button,
   Input,
   Checkbox,
   Modal,
-  // Icon,
-  Dropdown,
   Space,
-  Divider,
-  theme,
+  // Divider,
   // TODO: renderCloseIcon,
   Progress,
 } from 'antd'
@@ -87,6 +80,11 @@ import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 // import { useScrollWithShadow } from '.../utils/useScrollWithShadow'
 import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars'
+import Header from '.../components/Header'
+import HeaderButton from '.../components/HeaderButton'
+import BoardHeader from '.../components/BoardHeader'
+import CustomDropdown from '.../components/CustomDropdown'
+import MemberIcon from '.../components/MemberIcon'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -1834,9 +1832,9 @@ function ExtrasButton() {
     return {
       key,
       label: (
-        <CustomDropdownItem>
+        <CustomDropdown.Item>
           <div className="truncate">{itemText}</div>
-        </CustomDropdownItem>
+        </CustomDropdown.Item>
       ),
     }
   })
@@ -2431,12 +2429,6 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   return { props: { issues, boardId, issueId: null, urlName, favorites, members } }
 }
 
-function HeaderDivider() {
-  return (
-    <div className="float-left ml-1 mr-2 mt-2 mb-3 inline-block h-4 border-l border-[var(--dynamic-text-transparent)]" />
-  )
-}
-
 function MenuDivider() {
   return <hr className="my-2 border-[var(--ds-border,#091e4221)]" />
 }
@@ -2461,371 +2453,6 @@ function MenuButton({ icon, children, subtitle }) {
   //     <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
   //   </a>
   // )
-}
-
-function ShareButton() {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const close = () => {
-    setIsOpen(false)
-  }
-  return (
-    <>
-      <BoardHeaderButton
-        // aria-label=""
-        title="Поделиться доской"
-        onClick={(e) => {
-          setIsOpen(true)
-        }}
-        className="float-left"
-        icon={<UserAddOutlined />}
-        colors="bg-[var(--ds-background-input,#FFFFFF)] text-[var(--ds-text,#000000)] hover:bg-[var(--ds-background-input-hovered,#ffffffe5)]"
-      >
-        Поделиться
-      </BoardHeaderButton>
-      <Modal
-        open={isOpen}
-        onCancel={close}
-        title="Поделиться доской"
-        // transitionName=""
-        // maskTransitionName=""
-        // style={null}
-        // closable={false}
-        footer={null}
-        destroyOnClose
-        centered
-        // width={760}
-        // mask={false}
-        // wrapClassName="search-modal"
-      >
-        123
-      </Modal>
-    </>
-  )
-}
-
-// TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
-// TODO: drag'n'drop для Avatar на ListCard
-function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
-  return (
-    <button
-      title={`${name.first} ${name.last} (${username})`}
-      className={cx(
-        '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
-        'hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)] hover:[&>.ant-avatar>img]:opacity-80',
-        'active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)] active:[&>.ant-avatar>img]:opacity-70',
-      )}
-      onClick={(event) => {
-        // event.preventDefault()
-        // TODO: popup профиля
-      }}
-    >
-      <Avatar draggable={false} src={thumbnail} style={{ zIndex }} />
-    </button>
-  )
-}
-
-function MembersButton({ members }) {
-  const maxCount = 5
-  return (
-    <Avatar.Group
-      className={cx(
-        'float-left mb-1 mr-1 inline-flex h-8 items-center px-1',
-        members.length > maxCount &&
-          'select-none [&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)] active:[&>:last-child]:bg-[var(--dynamic-button-pressed)]',
-      )}
-      size="small"
-      maxPopoverPlacement="bottomLeft"
-      maxPopoverTrigger="click"
-      {...{ maxCount }}
-    >
-      {members.map((member, index, a) => (
-        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
-      ))}
-    </Avatar.Group>
-  )
-}
-
-function InFavoritesButton({ favorites, onDelete }) {
-  const items = favorites.map(({ boardId, name, workspace, color, wallpapper }) => (
-    <div key={boardId} className="pt-1 pb-1">
-      <div className="flex h-8 select-none rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
-        <div
-          className="h-8 w-[52px] flex-none rounded-[3px]"
-          style={{
-            backgroundColor: color,
-            // TODO: wallpapper
-          }}
-        />
-        <div className="flex grow flex-col truncate pl-2">
-          <div className="truncate text-[14px] font-[500] leading-[18px]">{name}</div>
-          <div className="truncate text-[12px] leading-[12px] text-[var(--ds-text-subtle,#5E6C84)]">
-            {workspace}
-          </div>
-        </div>
-        <div className="flex w-8 flex-none items-center justify-center">
-          <Button
-            className="border-[var(--ds-border,#091e4221)] shadow-none [&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
-            title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
-            icon={<StarFilled />}
-            size="small"
-            onClick={() => onDelete(boardId)}
-          ></Button>
-        </div>
-      </div>
-    </div>
-  ))
-  return (
-    <CustomDropdown
-      smallSize
-      footer={
-        items.length === 0 ? (
-          // TODO: добавить картинку
-          <div className="mt-3 mb-2 text-center">
-            Чтобы быстро находить важные доски, отмечайте их.
-          </div>
-        ) : (
-          // TODO: добавить перестановку через drag'n'drop
-          <div className="mb-2">{items}</div>
-        )
-      }
-    >
-      <BoardHeaderButton
-        aria-label="Избранные"
-        // title="" // TODO: добавить title
-        colors="bg-transparent text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]"
-        // var(--header-menu-background)
-        // var(--header-menu-color)
-      >
-        В избранном
-        <DownOutlined />
-      </BoardHeaderButton>
-    </CustomDropdown>
-  )
-}
-
-function FilterItem({ background, icon, text, isFirst }) {
-  return (
-    <Checkbox
-      value={text} // TODO: реализовать фильтр
-      className={cx(
-        'flex items-center [&>.ant-checkbox]:top-0',
-        isFirst ? 'text-[var(--ds-text-subtle,#5e6c84)]' : 'text-[var(--ds-text, #172b4d)]', // TODO: first:
-      )}
-    >
-      {icon ? (
-        <Space>
-          <div className={cx('flex h-6 w-6 items-center justify-center rounded-[50%]', background)}>
-            {icon}
-          </div>
-          {text}
-        </Space>
-      ) : (
-        text
-      )}
-    </Checkbox>
-  )
-}
-
-function FilterButton() {
-  const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
-  const [filterCount, setFilterCount] = React.useState(8)
-  const isFilter = filterCount > 0
-  const [isOpen, setOpen] = React.useState(false)
-  const [form] = Form.useForm()
-  const memberItems = [
-    {
-      icon: <UserOutlined className="text-[var(--ds-icon-subtle,#6B778C)]" />,
-      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
-      text: 'Нет участников',
-    },
-    {
-      icon: <UserOutlined className="text-[white]" />,
-      background: 'bg-[green]',
-      text: 'Карточки, назначенные мне',
-    },
-  ]
-  const deadlineItems = [
-    {
-      icon: <CalendarOutlined className="text-[var(--ds-icon-subtle,#6B778C)]" />,
-      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
-      text: 'Без даты',
-    },
-    {
-      icon: <ClockCircleOutlined className="text-[var(--ds-icon-inverse,#FFFFFF)]" />,
-      background: 'bg-[var(--ds-background-danger-bold,#EB5A46)]',
-      text: 'Просроченные',
-    },
-    {
-      icon: <ClockCircleOutlined className="text-[var(--ds-icon-inverse,#FFFFFF)]" />,
-      background: 'bg-[var(--ds-background-warning-bold,#F2D600)]',
-      text: 'Срок истекает в течение суток',
-    },
-    {
-      icon: <ClockCircleOutlined className="var(--ds-icon,#42526E)" />,
-      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
-      text: 'Срок истекает в течение недели',
-    },
-    {
-      icon: <ClockCircleOutlined className="var(--ds-icon,#42526E)" />,
-      background: 'bg-[var(--ds-background-neutral,#EBECF0)]',
-      text: 'Срок истекает в течение месяца',
-    },
-    {
-      text: 'Отмечено как выполненное',
-    },
-    {
-      text: 'Не отмечено как выполненное',
-    },
-  ]
-  return (
-    <CustomDropdown
-      items={[]}
-      placement="bottom"
-      header="Фильтр"
-      footer={
-        <Form
-          className="w-full pt-1"
-          layout="vertical"
-          // initialValues={{ requiredMarkValue: requiredMark }}
-          // onValuesChange={onRequiredTypeChange}
-          // requiredMark={requiredMark}
-          {...{ form }}
-        >
-          <Form.Item
-            label="Ключевое слово"
-            help="Поиск карточек, участников, меток и т. д."
-            // TODO: label var(--ds-text-subtle, #5e6c84)
-          >
-            <Input
-              placeholder="Введите ключевое слово…"
-              className="mt-[-2px] rounded-[3px] bg-[var(--ds-background-input,#fafbfc)] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
-            />
-          </Form.Item>
-          <Form.Item label="Участники">
-            <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
-              <Space direction="vertical" className="w-full">
-                {memberItems.map((item, index) => (
-                  <FilterItem key={index} {...item} isFirst={index === 0} />
-                ))}
-              </Space>
-            </Checkbox.Group>
-          </Form.Item>
-          <Form.Item label="Срок">
-            <Checkbox.Group className="flex w-full select-none flex-col [&>.ant-checkbox-wrapper]:ml-0">
-              <Space direction="vertical" className="w-full">
-                {(isAllDeadlineItems ? deadlineItems : deadlineItems.slice(0, 3)).map(
-                  (item, index) => (
-                    <FilterItem key={index} {...item} isFirst={index === 0} />
-                  ),
-                )}
-              </Space>
-            </Checkbox.Group>
-            {isAllDeadlineItems || (
-              <Button
-                className="ml-6 mt-2 p-0 text-[var(--ds-link,#5e6c84)] hover:text-[var(--ds-link,#172b4d)] hover:underline"
-                type="link"
-                size="small"
-                onClick={() => setAllDeadlineItems(true)}
-              >
-                Показать все параметры
-                <DownOutlined />
-              </Button>
-            )}
-          </Form.Item>
-        </Form>
-        // TODO: фильтр по меткам
-        // TODO: выбор типа совпадения
-      }
-      onOpenChange={(flag) => {
-        setOpen(flag)
-        if (flag) {
-          setAllDeadlineItems(false) // TODO: сворачивать, только если не отмечено из расширенного списка
-          // setFilter(true)
-        } else {
-          // setFilter(false)
-        }
-      }}
-    >
-      <div className="float-left mb-1 mr-1 inline-flex">
-        <BoardHeaderButton
-          // aria-label=""
-          title="Фильтр карточек"
-          // onClick={(event) => {
-          //   event.preventDefault()
-          // }}
-          indent={false}
-          icon={<FilterOutlined />}
-          colors={cx(
-            (isOpen || isFilter) &&
-              'bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]',
-          )}
-          className={cx(isFilter && 'rounded-r-none')}
-        >
-          Фильтр
-          {isFilter && (
-            <span className="ml-2 rounded-[20px] bg-[var(--dynamic-button-highlighted-hovered)] px-1.5">
-              {filterCount}
-            </span>
-          )}
-        </BoardHeaderButton>
-        {isFilter && (
-          <BoardHeaderButton
-            // aria-label=""
-            title="Очистить фильтры"
-            indent={false}
-            colors="bg-[var(--dynamic-button-highlighted)] text-[var(--dynamic-button-highlighted-text)] hover:bg-[var(--dynamic-button-highlighted-hovered)] hover:text-[var(--dynamic-button-highlighted-text)]"
-            className="rounded-l-none"
-            icon={<CloseOutlined />}
-            onClick={(event) => {
-              event.stopPropagation()
-              setFilterCount(0)
-            }}
-          />
-        )}
-      </div>
-    </CustomDropdown>
-  )
-}
-
-function PlusButton() {
-  const handleClick = () => {}
-  const ariaLabel = 'Создать доску или рабочее пространство'
-  return (
-    <div tabIndex={0} className="mr-1 mb-1 ml-2">
-      <div className="lg:hidden">
-        <BoardHeaderButton
-          aria-label={ariaLabel}
-          tabIndex={-1}
-          indent={false}
-          icon={<PlusOutlined />}
-          onClick={handleClick}
-          // исключён active:bg- (как в оригинале)
-          colors="bg-[var(--dynamic-button)] text-[var(--dynamic-text)] hover:bg-[var(--dynamic-button-hovered)]"
-        />
-      </div>
-      <div className="hidden lg:block">
-        <BoardHeaderButton
-          aria-label={ariaLabel}
-          tabIndex={-1}
-          indent={false}
-          onClick={handleClick}
-        >
-          Создать
-        </BoardHeaderButton>
-      </div>
-    </div>
-  )
-}
-
-function MoreButton({ onClick }) {
-  // TODO: во время анимации появляется горизонтальная прокрутка окна
-  return (
-    <BoardHeaderButton
-      className="float-left"
-      icon={<MoreOutlined />}
-      {...{ onClick }}
-    ></BoardHeaderButton>
-  )
 }
 
 // function CloseButton({ onClick }) {
@@ -2854,471 +2481,6 @@ function MoreButton({ onClick }) {
 //     </button>
 //   )
 // }
-
-function CustomDropdownItem({ children }) {
-  return (
-    <a
-      tabIndex={-1}
-      href="#" // TODO: replace to role="button" or <button />
-      onClick={(event) => {
-        event.preventDefault()
-      }}
-      className="mx-[-12px] block py-[6px] px-[12px] text-sm text-[var(--ds-text,#172b4d)] hover:bg-[var(--ds-background-neutral-hovered,#091e420a)] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
-    >
-      {children}
-    </a>
-  )
-}
-
-function CustomDropdown({
-  header,
-  footer,
-  items = [],
-  onClick,
-  onOpenChange,
-  placement = 'bottomLeft',
-  smallSize = false,
-  children,
-}) {
-  const [open, setOpen] = React.useState(false)
-  // const { width, height } = useWindowSize() // TODO: ошибки в смещении при уменьшении размера экрана
-  const { token } = theme.useToken()
-  const contentStyle = {
-    backgroundColor: token.colorBgElevated,
-    // borderRadius: token.borderRadiusLG,
-    boxShadow: token.boxShadowSecondary,
-  }
-  const menuStyle = {
-    boxShadow: 'none',
-  }
-  return (
-    <Dropdown
-      menu={{
-        items,
-        onClick: (event) => {
-          if (onClick) {
-            onClick(event)
-          }
-          setOpen(false)
-        },
-      }}
-      dropdownRender={(menu) => (
-        <div
-          style={{
-            ...contentStyle,
-            // TODO: ошибки в смещении при уменьшении размера экрана
-            // width: `${width}px`
-          }}
-          className={cx(
-            'rounded-[3px]',
-            // TODO: max-w-
-            // TODO: FilterButton - 384px (а надо?)
-            smallSize ? 'w-[304px]' : 'w-[370px]',
-          )}
-        >
-          {header && (
-            <div className="relative mb-2">
-              <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-7 text-center leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
-                {header}
-              </span>
-              <a
-                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                href="#" // TODO: replace to role="button" or <button />
-                onClick={(event) => {
-                  event.preventDefault()
-                  setOpen(false)
-                }}
-              >
-                <CloseOutlined />
-              </a>
-            </div>
-          )}
-          {!header && !footer && <div className="pt-3" />}
-          {items.length > 0 && (
-            <div
-              className={cx(
-                'overflow-y-auto overflow-x-hidden px-3 pb-3',
-                '[&>.ant-dropdown-menu]:p-0',
-                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item]:p-0',
-                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item:hover]:bg-black/0',
-                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:my-2',
-                '[&>.ant-dropdown-menu>.ant-dropdown-menu-item-divider]:bg-[var(--ds-border,#091e4221)]',
-              )}
-              // TODO: ошибки в смещении при уменьшении размера экрана
-              // style={{
-              //   maxHeight: `calc(${height}px - 48px)`,
-              // }}
-            >
-              {React.cloneElement(menu as React.ReactElement, {
-                tabIndex: '-1', // TODO: пока отключил [TAB], надо включить
-                style: menuStyle,
-              })}
-            </div>
-          )}
-          {footer && <div className="px-3 py-3">{footer}</div>}
-        </div>
-      )}
-      trigger={['click']}
-      onOpenChange={(flag) => {
-        setOpen(flag)
-        if (onOpenChange) {
-          onOpenChange(flag)
-        }
-      }}
-      // TODO: placement - ошибки в смещении при уменьшении размера экрана
-      {...{ open, placement }}
-    >
-      {children}
-    </Dropdown>
-  )
-}
-
-function PermisionLevelButton() {
-  const [selected, setSelected] = React.useState('public')
-  const map = {
-    private: {
-      icon: <LockTwoTone twoToneColor="#eb5a46" />, // TODO: var(--ds-icon-accent-red,#eb5a46)
-      buttonIcon: <LockOutlined />,
-      itemText: 'Приватная',
-      title: 'Просматривать и изменять эту доску могут только её участники.',
-    },
-    workspace: {
-      icon: <TeamOutlined style={{ color: '#42526e' }} />, // TODO: var(--ds-icon,#42526e);
-      buttonIcon: <TeamOutlined />,
-      itemText: 'Рабочее пространство', // TODO: itemSubText
-      buttonText: 'Для рабочего пространства',
-      title: 'Просматривать и изменять эту доску могут все участники рабочего пространства.',
-    },
-    // TODO: добавить режим 'enterprise'
-    // enterprise: {
-    //   icon: <BlockOutlined style={{ color: '#6b778c' }} />, // TODO: var(--ds-icon-subtle,#6b778c);
-    //   buttonIcon: <BlockOutlined />,
-    //   itemText: 'Организация',
-    //   title:
-    //     'Просматривать эту доску могут все сотрудники организации. Чтобы предоставить это разрешение, доску нужно добавить в корпоративное рабочее пространство.',
-    // },
-    // TODO: добавить подтверждение перед включением публичного режима
-    public: {
-      icon: <GlobalOutlined style={{ color: '#61bd4f' }} />, // TODO: var(--ds-icon-accent-green,#61bd4f);
-      buttonIcon: <GlobalOutlined />,
-      itemText: 'Публичная',
-      title: 'Публичные доски доступны для всех в Интернете.',
-    },
-  }
-  const items = Object.entries(map).map(([key, { icon, itemText, title }]) => ({
-    key,
-    label: (
-      <CustomDropdownItem>
-        <span className="flex items-center">
-          <span className="mr-1 inline-flex">{icon}</span>
-          {itemText}
-          {key === selected && (
-            <span className="ml-2 inline-flex text-[var(--ds-icon,#42526e)]">
-              <CheckOutlined />
-            </span>
-          )}
-        </span>
-        <span className="mt-1 inline-block text-xs text-[var(--ds-text-subtle,#5e6c84)]">
-          {title}
-        </span>
-      </CustomDropdownItem>
-    ),
-  }))
-  const value = map[selected]
-  return (
-    <CustomDropdown
-      header="Изменение видимости"
-      onClick={(event) => {
-        setSelected(event.key)
-      }}
-      {...{ items }}
-    >
-      <BoardHeaderButton
-        aria-label="Изменить уровень доступа к доске"
-        title={value.title}
-        onClick={(e) => e.preventDefault()}
-        icon={value.buttonIcon}
-        className="float-left"
-      >
-        {value.buttonText || value.itemText}
-      </BoardHeaderButton>
-    </CustomDropdown>
-  )
-}
-
-// TODO: Using <Button> results in "findDOMNode is deprecated in StrictMode" warning
-// https://github.com/ant-design/ant-design/issues/22493
-
-function FavoriteButton({ boardId, favorites, onChange }) {
-  const switchState = favorites.findIndex((item) => item.boardId === boardId) > -1
-  return (
-    <BoardHeaderButton
-      className={cx(
-        'float-left',
-        '[&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125',
-        switchState && '[&>.anticon]:text-[#f2d600]',
-      )}
-      aria-label="Добавить или удалить доску из избранного"
-      title="Нажмите, чтобы добавить или удалить доску из избранного. Избранные доски отображаются вверху вашего списка досок."
-      icon={switchState ? <StarFilled /> : <StarOutlined />}
-      onClick={() => {
-        onChange(!switchState)
-      }}
-    ></BoardHeaderButton>
-  )
-}
-
-function BoardHeaderButton({
-  className,
-  title,
-  children,
-  icon,
-  onClick,
-  'aria-label': ariaLabel,
-  tabIndex = 0,
-  indent = true,
-  colors,
-  shape = 'default',
-}) {
-  return (
-    <Button
-      aria-label={ariaLabel}
-      className={cx(
-        // FIX: вынес, т.к. не работает переопределение цветов в className (для FilterButton)
-        colors ||
-          [
-            'bg-[var(--dynamic-button)]',
-            'text-[var(--dynamic-text)]',
-            'hover:bg-[var(--dynamic-button-hovered)]',
-            'active:bg-[var(--dynamic-button-pressed)]',
-          ].join(' '),
-        'border-0 leading-5 shadow-none',
-        shape === 'default' && 'rounded-[3px]',
-        indent && 'mr-1 mb-1',
-        children && 'px-3', // : 'w-8 px-0',
-        className,
-      )}
-      {...{ title, icon, onClick, tabIndex, shape }}
-    >
-      {children}
-    </Button>
-  )
-}
-
-function BoardNameButton({ defaultValue, onEndEdit }) {
-  const inputRef = React.useRef()
-  const textRef = React.useRef()
-  const [state, setState] = React.useState({
-    isInput: false,
-    width: 0,
-    value: defaultValue,
-  })
-  return (
-    <div
-      className={cx(
-        'relative float-left mr-1 mb-1 h-[32px] rounded-[3px] text-[18px] font-bold leading-8',
-        'text-[var(--dynamic-text)]',
-        'hover:bg-[var(--dynamic-button-hovered)]',
-        'active:bg-[var(--dynamic-button-pressed)]',
-      )}
-      style={{
-        maxWidth: 'calc(100% - 24px)',
-        transition: '.1s ease',
-      }}
-    >
-      <a
-        href="#" // TODO: replace to role="button" or <button />
-        aria-label="Редактировать название доски"
-        title="Нажмите, чтобы отредактировать название доски."
-        onClick={(event) => {
-          event.preventDefault()
-          setState({
-            ...state,
-            isInput: true,
-            width: textRef.current.offsetWidth,
-          })
-          setTimeout(() => {
-            inputRef.current.focus({
-              preventScroll: true,
-              cursor: 'all',
-            })
-          })
-        }}
-      >
-        <h1 ref={textRef} className="mb-3 min-w-[25px] max-w-full truncate whitespace-pre px-3">
-          {state.value}
-        </h1>
-      </a>
-      <Input
-        className={cx(
-          'absolute top-0 left-0 right-0 bottom-0',
-          'h-[32px] rounded-[3px] px-3 py-0 text-[18px] font-bold leading-5',
-          'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
-          state.isInput || 'hidden',
-        )}
-        bordered={false}
-        ref={inputRef}
-        maxlengt={512}
-        spellCheck={false}
-        onBlur={() => {
-          let value = state.value.trim()
-          if (value == '') {
-            value = defaultValue
-          }
-          textRef.current.innerText = value // for textRef.current.offsetWidth
-          setState({
-            isInput: false,
-            width: textRef.current.offsetWidth,
-            value,
-          })
-          onEndEdit(value)
-        }}
-        value={state.value}
-        onChange={(event) => {
-          const value = event.target.value
-          textRef.current.innerText = value // for textRef.current.offsetWidth
-          setState({
-            ...state,
-            value,
-            width: textRef.current.offsetWidth,
-          })
-        }}
-      />
-    </div>
-  )
-}
-
-function NavHeaderButton({ icon }) {
-  return (
-    <div role="presentation">
-      <Button
-        className="border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
-        shape="circle"
-        {...{ icon }}
-      ></Button>
-    </div>
-  )
-}
-
-function SearchPrefixIcon({ onClick }) {
-  return (
-    <Button
-      className={cx(
-        'h-[22px] w-[22px] min-w-[22px] border-0 bg-transparent shadow-none',
-        onClick ? 'text-white' : 'text-black',
-      )}
-      size="small"
-      shape="circle"
-      icon={<SearchOutlined />}
-      {...{ onClick }}
-    />
-  )
-}
-
-function Search({ defaultValue, close }) {
-  const inputRef = React.useRef()
-  React.useEffect(() => {
-    inputRef.current.focus()
-  }, [])
-  const ref = React.useRef()
-  useOnClickOutside(ref, close)
-  return (
-    <div ref={ref}>
-      <Input
-        ref={inputRef}
-        className="pointer-events-auto rounded-[5px] border border-solid border-[var(--ds-border-focused,#388BFF)] bg-[white] pl-1 text-[var(--ds-text,#172b4d)]"
-        bordered={false}
-        placeholder="Поиск в CSP"
-        prefix={<SearchPrefixIcon />}
-        {...{ defaultValue }}
-      />
-      <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
-        <div
-          // TODO: overflow-y-auto неправильно работает
-          className=""
-        >
-          <Button>OK</Button>
-          <p>some contents…</p>
-          <p>some contents…</p>
-          <p>some contents…</p>
-        </div>
-        <div>Footer</div>
-      </div>
-    </div>
-  )
-}
-
-function SearchButton() {
-  const [isSearch, setIsSearch] = React.useState(false)
-  const [search, setSearch] = React.useState('')
-  const inputContainerRef = React.useRef()
-  const inputRef = React.useRef()
-  const buttonContainerRef = React.useRef()
-  const buttonRef = React.useRef()
-  const close = () => {
-    setSearch('')
-    setIsSearch(false)
-    setTimeout(() => {
-      if (window.getComputedStyle(inputContainerRef.current).display === 'block') {
-        inputRef.current.focus()
-        inputRef.current.blur()
-      } else if (window.getComputedStyle(buttonContainerRef.current).display === 'block') {
-        buttonRef.current.focus()
-        buttonRef.current.blur()
-      }
-    })
-  }
-  return (
-    <>
-      <div ref={inputContainerRef} className={cx('hidden', isSearch || 'md:block')}>
-        <Input
-          className="rounded-[5px] border border-solid border-white/30 bg-white/[.15] pl-1 caret-white hover:bg-white/30 [&>input::placeholder]:text-white"
-          bordered={false}
-          placeholder="Поиск"
-          prefix={<SearchPrefixIcon onClick={() => setIsSearch(true)} />}
-          onClick={() => setIsSearch(true)}
-          onChange={(event) => {
-            setSearch(event.target.value)
-            setIsSearch(true)
-          }}
-          value={search}
-          ref={inputRef}
-        />
-      </div>
-      <div ref={buttonContainerRef} className={cx('md:hidden', isSearch && 'hidden')}>
-        <Button
-          className="rounded-[3px] border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
-          icon={<SearchOutlined />}
-          onClick={() => setIsSearch(true)}
-          ref={buttonRef}
-        />
-      </div>
-      <Modal
-        className={cx(
-          'top-[6px] pb-0',
-          '[&>.ant-modal-content]:pointer-events-none',
-          '[&>.ant-modal-content]:rounded-[3px]',
-          '[&>.ant-modal-content]:bg-white/0',
-          '[&>.ant-modal-content]:p-0',
-          '[&>.ant-modal-content]:shadow-none',
-        )}
-        open={isSearch}
-        onCancel={close}
-        transitionName=""
-        // maskTransitionName=""
-        // style={null}
-        closable={false}
-        footer={null}
-        destroyOnClose
-        width={760}
-        mask={false}
-        wrapClassName="search-modal"
-      >
-        <Search defaultValue={search} {...{ close }} />
-      </Modal>
-    </>
-  )
-}
 
 function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
   const router = useRouter()
@@ -3368,32 +2530,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
       className="h-full bg-[#cd5a91]" // overflow-hidden
     >
       <div id="surface" className="flex h-full flex-col">
-        <div className="max-h-[44px] min-h-[44px] overflow-hidden">
-          <nav
-            // TODO: transition
-            className="flex max-h-[44px] border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
-          >
-            <Link
-              href="/"
-              className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-[var(--dynamic-button-hovered)]"
-              aria-label="Вернуться на главную страницу"
-            >
-              <div className="flex h-8 items-center gap-1 text-[18px] font-bold leading-8 text-[var(--dynamic-text)]">
-                <HeartOutlined />
-                Secret
-              </div>
-            </Link>
-            <InFavoritesButton onDelete={handleDeleteFavorites} {...{ favorites }} />
-            <PlusButton />
-            <div className="flex grow"></div>
-            <div className="flex space-x-1">
-              <SearchButton />
-              <NavHeaderButton icon={<BellOutlined />} />
-              <NavHeaderButton icon={<QuestionCircleOutlined />} />
-              <NavHeaderButton icon={<UserOutlined />} />
-            </div>
-          </nav>
-        </div>
+        <Header {...{ favorites, handleDeleteFavorites }} />
         <main className="flex grow flex-col">
           <div className="flex flex-1 flex-row">
             <div id="content-wrapper" className="flex flex-1 flex-col">
@@ -3409,38 +2546,9 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
                       transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
                     }}
                   >
-                    <div
-                      id="board-header"
-                      className="h-auto bg-[var(--board-header-background-color)] pt-2 pr-1 pb-1 pl-2.5"
-                    >
-                      <BoardNameButton
-                        defaultValue="Minsk4"
-                        onEndEdit={(value) => {
-                          console.log(value)
-                        }}
-                      />
-                      <FavoriteButton
-                        onChange={handleChangeFavorites}
-                        {...{ favorites, boardId }}
-                      />
-                      <HeaderDivider />
-                      <PermisionLevelButton />
-                      <div className="float-right">
-                        <FilterButton />
-                        <HeaderDivider />
-                        <MembersButton {...{ members }} />
-                        <ShareButton />
-                        <HeaderDivider />
-                        {/* {isMoreButton && ( */}
-                        <MoreButton
-                          onClick={() => {
-                            // setIsMoreButton(false)
-                            setIsMenu(!isMenu)
-                          }}
-                        />
-                        {/* )} */}
-                      </div>
-                    </div>
+                    <BoardHeader
+                      {...{ members, boardId, isMenu, setIsMenu, favorites, handleChangeFavorites }}
+                    />
                     <div id="board-warnings"></div>
                     <div
                       id="board-canvas"
