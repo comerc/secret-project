@@ -16,13 +16,13 @@ import { useOnClickOutside } from 'usehooks-ts'
 import HeaderButton from '.../components/HeaderButton'
 import CustomDropdown from '.../components/CustomDropdown'
 
-function CircleButton({ icon }) {
+function CircleButton({ icon, title }) {
   return (
     <div role="presentation">
       <Button
         className="border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
         shape="circle"
-        {...{ icon }}
+        {...{ icon, title }}
       ></Button>
     </div>
   )
@@ -252,9 +252,9 @@ function Header({ favorites, handleDeleteFavorites }) {
         <div className="flex grow"></div>
         <div className="flex space-x-1">
           <SearchButton />
-          <CircleButton icon={<BellOutlined />} />
-          <CircleButton icon={<QuestionCircleOutlined />} />
-          <CircleButton icon={<UserOutlined />} />
+          <CircleButton icon={<BellOutlined />} title="Уведомления" />
+          <CircleButton icon={<QuestionCircleOutlined />} title="Информация" />
+          <CircleButton icon={<UserOutlined />} title="Учётная запись" />
         </div>
       </nav>
     </div>
