@@ -14,9 +14,9 @@ import { Button, Input, Modal } from 'antd'
 import cx from 'classnames'
 import { useOnClickOutside } from 'usehooks-ts'
 import HeaderButton from '.../components/HeaderButton'
-import CustomDropdown from '../components/CustomDropdown'
+import CustomDropdown from '.../components/CustomDropdown'
 
-function NavHeaderButton({ icon }) {
+function CircleButton({ icon }) {
   return (
     <div role="presentation">
       <Button
@@ -252,9 +252,9 @@ function Header({ favorites, handleDeleteFavorites }) {
         <div className="flex grow"></div>
         <div className="flex space-x-1">
           <SearchButton />
-          <NavHeaderButton icon={<BellOutlined />} />
-          <NavHeaderButton icon={<QuestionCircleOutlined />} />
-          <NavHeaderButton icon={<UserOutlined />} />
+          <CircleButton icon={<BellOutlined />} />
+          <CircleButton icon={<QuestionCircleOutlined />} />
+          <CircleButton icon={<UserOutlined />} />
         </div>
       </nav>
     </div>
