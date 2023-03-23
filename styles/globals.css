@@ -21,6 +21,12 @@
   .root .ant-form-item .ant-form-item-explain {
     @apply text-xs !important;
   }
+  .board-title {
+    @apply my-[6px] text-[16px] font-semibold leading-5 !important;
+  }
+  .horizontal-divider {
+    @apply border-[var(--ds-border,#091e4221)] !important;
+  }
 }
 
 .action-image-preview {

@@ -18,12 +18,9 @@ import {
   // CalendarOutlined,
   ClockCircleOutlined,
   UserAddOutlined,
-  BarsOutlined,
   // LayoutOutlined,
   EllipsisOutlined,
   MoreOutlined,
-  // BookOutlined,
-  ProjectOutlined,
   // ProfileOutlined,
   EditOutlined,
   EyeOutlined,
@@ -50,8 +47,6 @@ import {
   // Layout,
   Tooltip,
   Avatar,
-  // Form,
-  Drawer,
   Button,
   Input,
   Checkbox,
@@ -83,6 +78,7 @@ import BoardHeader from '.../components/BoardHeader'
 import MemberIcon from '.../components/MemberIcon'
 import Board from '.../components/Board'
 import getDueDateMode from '.../utils/getDueDateMode'
+import BoardMenu from '.../components/BoardMenu'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -904,7 +900,7 @@ function CardDetailActions({ actions }) {
 function CardDetailSection({ icon, title, actions, right = false, getCustomTitleBox, children }) {
   const getDefaultTitleBox = ({ onClick }) => (
     <div className="flex flex-wrap" {...{ onClick }}>
-      <BoardTitle className={cx(onClick && 'cursor-pointer')}>{title}</BoardTitle>
+      <h3 className={cx('board-title', onClick && 'cursor-pointer')}>{title}</h3>
       <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
       {actions}
     </div>
@@ -1270,16 +1266,6 @@ function CardDetailDescription() {
   )
 }
 
-function BoardTitle({ className, children }) {
-  return (
-    <h3 className={cx('my-[6px] text-[16px] font-semibold leading-5', className)}>{children}</h3>
-  )
-}
-
-function HorizontalDivider() {
-  return <hr className="mb-2 border-[var(--ds-border,#091e4221)]" />
-}
-
 function WindowSidebarButton({ children, ...rest }) {
   return (
     <CardDetailButton className="mb-2 w-full" truncated {...rest}>
@@ -1319,7 +1305,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
         <WindowSidebarButton icon={<CopyOutlined />}>Копирование</WindowSidebarButton>
         {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
         {/* <WindowSidebarButton icon={<LikeOutlined />}>// TODO: Голосовать</WindowSidebarButton> */}
-        <HorizontalDivider />
+        <hr className="horizontal-divider mb-2" />
         {isArchive || (
           <WindowSidebarButton
             icon={<DatabaseOutlined />}
@@ -1980,59 +1966,6 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   return { props: { issues, boardId, issueId: null, urlName, favorites, members } }
 }
 
-function MenuDivider() {
-  return <hr className="my-2 border-[var(--ds-border,#091e4221)]" />
-}
-
-function MenuButton({ icon, children, subtitle }) {
-  return (
-    <Button className="flex h-auto w-full items-start rounded-[3px] border-0 bg-transparent px-3 py-1.5 text-[var(--ds-text-subtle,inherit)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] active:bg-[var(--ds-background-neutral-subtle-pressed,#e4f0f6)]">
-      <div className="flex h-5 w-3.5 items-center justify-center leading-none">{icon}</div>
-      <div className="ml-2 flex grow flex-col items-start leading-5">
-        <div className="font-semibold">{children}</div>
-        <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
-      </div>
-    </Button>
-  )
-  // return (
-  //   <a
-  //     role="button" // TODO: replace to <button />
-  //     className="relative flex flex-col rounded-[3px] bg-transparent py-1.5 pl-9 pr-1.5 leading-5 text-[var(--ds-text-subtle,inherit)] hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)]"
-  //   >
-  //     <div className="absolute left-[12px] top-[9px] leading-none">{icon}</div>
-  //     <div className="font-semibold">{children}</div>
-  //     <div className="text-[var(--ds-text-subtle,#5E6C84)]">{subtitle}</div>
-  //   </a>
-  // )
-}
-
-// function CloseButton({ onClick }) {
-//   // неудачная попытка повторить кнопку модального диалога antd
-//   // TODO: для Drawer нужно увеличить размер
-//   return (
-//     <button
-//       tabIndex="-1"
-//       className="h-[22px] w-[22px] rounded-[4px] text-[14px] leading-[22px]
-//         transition-colors
-//         hover:bg-black/[0.06]
-//         active:bg-black/[0.15]
-//         [&>.anticon]:m-0
-//         [&>.anticon]:align-[-2px]
-//         [&>.anticon]:text-black/[0.45]
-//         [&:hover>.anticon]:text-black/[0.88]"
-//       type="button"
-//       aria-label="Close"
-//       onClick={onClick}
-//     >
-//       <CloseOutlined
-//       // style={{
-//       //   color: '#6b778c', // TODO: var(--ds-icon-subtle,#6b778c);
-//       // }}
-//       />
-//     </button>
-//   )
-// }
-
 function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
   const router = useRouter()
   const { breadcrumbs } = router.query
@@ -2112,54 +2045,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
                       <Board {...{ issues }} />
                     </div>
                   </div>
-                  <Drawer
-                    className="relative bg-[var(--ds-surface-overlay,#f4f5f7)]"
-                    bodyStyle={{
-                      padding: '0 12px',
-                    }}
-                    // title="Меню"
-                    placement="right"
-                    // onClose={() => {
-                    //   setIsMenu(false)
-                    // }}
-                    // afterOpenChange={() => {
-                    //   if (!isMenu) setIsMoreButton(true)
-                    // }}
-                    open={isMenu}
-                    mask={false}
-                    getContainer={false}
-                    width={339 + 6}
-                    closable={false}
-                    // extra={
-                    //   <CloseButton
-                    //     onClick={() => {
-                    //       setIsMenu(false)
-                    //     }}
-                    //   />
-                    // }
-                  >
-                    <div className="flex h-12 items-center justify-center px-9">
-                      <BoardTitle>Меню</BoardTitle>
-                    </div>
-                    <a
-                      className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-                      href="#" // TODO: replace to role="button" or <button />
-                      onClick={(event) => {
-                        event.preventDefault()
-                        setIsMenu(false)
-                      }}
-                    >
-                      <CloseOutlined className="scale-125" />
-                    </a>
-                    <HorizontalDivider />
-                    <MenuButton icon={<ProjectOutlined />} subtitle="Добавьте описание для доски">
-                      О доске
-                    </MenuButton>
-                    <MenuButton>Сменить фон</MenuButton>
-                    <MenuButton icon={<EllipsisOutlined />}>Ещё</MenuButton>
-                    <MenuDivider />
-                    <MenuButton icon={<BarsOutlined />}>Действия</MenuButton>
-                  </Drawer>
+                  <BoardMenu isMenu={isMenu} setIsMenu={setIsMenu} />
                 </div>
               </div>
             </div>
