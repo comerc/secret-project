@@ -1,6 +1,10 @@
 import React from 'react'
 import { CloseOutlined, BarsOutlined, EllipsisOutlined, ProjectOutlined } from '@ant-design/icons'
-import { Drawer, Button } from 'antd'
+import {
+  Drawer,
+  Button,
+  // TODO: renderCloseIcon,
+} from 'antd'
 
 function MenuButton({ icon, children, subtitle }) {
   return (
