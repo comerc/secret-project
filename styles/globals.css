@@ -291,7 +291,7 @@ body::-webkit-scrollbar {
   --os-size: 7px;
   --os-handle-interactive-area-offset: 1px;
   --os-padding-axis: 0;
-  --os-padding-perpendicular: 2px;
+  --os-padding-perpendicular: 0;
   --os-handle-bg: rgba(0, 0, 0, 0.3);
   --os-handle-bg-hover: rgba(0, 0, 0, 0.4);
   --os-handle-bg-active: rgba(0, 0, 0, 0.5);

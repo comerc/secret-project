@@ -1,5 +1,4 @@
 import React from 'react'
-import { Modal, Avatar, Input, Form, Checkbox, Space, Button } from 'antd'
 import {
   StarOutlined,
   StarFilled,
@@ -18,6 +17,7 @@ import {
   MoreOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
+import { Modal, Avatar, Input, Form, Checkbox, Space, Button } from 'antd'
 import cx from 'classnames'
 import HeaderButton from '.../components/HeaderButton'
 import CustomDropdown from '.../components/CustomDropdown'

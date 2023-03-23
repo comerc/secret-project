@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useScrollWithShadow() {
+function useScrollWithShadow() {
   const [scrollTop, setScrollTop] = useState(0)
   const [scrollHeight, setScrollHeight] = useState(0)
   const [clientHeight, setClientHeight] = useState(0)
@@ -32,3 +32,5 @@ export function useScrollWithShadow() {
 
   return { boxShadow: getBoxShadow(), onScrollHandler }
 }
+
+export default useScrollWithShadow
