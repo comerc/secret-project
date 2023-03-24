@@ -41,8 +41,11 @@ import labelColors from '.../utils/labelColors'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
 import getDueDateMode from '.../utils/getDueDateMode'
+import actionRecords from '.../utils/actionRecords'
+import getLiteralDate from '.../utils/getLiteralDate'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
+// TODO: почикать префиксы *
 
 function EditCloseButton({ onClick }) {
   return (
@@ -64,7 +67,7 @@ function EditCloseButton({ onClick }) {
   )
 }
 
-function CardDetailChecklistNewItem() {
+function ChecklistNewItem() {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
   // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
@@ -86,7 +89,7 @@ function CardDetailChecklistNewItem() {
     />
   ) : (
     <div className="mt-2">
-      <CardDetailButton
+      <CustomButton
         onClick={() => {
           setIsExpanded(false)
           setTimeout(() => {
@@ -96,12 +99,12 @@ function CardDetailChecklistNewItem() {
         }}
       >
         Добавить элемент
-      </CardDetailButton>
+      </CustomButton>
     </div>
   )
 }
 
-function CardDetailChecklistItemButton({ icon, circle, transparent, onClick }) {
+function ChecklistItemButton({ icon, circle, transparent, onClick }) {
   return (
     <Button
       className={cx(
@@ -161,7 +164,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
         />
       </div>
       <div className="mt-2 flex gap-1">
-        <CardDetailButton
+        <CustomButton
           primary
           onClick={() => {
             if (value.trim() === '') {
@@ -177,19 +180,19 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
           }}
         >
           {isNew ? 'Добавить' : 'Сохранить'}
-        </CardDetailButton>
+        </CustomButton>
         {/* // TODO: сбрасывать defaultValue по кнопке Отмена/Close */}
         {isNew ? (
-          <CardDetailButton ghost onClick={close}>
+          <CustomButton ghost onClick={close}>
             Отмена
-          </CardDetailButton>
+          </CustomButton>
         ) : (
           <EditCloseButton onClick={close} />
         )}
         {isTitle || (
           <>
             <div className="ml-[-4px] grow" />
-            <CardDetailButton
+            <CustomButton
               truncated
               asLink
               icon={<UserAddOutlined />}
@@ -198,8 +201,8 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
               }}
             >
               Назначить
-            </CardDetailButton>
-            <CardDetailButton
+            </CustomButton>
+            <CustomButton
               className="min-w-[96px]"
               truncated
               asLink
@@ -209,8 +212,8 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
               }}
             >
               Срок
-            </CardDetailButton>
-            <CardDetailButton
+            </CustomButton>
+            <CustomButton
               className="min-w-[32px]"
               asLink
               icon={<FireOutlined />}
@@ -218,7 +221,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
                 console.log('5555')
               }}
             />
-            <CardDetailButton
+            <CustomButton
               className="min-w-[32px]"
               asLink
               icon={<SmileOutlined />}
@@ -227,7 +230,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
               }}
             />
             {isNew || (
-              <CardDetailButton
+              <CustomButton
                 className="min-w-[32px]"
                 asLink
                 icon={<EllipsisOutlined />}
@@ -243,7 +246,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
   )
 }
 
-function CardDetailChecklistItem({ text }) {
+function ChecklistItem({ text }) {
   const complete = true // TODO: complete
   const { setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
@@ -292,20 +295,20 @@ function CardDetailChecklistItem({ text }) {
             // HACK: visible выполняется с transition, a если z-index - без него
             className="checklist-item-controls z-[-1] ml-1 inline-flex gap-1"
           >
-            <CardDetailChecklistItemButton
+            <ChecklistItemButton
               icon={<ClockCircleOutlined />}
               onClick={(event) => {
                 event.stopPropagation()
               }}
             />
-            <CardDetailChecklistItemButton
+            <ChecklistItemButton
               icon={<UserAddOutlined />}
               circle
               onClick={(event) => {
                 event.stopPropagation()
               }}
             />
-            <CardDetailChecklistItemButton
+            <ChecklistItemButton
               icon={<EllipsisOutlined />}
               transparent
               onClick={(event) => {
@@ -352,20 +355,20 @@ function getChecklistTitleBox(title, getDefaultTitleBox) {
   )
 }
 
-function CardDetailChecklist({ title, items }) {
+function Checklist({ title, items }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   const checkedCount = 1
   const percent = 80
   // TODO: у Checklist тоже есть drag'n'drop
   return (
-    <CardDetailSection
+    <Section
       getCustomTitleBox={getChecklistTitleBox}
       icon={<CheckSquareOutlined className="scale-125" />}
       title={title}
       right
       actions={
         <div className="flex flex-wrap gap-2">
-          <CardDetailButton
+          <CustomButton
             onClick={() => {
               setIsExpanded(!isExpanded)
             }}
@@ -373,8 +376,8 @@ function CardDetailChecklist({ title, items }) {
             {isExpanded
               ? `Показать отмеченные элементы (${checkedCount})`
               : 'Скрывать отмеченные элементы'}
-          </CardDetailButton>
-          <CardDetailButton onClick={() => {}}>Удалить</CardDetailButton>
+          </CustomButton>
+          <CustomButton onClick={() => {}}>Удалить</CustomButton>
         </div>
       }
     >
@@ -403,14 +406,14 @@ function CardDetailChecklist({ title, items }) {
       // TODO: drag'n'drop элементов
       >
         {items.map((item) => (
-          <CardDetailChecklistItem key={item.id} {...item} />
+          <ChecklistItem key={item.id} {...item} />
         ))}
       </div>
       <div className="ml-10">
-        <CardDetailChecklistNewItem />
+        <ChecklistNewItem />
       </div>
       {/* // TODO: "В этом списке слишком много элементов. Удалите некоторые из них, чтобы добавить новые." - как минимум, можно добавить 100 элементов (дальше не проверял) */}
-    </CardDetailSection>
+    </Section>
   )
 }
 
@@ -425,7 +428,7 @@ function ChecklistListState({ children }) {
   )
 }
 
-function CardDetailChecklistList() {
+function ChecklistList() {
   const lists = [
     {
       id: 'checklist-1',
@@ -450,7 +453,7 @@ function CardDetailChecklistList() {
   return (
     <ChecklistListState>
       {lists.map((list) => (
-        <CardDetailChecklist key={list.id} {...list} />
+        <Checklist key={list.id} {...list} />
       ))}
     </ChecklistListState>
   )
@@ -638,7 +641,7 @@ function getActionContent({ record, args, createdByLink }) {
 
 // TODO: routing for highligted action
 
-function CardDetailAction({ id, member, record, args, createdBy, highligted }) {
+function Action({ id, member, record, args, createdBy, highligted }) {
   const actionUrl = '#'
   return (
     <div
@@ -772,7 +775,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
           )}
         >
           {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
-          <CardDetailButton
+          <CustomButton
             disabled={!isShowControls}
             primary
             // colors={
@@ -785,7 +788,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
             }}
           >
             Сохранить
-          </CardDetailButton>
+          </CustomButton>
           {isNewComment || <EditCloseButton onClick={close} />}
           <div className="ml-[-4px] grow" />
           <CommentBoxOptionsButton
@@ -809,23 +812,23 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
   )
 }
 
-function CardDetailActions({ actions }) {
+function Actions({ actions }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   // const [form] = Form.useForm()
   // const [value, setValue] = React.useState('')
   return (
-    <CardDetailSection
+    <Section
       icon={<FileDoneOutlined className="scale-125" />}
       title="Действия"
       right
       actions={
-        <CardDetailButton
+        <CustomButton
           onClick={() => {
             setIsExpanded(!isExpanded)
           }}
         >
           {isExpanded ? 'Скрыть подробности' : 'Показать подробности'}
-        </CardDetailButton>
+        </CustomButton>
       }
     >
       <CommentBoxState>
@@ -843,23 +846,21 @@ function CardDetailActions({ actions }) {
         </div>
         {actions.map(
           (action, id) =>
-            (isExpanded || action.record === 'comment') && (
-              <CardDetailAction key={action.id} {...action} />
-            ),
+            (isExpanded || action.record === 'comment') && <Action key={action.id} {...action} />,
         )}
       </CommentBoxState>
-      {/* <CardDetailButton
+      {/* <CustomButton
         onClick={() => {
           // TODO: Показать все действия
         }}
       >
         Показать все действия…
-      </CardDetailButton> */}
-    </CardDetailSection>
+      </CustomButton> */}
+    </Section>
   )
 }
 
-function CardDetailSection({ icon, title, actions, right = false, getCustomTitleBox, children }) {
+function Section({ icon, title, actions, right = false, getCustomTitleBox, children }) {
   const getDefaultTitleBox = ({ onClick }) => (
     <div className="flex flex-wrap" {...{ onClick }}>
       <h3 className={cx('board-title', onClick && 'cursor-pointer')}>{title}</h3>
@@ -905,7 +906,7 @@ function getFileExtension(filename) {
 //  return hasAlphaPixels;
 // }
 
-function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
+function Attachment({ id, url, title, createdBy, thumbnail }) {
   // TODO: drag'n'drop для сортировки по orderIndex
   const [filename, fileExtension] = React.useMemo(() => {
     const filename = getFilename(url)
@@ -1039,7 +1040,7 @@ function CardDetailAttachment({ id, url, title, createdBy, thumbnail }) {
   )
 }
 
-function CardDetailAttachments() {
+function Attachments() {
   const attachments = [
     {
       id: 'id-1',
@@ -1080,13 +1081,13 @@ function CardDetailAttachments() {
   const shortCount = 4
   const [isExpanded, setIsExpanded] = React.useState(false)
   return (
-    <CardDetailSection icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
+    <Section icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
       <div className="ml-10">
         {(isExpanded ? attachments : attachments.slice(0, shortCount)).map((attachment) => (
-          <CardDetailAttachment key={attachment.id} {...attachment} />
+          <Attachment key={attachment.id} {...attachment} />
         ))}
         <Space direction="vertical">
-          <CardDetailButton
+          <CustomButton
             // className="mb-1"
             onClick={() => {
               setIsExpanded(!isExpanded)
@@ -1095,11 +1096,11 @@ function CardDetailAttachments() {
             {isExpanded
               ? 'Показать меньше вложений'
               : `Посмотреть все вложения (скрыто ${attachments.length - shortCount})`}
-          </CardDetailButton>
-          <CardDetailButton>Добавить вложение</CardDetailButton>
+          </CustomButton>
+          <CustomButton>Добавить вложение</CustomButton>
         </Space>
       </div>
-    </CardDetailSection>
+    </Section>
   )
 }
 
@@ -1127,7 +1128,7 @@ function LinkButton({ onClick, children }) {
   )
 }
 
-function CardDetailDescription() {
+function Description() {
   const text = generateSentence(40)
   const [isEdit, setIsEdit] = React.useState(text === '')
   const [isMore, setIsMore] = React.useState(false)
@@ -1144,18 +1145,18 @@ function CardDetailDescription() {
   const hasNotSavedChanges = true
   const isSaveError = false
   return (
-    <CardDetailSection
+    <Section
       icon={<ContainerOutlined className="scale-125" />}
       title="Описание"
       actions={
-        <CardDetailButton
+        <CustomButton
           onClick={() => {
             setIsMore(false)
             setIsEdit(true)
           }}
         >
           Изменить
-        </CardDetailButton>
+        </CustomButton>
       }
     >
       <div className="relative ml-10">
@@ -1179,14 +1180,14 @@ function CardDetailDescription() {
         )}
         {!isEdit && text === '' && (
           <div className="mb-2">
-            <CardDetailButton
+            <CustomButton
               className="h-14 py-2"
               onClick={() => {
                 setIsEdit(true)
               }}
             >
               <div className="h-10">Добавить более подробное описание…</div>
-            </CardDetailButton>
+            </CustomButton>
           </div>
         )}
         {isEdit && (
@@ -1224,15 +1225,15 @@ function CardDetailDescription() {
           <div className="mb-2 text-[var(--ds-text-danger,#eb5a46)]">Изменения не сохранены.</div>
         )}
       </div>
-    </CardDetailSection>
+    </Section>
   )
 }
 
 function WindowSidebarButton({ children, ...rest }) {
   return (
-    <CardDetailButton className="mb-2 w-full" truncated {...rest}>
+    <CustomButton className="mb-2 w-full" truncated {...rest}>
       {children}
-    </CardDetailButton>
+    </CustomButton>
   )
 }
 
@@ -1251,7 +1252,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
       <WindowModule
       // TODO: className="u-clearfix"
       >
-        <CardDetailItemTitle>Добавить на карточку</CardDetailItemTitle>
+        <ItemTitle>Добавить на карточку</ItemTitle>
         <WindowSidebarButton icon={<UserOutlined />}>Участники</WindowSidebarButton>
         <WindowSidebarButton icon={<TagOutlined />}>Метки</WindowSidebarButton>
         <WindowSidebarButton icon={<CheckSquareOutlined />}>Чек-лист</WindowSidebarButton>
@@ -1262,7 +1263,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
       <WindowModule
       // TODO: className="u-clearfix"
       >
-        <CardDetailItemTitle>Действия</CardDetailItemTitle>
+        <ItemTitle>Действия</ItemTitle>
         <WindowSidebarButton icon={<ArrowRightOutlined />}>Перемещение</WindowSidebarButton>
         <WindowSidebarButton icon={<CopyOutlined />}>Копирование</WindowSidebarButton>
         {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
@@ -1305,63 +1306,26 @@ function WindowSidebar({ isArchive, setIsArchive }) {
   )
 }
 
-function getLiteralDate(date, { withTime = false }) {
-  const literalDates = {
-    near: ['Вчера', 'Сегодня', 'Завтра'],
-    past: [
-      'В прошлое воскресенье',
-      'В прошлый понедельник',
-      'В прошлый вторник',
-      'В прошлую среду',
-      'В прошлый четверг',
-      'В прошлую пятницу',
-      'В прошлую субботу',
-    ],
-    future: [
-      'В воскресенье',
-      'В понедельник',
-      'Во вторник',
-      'В среду',
-      'В четверг',
-      'В пятницу',
-      'В субботу',
-    ],
-  }
-  const time = withTime ? ' в ' + date.format('HH:mm') : ''
-  const now = dayjs()
-  const delta = Math.ceil(date.diff(now, 'day', true))
-  if (delta >= -1 && delta <= 1) {
-    return literalDates.near[delta + 1] + time
-  }
-  if (delta < 0 && delta > -7) {
-    return literalDates.past[date.day()] + time
-  }
-  if (delta > 0 && delta < 7) {
-    return literalDates.future[date.day()] + time
-  }
-  return date.format('D MMM') + time
-}
-
 // TODO: https://react-component.github.io/calendar/examples/antd-range-calendar.html
-function CardDetailStartDateBadge({ start }) {
+function StartDateBadge({ start }) {
   return (
-    <CardDetailButton
+    <CustomButton
       onClick={() => {
         // console.log()
       }}
     >
       {getLiteralDate(start)}
       <DownOutlined />
-    </CardDetailButton>
+    </CustomButton>
   )
 }
 
-function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
+function DueDateBadge({ start, deadline, mode = 'danger' }) {
   const [checked, setChecked] = React.useState(false)
   const currentMode = getDueDateMode({
     deadline,
     mode: checked ? 'success' : mode,
-    forCardDetail: true,
+    for: true,
   })
   return (
     <div title={currentMode.title}>
@@ -1371,7 +1335,7 @@ function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
           setChecked(!checked)
         }}
       />
-      <CardDetailButton onClick={() => {}}>
+      <CustomButton onClick={() => {}}>
         {!!start && start.format('D MMM - ')}
         {start ? deadline.format('D MMM') : getLiteralDate(deadline, { withTime: true })}
         {!!currentMode.status && (
@@ -1383,19 +1347,19 @@ function CardDetailDueDateBadge({ start, deadline, mode = 'danger' }) {
           </span>
         )}
         <DownOutlined />
-      </CardDetailButton>
+      </CustomButton>
     </div>
   )
 }
 
-function CardDetailNotifications({ notifications }) {
+function Notifications({ notifications }) {
   const [isChecked, setIsChecked] = React.useState(false)
   const title = isChecked
     ? 'Вы подписаны на уведомления об обновлениях этой карточки. Нажмите, чтобы отменить подписку.'
     : 'Подпишитесь на уведомления об обновлениях этой карточки'
   // TODO: отказался от Tooltip
   return (
-    <CardDetailButton
+    <CustomButton
       className={cx('transition-none', isChecked && 'relative pr-10')}
       icon={<EyeOutlined />}
       onClick={() => {
@@ -1413,22 +1377,22 @@ function CardDetailNotifications({ notifications }) {
       ) : (
         'Подписаться'
       )}
-    </CardDetailButton>
+    </CustomButton>
   )
 }
 
-function CardDetailMembers({ members }) {
+function Members({ members }) {
   return (
     <Avatar.Group className="block">
       {members.map((member, index, a) => (
         <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
       ))}
-      <CardDetailButton icon={<PlusOutlined />} shape="circle" />
+      <CustomButton icon={<PlusOutlined />} shape="circle" />
     </Avatar.Group>
   )
 }
 
-function CardDetailItemTitle({ children }) {
+function ItemTitle({ children }) {
   return (
     <h3 className="mr-2 mb-1 truncate text-[12px] font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
       {children}
@@ -1436,17 +1400,17 @@ function CardDetailItemTitle({ children }) {
   )
 }
 
-function CardDetailItem({ title, children }) {
+function Item({ title, children }) {
   return (
     <div className="mr-4 mb-4 inline-block">
-      <CardDetailItemTitle>{title}</CardDetailItemTitle>
+      <ItemTitle>{title}</ItemTitle>
       {children}
     </div>
   )
 }
 
-// TODO: объединить с BoardHeaderButton - формировать className, а не врапить Button
-function CardDetailButton({
+// TODO: объединить с HeaderButton - формировать className, а не врапить Button
+function CustomButton({
   className,
   icon,
   shape = 'default',
@@ -1518,18 +1482,7 @@ function CardDetailButton({
   )
 }
 
-function CardDetailLabels({ labels }) {
-  return (
-    <div className="flex flex-wrap gap-1">
-      {labels.map((label) => (
-        <CardDetailLabel key={label.id} {...label} />
-      ))}
-      <CardDetailButton icon={<PlusOutlined />} />
-    </div>
-  )
-}
-
-function CardDetailLabel({ id, colorId, name }) {
+function Label({ id, colorId, name }) {
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
@@ -1554,6 +1507,17 @@ function CardDetailLabel({ id, colorId, name }) {
         </>
       </button>
     </Tooltip>
+  )
+}
+
+function Labels({ labels }) {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {labels.map((label) => (
+        <Label key={label.id} {...label} />
+      ))}
+      <CustomButton icon={<PlusOutlined />} />
+    </div>
   )
 }
 
@@ -1650,68 +1614,40 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
         }}
       >
         <div className="mt-2 ml-10">
-          {/* <CardDetailItem title="Список"> // TODO: реализовать кнопку "Список" </CardDetailItem> */}
-          <CardDetailItem title="Участники">
-            <CardDetailMembers {...{ members }} />
-          </CardDetailItem>
-          <CardDetailItem title="Метки">
-            <CardDetailLabels {...{ labels }} />
-          </CardDetailItem>
-          <CardDetailItem title="Уведомления">
-            <CardDetailNotifications {...{ notifications }} />
-          </CardDetailItem>
+          {/* <Item title="Список"> // TODO: реализовать кнопку "Список" </Item> */}
+          <Item title="Участники">
+            <Members {...{ members }} />
+          </Item>
+          <Item title="Метки">
+            <Labels {...{ labels }} />
+          </Item>
+          <Item title="Уведомления">
+            <Notifications {...{ notifications }} />
+          </Item>
           {deadline ? (
-            <CardDetailItem title={start ? 'Даты' : 'Срок'}>
-              <CardDetailDueDateBadge {...{ start, deadline }} />
-            </CardDetailItem>
+            <Item title={start ? 'Даты' : 'Срок'}>
+              <DueDateBadge {...{ start, deadline }} />
+            </Item>
           ) : (
-            <CardDetailItem title="Начало">
-              <CardDetailStartDateBadge {...{ start }} />
-            </CardDetailItem>
+            <Item title="Начало">
+              <StartDateBadge {...{ start }} />
+            </Item>
           )}
-          {/* <CardDetailItem title="Голоса"> // TODO: непонятно </CardDetailItem> */}
-          {/* <CardDetailItem title="Последнее обновление"> // TODO: непонятно </CardDetailItem> */}
+          {/* <Item title="Голоса"> // TODO: непонятно </Item> */}
+          {/* <Item title="Последнее обновление"> // TODO: непонятно </Item> */}
         </div>
-        <CardDetailDescription />
+        <Description />
         {/* // TODO: Местоположение */}
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}
-        <CardDetailAttachments />
-        <CardDetailChecklistList />
-        <CardDetailActions {...{ actions }} />
+        <Attachments />
+        <ChecklistList />
+        <Actions {...{ actions }} />
       </div>
       <WindowSidebar {...{ isArchive, setIsArchive }} />
       {isDrag && <Dropzone />}
     </Modal>
   )
-}
-
-const actionRecords = {
-  comment: () => null,
-  addAttachment: () => 'прикрепил(а) вложение',
-  deleteAttachment: () => 'удалил(а) вложение',
-  inviteMember: () => 'присоединился(-ась) к этой карточке',
-  leftMember: () => 'покинул(а) эту карточку',
-  addCard: ({ listTitle }) => `добавил(а) эту карточку в список ${listTitle}`,
-  moveCard: ({ oldListTitle, newListTitle }) =>
-    `переместил(а) эту карточку из списка ${oldListTitle} в список ${newListTitle}`,
-  archiveCard: () => 'архивировал(а) эту карточку',
-  unarchiveCard: () => 'вернул(а) из архива эту карточку',
-  closeDueDate: () => 'отметил(а) срок как завершённый',
-  reopenDueDate: () => 'отметил(а) срок как незавершённый',
-  setDueDate: ({ dueDate }) =>
-    (({ dueDate }) => `установил(а) срок ${dueDate}`)({
-      dueDate: getLiteralDate(dayjs(dueDate), { withTime: true }),
-    }),
-  changeDueDate: ({ dueDate }) =>
-    (({ dueDate }) => `изменил(а) срок на ${dueDate}`)({
-      dueDate: getLiteralDate(dayjs(dueDate), { withTime: true }),
-    }),
-  deleteDueDate: () => 'удалил(а) срок',
-  addChecklist: ({ checklistTitle }) => `добавил(а) чек-лист ${checklistTitle}`,
-  deleteChecklist: ({ checklistTitle }) => `удадил(а) чек-лист ${checklistTitle}`,
-  renameChecklist: ({ oldChecklistTitle, newChecklistTitle }) =>
-    `переименовал(а) чек-лист ${newChecklistTitle} (с ${oldChecklistTitle})`,
 }
 
 export default CardDetailWindow
