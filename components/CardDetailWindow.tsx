@@ -958,6 +958,7 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
               // console.log(result)
               setThumbnailColor(result)
               // TODO: телега рисует подложку интереснее, как ambilight
+              // TODO: [Quick Ambilight-Effect with CSS](https://codepen.io/saschatoussaine/pen/yaeWmK)
             }}
           />
         ) : (
