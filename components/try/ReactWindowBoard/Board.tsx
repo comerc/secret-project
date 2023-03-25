@@ -175,7 +175,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
           : column.items.length
         return (
           <VariableSizeList
-            height={height - 70} // TODO: высчитывать точно высоту, учитывая скрол
+            height={height - 80} // TODO: высчитывать точно высоту, учитывая скрол
             itemCount={itemCount}
             itemSize={getSize}
             width={WIDTH}
@@ -498,10 +498,8 @@ function Board({ height, right }) {
         className={styles['task-list']}
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          width: `${WIDTH}px`,
-          zIndex: -10000,
+          width: WIDTH,
+          zIndex: -1,
         }}
       >
         <div
@@ -525,7 +523,7 @@ function Board({ height, right }) {
                   <div
                     className={styles.columns}
                     style={{
-                      paddingRight: `${right}px`,
+                      paddingRight: right,
                     }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}

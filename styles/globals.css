@@ -288,7 +288,7 @@ body::-webkit-scrollbar {
 }
 
 /* overlayscrollbars */
-.os-scrollbar-horizontal {
+.os-scrollbar-horizontal.is-menu {
   /* margin-left: 300px; */
   margin-right: 300px;
 }
@@ -301,6 +301,10 @@ body::-webkit-scrollbar {
   --os-handle-bg: rgba(0, 0, 0, 0.3);
   --os-handle-bg-hover: rgba(0, 0, 0, 0.4);
   --os-handle-bg-active: rgba(0, 0, 0, 0.5);
+}
+
+body > .os-scrollbar {
+  z-index: 1000 !important;
 }
 
 /* Lexical */

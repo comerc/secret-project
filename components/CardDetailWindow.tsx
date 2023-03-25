@@ -1611,7 +1611,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
       <div
         className="relative float-left pr-2 pb-2 pl-4"
         style={{
-          width: `${mainWidth}px`,
+          width: mainWidth,
         }}
       >
         <div className="mt-2 ml-10">
