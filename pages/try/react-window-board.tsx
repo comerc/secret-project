@@ -129,7 +129,7 @@ function TryReactWindowBoardPage() {
               onClick={() => {
                 setIsMenu(!isMenu)
                 setTimeout(() => {
-                  setIsMenuDummy(!hasMenu)
+                  setHasMenu(!hasMenu)
                 })
               }}
             >
