@@ -250,10 +250,6 @@ textarea {
   font-weight: 400;
 }
 
-body {
-  background: var(--custom-body);
-}
-
 /* FIX: RBD */
 body {
   /* overflow-y: hidden; */
