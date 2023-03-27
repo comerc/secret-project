@@ -192,7 +192,7 @@ function InFavoritesButton({ favorites, onDelete }) {
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
-            className="border-[var(--ds-border,#091e4221)] shadow-none [&>.anticon]:text-[#f2d600] [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125"
+            className="border-[var(--ds-border,#091e4221)] shadow-none [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125 [&>.anticon]:text-[#f2d600]"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
             size="small"
@@ -231,11 +231,20 @@ function InFavoritesButton({ favorites, onDelete }) {
   )
 }
 
-function Header({ favorites, handleDeleteFavorites }) {
+function Header({ favorites, handleDeleteFavorites, height }) {
   return (
-    <div className="max-h-[44px] min-h-[44px] overflow-hidden">
+    <div
+      className="overflow-hidden"
+      style={{
+        maxHeight: height,
+        minHeight: height,
+      }}
+    >
       <nav // TODO: transition
-        className="flex max-h-[44px] border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
+        className="flex border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
+        style={{
+          maxHeight: height,
+        }}
       >
         <Link
           href="/"

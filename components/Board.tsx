@@ -237,7 +237,6 @@ function ListCard({ id, title, labels, members }) {
 function ListCards({ issues }) {
   const ref = React.useRef()
   React.useEffect(() => {
-    // OverlayScrollbars.plugin(ClickScrollPlugin)
     OverlayScrollbars(ref.current, {
       overflow: {
         x: 'hidden',
@@ -246,7 +245,7 @@ function ListCards({ issues }) {
       // paddingAbsolute: true,
       // showNativeOverlaidScrollbars: true,
       scrollbars: {
-        theme: 'os-theme-dark list-cards',
+        theme: 'os-theme-light list-cards',
         visibility: 'auto',
         autoHide: 'leave',
         autoHideDelay: 1300,
@@ -404,17 +403,17 @@ function Board({ issues }) {
         ))}
       </FrontLabelsState>
       {/* <Image
-              // TODO: обои
-              priority
-              src="/wallpapper.jpg"
-              fill
-              // width="5760" height="3840"
-              style={{
-                objectFit: 'cover',
-              }}
-            /> */}
+        // TODO: обои
+        priority
+        src="/wallpapper.jpg"
+        fill
+        // width="5760" height="3840"
+        style={{
+          objectFit: 'cover',
+        }}
+      /> */}
     </div>
   )
 }
 
-export default Board
+export default React.memo(Board)

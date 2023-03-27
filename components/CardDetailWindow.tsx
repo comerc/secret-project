@@ -1472,7 +1472,7 @@ function CustomButton({
         asLink && children && 'underline hover:no-underline',
         asLink &&
           icon &&
-          '[&>.anticon]:text-[var(--ds-icon,#42526e)] [&:hover>.anticon]:text-[var(--ds-icon,#172b4d)]',
+          '[&:hover>.anticon]:text-[var(--ds-icon,#172b4d)] [&>.anticon]:text-[var(--ds-icon,#42526e)]',
         asLink && children && icon && '[&>:last-child]:ml-1',
         className,
       )}

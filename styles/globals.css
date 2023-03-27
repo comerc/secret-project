@@ -284,12 +284,60 @@ body::-webkit-scrollbar {
 }
 
 /* overlayscrollbars */
-.os-scrollbar-horizontal.is-menu {
-  /* margin-left: 300px; */
-  margin-right: 300px;
+.os-scrollbar-horizontal.board.has-menu {
+  margin-right: var(--menu-width);
 }
 
-.os-theme-dark.list-cards {
+.os-theme-light.board {
+  /* // The size of the scrollbar */
+  --os-size: 26px;
+  /* // The axis-perpedicular padding of the scrollbar (horizontal: padding-y, vertical: padding-x) */
+  --os-padding-perpendicular: 8px;
+  /* // The axis padding of the scrollbar (horizontal: padding-x, vertical: padding-y) */
+  --os-padding-axis: 24px;
+  /* // The border radius of the scrollbar track */
+  --os-track-border-radius: 3px;
+  /* // The background of the scrollbar track */
+  --os-track-bg: #00000026;
+  /* // The :hover background of the scrollbar track */
+  --os-track-bg-hover: #00000026;
+  /* // The :active background of the scrollbar track */
+  --os-track-bg-active: #00000026;
+  /* // The border of the scrollbar track */
+  --os-track-border: none;
+  /* // The :hover background of the scrollbar track */
+  --os-track-border-hover: none;
+  /* // The :active background of the scrollbar track */
+  --os-track-border-active: none;
+  /* // The border radius of the scrollbar handle */
+  --os-handle-border-radius: 3px;
+  /* // The background of the scrollbar handle */
+  --os-handle-bg: rgba(255, 255, 255, 0.4);
+  /* // The :hover background of the scrollbar handle */
+  --os-handle-bg-hover: rgba(255, 255, 255, 0.4);
+  /* // The :active background of the scrollbar handle */
+  --os-handle-bg-active: rgba(255, 255, 255, 0.4);
+  /* // The border of the scrollbar handle */
+  --os-handle-border: none;
+  /* // The :hover border of the scrollbar handle */
+  --os-handle-border-hover: none;
+  /* // The :active border of the scrollbar handle */
+  --os-handle-border-active: none;
+  /* // The min size of the scrollbar handle */
+  --os-handle-min-size: 33px;
+  /* // The max size of the scrollbar handle */
+  --os-handle-max-size: none;
+  /* // The axis-perpedicular size of the scrollbar handle (horizontal: height, vertical: width) */
+  --os-handle-perpendicular-size: 100%;
+  /* // The :hover axis-perpedicular size of the scrollbar handle (horizontal: height, vertical: width) */
+  --os-handle-perpendicular-size-hover: 100%;
+  /* // The :active axis-perpedicular size of the scrollbar handle (horizontal: height, vertical: width) */
+  --os-handle-perpendicular-size-active: 100%;
+  /* // Increases the interactive area of the scrollbar handle. */
+  --os-handle-interactive-area-offset: 0;
+}
+
+.os-theme-light.list-cards {
   --os-size: 7px;
   --os-handle-interactive-area-offset: 1px;
   --os-padding-axis: 0;

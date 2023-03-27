@@ -55,24 +55,19 @@ function MenuButton({ icon, children, subtitle }) {
 //   )
 // }
 
-function BoardMenu(props) {
+function BoardMenu({ hasMenu, toggleMenu }) {
   return (
     <Drawer
       className="relative bg-[var(--ds-surface-overlay,#f4f5f7)]"
       bodyStyle={{
         padding: '0 12px',
-      }} // title="Меню"
-      placement="right" // onClose={() => {
-      //   setIsMenu(false)
-      // }}
-      // afterOpenChange={() => {
-      //   if (!isMenu) setIsMoreButton(true)
-      // }}
-      open={props.isMenu}
+      }}
+      placement="right"
+      open={hasMenu}
       mask={false}
       getContainer={false}
       width={339 + 6}
-      closable={false} // extra={
+      closable={false}
     >
       <div className="flex h-12 items-center justify-center px-9">
         <h3 className="board-title">Меню</h3>
@@ -82,7 +77,7 @@ function BoardMenu(props) {
         href="#" // TODO: replace to role="button" or <button />
         onClick={(event) => {
           event.preventDefault()
-          props.setIsMenu(false)
+          toggleMenu()
         }}
       >
         <CloseOutlined className="scale-125" />

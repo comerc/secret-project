@@ -459,12 +459,17 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   )
 }
 
-function BoardHeader({ members, boardId, isMenu, setIsMenu, favorites, handleChangeFavorites }) {
+function BoardHeader({
+  members,
+  boardId,
+  hasMenu,
+  toggleMenu,
+  right,
+  favorites,
+  handleChangeFavorites,
+}) {
   return (
-    <div
-      id="board-header"
-      className="h-auto bg-[var(--board-header-background-color)] pt-2 pr-1 pb-1 pl-2.5"
-    >
+    <div className="flex flex-wrap pt-2 pb-1 pl-2.5 pr-1">
       <BoardNameButton
         defaultValue="Minsk4"
         onEndEdit={(value) => {
@@ -474,23 +479,25 @@ function BoardHeader({ members, boardId, isMenu, setIsMenu, favorites, handleCha
       <FavoriteButton onChange={handleChangeFavorites} {...{ favorites, boardId }} />
       <HeaderDivider />
       <PermisionLevelButton />
-      <div className="float-right">
+      <div className="inline-block min-w-[8px] grow" />
+      <div className="flex flex-wrap">
         <FilterButton />
         <HeaderDivider />
         <MembersButton {...{ members }} />
         <ShareButton />
-        <HeaderDivider />
-        {/* {isMoreButton && ( */}
-        <MoreButton
-          onClick={() => {
-            // setIsMoreButton(false)
-            setIsMenu(!isMenu)
-          }}
-        />
-        {/* )} */}
+        {hasMenu || (
+          <>
+            <HeaderDivider />
+            <MoreButton
+              onClick={() => {
+                toggleMenu()
+              }}
+            />
+          </>
+        )}
       </div>
     </div>
   )
 }
 
-export default BoardHeader
+export default React.memo(BoardHeader)

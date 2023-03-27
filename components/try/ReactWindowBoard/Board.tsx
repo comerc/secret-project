@@ -497,9 +497,10 @@ function Board({ height, right }) {
       <div
         className={styles['task-list']}
         style={{
+          visibility: 'hidden',
           position: 'absolute',
           width: WIDTH,
-          zIndex: -1,
+          // zIndex: -1,
         }}
       >
         <div

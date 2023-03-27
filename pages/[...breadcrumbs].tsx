@@ -1,17 +1,15 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { MoreOutlined } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
 import ClientOnly from '.../components/ClientOnly'
 import Header from '.../components/Header'
-import HeaderButton from '.../components/HeaderButton'
 import BoardHeader from '.../components/BoardHeader'
-import MemberIcon from '.../components/MemberIcon'
 import Board from '.../components/Board'
 import BoardMenu from '.../components/BoardMenu'
 import CardDetailWindow from '.../components/CardDetailWindow'
 import { resetServerContext } from 'react-beautiful-dnd'
 import { nanoid } from 'nanoid'
+import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import { useElementSize } from 'usehooks-ts'
 import cx from 'classnames'
 import generateSentence from '.../utils/generateSentence'
 import normalizeUrlName from '.../utils/normalizeUrlName'
@@ -248,8 +246,35 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
     }
     setIsUrlName(true)
   }, [breadcrumbs])
-  // const [isMoreButton, setIsMoreButton] = React.useState(true)
   const [isMenu, setIsMenu] = React.useState(false)
+  const [hasMenu, setHasMenu] = React.useState(false)
+  const headerHeight = 44
+  const [boardHeaderRef, { height: boardHeaderHeight }] = useElementSize()
+  const [windowRef, { width: windowWidth, height: windowHeight }] = useElementSize()
+  const overlayScrollbarsRef = React.useRef(null)
+  const [initialize, instance] = useOverlayScrollbars({
+    options: {
+      overflow: {
+        x: 'scroll',
+        y: 'hidden',
+      },
+      // paddingAbsolute: true,
+      // showNativeOverlaidScrollbars: true,
+      scrollbars: {
+        theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+        visibility: 'auto',
+        autoHide: 'never',
+        autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: true,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    },
+    // events, defer
+  })
+  React.useEffect(() => {
+    initialize(document.body)
+  }, [initialize])
   const [favorites, setFavorites] = React.useState(defaultFavorites)
   const handleChangeFavorites = (value) => {
     if (value) {
@@ -270,56 +295,143 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
   const handleDeleteFavorites = (deletedBoardId) => {
     setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
   }
+  const toggleMenu = () => {
+    setIsMenu(!isMenu)
+    setTimeout(() => {
+      setHasMenu(!hasMenu)
+    })
+  }
   if (!isUrlName) {
     return
   }
+  const version = 'v2'
+  const getBoardHeader = () => (
+    <BoardHeader
+      {...{
+        members,
+        boardId,
+        hasMenu,
+        toggleMenu,
+        favorites,
+        handleChangeFavorites,
+      }}
+    />
+  )
   return (
-    <div
-      id="chrome-container"
-      // className="body-dark-board-background"
-      className="h-full bg-[#cd5a91]" // overflow-hidden
-    >
-      <div id="surface" className="flex h-full flex-col">
-        <Header {...{ favorites, handleDeleteFavorites }} />
-        <main className="flex grow flex-col">
-          <div className="flex flex-1 flex-row">
-            <div id="content-wrapper" className="flex flex-1 flex-col">
-              <div id="content" className="relative grow">
-                <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
-                  <div
-                    id="board-main-content"
-                    className={cx(
-                      isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
-                      'mr-0 flex h-full flex-col',
-                    )}
-                    style={{
-                      transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
-                    }}
-                  >
-                    <BoardHeader
-                      {...{ members, boardId, isMenu, setIsMenu, favorites, handleChangeFavorites }}
-                    />
-                    <div id="board-warnings"></div>
-                    <div
-                      id="board-canvas"
-                      className="grow"
-                      style={{
-                        background:
-                          'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
-                      }}
-                    >
-                      <Board {...{ issues }} />
+    <>
+      {version === 'v2' && (
+        <ClientOnly>
+          <div
+            className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[#cd5a91]"
+            ref={windowRef}
+          >
+            <Header {...{ favorites, handleDeleteFavorites, height: headerHeight }} />
+            <div
+              className={cx('invisible absolute', isMenu && 'pr-[var(--menu-width)]')}
+              ref={boardHeaderRef}
+            >
+              {getBoardHeader()}
+            </div>
+            <div
+              className={cx(
+                'bg-[var(--board-header-background-color)]',
+                hasMenu && 'pr-[var(--menu-width)]',
+              )}
+            >
+              {getBoardHeader()}
+            </div>
+            <div
+              className="grow"
+              style={{
+                background:
+                  'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+              }}
+            />
+          </div>
+          <div
+            className="absolute"
+            style={{
+              top: headerHeight + boardHeaderHeight,
+            }}
+          >
+            <div
+              className={cx('relative', hasMenu && 'pr-[var(--menu-width)]')}
+              style={{
+                height: windowHeight - (headerHeight + boardHeaderHeight),
+              }}
+            >
+              <Board {...{ issues }} />
+            </div>
+          </div>
+          <div
+            className="fixed top-0 right-0 bottom-0 z-[1001]"
+            style={{
+              marginTop: headerHeight,
+            }}
+          >
+            <BoardMenu {...{ hasMenu, toggleMenu }} />
+          </div>
+        </ClientOnly>
+      )}
+      {version === 'v1' && (
+        <>
+          <div
+            id="chrome-container"
+            // className="body-dark-board-background"
+            className="fixed top-0 left-0 right-0 z-[1000] h-full bg-[#cd5a91]" // overflow-hidden
+          >
+            <div id="surface" className="flex h-full flex-col">
+              <Header {...{ favorites, handleDeleteFavorites, height: headerHeight }} />
+              <div className="flex grow flex-col">
+                <div className="flex flex-1 flex-row">
+                  <div id="content-wrapper" className="flex flex-1 flex-col">
+                    <div id="content" className="relative grow">
+                      <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
+                        <div
+                          id="board-main-content"
+                          className={cx(
+                            isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
+                            'mr-0 flex h-full flex-col',
+                          )}
+                          style={{
+                            transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
+                          }}
+                        >
+                          <div className={cx('bg-[var(--board-header-background-color)]')}>
+                            <BoardHeader
+                              {...{
+                                members,
+                                boardId,
+                                toggleMenu,
+                                favorites,
+                                handleChangeFavorites,
+                              }}
+                            />
+                          </div>
+                          <div id="board-warnings"></div>
+                          <div
+                            id="board-canvas"
+                            className="grow overflow-y-hidden"
+                            style={{
+                              background:
+                                'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+                            }}
+                          >
+                            <Board {...{ issues }} />
+                          </div>
+                        </div>
+                        <BoardMenu {...{ hasMenu, toggleMenu }} />
+                      </div>
                     </div>
                   </div>
-                  <BoardMenu isMenu={isMenu} setIsMenu={setIsMenu} />
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      </div>
-      {breadcrumbs[0] === 'c' && <CardDetailWindow issue={issues[0]} />}
-    </div>
+          {breadcrumbs[0] === 'c' && <CardDetailWindow issue={issues[0]} />}
+        </>
+      )}
+    </>
   )
 }
 
