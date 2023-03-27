@@ -255,7 +255,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
   const [initialize, instance] = useOverlayScrollbars({
     options: {
       overflow: {
-        x: 'scroll',
+        x: isMenu === hasMenu ? 'scroll' : 'hidden',
         y: 'hidden',
       },
       // paddingAbsolute: true,
