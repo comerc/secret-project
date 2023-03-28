@@ -469,32 +469,39 @@ function BoardHeader({
   handleChangeFavorites,
 }) {
   return (
-    <div className="flex flex-wrap pt-2 pb-1 pl-2.5 pr-1">
-      <BoardNameButton
-        defaultValue="Minsk4"
-        onEndEdit={(value) => {
-          console.log(value)
-        }}
-      />
-      <FavoriteButton onChange={handleChangeFavorites} {...{ favorites, boardId }} />
-      <HeaderDivider />
-      <PermisionLevelButton />
-      <div className="inline-block min-w-[8px] grow" />
-      <div className="flex flex-wrap">
-        <FilterButton />
+    <div
+      className={cx(
+        'bg-[var(--board-header-background-color)]',
+        hasMenu && 'pr-[var(--menu-width)]',
+      )}
+    >
+      <div className="flex flex-wrap pt-2 pb-1 pl-2.5 pr-1">
+        <BoardNameButton
+          defaultValue="Minsk4"
+          onEndEdit={(value) => {
+            console.log(value)
+          }}
+        />
+        <FavoriteButton onChange={handleChangeFavorites} {...{ favorites, boardId }} />
         <HeaderDivider />
-        <MembersButton {...{ members }} />
-        <ShareButton />
-        {hasMenu || (
-          <>
-            <HeaderDivider />
-            <MoreButton
-              onClick={() => {
-                toggleMenu()
-              }}
-            />
-          </>
-        )}
+        <PermisionLevelButton />
+        <div className="inline-block min-w-[8px] grow" />
+        <div className="flex flex-wrap">
+          <FilterButton />
+          <HeaderDivider />
+          <MembersButton {...{ members }} />
+          <ShareButton />
+          {hasMenu || (
+            <>
+              <HeaderDivider />
+              <MoreButton
+                onClick={() => {
+                  toggleMenu()
+                }}
+              />
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

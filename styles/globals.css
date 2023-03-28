@@ -347,10 +347,6 @@ body::-webkit-scrollbar {
   --os-handle-bg-active: rgba(0, 0, 0, 0.5);
 }
 
-body > .os-scrollbar {
-  z-index: 1000 !important;
-}
-
 /* Lexical */
 body {
   /* font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif; */

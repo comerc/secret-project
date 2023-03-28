@@ -48,6 +48,7 @@ class MyDocument extends Document {
             '--dynamic-text-transparent': 'hsla(0, 0%, 100%, 0.16)',
             '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
             '--menu-width': '345px',
+            '--window-background': '#cd5a91',
           }}
         >
           <div id="nocss">

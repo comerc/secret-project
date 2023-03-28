@@ -18,7 +18,6 @@ function TryReactWindowBoardPage() {
   const [boardHeaderRef, { height: boardHeaderHeight }] = useElementSize()
   const [windowRef, { width: windowWidth, height: windowHeight }] = useElementSize()
   console.log(boardHeaderHeight)
-  const overlayScrollbarsRef = React.useRef(null)
   const [initialize, instance] = useOverlayScrollbars({
     options: {
       overflow: {

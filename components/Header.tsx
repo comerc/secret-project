@@ -231,20 +231,11 @@ function InFavoritesButton({ favorites, onDelete }) {
   )
 }
 
-function Header({ favorites, handleDeleteFavorites, height }) {
+function Header({ favorites, handleDeleteFavorites }) {
   return (
-    <div
-      className="overflow-hidden"
-      style={{
-        maxHeight: height,
-        minHeight: height,
-      }}
-    >
+    <div className="max-h-[44px] min-h-[44px] overflow-hidden">
       <nav // TODO: transition
-        className="flex border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
-        style={{
-          maxHeight: height,
-        }}
+        className="flex max-h-[44px] border-b border-[var(--dynamic-text-transparent)] bg-[var(--dynamic-background)] px-1 py-1.5 backdrop-blur-[6px]"
       >
         <Link
           href="/"
