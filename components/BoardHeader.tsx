@@ -500,4 +500,4 @@ function BoardHeader({
   )
 }
 
-export default React.memo(BoardHeader)
+export default BoardHeader

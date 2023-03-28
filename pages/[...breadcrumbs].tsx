@@ -301,11 +301,8 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
       setHasMenu(!hasMenu)
     })
   }
-  if (!isUrlName) {
-    return
-  }
   const version = 'v2'
-  const getBoardHeader = () => (
+  const renderBoardHeader = () => (
     <BoardHeader
       {...{
         members,
@@ -317,6 +314,9 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
       }}
     />
   )
+  if (!isUrlName) {
+    return
+  }
   return (
     <>
       {version === 'v2' && (
@@ -327,10 +327,10 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
           >
             <Header {...{ favorites, handleDeleteFavorites, height: headerHeight }} />
             <div
-              className={cx('invisible absolute', isMenu && 'pr-[var(--menu-width)]')}
+              className={cx('invisible absolute bottom-0', isMenu && 'pr-[var(--menu-width)]')}
               ref={boardHeaderRef}
             >
-              {getBoardHeader()}
+              {renderBoardHeader()}
             </div>
             <div
               className={cx(
@@ -338,7 +338,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
                 hasMenu && 'pr-[var(--menu-width)]',
               )}
             >
-              {getBoardHeader()}
+              {renderBoardHeader()}
             </div>
             <div
               className="grow"
