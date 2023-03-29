@@ -12,7 +12,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons'
 import { Input, Button, Tooltip, Avatar } from 'antd'
-import { OverlayScrollbars } from 'overlayscrollbars'
+import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
 import cx from 'classnames'
@@ -236,8 +236,8 @@ function ListCard({ id, title, labels, members }) {
 
 function ListCards({ issues }) {
   const ref = React.useRef()
-  React.useEffect(() => {
-    OverlayScrollbars(ref.current, {
+  const [initialize, instance] = useOverlayScrollbars({
+    options: {
       overflow: {
         x: 'hidden',
         y: 'scroll',
@@ -253,8 +253,12 @@ function ListCards({ issues }) {
         clickScroll: false,
         pointers: ['mouse', 'touch', 'pen'],
       },
-    })
-  }, [])
+    },
+    // events, defer
+  })
+  React.useEffect(() => {
+    initialize(ref.current)
+  }, [initialize])
   // TODO: тут нужно починить z-index
   // const { boxShadow, onScrollHandler } = useScrollWithShadow()
   return (
@@ -262,7 +266,7 @@ function ListCards({ issues }) {
       className="max-h-[500px] overflow-hidden px-2"
       // onScroll={onScrollHandler}
       // style={{ boxShadow }}
-      ref={ref}
+      {...{ ref }}
     >
       {issues.map((issue) => (
         <ListCard key={issue.id} {...issue} />
@@ -375,7 +379,53 @@ function ListHeader({ name }) {
   )
 }
 
-function Board({ issues }) {
+function Canvas({ isMenu, hasMenu, children }) {
+  const ref = React.useRef()
+  const [initialize, instance] = useOverlayScrollbars({
+    options: {
+      overflow: {
+        x: isMenu === hasMenu ? 'scroll' : 'hidden',
+        y: 'hidden',
+      },
+      // paddingAbsolute: true,
+      // showNativeOverlaidScrollbars: true,
+      scrollbars: {
+        theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+        visibility: 'auto',
+        autoHide: 'never',
+        autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: true,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    },
+    // events, defer
+  })
+  React.useEffect(() => {
+    // initialize(document.body)
+    initialize(ref.current)
+  }, [initialize])
+  return (
+    <div
+      className="flex grow flex-col"
+      // className={cx('grow overflow-auto', hasMenu && 'pr-[var(--menu-width)]')}
+      style={{
+        background:
+          'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+      }}
+      {...{ ref }}
+    >
+      <div className="flex flex-1 flex-row">
+        <div className="flex flex-1 flex-col">
+          <div className={cx('grow' && hasMenu && 'pr-[var(--menu-width)]')}>{children}</div>
+        </div>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 h-[26px] bg-[var(--window-background)]" />
+    </div>
+  )
+}
+
+function Board({ issues, isMenu, hasMenu }) {
   const columns = [
     // { id: 'column0', name: 'Backlog' },
     {
@@ -390,19 +440,20 @@ function Board({ issues }) {
   //   { id: 'card2', name: 'Прикрутить CI & CD' },
   // ]
   return (
-    <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
-      <FrontLabelsState>
-        {columns.map(({ id, name }) => (
-          <div key={id}>
-            <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-              <ListHeader {...{ name }} />
-              <ListCards {...{ issues }} />
-              <ListFooter />
+    <Canvas {...{ isMenu, hasMenu }}>
+      <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
+        <FrontLabelsState>
+          {columns.map(({ id, name }) => (
+            <div key={id}>
+              <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+                <ListHeader {...{ name }} />
+                <ListCards {...{ issues }} />
+                <ListFooter />
+              </div>
             </div>
-          </div>
-        ))}
-      </FrontLabelsState>
-      {/* <Image
+          ))}
+        </FrontLabelsState>
+        {/* <Image
         // TODO: обои
         priority
         src="/wallpapper.jpg"
@@ -412,8 +463,9 @@ function Board({ issues }) {
           objectFit: 'cover',
         }}
       /> */}
-    </div>
+      </div>
+    </Canvas>
   )
 }
 
-export default React.memo(Board)
+export default Board

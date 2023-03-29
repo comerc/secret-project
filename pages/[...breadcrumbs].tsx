@@ -294,9 +294,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
               }}
             />
             <div id="board-warnings"></div>
-            <BoardCanvas {...{ isMenu, hasMenu }}>
-              <Board {...{ issues }} />
-            </BoardCanvas>
+            <Board {...{ issues, isMenu, hasMenu }} />
           </div>
           <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
             <BoardMenu {...{ hasMenu, toggleMenu }} />
@@ -339,9 +337,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
                             }}
                           />
                           <div id="board-warnings"></div>
-                          <BoardCanvas {...{ isMenu, hasMenu }}>
-                            <Board {...{ issues }} />
-                          </BoardCanvas>
+                          <Board {...{ issues, isMenu, hasMenu }} />
                         </div>
                         <BoardMenu {...{ hasMenu, toggleMenu }} />
                       </div>
