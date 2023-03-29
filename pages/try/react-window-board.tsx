@@ -41,10 +41,16 @@ function TryReactWindowBoardPage() {
   React.useEffect(() => {
     initialize(document.body)
   }, [initialize])
+  // TODO: useCapture for addEventListener & removeEventListener
   // React.useEffect(() => {
   //   window.addEventListener('mousedown', handleMouseDown)
   //   window.addEventListener('mouseup', handleMouseUp)
   //   window.addEventListener('mousemove', handleMouseMove)
+  //   return () => {
+  //     window.removeEventListener('mousedown', handleMouseDown)
+  //     window.removeEventListener('mouseup', handleMouseUp)
+  //     window.removeEventListener('mousemove', handleMouseMove)
+  //   }
   // }, [])
   const positionRef = React.useRef({
     startX: null,
