@@ -275,11 +275,11 @@ body::-webkit-scrollbar-track {
 } */
 
 /* как спрятать системный скролл */
-body {
+#board {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 }
-body::-webkit-scrollbar {
+#board::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
 

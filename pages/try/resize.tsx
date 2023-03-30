@@ -3,12 +3,11 @@ import cx from 'classnames'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import { useEventListener } from 'usehooks-ts'
+import { useIsFirstRender } from 'usehooks-ts'
 
 // TODO: will-change: transform
-// reactStrictMode: false и рендерить ColumnBody.Footer только на второй проход AutoSizer?
 
 function ColumnBody({ height, width }) {
-  console.log(height)
   const ref = React.useRef()
   const [initialize, instance] = useOverlayScrollbars({
     options: {
@@ -33,6 +32,26 @@ function ColumnBody({ height, width }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
+  const isProd = process.env.NODE_ENV === 'production' // предполагаю, что StrictMode отключен в prod-е
+  const isRerender = React.useRef(false)
+  if (isProd) {
+    isRerender.current = !isRerender.current
+  } else {
+    const RenderCount = React.useRef(0)
+    RenderCount.current++
+    console.log(RenderCount.current)
+    if (RenderCount.current === 1) {
+      isRerender.current = true
+    }
+    if (RenderCount.current === 2) {
+      isRerender.current = false
+    }
+    if (RenderCount.current === 5) {
+      RenderCount.current = 1
+      isRerender.current = true
+    }
+  }
+  console.log(isRerender.current)
   return (
     <div
       className="flex flex-col overflow-x-hidden"
@@ -43,9 +62,14 @@ function ColumnBody({ height, width }) {
       {...{ ref }}
     >
       {Array.from({ length: 30 }, (v, k) => k).map((k) => (
-        <div key={k}>{height}</div>
+        <div key={k}>{k}</div>
       ))}
-      <div className="sticky bottom-0 bg-white">Footer</div>
+      <div
+        // HACK: isRerender.current прячет мигание уменьшаемой высоты колоки
+        className={cx('sticky bottom-0 bg-white', isRerender.current ? 'visible' : 'invisible')}
+      >
+        Footer {height}
+      </div>
     </div>
   )
 }
@@ -54,7 +78,10 @@ function Column() {
   return (
     <div className="flex h-full w-32 flex-col">
       <h3>Header</h3>
-      <div className="h-full overflow-hidden">
+      <div
+        // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
+        className="h-full overflow-hidden"
+      >
         <AutoSizer>{({ height, width }) => <ColumnBody {...{ height, width }} />}</AutoSizer>
       </div>
     </div>
@@ -90,7 +117,7 @@ function Board() {
     initialize(ref.current)
   }, [initialize])
   return (
-    <div className="h-full overflow-y-hidden" {...{ ref }}>
+    <div id="board" className="h-full overflow-y-hidden" {...{ ref }}>
       <div
         className="mr-[var(--menu-width)] flex h-full bg-[pink] pb-7"
         style={{
