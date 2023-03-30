@@ -275,17 +275,21 @@ body::-webkit-scrollbar-track {
 } */
 
 /* как спрятать системный скролл */
-#board {
+#board-canvas {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 }
-#board::-webkit-scrollbar {
+#board-canvas::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
 
 /* overlayscrollbars */
 .os-scrollbar-horizontal.board.has-menu {
   margin-right: var(--menu-width);
+}
+
+.os-scrollbar-vertical.list-cards {
+  margin-bottom: 38px;
 }
 
 .os-theme-light.board {

@@ -2,8 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
-import { useEventListener } from 'usehooks-ts'
-import { useIsFirstRender } from 'usehooks-ts'
 
 // TODO: will-change: transform
 
@@ -32,7 +30,7 @@ function ColumnBody({ height, width }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
-  const isProd = process.env.NODE_ENV === 'production' // предполагаю, что StrictMode отключен в prod-е
+  const isProd = true // process.env.NODE_ENV === 'production' // предполагаю, что StrictMode отключен в prod-е
   const isRerender = React.useRef(false)
   if (isProd) {
     isRerender.current = !isRerender.current
@@ -51,7 +49,7 @@ function ColumnBody({ height, width }) {
       isRerender.current = true
     }
   }
-  console.log(isRerender.current)
+  console.log(height, isRerender.current)
   return (
     <div
       className="flex flex-col overflow-x-hidden"
@@ -117,7 +115,7 @@ function Board() {
     initialize(ref.current)
   }, [initialize])
   return (
-    <div id="board" className="h-full overflow-y-hidden" {...{ ref }}>
+    <div id="board-canvas" className="h-full overflow-y-hidden" {...{ ref }}>
       <div
         className="mr-[var(--menu-width)] flex h-full bg-[pink] pb-7"
         style={{
@@ -136,15 +134,11 @@ function Board() {
 
 function TryResizePage() {
   const [isExpandedHeaderHeight, setIsExpandedHeaderHeight] = React.useState(false)
-  const [isDummy, setIsDummy] = React.useState(false)
   const toggleHeaderHeight = () => {
     setIsExpandedHeaderHeight((isExpandedHeaderHeight) => !isExpandedHeaderHeight)
   }
   return (
-    <div
-      id="content"
-      className="fixed top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden bg-[green]"
-    >
+    <div id="content" className="fixed top-0 left-0 right-0 bottom-0 flex flex-col bg-[green]">
       <div
         id="header"
         className={cx(
