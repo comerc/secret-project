@@ -288,7 +288,8 @@ function ListBody({ issues }) {
   const footerHeight = 38
   // TODO: как бы убрать мигание ListFooter при ресайзе ListBody?
   return (
-    <div className="h-full">
+    // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
+    <div className="h-full overflow-hidden rounded-b-[3px]">
       <AutoSizer>
         {({ height, width }) => (
           <div

@@ -192,7 +192,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
-  const issues = Array.from({ length: 5 }, (v, k) => k).map((k) => ({
+  const issues = Array.from({ length: 4 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
