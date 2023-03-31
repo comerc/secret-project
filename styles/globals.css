@@ -294,13 +294,13 @@ body::-webkit-scrollbar-track {
 
 .os-theme-light.board {
   /* // The size of the scrollbar */
-  --os-size: 26px;
+  --os-size: 28px;
   /* // The axis-perpedicular padding of the scrollbar (horizontal: padding-y, vertical: padding-x) */
   --os-padding-perpendicular: 8px;
   /* // The axis padding of the scrollbar (horizontal: padding-x, vertical: padding-y) */
   --os-padding-axis: 24px;
   /* // The border radius of the scrollbar track */
-  --os-track-border-radius: 3px;
+  --os-track-border-radius: 4px;
   /* // The background of the scrollbar track */
   --os-track-bg: #00000026;
   /* // The :hover background of the scrollbar track */
@@ -314,7 +314,7 @@ body::-webkit-scrollbar-track {
   /* // The :active background of the scrollbar track */
   --os-track-border-active: none;
   /* // The border radius of the scrollbar handle */
-  --os-handle-border-radius: 3px;
+  --os-handle-border-radius: 4px;
   /* // The background of the scrollbar handle */
   --os-handle-bg: rgba(255, 255, 255, 0.4);
   /* // The :hover background of the scrollbar handle */

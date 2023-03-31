@@ -12,6 +12,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons'
 import { Input, Button, Tooltip, Avatar } from 'antd'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
@@ -263,7 +264,7 @@ function ListCards({ issues }) {
   // const { boxShadow, onScrollHandler } = useScrollWithShadow()
   return (
     <div
-      className="max-h-[500px] overflow-hidden px-2"
+      className="overflow-hidden px-2"
       // onScroll={onScrollHandler}
       // style={{ boxShadow }}
       {...{ ref }}
@@ -387,8 +388,6 @@ function Canvas({ isMenu, hasMenu, children }) {
         x: isMenu === hasMenu ? 'scroll' : 'hidden',
         y: 'hidden',
       },
-      // paddingAbsolute: true,
-      // showNativeOverlaidScrollbars: true,
       scrollbars: {
         theme: cx('os-theme-light board', hasMenu && 'has-menu'),
         visibility: 'auto',
@@ -402,25 +401,21 @@ function Canvas({ isMenu, hasMenu, children }) {
     // events, defer
   })
   React.useEffect(() => {
-    // initialize(document.body)
     initialize(ref.current)
   }, [initialize])
   return (
     <div
-      className="flex grow flex-col"
-      // className={cx('grow overflow-auto', hasMenu && 'pr-[var(--menu-width)]')}
+      id="board-canvas"
+      className="h-full overflow-y-hidden"
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
       {...{ ref }}
     >
-      <div className="flex flex-1 flex-row">
-        <div className="flex flex-1 flex-col">
-          <div className={cx('grow' && hasMenu && 'pr-[var(--menu-width)]')}>{children}</div>
-        </div>
+      <div className="flex h-full pb-7">
+        <div className="flex flex-col">{children}</div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 h-[26px] bg-[var(--window-background)]" />
     </div>
   )
 }
@@ -441,11 +436,11 @@ function Board({ issues, isMenu, hasMenu }) {
   // ]
   return (
     <Canvas {...{ isMenu, hasMenu }}>
-      <div id="board" className="ml-2.5 mr-2 flex max-h-max select-none gap-2 pb-2">
+      <div id="board" className="ml-2.5 flex h-full select-none gap-2">
         <FrontLabelsState>
           {columns.map(({ id, name }) => (
             <div key={id}>
-              <div className="flex min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+              <div className="flex max-h-full min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
                 <ListHeader {...{ name }} />
                 <ListCards {...{ issues }} />
                 <ListFooter />
@@ -453,6 +448,7 @@ function Board({ issues, isMenu, hasMenu }) {
             </div>
           ))}
         </FrontLabelsState>
+        <div style={{ width: hasMenu ? 'var(--menu-width)' : 0 }}></div>
         {/* <Image
         // TODO: обои
         priority

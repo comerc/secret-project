@@ -192,7 +192,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
-  const issues = Array.from({ length: 20 }, (v, k) => k).map((k) => ({
+  const issues = Array.from({ length: 4 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
@@ -229,7 +229,9 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   return { props: { issues, boardId, issueId: null, urlName, favorites, members } }
 }
 
-function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
+// TODO: will-change: transform
+
+function Router({ urlName, children, renderCardDetailWindow }) {
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
@@ -245,6 +247,18 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
     }
     setIsUrlName(true)
   }, [breadcrumbs])
+  if (!isUrlName) {
+    return
+  }
+  return (
+    <>
+      {children}
+      {breadcrumbs[0] === 'c' && renderCardDetailWindow()}
+    </>
+  )
+}
+
+function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
   const [isMenu, setIsMenu] = React.useState(false)
   const [hasMenu, setHasMenu] = React.useState(false)
   const toggleMenu = () => {
@@ -273,84 +287,82 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
   const handleDeleteFavorites = (deletedBoardId) => {
     setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
   }
-  const version = 'v2'
-  if (!isUrlName) {
-    return
-  }
+  const version = 'V2'
+  const renderCardDetailWindow = () => <CardDetailWindow issue={issues[0]} />
   return (
-    <>
-      {version === 'v2' && (
-        <ClientOnly>
-          <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[var(--window-background)]">
-            <Header {...{ favorites, handleDeleteFavorites }} />
-            <BoardHeader
-              {...{
-                members,
-                boardId,
-                hasMenu,
-                toggleMenu,
-                favorites,
-                handleChangeFavorites,
-              }}
-            />
-            <div id="board-warnings"></div>
-            <Board {...{ issues, isMenu, hasMenu }} />
-          </div>
-          <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
-            <BoardMenu {...{ hasMenu, toggleMenu }} />
-          </div>
-          {breadcrumbs[0] === 'c' && <CardDetailWindow issue={issues[0]} />}
-        </ClientOnly>
-      )}
-      {version === 'v1' && (
-        <>
-          <div
-            id="chrome-container"
-            // className="body-dark-board-background"
-            className="fixed top-0 left-0 right-0 h-full bg-[var(--window-background)]" // overflow-hidden
-          >
-            <div id="surface" className="flex h-full flex-col">
-              <Header {...{ favorites, handleDeleteFavorites, height: headerHeight }} />
-              <div className="flex grow flex-col">
-                <div className="flex flex-1 flex-row">
-                  <div id="content-wrapper" className="flex flex-1 flex-col">
-                    <div id="content" className="relative grow">
-                      <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
-                        <div
-                          id="board-main-content"
-                          className={cx(
-                            isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
-                            'mr-0 flex h-full flex-col',
-                          )}
-                          style={{
-                            transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
-                          }}
-                        >
-                          <BoardHeader
-                            {...{
-                              members,
-                              boardId,
-                              hasMenu,
-                              toggleMenu,
-                              favorites,
-                              handleChangeFavorites,
+    <ClientOnly>
+      <Router {...{ urlName, renderCardDetailWindow }}>
+        {version === 'V2' && (
+          <>
+            <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[var(--window-background)]">
+              <Header {...{ favorites, handleDeleteFavorites }} />
+              <BoardHeader
+                {...{
+                  members,
+                  boardId,
+                  hasMenu,
+                  toggleMenu,
+                  favorites,
+                  handleChangeFavorites,
+                }}
+              />
+              <div id="board-warnings"></div>
+              <Board {...{ issues, isMenu, hasMenu }} />
+            </div>
+            <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
+              <BoardMenu {...{ hasMenu, toggleMenu }} />
+            </div>
+          </>
+        )}
+        {version === 'V1' && (
+          <>
+            <div
+              id="chrome-container"
+              // className="body-dark-board-background"
+              className="fixed top-0 left-0 right-0 h-full bg-[var(--window-background)]" // overflow-hidden
+            >
+              <div id="surface" className="flex h-full flex-col">
+                <Header {...{ favorites, handleDeleteFavorites }} />
+                <div className="flex grow flex-col">
+                  <div className="flex flex-1 flex-row">
+                    <div id="content-wrapper" className="flex flex-1 flex-col">
+                      <div id="content" className="relative grow">
+                        <div id="board-wrapper" className="absolute top-0 left-0 right-0 bottom-0">
+                          <div
+                            id="board-main-content"
+                            className={cx(
+                              isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
+                              'mr-0 flex h-full flex-col',
+                            )}
+                            style={{
+                              transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
                             }}
-                          />
-                          <div id="board-warnings"></div>
-                          <Board {...{ issues, isMenu, hasMenu }} />
+                          >
+                            <BoardHeader
+                              {...{
+                                members,
+                                boardId,
+                                hasMenu,
+                                toggleMenu,
+                                favorites,
+                                handleChangeFavorites,
+                              }}
+                            />
+                            <div id="board-warnings"></div>
+                            <Board {...{ issues }} />
+                          </div>
+                          <BoardMenu {...{ hasMenu, toggleMenu }} />
                         </div>
-                        <BoardMenu {...{ hasMenu, toggleMenu }} />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          {breadcrumbs[0] === 'c' && <CardDetailWindow issue={issues[0]} />}
-        </>
-      )}
-    </>
+          </>
+        )}
+      </Router>
+    </ClientOnly>
   )
 }
 
