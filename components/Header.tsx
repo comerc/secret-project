@@ -192,7 +192,7 @@ function InFavoritesButton({ favorites, onDelete }) {
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
-            className="border-[var(--ds-border,#091e4221)] shadow-none [&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125 [&>.anticon]:text-[#f2d600]"
+            className="border-[var(--ds-border,#091e4221)] shadow-none [&:hover>.anticon]:scale-125 [&>.anticon]:text-[#f2d600] [&:focus>.anticon]:scale-125"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
             size="small"

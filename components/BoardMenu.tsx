@@ -74,7 +74,7 @@ function BoardMenu({ hasMenu, toggleMenu }) {
       </div>
       <a
         className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-        href="#" // TODO: replace to role="button" or <button />
+        role="button" // href="#" // TODO: replace to role="button" or <button />
         onClick={(event) => {
           event.preventDefault()
           toggleMenu()

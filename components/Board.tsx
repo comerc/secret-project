@@ -24,9 +24,14 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
 
-function ListFooter() {
+function ListFooter({ height }) {
   return (
-    <div className="max-h-[38px] min-h-[38px] px-2 pt-0.5 pb-2">
+    <div
+      className="px-2 pt-0.5 pb-2"
+      style={{
+        height,
+      }}
+    >
       <Button
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
@@ -235,7 +240,7 @@ function ListCard({ id, title, labels, members }) {
   )
 }
 
-function ListCards({ issues }) {
+function ListCards({ issues, maxHeight }) {
   const ref = React.useRef()
   const [initialize, instance] = useOverlayScrollbars({
     options: {
@@ -264,14 +269,41 @@ function ListCards({ issues }) {
   // const { boxShadow, onScrollHandler } = useScrollWithShadow()
   return (
     <div
-      className="overflow-hidden px-2"
+      className="overflow-x-hidden px-2"
       // onScroll={onScrollHandler}
       // style={{ boxShadow }}
-      {...{ ref }}
+      style={{
+        maxHeight,
+      }}
+      ref={ref}
     >
       {issues.map((issue) => (
         <ListCard key={issue.id} {...issue} />
       ))}
+    </div>
+  )
+}
+
+function ListBody({ issues }) {
+  const footerHeight = 38
+  // TODO: как бы убрать мигание ListFooter при ресайзе ListBody?
+  return (
+    <div className="h-full">
+      <AutoSizer>
+        {({ height, width }) => (
+          <div
+            style={{
+              height,
+              width,
+            }}
+          >
+            <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+              <ListCards maxHeight={height - footerHeight} {...{ issues }} />
+              <ListFooter height={footerHeight} />
+            </div>
+          </div>
+        )}
+      </AutoSizer>
     </div>
   )
 }
@@ -335,7 +367,7 @@ function ListHeader({ name }) {
   const issuesCount = 98
   const isFilter = true // TODO: реализовать isFilter через Context
   return (
-    <div className="relative flex-none pt-1.5 pb-2.5 pl-2 pr-10">
+    <div className="relative flex-none rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pt-1.5 pb-2.5 pl-2 pr-10">
       <Input.TextArea
         className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
         bordered={false}
@@ -439,26 +471,24 @@ function Board({ issues, isMenu, hasMenu }) {
       <div id="board" className="ml-2.5 flex h-full select-none gap-2">
         <FrontLabelsState>
           {columns.map(({ id, name }) => (
-            <div key={id}>
-              <div className="flex max-h-full min-w-[272px] max-w-[272px] flex-col rounded-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-                <ListHeader {...{ name }} />
-                <ListCards {...{ issues }} />
-                <ListFooter />
-              </div>
+            <div key={id} className="flex h-full w-[272px] flex-col">
+              <ListHeader {...{ name }} />
+              <ListBody {...{ issues }} />
             </div>
+            // TODO: кнопка "Добавьте ещё одну колонку"
           ))}
         </FrontLabelsState>
         <div style={{ width: hasMenu ? 'var(--menu-width)' : 0 }}></div>
         {/* <Image
-        // TODO: обои
-        priority
-        src="/wallpapper.jpg"
-        fill
-        // width="5760" height="3840"
-        style={{
-          objectFit: 'cover',
-        }}
-      /> */}
+          // TODO: обои
+          priority
+          src="/wallpapper.jpg"
+          fill
+          // width="5760" height="3840"
+          style={{
+            objectFit: 'cover',
+          }}
+        /> */}
       </div>
     </Canvas>
   )

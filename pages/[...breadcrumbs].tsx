@@ -192,7 +192,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
-  const issues = Array.from({ length: 4 }, (v, k) => k).map((k) => ({
+  const issues = Array.from({ length: 5 }, (v, k) => k).map((k) => ({
     id: `id-${k}`,
     title: `Issue ${k} ` + generateSentence(),
     description: '',
@@ -294,7 +294,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
       <Router {...{ urlName, renderCardDetailWindow }}>
         {version === 'V2' && (
           <>
-            <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[var(--window-background)]">
+            <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[var(--body-dark-board-background)]">
               <Header {...{ favorites, handleDeleteFavorites }} />
               <BoardHeader
                 {...{

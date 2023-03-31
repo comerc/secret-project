@@ -288,10 +288,6 @@ body::-webkit-scrollbar-track {
   margin-right: var(--menu-width);
 }
 
-.os-scrollbar-vertical.list-cards {
-  margin-bottom: 38px;
-}
-
 .os-theme-light.board {
   /* // The size of the scrollbar */
   --os-size: 28px;
