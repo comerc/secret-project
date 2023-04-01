@@ -22,8 +22,8 @@ export default function Header() {
               <a
                 href={`/api/auth/signin`}
                 className={styles.buttonPrimary}
-                onClick={(e) => {
-                  e.preventDefault()
+                onClick={(event) => {
+                  event.preventDefault()
                   signIn()
                 }}
               >
@@ -47,8 +47,8 @@ export default function Header() {
               <a
                 href={`/api/auth/signout`}
                 className={styles.button}
-                onClick={(e) => {
-                  e.preventDefault()
+                onClick={(event) => {
+                  event.preventDefault()
                   signOut()
                 }}
               >

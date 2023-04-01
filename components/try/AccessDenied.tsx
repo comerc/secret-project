@@ -8,8 +8,8 @@ export default function AccessDenied() {
       <p>
         <Link
           href="/api/auth/signin"
-          onClick={(e) => {
-            e.preventDefault()
+          onClick={(event) => {
+            event.preventDefault()
             signIn()
           }}
         >

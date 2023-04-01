@@ -198,7 +198,9 @@ function FloatingLinkEditor({
               className="link-edit"
               role="button"
               tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
+              onMouseDown={(event) => {
+                event.preventDefault()
+              }}
               onClick={() => {
                 setEditMode(true)
               }}

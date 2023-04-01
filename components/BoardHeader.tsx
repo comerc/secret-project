@@ -338,7 +338,9 @@ function PermisionLevelButton() {
       <HeaderButton
         aria-label="Изменить уровень доступа к доске"
         title={value.title}
-        onClick={(e) => e.preventDefault()}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
         icon={value.buttonIcon}
         className="float-left"
       >

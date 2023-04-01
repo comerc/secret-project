@@ -12,6 +12,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons'
 import { Input, Button, Tooltip, Avatar } from 'antd'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import CustomDropdown from '.../components/CustomDropdown'
@@ -361,14 +362,35 @@ function ExtrasButton() {
   )
 }
 
-function ListHeader({ name }) {
+const ListHeaderInputContext = React.createContext(null)
+
+export function ListHeaderInputState({ children }) {
+  const [focused, setFocused] = React.useState(null)
+  return (
+    <ListHeaderInputContext.Provider value={{ focused, setFocused }}>
+      {children}
+    </ListHeaderInputContext.Provider>
+  )
+}
+
+function ListHeader({ name, dragHandleProps }) {
   const [value, setValue] = React.useState(name)
-  const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef()
-  const issuesCount = 98
+  const { focused, setFocused } = React.useContext(ListHeaderInputContext)
+  const isFocused = focused === inputRef.current
+  const issuesCount = 98 // TODO: отображать реальное кол-во issues
   const isFilter = true // TODO: реализовать isFilter через Context
   return (
-    <div className="relative flex-none rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pt-1.5 pb-2.5 pl-2 pr-10">
+    <div
+      className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pt-1.5 pb-2.5 pl-2 pr-10"
+      onClick={(event) => {
+        event.preventDefault()
+        if (isFocused) {
+          focused.blur()
+        }
+      }}
+      {...dragHandleProps}
+    >
       <Input.TextArea
         className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
         bordered={false}
@@ -382,10 +404,12 @@ function ListHeader({ name }) {
           setValue(event.target.value)
         }}
         onBlur={() => {
-          setIsFocused(false)
+          setFocused(null)
+          // setIsFocused(false)
         }}
         onFocus={() => {
-          setIsFocused(true)
+          setFocused(inputRef.current)
+          // setIsFocused(true)
         }}
       />
       {isFilter && (
@@ -394,11 +418,8 @@ function ListHeader({ name }) {
         </p>
       )}
       <div
-        className={cx(
-          isFocused && 'hidden',
-          'absolute top-0 left-0 right-0 bottom-0 cursor-pointer',
-        )}
-        onClick={() => {
+        className={cx(isFocused && 'hidden', 'absolute top-0 left-0 right-0 bottom-0')}
+        onClick={(event) => {
           event.preventDefault()
           inputRef.current.focus({
             preventScroll: true,
@@ -453,6 +474,31 @@ function Canvas({ isMenu, hasMenu, children }) {
   )
 }
 
+function Column({ index, id, name, issues }) {
+  return (
+    <Draggable draggableId={id} {...{ index }}>
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <div className="flex h-full w-[272px] flex-col pr-2" ref={innerRef} {...draggableProps}>
+          {/* // TODO: doubleClick вызывает inline-форму добавления новой карточки */}
+          <ListHeader {...{ name, dragHandleProps }} />
+          <ListBody {...{ issues }} />
+        </div>
+      )}
+    </Draggable>
+  )
+}
+
+function CustomDragDropContext({ children }) {
+  const { focused } = React.useContext(ListHeaderInputContext)
+  const onBeforeDragStart = (result) => {
+    if (focused) {
+      focused.blur()
+    }
+  }
+  const onDragEnd = (result) => {}
+  return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
+}
+
 function Board({ issues, isMenu, hasMenu }) {
   const columns = [
     // { id: 'column0', name: 'Backlog' },
@@ -469,18 +515,25 @@ function Board({ issues, isMenu, hasMenu }) {
   // ]
   return (
     <Canvas {...{ isMenu, hasMenu }}>
-      <div id="board" className="ml-2.5 flex h-full select-none gap-2">
-        <FrontLabelsState>
-          {columns.map(({ id, name }) => (
-            <div key={id} className="flex h-full w-[272px] flex-col">
-              <ListHeader {...{ name }} />
-              <ListBody {...{ issues }} />
-            </div>
-            // TODO: кнопка "Добавьте ещё одну колонку"
-          ))}
-        </FrontLabelsState>
-        <div style={{ width: hasMenu ? 'var(--menu-width)' : 0 }}></div>
-        {/* <Image
+      <ListHeaderInputState>
+        <CustomDragDropContext>
+          <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+            {(provided) => (
+              <div
+                id="board"
+                className="ml-2.5 mr-2 flex h-full select-none"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <FrontLabelsState>
+                  {columns.map(({ id, name }, index) => (
+                    <Column key={id} {...{ index, id, name, issues }} />
+                  ))}
+                </FrontLabelsState>
+                {provided.placeholder}
+                {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
+                <div style={{ width: hasMenu ? 'var(--menu-width)' : 0 }}></div>
+                {/* <Image
           // TODO: обои
           priority
           src="/wallpapper.jpg"
@@ -490,7 +543,11 @@ function Board({ issues, isMenu, hasMenu }) {
             objectFit: 'cover',
           }}
         /> */}
-      </div>
+              </div>
+            )}
+          </Droppable>
+        </CustomDragDropContext>
+      </ListHeaderInputState>
     </Canvas>
   )
 }

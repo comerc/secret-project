@@ -659,7 +659,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
       <button
         title={`${member.name.first} ${member.name.last} (${member.login.username})`}
         className="font-bold"
-        onClick={() => {
+        onClick={(event) => {
           // event.preventDefault()
           // TODO: popup профиля
         }}
@@ -673,7 +673,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
           <a
             className="whitespace-pre text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
             href={actionUrl}
-            onClick={() => {
+            onClick={(event) => {
               event.preventDefault()
               // TODO: router.push(actionUrl, undefined, { shallow: true, })
             }}
