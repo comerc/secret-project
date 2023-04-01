@@ -25,7 +25,7 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
 
-function ListFooter({ height }) {
+function ColumnFooter({ height }) {
   return (
     <div
       className="px-2 pt-0.5 pb-2"
@@ -285,9 +285,9 @@ function ListCards({ issues, maxHeight }) {
   )
 }
 
-function ListBody({ issues }) {
+function ColumnBody({ issues }) {
   const footerHeight = 38
-  // TODO: как бы убрать мигание ListFooter при ресайзе ListBody?
+  // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
   return (
     // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
     <div className="h-full overflow-hidden rounded-b-[3px]">
@@ -301,7 +301,7 @@ function ListBody({ issues }) {
           >
             <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
               <ListCards maxHeight={height - footerHeight} {...{ issues }} />
-              <ListFooter height={footerHeight} />
+              <ColumnFooter height={footerHeight} />
             </div>
           </div>
         )}
@@ -362,21 +362,21 @@ function ExtrasButton() {
   )
 }
 
-const ListHeaderInputContext = React.createContext(null)
+const ColumnHeaderInputContext = React.createContext(null)
 
-export function ListHeaderInputState({ children }) {
+export function ColumnHeaderInputState({ children }) {
   const [focused, setFocused] = React.useState(null)
   return (
-    <ListHeaderInputContext.Provider value={{ focused, setFocused }}>
+    <ColumnHeaderInputContext.Provider value={{ focused, setFocused }}>
       {children}
-    </ListHeaderInputContext.Provider>
+    </ColumnHeaderInputContext.Provider>
   )
 }
 
-function ListHeader({ name, dragHandleProps }) {
+function ColumnHeader({ name, dragHandleProps }) {
   const [value, setValue] = React.useState(name)
   const inputRef = React.useRef()
-  const { focused, setFocused } = React.useContext(ListHeaderInputContext)
+  const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const isFocused = focused === inputRef.current
   const issuesCount = 98 // TODO: отображать реальное кол-во issues
   const isFilter = true // TODO: реализовать isFilter через Context
@@ -434,6 +434,31 @@ function ListHeader({ name, dragHandleProps }) {
   )
 }
 
+function Column({ index, id, name, issues }) {
+  return (
+    <Draggable draggableId={id} {...{ index }}>
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <div className="flex h-full w-[272px] flex-col pr-2" ref={innerRef} {...draggableProps}>
+          {/* // TODO: doubleClick вызывает inline-форму добавления новой карточки */}
+          <ColumnHeader {...{ name, dragHandleProps }} />
+          <ColumnBody {...{ issues }} />
+        </div>
+      )}
+    </Draggable>
+  )
+}
+
+function CustomDragDropContext({ children }) {
+  const { focused } = React.useContext(ColumnHeaderInputContext)
+  const onBeforeDragStart = (result) => {
+    if (focused) {
+      focused.blur()
+    }
+  }
+  const onDragEnd = (result) => {}
+  return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
+}
+
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
   const [initialize, instance] = useOverlayScrollbars({
@@ -474,31 +499,6 @@ function Canvas({ isMenu, hasMenu, children }) {
   )
 }
 
-function Column({ index, id, name, issues }) {
-  return (
-    <Draggable draggableId={id} {...{ index }}>
-      {({ innerRef, draggableProps, dragHandleProps }) => (
-        <div className="flex h-full w-[272px] flex-col pr-2" ref={innerRef} {...draggableProps}>
-          {/* // TODO: doubleClick вызывает inline-форму добавления новой карточки */}
-          <ListHeader {...{ name, dragHandleProps }} />
-          <ListBody {...{ issues }} />
-        </div>
-      )}
-    </Draggable>
-  )
-}
-
-function CustomDragDropContext({ children }) {
-  const { focused } = React.useContext(ListHeaderInputContext)
-  const onBeforeDragStart = (result) => {
-    if (focused) {
-      focused.blur()
-    }
-  }
-  const onDragEnd = (result) => {}
-  return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
-}
-
 function Board({ issues, isMenu, hasMenu }) {
   const columns = [
     // { id: 'column0', name: 'Backlog' },
@@ -515,7 +515,7 @@ function Board({ issues, isMenu, hasMenu }) {
   // ]
   return (
     <Canvas {...{ isMenu, hasMenu }}>
-      <ListHeaderInputState>
+      <ColumnHeaderInputState>
         <CustomDragDropContext>
           <Droppable droppableId="all-droppables" direction="horizontal" type="column">
             {(provided) => (
@@ -547,7 +547,7 @@ function Board({ issues, isMenu, hasMenu }) {
             )}
           </Droppable>
         </CustomDragDropContext>
-      </ListHeaderInputState>
+      </ColumnHeaderInputState>
     </Canvas>
   )
 }
