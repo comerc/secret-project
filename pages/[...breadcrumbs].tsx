@@ -12,6 +12,7 @@ import { nanoid } from 'nanoid'
 import cx from 'classnames'
 import generateSentence from '.../utils/generateSentence'
 import normalizeUrlName from '.../utils/normalizeUrlName'
+import getInitialData from '.../utils/getInitialData'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -22,6 +23,7 @@ type IProps = {
   members: []
   urlName: string
   issueId: string
+  initialData: {}
 }
 
 export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
@@ -226,7 +228,8 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  return { props: { issues, boardId, issueId: null, urlName, favorites, members } }
+  const initialData = getInitialData({ members, labels, actions })
+  return { props: { issues, boardId, issueId: null, urlName, favorites, members, initialData } }
 }
 
 // TODO: will-change: transform
@@ -258,7 +261,14 @@ function Router({ urlName, children, renderCardDetailWindow }) {
   )
 }
 
-function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlName }: IProps) {
+function BoardPage({
+  issues,
+  members,
+  boardId,
+  favorites: defaultFavorites,
+  urlName,
+  initialData,
+}: IProps) {
   const [isMenu, setIsMenu] = React.useState(false)
   const [hasMenu, setHasMenu] = React.useState(false)
   const toggleMenu = () => {
@@ -307,7 +317,7 @@ function BoardPage({ issues, members, boardId, favorites: defaultFavorites, urlN
                 }}
               />
               <div id="board-warnings"></div>
-              <Board {...{ issues, isMenu, hasMenu }} />
+              <Board {...{ initialData, issues, isMenu, hasMenu }} />
             </div>
             <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
               <BoardMenu {...{ hasMenu, toggleMenu }} />

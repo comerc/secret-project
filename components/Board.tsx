@@ -448,9 +448,9 @@ function Column({ index, id, name, issues }) {
   )
 }
 
-function CustomDragDropContext({ children }) {
+function CustomDragDropContext({ state, setState, children }) {
   const { focused } = React.useContext(ColumnHeaderInputContext)
-  const onBeforeDragStart = (result) => {
+  const onBeforeDragStart = () => {
     if (focused) {
       focused.blur()
     }
@@ -499,7 +499,8 @@ function Canvas({ isMenu, hasMenu, children }) {
   )
 }
 
-function Board({ issues, isMenu, hasMenu }) {
+function Board({ initialData, issues, isMenu, hasMenu }) {
+  const [state, setState] = React.useState(initialData)
   const columns = [
     // { id: 'column0', name: 'Backlog' },
     {
@@ -516,7 +517,7 @@ function Board({ issues, isMenu, hasMenu }) {
   return (
     <Canvas {...{ isMenu, hasMenu }}>
       <ColumnHeaderInputState>
-        <CustomDragDropContext>
+        <CustomDragDropContext {...{ state, setState }}>
           <Droppable droppableId="all-droppables" direction="horizontal" type="column">
             {(provided) => (
               <div
