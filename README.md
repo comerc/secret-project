@@ -318,6 +318,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://codesandbox.io/s/simple-react-beautiful-dnd-board-v2cns (fail)
 - [ ] recharts.org (as FinamTrade)
 - [ ] Temporal for clone Trello Butler
+- [ ] Backend via appwrite.io - https://github.com/appwrite/demo-todo-with-nextjs
 
 ## Что нового (для меня) про вёрстку
 
