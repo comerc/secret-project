@@ -75,7 +75,7 @@ function MembersButton({ members }) {
   return (
     <Avatar.Group
       className={cx(
-        'float-left mb-1 mr-1 inline-flex h-8 items-center px-1',
+        'z-0 float-left mb-1 mr-1 inline-flex h-8 items-center px-1',
         members.length > maxCount &&
           'select-none [&>:last-child]:bg-[var(--dynamic-button)] [&>:last-child]:text-[var(--dynamic-text)] hover:[&>:last-child]:bg-[var(--dynamic-button-hovered)] active:[&>:last-child]:bg-[var(--dynamic-button-pressed)]',
       )}
