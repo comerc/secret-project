@@ -3,12 +3,50 @@ import generateSentence from '.../utils/generateSentence'
 
 let itemIdSequence = 0
 
-function getIssues(count, columnId, { members, labels, actions }) {
+function getIssues(count, columnId, { members, actions }) {
+  const labels = [
+    {
+      id: 1,
+      colorId: '1-1',
+      name: '1-1',
+    },
+    {
+      id: 2,
+      colorId: '1-2',
+      name: '1-2',
+    },
+    {
+      id: 3,
+      colorId: '1-3',
+      name: '1-3',
+    },
+    // {
+    //   id: 4,
+    //   colorId: '1-4',
+    //   name: '1-4',
+    // },
+    // {
+    //   id: 5,
+    //   colorId: '1-5',
+    //   name: '1-5',
+    // },
+    // {
+    //   id: 6,
+    //   colorId: '1-6',
+    //   name: '1-6',
+    // },
+    // {
+    //   id: 7,
+    //   colorId: '4-2',
+    //   name: 'Моя очень-очень-очень длинная метка',
+    // },
+  ]
   const issues = Array.from({ length: count }, () => {
-    const id = itemIdSequence++
+    const id = ++itemIdSequence
+    console.log(id)
     return {
-      id: `#${id}`,
-      title: `#${id} ` + generateSentence(),
+      id: `${id}`,
+      title: `#${id} ${generateSentence()}`,
       description: '',
       members,
       labels,
@@ -21,30 +59,27 @@ function getIssues(count, columnId, { members, labels, actions }) {
   return issues
 }
 
-function getColumns({ members, labels, actions }) {
+function getInitialData({ members, actions }) {
+  let issues = {}
   const columnTitles = ['To Do', 'In Progress', 'Done']
   const columns = columnTitles
     .map((columnTitle) => {
       const columnId = nanoid(8)
-      const issues = getIssues(4, columnId, { members, labels, actions })
+      const columnIssues = getIssues(4, columnId, { members, actions })
+      issues = { ...issues, ...columnIssues }
       return {
         id: columnId,
         title: columnTitle,
-        issues,
-        issuesOrder: Object.keys(issues),
+        // issues: columnIssues,
+        issuesOrder: Object.keys(columnIssues),
       }
     })
     .reduce((accumulator, currentValue) => {
       accumulator[currentValue.id] = currentValue
       return accumulator
     }, {})
-  return columns
-}
-
-function getInitialData({ members, labels, actions }) {
-  const columns = getColumns({ members, labels, actions })
   const columnsOrder = Object.keys(columns)
-  return { columns, columnsOrder, selectedId: '' }
+  return { columns, columnsOrder, issues }
 }
 
 export default getInitialData

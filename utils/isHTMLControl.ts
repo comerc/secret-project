@@ -1,7 +1,7 @@
 function isHTMLControl(node, byNode) {
   const controls = ['A', 'BUTTON', 'TEXTAREA', 'INPUT']
   while (node !== null) {
-    console.log(node.tagName, node.role)
+    // console.log(node.tagName, node.role)
     if (node.role === 'button') {
       return true
     }

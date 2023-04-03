@@ -10,61 +10,23 @@ import CardDetailWindow from '.../components/CardDetailWindow'
 import { resetServerContext } from 'react-beautiful-dnd'
 import { nanoid } from 'nanoid'
 import cx from 'classnames'
-import generateSentence from '.../utils/generateSentence'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
 type IProps = {
-  issues: []
   boardId: string
   favorites: []
   members: []
   urlName: string
-  issueId: string
-  initialData: {}
+  columns: {}
+  columnsOrder: []
+  issues: {}
 }
 
 export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
   resetServerContext()
-  const labels = [
-    {
-      id: 1,
-      colorId: '1-1',
-      name: '1-1',
-    },
-    {
-      id: 2,
-      colorId: '1-2',
-      name: '1-2',
-    },
-    {
-      id: 3,
-      colorId: '1-3',
-      name: '1-3',
-    },
-    // {
-    //   id: 4,
-    //   colorId: '1-4',
-    //   name: '1-4',
-    // },
-    // {
-    //   id: 5,
-    //   colorId: '1-5',
-    //   name: '1-5',
-    // },
-    // {
-    //   id: 6,
-    //   colorId: '1-6',
-    //   name: '1-6',
-    // },
-    // {
-    //   id: 7,
-    //   colorId: '4-2',
-    //   name: 'Моя очень-очень-очень длинная метка',
-    // },
-  ]
   const members = await fetch('https://randomuser.me/api/?results=6')
     .then((res) => res.json())
     .then((data) => data.results)
@@ -194,14 +156,6 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
-  const issues = Array.from({ length: 4 }, (v, k) => k).map((k) => ({
-    id: `id-${k}`,
-    title: `Issue ${k} ` + generateSentence(),
-    description: '',
-    members,
-    labels,
-    actions,
-  }))
   const route = breadcrumbs[0] // TODO: w || u || b || c
   const routes = ['b', 'c']
   if (!routes.includes(route)) {
@@ -228,8 +182,10 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  const initialData = getInitialData({ members, labels, actions })
-  return { props: { issues, boardId, issueId: null, urlName, favorites, members, initialData } }
+  const { columns, columnsOrder, issues } = getInitialData({ members, actions })
+  return {
+    props: { boardId, urlName, favorites, members, columns, columnsOrder, issues },
+  }
 }
 
 // TODO: will-change: transform
@@ -262,12 +218,13 @@ function Router({ urlName, children, renderCardDetailWindow }) {
 }
 
 function BoardPage({
-  issues,
   members,
   boardId,
   favorites: defaultFavorites,
   urlName,
-  initialData,
+  columns,
+  columnsOrder,
+  issues,
 }: IProps) {
   const [isMenu, setIsMenu] = React.useState(false)
   const [hasMenu, setHasMenu] = React.useState(false)
@@ -298,7 +255,10 @@ function BoardPage({
     setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
   }
   const version = 'V2'
-  const renderCardDetailWindow = () => <CardDetailWindow issue={issues[0]} />
+  const renderCardDetailWindow = () => {
+    const id = Object.keys(issues)[0]
+    return <CardDetailWindow issue={issues[id]} />
+  }
   return (
     <ClientOnly>
       <Router {...{ urlName, renderCardDetailWindow }}>
@@ -317,7 +277,7 @@ function BoardPage({
                 }}
               />
               <div id="board-warnings"></div>
-              <Board {...{ initialData, issues, isMenu, hasMenu }} />
+              <Board {...{ columns, columnsOrder, issues, isMenu, hasMenu }} />
             </div>
             <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
               <BoardMenu {...{ hasMenu, toggleMenu }} />
@@ -328,8 +288,7 @@ function BoardPage({
           <>
             <div
               id="chrome-container"
-              // className="body-dark-board-background"
-              className="fixed top-0 left-0 right-0 h-full bg-[var(--window-background)]" // overflow-hidden
+              className="fixed top-0 left-0 right-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
             >
               <div id="surface" className="flex h-full flex-col">
                 <Header {...{ favorites, handleDeleteFavorites }} />
@@ -359,7 +318,7 @@ function BoardPage({
                               }}
                             />
                             <div id="board-warnings"></div>
-                            <Board {...{ issues }} />
+                            <Board {...{ columns, columnsOrder, issues }} />
                           </div>
                           <BoardMenu {...{ hasMenu, toggleMenu }} />
                         </div>

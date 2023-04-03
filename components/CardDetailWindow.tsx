@@ -1366,7 +1366,7 @@ function Notifications({ notifications }) {
       onClick={() => {
         setIsChecked(!isChecked)
       }}
-      aria-label={title}
+      // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
     >
       {isChecked ? (
         <>
@@ -1499,7 +1499,7 @@ function Label({ id, colorId, name }) {
         style={color.style}
         className="relative inline-block h-8 min-w-[48px] max-w-full truncate rounded-[3px] bg-[var(--background-color,var(--ds-skeleton,#DFE1E6))] pl-8 pr-3 text-left leading-8 text-[var(--text-color,var(--ds-text,#172b4d))] hover:brightness-[.85] hover:saturate-[.85] focus:ring-2"
         tabIndex={0}
-        aria-label={title}
+        // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
         // onClick={(event) => {}}
       >
         <>
@@ -1574,7 +1574,7 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           bordered={false}
           // ref={inputRef}
           autoSize
-          // aria-label={name}
+          // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
           // size={512}
           value={'Выполнить деплой'}
           // onChange={(event) => {

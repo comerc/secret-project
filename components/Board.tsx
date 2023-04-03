@@ -172,7 +172,7 @@ function FrontLabel({ id, colorId, name }) {
             'relative inline-block rounded text-left transition hover:brightness-[.85] hover:saturate-[.85]',
           )}
           tabIndex={-1}
-          aria-label={title}
+          // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
           onClick={(event) => {
             event.preventDefault()
             event.stopPropagation()
@@ -203,7 +203,8 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ id, title, labels, members }) {
+function ListCard({ issue: { id, title, labels, members }, index }) {
+  // TODO: use index
   const router = useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(title), [title])
   // TODO: cover
@@ -241,7 +242,7 @@ function ListCard({ id, title, labels, members }) {
   )
 }
 
-function ListCards({ issues, maxHeight }) {
+function ListCards({ maxHeight, issues, issuesOrder }) {
   const ref = React.useRef()
   const [initialize, instance] = useOverlayScrollbars({
     options: {
@@ -278,14 +279,14 @@ function ListCards({ issues, maxHeight }) {
       }}
       ref={ref}
     >
-      {issues.map((issue) => (
-        <ListCard key={issue.id} {...issue} />
+      {issuesOrder.map((id, index) => (
+        <ListCard key={id} issue={issues[id]} {...{ index }} />
       ))}
     </div>
   )
 }
 
-function ColumnBody({ issues }) {
+function ColumnBody({ issues, issuesOrder }) {
   const footerHeight = 38
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
   return (
@@ -300,7 +301,7 @@ function ColumnBody({ issues }) {
             }}
           >
             <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-              <ListCards maxHeight={height - footerHeight} {...{ issues }} />
+              <ListCards maxHeight={height - footerHeight} {...{ issues, issuesOrder }} />
               <ColumnFooter height={footerHeight} />
             </div>
           </div>
@@ -373,8 +374,8 @@ export function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ name, dragHandleProps }) {
-  const [value, setValue] = React.useState(name)
+function ColumnHeader({ title, dragHandleProps }) {
+  const [value, setValue] = React.useState(title)
   const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const isFocused = focused === inputRef.current
@@ -397,7 +398,7 @@ function ColumnHeader({ name, dragHandleProps }) {
         spellCheck={false}
         ref={inputRef}
         autoSize
-        aria-label={name}
+        // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
         size={512}
         value={value}
         onChange={(event) => {
@@ -434,14 +435,14 @@ function ColumnHeader({ name, dragHandleProps }) {
   )
 }
 
-function Column({ index, id, name, issues }) {
+function Column({ column: { id, title, issuesOrder }, issues, index }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
       {({ innerRef, draggableProps, dragHandleProps }) => (
         <div className="flex h-full w-[272px] flex-col pr-2" ref={innerRef} {...draggableProps}>
           {/* // TODO: doubleClick вызывает inline-форму добавления новой карточки */}
-          <ColumnHeader {...{ name, dragHandleProps }} />
-          <ColumnBody {...{ issues }} />
+          <ColumnHeader {...{ title, dragHandleProps }} />
+          <ColumnBody {...{ issues, issuesOrder }} />
         </div>
       )}
     </Draggable>
@@ -499,21 +500,8 @@ function Canvas({ isMenu, hasMenu, children }) {
   )
 }
 
-function Board({ initialData, issues, isMenu, hasMenu }) {
-  const [state, setState] = React.useState(initialData)
-  const columns = [
-    // { id: 'column0', name: 'Backlog' },
-    {
-      id: 'column1',
-      name: 'To Do To Do To Do To Do To Do To Do To Do To Do To Do To Do To Do',
-    },
-    { id: 'column2', name: 'In Progress' },
-    { id: 'column3', name: 'Done' },
-  ]
-  // const cards = [
-  //   { id: 'card1', name: 'Выполнить деплой' },
-  //   { id: 'card2', name: 'Прикрутить CI & CD' },
-  // ]
+function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
+  const [state, setState] = React.useState({ columns, columnsOrder, selectedId: '' })
   return (
     <Canvas {...{ isMenu, hasMenu }}>
       <ColumnHeaderInputState>
@@ -527,8 +515,8 @@ function Board({ initialData, issues, isMenu, hasMenu }) {
                 ref={provided.innerRef}
               >
                 <FrontLabelsState>
-                  {columns.map(({ id, name }, index) => (
-                    <Column key={id} {...{ index, id, name, issues }} />
+                  {state.columnsOrder.map((id, index) => (
+                    <Column key={id} column={state.columns[id]} {...{ issues, index }} />
                   ))}
                 </FrontLabelsState>
                 {provided.placeholder}
