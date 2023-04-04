@@ -199,6 +199,11 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/Diokuz/react-baron
   - https://manos.malihu.gr/jquery-custom-content-scroller/
   - https://github.com/inuyaksa/jquery.nicescroll - support .pageXOffset
+- [x] Custom Font
+  - https://web.dev/i18n/ru/preload-optional-fonts/
+  - https://habr.com/ru/companies/vdsina/articles/533208/
+  - https://gwfh.mranftl.com/fonts/bellota?subsets=cyrillic,latin
+  - https://habr.com/ru/articles/539680/
 - [ ] RBD - мигает курсор стрелки
   - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
 - [ ] Оценить интерфейсы Trello
