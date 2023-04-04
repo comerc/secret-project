@@ -43,7 +43,6 @@ function getIssues(count, columnId, { members, actions }) {
   ]
   const issues = Array.from({ length: count }, () => {
     const id = ++itemIdSequence
-    console.log(id)
     return {
       id: `${id}`,
       title: `#${id} ${generateSentence()}`,

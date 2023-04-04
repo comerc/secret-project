@@ -3,6 +3,8 @@ import { createCache, extractStyle } from '@ant-design/cssinjs'
 
 // TODO: [Antd v5] support css-in-js in shadowdom https://github.com/ant-design/ant-design/issues/38911
 
+// TODO: fonts-constructor https://gwfh.mranftl.com/fonts/bellota?subsets=cyrillic,latin
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const cache = createCache()
@@ -21,7 +23,10 @@ class MyDocument extends Document {
           {/* This is hack, `extractStyle` does not currently support returning JSX or related data. */}
           <script
             dangerouslySetInnerHTML={{
-              __html: `</script>${extractStyle(cache)}<script>`,
+              __html: `</script>${extractStyle(cache)}
+              <link rel="preload" href="/fonts/bellota-v16-cyrillic_latin-regular.woff" as="font" type="font/woff" crossorigin />
+              <link rel="preload" href="/fonts/bellota-v16-cyrillic_latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+              <script>`,
             }}
           />
         </>

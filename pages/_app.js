@@ -52,6 +52,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, cache }) {
         // hashed: false,
         token: {
           // colorPrimary: 'orange',
+          // TODO: .ant-btn перерисовываются с начальным шрифтом, но .ant-input вроде бы нет
+          fontFamily: 'Bellota',
         },
       }}
     >

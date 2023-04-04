@@ -1,3 +1,14 @@
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Bellota';
+  font-style: normal;
+  font-weight: 400;
+  /* woff2 - Chrome 36+, Opera 23+, Firefox 39+ */
+  /* woff - Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url('/fonts/bellota-v16-cyrillic_latin-regular.woff2') format('woff2'),
+    url('/fonts/bellota-v16-cyrillic_latin-regular.woff') format('woff');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -240,13 +251,14 @@ html {
 /* base font */
 body,
 button,
-html,
 input,
 select,
 textarea {
   color: var(--ds-text, #172b4d);
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
-    Helvetica Neue, sans-serif;
+  font-family: 'Bellota';
+  /* HACK: использую такие же шрифты, как в antd */
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif; */
   font-weight: 400;
 }
 

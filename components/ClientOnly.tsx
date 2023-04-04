@@ -5,10 +5,7 @@ function ClientOnly({ children }: { children: JSX.Element }) {
   React.useEffect(() => {
     setHasMounted(true)
   }, [])
-  if (!hasMounted) {
-    return null
-  }
-  return <>{children}</>
+  return hasMounted ? children : null
 }
 
 export default ClientOnly
