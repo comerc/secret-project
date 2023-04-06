@@ -19,6 +19,7 @@
       ".../gql/*": ["gql/*"],
       ".../pages/*": ["pages/*"],
       ".../components/*": ["components/*"],
+      ".../constants": ["constants.ts"],
       ".../repositories/*": ["repositories/*"],
       ".../styles/*": ["styles/*"],
       ".../utils/*": ["utils/*"],

@@ -24,6 +24,7 @@ import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
+import { MENU_WIDTH } from '.../constants'
 
 function ColumnFooter({ height }) {
   return (
@@ -561,30 +562,34 @@ function Canvas({ isMenu, hasMenu, children }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
-  const nestedScrollRef = React.useRef({
-    timeoutId: null,
-    clientX: null,
-  })
-  function doNestedScroll() {
-    const INDENT = 150 // TODO: половина размера карточки
-    const TIMEOUT = 16
-    const SCROLL = 4
-    const { clientX } = nestedScrollRef.current
-    const { viewport } = instance().elements()
-    if (clientX > viewport.clientWidth - INDENT) {
-      viewport.scrollTo({ left: viewport.scrollLeft + SCROLL })
-      const timeoutId = setTimeout(doNestedScroll, TIMEOUT)
-      nestedScrollRef.current = { timeoutId, clientX }
-      return
-    }
-    if (clientX < INDENT) {
-      viewport.scrollTo({ left: viewport.scrollLeft - SCROLL })
-      const timeoutId = setTimeout(doNestedScroll, TIMEOUT)
-      nestedScrollRef.current = { timeoutId, clientX }
-      return
-    }
-    nestedScrollRef.current = { timeoutId: null, clientX: null }
-  }
+  // TODO: enable doNestedScroll
+  // const isMenuRef = React.useRef()
+  // React.useEffect(() => {
+  //   isMenuRef.current = isMenu
+  // }, [isMenu])
+  // const isActiveRef = React.useRef(false)
+  // const timeoutIdRef = React.useRef(null)
+  // const clientXRef = React.useRef()
+  // const doNestedScroll = () => {
+  //   if (!isActiveRef.current) {
+  //     return
+  //   }
+  //   const INDENT = 150 // TODO: половина размера карточки
+  //   const TIMEOUT = 16
+  //   const SCROLL = 4
+  //   const { viewport } = instance().elements()
+  //   if (clientXRef.current > viewport.clientWidth - INDENT - (isMenuRef.current ? MENU_WIDTH : 0)) {
+  //     viewport.scrollTo({ left: viewport.scrollLeft + SCROLL })
+  //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
+  //     return
+  //   }
+  //   if (clientXRef.current < INDENT) {
+  //     viewport.scrollTo({ left: viewport.scrollLeft - SCROLL })
+  //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
+  //     return
+  //   }
+  //   timeoutIdRef.current = null
+  // }
   const positionRef = React.useRef({
     startX: null,
     startScrollX: null,
@@ -601,6 +606,12 @@ function Canvas({ isMenu, hasMenu, children }) {
         startScrollX: windowScrollX,
       }
     }
+    // TODO: enable doNestedScroll
+    // isActiveRef.current = true
+    // clientXRef.current = clientX
+    // if (timeoutIdRef.current === null) {
+    //   doNestedScroll()
+    // }
   }
   const handleMouseMove = ({ clientX }) => {
     const { startX, startScrollX } = positionRef.current
@@ -623,21 +634,26 @@ function Canvas({ isMenu, hasMenu, children }) {
       }
     }
     // TODO: enable doNestedScroll
-    // const { timeoutId } = nestedScrollRef.current
-    // nestedScrollRef.current = { timeoutId, clientX }
-    // if (timeoutId === null) {
+    // clientXRef.current = clientX
+    // if (timeoutIdRef.current === null) {
     //   doNestedScroll()
     // }
   }
   const handleMouseUp = () => {
+    console.log('handleMouseUp')
     positionRef.current = {
       startX: null,
       startScrollX: null,
     }
+    // TODO: enable doNestedScroll
+    // timeoutIdRef.current = null
+    // isActiveRef.current = false
   }
   React.useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
     return () => {
+      document.addEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
   }, [])
@@ -650,7 +666,6 @@ function Canvas({ isMenu, hasMenu, children }) {
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
       onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
       {...{ ref }}
     >
       <div className="flex h-full pb-7">
