@@ -449,6 +449,13 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
   )
 }
 
+function reorderList(list, startIndex, endIndex) {
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+  return result
+}
+
 function CustomDragDropContext({ state, setState, children }) {
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const onBeforeDragStart = () => {
@@ -456,7 +463,78 @@ function CustomDragDropContext({ state, setState, children }) {
       focused.blur()
     }
   }
-  const onDragEnd = (result) => {}
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return
+    }
+    if (result.type === 'column') {
+      // if the list is scrolled it looks like there is some strangeness going on
+      // with react-window. It looks to be scrolling back to scroll: 0
+      // I should log an issue with the project
+      const columnsOrder = reorderList(
+        state.columnsOrder,
+        result.source.index,
+        result.destination.index,
+      )
+      setState({
+        ...state,
+        columnsOrder,
+      })
+      return
+    }
+    // // reordering in same list
+    // if (result.source.droppableId === result.destination.droppableId) {
+    //   const column = state.columns[result.source.droppableId]
+    //   const items = reorderList(column.items, result.source.index, result.destination.index)
+    //   // updating column entry
+    //   const newState = {
+    //     ...state,
+    //     columns: {
+    //       ...state.columns,
+    //       [column.id]: {
+    //         ...column,
+    //         items,
+    //       },
+    //     },
+    //   }
+    //   setState(newState)
+    //   const index = Math.min(result.source.index, result.destination.index)
+    //   _listRefMap[column.id].current.resetAfterIndex(index)
+    //   return
+    // }
+    // // moving between lists
+    // const sourceColumn = state.columns[result.source.droppableId]
+    // const destinationColumn = state.columns[result.destination.droppableId]
+    // const item = sourceColumn.items[result.source.index]
+    // // 1. remove item from source column
+    // const newSourceColumn = {
+    //   ...sourceColumn,
+    //   items: [...sourceColumn.items],
+    // }
+    // newSourceColumn.items.splice(result.source.index, 1)
+    // // 2. insert into destination column
+    // const newDestinationColumn = {
+    //   ...destinationColumn,
+    //   items: [...destinationColumn.items],
+    // }
+    // // in line modification of items
+    // newDestinationColumn.items.splice(result.destination.index, 0, {
+    //   ...item,
+    //   columnId: destinationColumn.id,
+    // })
+    // const newState = {
+    //   ...state,
+    //   columns: {
+    //     ...state.columns,
+    //     [newSourceColumn.id]: newSourceColumn,
+    //     [newDestinationColumn.id]: newDestinationColumn,
+    //   },
+    // }
+    // setState(newState)
+    // _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
+    // _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
+  }
+
   return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
 }
 
@@ -483,6 +561,57 @@ function Canvas({ isMenu, hasMenu, children }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
+  const positionRef = React.useRef({
+    startX: null,
+    startScrollX: null,
+  })
+  const handleMouseDown = ({ target, clientX }) => {
+    if (['os-scrollbar-track', 'os-scrollbar-handle'].includes(target.className)) {
+      return
+    }
+    const { viewport } = instance().elements()
+    const { scrollLeft: windowScrollX } = viewport
+    positionRef.current = {
+      startX: clientX,
+      startScrollX: windowScrollX,
+    }
+  }
+  const handleMouseMove = ({ clientX }) => {
+    const INDENT = 450
+    const { startX, startScrollX } = positionRef.current
+    if (startScrollX !== null) {
+      const scrollX = startScrollX + clientX - startX
+      const { viewport } = instance().elements()
+      const { scrollLeft: windowScrollX, clientWidth } = viewport
+      if (
+        (scrollX > windowScrollX && clientWidth - clientX < INDENT) ||
+        (scrollX < windowScrollX && clientX < INDENT)
+      ) {
+        viewport.scrollTo({ left: startScrollX + clientX - startX })
+      }
+      {
+        const { scrollLeft: windowScrollX } = viewport
+        if (scrollX !== windowScrollX) {
+          positionRef.current = {
+            startX: clientX - windowScrollX + startScrollX,
+            startScrollX,
+          }
+        }
+      }
+    }
+  }
+  const handleMouseUp = () => {
+    positionRef.current = {
+      startX: null,
+      startScrollX: null,
+    }
+  }
+  React.useEffect(() => {
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
   return (
     <div
       id="board-canvas"
@@ -491,6 +620,8 @@ function Canvas({ isMenu, hasMenu, children }) {
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
       {...{ ref }}
     >
       <div className="flex h-full pb-7">
