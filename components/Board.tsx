@@ -561,6 +561,30 @@ function Canvas({ isMenu, hasMenu, children }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
+  const nestedScrollRef = React.useRef({
+    timeoutId: null,
+    clientX: null,
+  })
+  function doNestedScroll() {
+    const INDENT = 150 // TODO: половина размера карточки
+    const TIMEOUT = 16
+    const SCROLL = 4
+    const { clientX } = nestedScrollRef.current
+    const { viewport } = instance().elements()
+    if (clientX > viewport.clientWidth - INDENT) {
+      viewport.scrollTo({ left: viewport.scrollLeft + SCROLL })
+      const timeoutId = setTimeout(doNestedScroll, TIMEOUT)
+      nestedScrollRef.current = { timeoutId, clientX }
+      return
+    }
+    if (clientX < INDENT) {
+      viewport.scrollTo({ left: viewport.scrollLeft - SCROLL })
+      const timeoutId = setTimeout(doNestedScroll, TIMEOUT)
+      nestedScrollRef.current = { timeoutId, clientX }
+      return
+    }
+    nestedScrollRef.current = { timeoutId: null, clientX: null }
+  }
   const positionRef = React.useRef({
     startX: null,
     startScrollX: null,
@@ -590,16 +614,20 @@ function Canvas({ isMenu, hasMenu, children }) {
       ) {
         viewport.scrollTo({ left: scrollX })
       }
-      {
-        if (scrollX !== windowScrollX) {
-          const { scrollLeft: windowScrollX } = viewport
-          positionRef.current = {
-            startX: clientX + windowScrollX - startScrollX,
-            startScrollX,
-          }
+      if (scrollX !== windowScrollX) {
+        const { scrollLeft: windowScrollX } = viewport
+        positionRef.current = {
+          startX: clientX + windowScrollX - startScrollX,
+          startScrollX,
         }
       }
     }
+    // TODO: enable doNestedScroll
+    // const { timeoutId } = nestedScrollRef.current
+    // nestedScrollRef.current = { timeoutId, clientX }
+    // if (timeoutId === null) {
+    //   doNestedScroll()
+    // }
   }
   const handleMouseUp = () => {
     positionRef.current = {
