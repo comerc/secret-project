@@ -570,30 +570,31 @@ function Canvas({ isMenu, hasMenu, children }) {
       return
     }
     const { viewport } = instance().elements()
-    const { scrollLeft: windowScrollX } = viewport
-    positionRef.current = {
-      startX: clientX,
-      startScrollX: windowScrollX,
+    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = viewport
+    if (scrollWidth > clientWidth) {
+      positionRef.current = {
+        startX: clientX,
+        startScrollX: windowScrollX,
+      }
     }
   }
   const handleMouseMove = ({ clientX }) => {
-    const INDENT = 450
     const { startX, startScrollX } = positionRef.current
     if (startScrollX !== null) {
-      const scrollX = startScrollX + clientX - startX
+      const scrollX = startScrollX - clientX + startX
       const { viewport } = instance().elements()
-      const { scrollLeft: windowScrollX, clientWidth } = viewport
+      const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
       if (
-        (scrollX > windowScrollX && clientWidth - clientX < INDENT) ||
-        (scrollX < windowScrollX && clientX < INDENT)
+        (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
+        (scrollX < windowScrollX && windowScrollX > 0)
       ) {
-        viewport.scrollTo({ left: startScrollX + clientX - startX })
+        viewport.scrollTo({ left: scrollX })
       }
       {
-        const { scrollLeft: windowScrollX } = viewport
         if (scrollX !== windowScrollX) {
+          const { scrollLeft: windowScrollX } = viewport
           positionRef.current = {
-            startX: clientX - windowScrollX + startScrollX,
+            startX: clientX + windowScrollX - startScrollX,
             startScrollX,
           }
         }
