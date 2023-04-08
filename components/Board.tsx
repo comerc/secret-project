@@ -1,4 +1,5 @@
 import React from 'react'
+import { renderToString } from 'react-dom/server'
 import { useRouter } from 'next/router'
 import {
   EllipsisOutlined,
@@ -14,7 +15,9 @@ import {
 import { Input, Button, Tooltip, Avatar } from 'antd'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { VariableSizeList, areEqual } from 'react-window'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import { useUpdateEffect } from 'usehooks-ts'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
 import cx from 'classnames'
@@ -24,7 +27,7 @@ import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
-import { MENU_WIDTH } from '.../constants'
+import { MENU_WIDTH, COLUMN_WIDTH } from '.../constants'
 
 function ColumnFooter({ height }) {
   return (
@@ -139,7 +142,7 @@ function Badges() {
   )
 }
 
-const FrontLabelsContext = React.createContext(null)
+const FrontLabelsContext = React.createContext({})
 
 function FrontLabelsState({ children }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
@@ -155,40 +158,40 @@ function FrontLabel({ id, colorId, name }) {
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
   return (
-    <Tooltip
-      // TODO: добавить цвет?
-      // overlayStyle={{ ...color.style }}
-      // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
-      // color={'var(--background-color)'}
-      placement="topLeft"
-      title={title}
-    >
-      <div className="inline-flex max-w-[calc(100%-4px)]">
-        <button
-          style={color.style}
-          className={cx(
-            isExpanded
-              ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs'
-              : 'h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
-            'relative inline-block rounded text-left transition hover:brightness-[.85] hover:saturate-[.85]',
-          )}
-          tabIndex={-1}
-          // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
-          onClick={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            setIsExpanded(!isExpanded)
-          }}
-        >
-          {isExpanded && (
-            <>
-              <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
-              {name}
-            </>
-          )}
-        </button>
-      </div>
-    </Tooltip>
+    // <Tooltip
+    //   // TODO: добавить цвет?
+    //   // overlayStyle={{ ...color.style }}
+    //   // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
+    //   // color={'var(--background-color)'}
+    //   placement="topLeft"
+    //   title={title}
+    // >
+    <div className="inline-flex max-w-[calc(100%-4px)]">
+      <button
+        style={color.style}
+        className={cx(
+          isExpanded
+            ? 'h-4 min-w-[56px] max-w-full truncate bg-[var(--background-color)] pl-4 pr-2 text-xs'
+            : 'h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
+          'relative inline-block rounded text-left transition hover:brightness-[.85] hover:saturate-[.85]',
+        )}
+        tabIndex={-1}
+        // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
+        onClick={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          setIsExpanded(!isExpanded)
+        }}
+      >
+        {isExpanded && (
+          <>
+            <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
+            {name}
+          </>
+        )}
+      </button>
+    </div>
+    // </Tooltip>
   )
 }
 
@@ -204,18 +207,17 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ issue: { id, title, labels, members }, index }) {
-  // TODO: use index
-  const router = useRouter()
+function ListCard({ issue: { id, title, labels, members }, isServerRenderMode = false }) {
+  const router = isServerRenderMode ? null : useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(title), [title])
   // TODO: cover
   return (
     <a
       href={`/c/${id}/${urlName}`}
-      className="relative mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
+      className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
       onClick={(event) => {
         event.preventDefault()
-        router.push(`/c/${id}/${urlName}`, undefined, {
+        router?.push(`/c/${id}/${urlName}`, undefined, {
           shallow: true,
         })
         // TODO: открывать модальный диалог по месту для лучшей анимации
@@ -272,7 +274,7 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
   // const { boxShadow, onScrollHandler } = useScrollWithShadow()
   return (
     <div
-      className="overflow-x-hidden px-2"
+      className="overflow-x-hidden"
       // onScroll={onScrollHandler}
       // style={{ boxShadow }}
       style={{
@@ -280,34 +282,106 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
       }}
       ref={ref}
     >
-      {issuesOrder.map((id, index) => (
-        <ListCard key={id} issue={issues[id]} {...{ index }} />
+      {issuesOrder.map((id) => (
+        <ListCard key={id} issue={issues[id]} />
       ))}
     </div>
   )
 }
 
+const COLUMN_FOOTER_HEIGHT = 38
+
+// Recommended react-window performance optimisation: memoize the row render function
+// Things are still pretty fast without this, but I am a sucker for making things faster
+const Row = React.memo(function Row({ data, index, style }) {
+  const issue = data[index]
+  // We are rendering an extra item for the placeholder
+  if (!issue) {
+    return null
+  }
+  return (
+    <div {...{ style }}>
+      <ListCard {...{ issue }} />
+    </div>
+  )
+  // return (
+  //   <Draggable draggableId={item.id} index={index} key={item.id}>
+  //     {(provided) => <Item provided={provided} item={item} style={style} />}
+  //   </Draggable>
+  // )
+}, areEqual)
+
 function ColumnBody({ issues, issuesOrder }) {
-  const footerHeight = 38
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
+  const { isExpanded } = React.useContext(FrontLabelsContext)
+  const itemData = issuesOrder.map((issueId) => issues[issueId])
+  const getItemSize = (index) => {
+    const issue = itemData[index]
+    const measureLayer = document.getElementById('measure-layer')
+    measureLayer.innerHTML = renderToString(
+      <FrontLabelsContext.Provider value={{ isExpanded }}>
+        <ListCard {...{ issue, isServerRenderMode: true }} />
+      </FrontLabelsContext.Provider>,
+    )
+    const rect = measureLayer.getBoundingClientRect()
+    const size = rect.height
+    return size
+  }
+  const listRef = React.useRef()
+  useUpdateEffect(() => {
+    listRef.current.resetAfterIndex(0) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
+  }, [isExpanded])
+  const version = 'V2'
+  // TODO: useOverlayScrollbars & VariableSizeList https://stackblitz.com/edit/react-jnzpm8?file=index.js
   return (
     // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
     <div className="h-full overflow-hidden rounded-b-[3px]">
-      <AutoSizer>
-        {({ height, width }) => (
-          <div
-            style={{
-              height,
-              width,
-            }}
-          >
-            <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-              <ListCards maxHeight={height - footerHeight} {...{ issues, issuesOrder }} />
-              <ColumnFooter height={footerHeight} />
+      {version === 'V2' && (
+        <AutoSizer>
+          {({ height, width }) => {
+            // Add an extra item to our list to make space for a dragging item
+            // Usually the DroppableProvided.placeholder does this, but that won't
+            // work in a virtual list
+            const itemCount =
+              // snapshot.isUsingPlaceholder ? column.items.length + 1 :
+              issuesOrder.length
+            return (
+              <VariableSizeList
+                className="[&>div]:rounded-b-[3px] [&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+                height={height}
+                itemCount={itemCount}
+                itemSize={getItemSize}
+                width={width}
+                // outerRef={provided.innerRef}
+                itemData={itemData}
+                ref={listRef}
+                overscanCount={4}
+                // See notes at calcEstimatedSize
+                // estimatedItemSize={calcEstimatedSize()}
+              >
+                {Row}
+              </VariableSizeList>
+            )
+          }}
+        </AutoSizer>
+      )}
+      {version === 'V1' && (
+        <AutoSizer>
+          {({ height, width }) => (
+            <div
+              style={{
+                height,
+                width,
+              }}
+            >
+              <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+                <ListCards maxHeight={height - COLUMN_FOOTER_HEIGHT} {...{ issues, issuesOrder }} />
+                <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+              </div>
             </div>
-          </div>
-        )}
-      </AutoSizer>
+          )}
+        </AutoSizer>
+      )}
     </div>
   )
 }
@@ -364,7 +438,7 @@ function ExtrasButton() {
   )
 }
 
-const ColumnHeaderInputContext = React.createContext(null)
+const ColumnHeaderInputContext = React.createContext({})
 
 export function ColumnHeaderInputState({ children }) {
   const [focused, setFocused] = React.useState(null)
@@ -439,13 +513,24 @@ function ColumnHeader({ title, dragHandleProps }) {
 function Column({ column: { id, title, issuesOrder }, issues, index }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
-      {({ innerRef, draggableProps, dragHandleProps }) => (
-        <div className="flex h-full w-[272px] flex-col pr-2" ref={innerRef} {...draggableProps}>
-          {/* // TODO: doubleClick вызывает inline-форму добавления новой карточки */}
-          <ColumnHeader {...{ title, dragHandleProps }} />
-          <ColumnBody {...{ issues, issuesOrder }} />
-        </div>
-      )}
+      {({ innerRef, draggableProps, dragHandleProps }) => {
+        const { style, ...rest } = draggableProps
+        return (
+          <div
+            className="mr-2 flex h-full flex-col"
+            ref={innerRef}
+            style={{
+              width: COLUMN_WIDTH,
+              ...style,
+            }}
+            {...rest}
+            // TODO: doubleClick вызывает inline-форму добавления новой карточки
+          >
+            <ColumnHeader {...{ title, dragHandleProps }} />
+            <ColumnBody {...{ issues, issuesOrder }} />
+          </div>
+        )
+      }}
     </Draggable>
   )
 }
@@ -640,7 +725,6 @@ function Canvas({ isMenu, hasMenu, children }) {
     // }
   }
   const handleMouseUp = () => {
-    console.log('handleMouseUp')
     positionRef.current = {
       startX: null,
       startScrollX: null,
@@ -649,14 +733,15 @@ function Canvas({ isMenu, hasMenu, children }) {
     // timeoutIdRef.current = null
     // isActiveRef.current = false
   }
-  React.useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-    return () => {
-      document.addEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-  }, [])
+  // TODO: enable positionRef
+  // React.useEffect(() => {
+  //   document.addEventListener('mousemove', handleMouseMove)
+  //   document.addEventListener('mouseup', handleMouseUp)
+  //   return () => {
+  //     document.addEventListener('mousemove', handleMouseMove)
+  //     document.removeEventListener('mouseup', handleMouseUp)
+  //   }
+  // }, [])
   return (
     <div
       id="board-canvas"
@@ -665,7 +750,8 @@ function Canvas({ isMenu, hasMenu, children }) {
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
-      onMouseDown={handleMouseDown}
+      // TODO: enable positionRef
+      // onMouseDown={handleMouseDown}
       {...{ ref }}
     >
       <div className="flex h-full pb-7">
@@ -678,41 +764,52 @@ function Canvas({ isMenu, hasMenu, children }) {
 function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
   const [state, setState] = React.useState({ columns, columnsOrder, selectedId: '' })
   return (
-    <Canvas {...{ isMenu, hasMenu }}>
-      <ColumnHeaderInputState>
-        <CustomDragDropContext {...{ state, setState }}>
-          <Droppable droppableId="all-droppables" direction="horizontal" type="column">
-            {(provided) => (
-              <div
-                id="board"
-                className="ml-2.5 mr-2 flex h-full select-none"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <FrontLabelsState>
-                  {state.columnsOrder.map((id, index) => (
-                    <Column key={id} column={state.columns[id]} {...{ issues, index }} />
-                  ))}
-                </FrontLabelsState>
-                {provided.placeholder}
-                {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
-                <div style={{ width: hasMenu ? 'var(--menu-width)' : 0 }}></div>
-                {/* <Image
-          // TODO: обои
-          priority
-          src="/wallpapper.jpg"
-          fill
-          // width="5760" height="3840"
-          style={{
-            objectFit: 'cover',
-          }}
-        /> */}
-              </div>
-            )}
-          </Droppable>
-        </CustomDragDropContext>
-      </ColumnHeaderInputState>
-    </Canvas>
+    <>
+      <div
+        id="measure-layer"
+        style={{
+          visibility: 'hidden',
+          position: 'absolute',
+          bottom: 0,
+          width: COLUMN_WIDTH,
+        }}
+      />
+      <Canvas {...{ isMenu, hasMenu }}>
+        <ColumnHeaderInputState>
+          <CustomDragDropContext {...{ state, setState }}>
+            <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+              {(provided) => (
+                <div
+                  id="board"
+                  className="ml-2.5 flex h-full select-none"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <FrontLabelsState>
+                    {state.columnsOrder.map((id, index) => (
+                      <Column key={id} column={state.columns[id]} {...{ issues, index }} />
+                    ))}
+                  </FrontLabelsState>
+                  {provided.placeholder}
+                  {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
+                  <div style={{ width: hasMenu ? MENU_WIDTH : 0 }}></div>
+                  {/* <Image
+                    // TODO: обои
+                    priority
+                    src="/wallpapper.jpg"
+                    fill
+                    // width="5760" height="3840"
+                    style={{
+                      objectFit: 'cover',
+                    }}
+                  /> */}
+                </div>
+              )}
+            </Droppable>
+          </CustomDragDropContext>
+        </ColumnHeaderInputState>
+      </Canvas>
+    </>
   )
 }
 

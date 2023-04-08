@@ -417,7 +417,7 @@ function Checklist({ title, items }) {
   )
 }
 
-const ChecklistListContext = React.createContext(null)
+const ChecklistListContext = React.createContext({})
 
 function ChecklistListState({ children }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
@@ -686,7 +686,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
   )
 }
 
-const CommentBoxContext = React.createContext(null)
+const CommentBoxContext = React.createContext({})
 
 function CommentBoxState({ children }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
