@@ -147,25 +147,33 @@ const FrontLabelsContext = React.createContext({})
 function FrontLabelsState({ children }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   return (
-    <FrontLabelsContext.Provider value={{ isExpanded, setIsExpanded }}>
+    <FrontLabelsContext.Provider value={{ isExpanded, setIsExpanded, hasTooltip: true }}>
       {children}
     </FrontLabelsContext.Provider>
   )
 }
 
 function FrontLabel({ id, colorId, name }) {
-  const { isExpanded, setIsExpanded } = React.useContext(FrontLabelsContext)
+  const { isExpanded, setIsExpanded, hasTooltip } = React.useContext(FrontLabelsContext)
   const color = labelColors[colorId]
   const title = `Цвет: ${color.name}, название: «${name}»`
-  return (
-    // <Tooltip
-    //   // TODO: добавить цвет?
-    //   // overlayStyle={{ ...color.style }}
-    //   // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
-    //   // color={'var(--background-color)'}
-    //   placement="topLeft"
-    //   title={title}
-    // >
+  const withTooltip = (children) => {
+    return hasTooltip ? (
+      <Tooltip
+        // TODO: добавить цвет?
+        // overlayStyle={{ ...color.style }}
+        // overlayInnerStyle={{ color: 'var(--ds-text, #172b4d)' }}
+        // color={'var(--background-color)'}
+        placement="topLeft"
+        title={title}
+      >
+        {children}
+      </Tooltip>
+    ) : (
+      children
+    )
+  }
+  return withTooltip(
     <div className="inline-flex max-w-[calc(100%-4px)]">
       <button
         style={color.style}
@@ -190,8 +198,7 @@ function FrontLabel({ id, colorId, name }) {
           </>
         )}
       </button>
-    </div>
-    // </Tooltip>
+    </div>,
   )
 }
 
@@ -247,7 +254,7 @@ function ListCard({ issue: { id, title, labels, members }, isServerRenderMode = 
 
 function ListCards({ maxHeight, issues, issuesOrder }) {
   const ref = React.useRef()
-  const [initialize, instance] = useOverlayScrollbars({
+  const [initialize, osInstance] = useOverlayScrollbars({
     options: {
       overflow: {
         x: 'hidden',
@@ -319,7 +326,7 @@ function ColumnBody({ issues, issuesOrder }) {
     const issue = itemData[index]
     const measureLayer = document.getElementById('measure-layer')
     measureLayer.innerHTML = renderToString(
-      <FrontLabelsContext.Provider value={{ isExpanded }}>
+      <FrontLabelsContext.Provider value={{ isExpanded, hasTooltip: false }}>
         <ListCard {...{ issue, isServerRenderMode: true }} />
       </FrontLabelsContext.Provider>,
     )
@@ -329,8 +336,35 @@ function ColumnBody({ issues, issuesOrder }) {
   }
   const listRef = React.useRef()
   useUpdateEffect(() => {
-    listRef.current.resetAfterIndex(0) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
+    listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
+  const outerRef = React.useRef(null)
+  const [initialize, osInstance] = useOverlayScrollbars({
+    options: {
+      overflow: {
+        x: 'hidden',
+        y: 'scroll',
+      },
+      // paddingAbsolute: true,
+      // showNativeOverlaidScrollbars: true,
+      scrollbars: {
+        theme: 'os-theme-light list-cards',
+        visibility: 'auto',
+        autoHide: 'leave',
+        autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: false,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    },
+    // events,
+    defer: true,
+  })
+  React.useEffect(() => {
+    setTimeout(() => {
+      initialize(outerRef.current)
+    })
+  }, [initialize])
   const version = 'V2'
   // TODO: useOverlayScrollbars & VariableSizeList https://stackblitz.com/edit/react-jnzpm8?file=index.js
   return (
@@ -347,12 +381,18 @@ function ColumnBody({ issues, issuesOrder }) {
               issuesOrder.length
             return (
               <VariableSizeList
-                className="[&>div]:rounded-b-[3px] [&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+                className={cx(
+                  'disable-system-scrollbar',
+                  '[&>.os-viewport>div]:rounded-b-[3px] [&>.os-viewport>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+                  // HACK: пока не инициализирован .os-viewport
+                  '[&>div:not(.os-viewport)]:rounded-b-[3px] [&>div:not(.os-viewport)]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+                )}
                 height={height}
                 itemCount={itemCount}
                 itemSize={getItemSize}
                 width={width}
                 // outerRef={provided.innerRef}
+                outerRef={outerRef}
                 itemData={itemData}
                 ref={listRef}
                 overscanCount={4}
@@ -626,7 +666,7 @@ function CustomDragDropContext({ state, setState, children }) {
 
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
-  const [initialize, instance] = useOverlayScrollbars({
+  const [initialize, osInstance] = useOverlayScrollbars({
     options: {
       overflow: {
         x: isMenu === hasMenu ? 'scroll' : 'hidden',
@@ -642,7 +682,8 @@ function Canvas({ isMenu, hasMenu, children }) {
         pointers: ['mouse', 'touch', 'pen'],
       },
     },
-    // events, defer
+    // events,
+    defer: true,
   })
   React.useEffect(() => {
     initialize(ref.current)
@@ -662,7 +703,7 @@ function Canvas({ isMenu, hasMenu, children }) {
   //   const INDENT = 150 // TODO: половина размера карточки
   //   const TIMEOUT = 16
   //   const SCROLL = 4
-  //   const { viewport } = instance().elements()
+  //   const { viewport } = osInstance().elements()
   //   if (clientXRef.current > viewport.clientWidth - INDENT - (isMenuRef.current ? MENU_WIDTH : 0)) {
   //     viewport.scrollTo({ left: viewport.scrollLeft + SCROLL })
   //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
@@ -683,7 +724,7 @@ function Canvas({ isMenu, hasMenu, children }) {
     if (['os-scrollbar-track', 'os-scrollbar-handle'].includes(target.className)) {
       return
     }
-    const { viewport } = instance().elements()
+    const { viewport } = osInstance().elements()
     const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = viewport
     if (scrollWidth > clientWidth) {
       positionRef.current = {
@@ -702,7 +743,7 @@ function Canvas({ isMenu, hasMenu, children }) {
     const { startX, startScrollX } = positionRef.current
     if (startScrollX !== null) {
       const scrollX = startScrollX - clientX + startX
-      const { viewport } = instance().elements()
+      const { viewport } = osInstance().elements()
       const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
       if (
         (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
@@ -744,8 +785,7 @@ function Canvas({ isMenu, hasMenu, children }) {
   // }, [])
   return (
     <div
-      id="board-canvas"
-      className="h-full overflow-y-hidden"
+      className="disable-system-scrollbar h-full overflow-y-hidden"
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',

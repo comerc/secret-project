@@ -115,7 +115,7 @@ function Board() {
     initialize(ref.current)
   }, [initialize])
   return (
-    <div id="board-canvas" className="h-full overflow-y-hidden" {...{ ref }}>
+    <div className="disable-system-scrollbar h-full overflow-y-hidden" {...{ ref }}>
       <div
         className="mr-[var(--menu-width)] flex h-full bg-[pink] pb-7"
         style={{
