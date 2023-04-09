@@ -361,52 +361,49 @@ const Row = React.memo(function Row({ data, index, style }) {
 //   )
 // })
 
-// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-//   const ofRef = React.useRef(null)
-//   React.useEffect(() => {
-//     const viewport = ofRef.current.osInstance().elements().viewport
-//     if (onScroll) viewport.addEventListener('scroll', onScroll)
-//     return () => {
-//       if (onScroll) viewport.removeEventListener('scroll', onScroll)
-//     }
-//   }, [ofRef, onScroll])
-//   return (
-//     <OverlayScrollbarsComponent
-//       ref={ofRef}
-//       options={{
-//         overflow: {
-//           x: 'hidden',
-//           y: 'scroll',
-//         },
-//         paddingAbsolute: true,
-//         showNativeOverlaidScrollbars: true,
-//         scrollbars: {
-//           theme: 'os-theme-light list-cards',
-//           visibility: 'auto',
-//           autoHide: 'leave',
-//           autoHideDelay: 1300,
-//           dragScroll: true,
-//           clickScroll: false,
-//           pointers: ['mouse', 'touch', 'pen'],
-//         },
-//       }}
-//       {...{ style }}
-//     >
-//       <div
-//         // ref={ref} // TODO: не надо ref?
-//         className={cx(
-//           'disable-system-scrollbar',
-//           '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-//         )}
-//       >
-//         {children}
-//         <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-//           <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-//         </div>
-//       </div>
-//     </OverlayScrollbarsComponent>
-//   )
-// })
+const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  const ofRef = React.useRef(null)
+  React.useEffect(() => {
+    const viewport = ofRef.current.osInstance().elements().viewport
+    if (onScroll) viewport.addEventListener('scroll', onScroll)
+    return () => {
+      if (onScroll) viewport.removeEventListener('scroll', onScroll)
+    }
+  }, [ofRef, onScroll])
+  return (
+    <OverlayScrollbarsComponent
+      ref={ofRef}
+      options={{
+        overflow: {
+          x: 'hidden',
+          y: 'scroll',
+        },
+        paddingAbsolute: true,
+        showNativeOverlaidScrollbars: true,
+        scrollbars: {
+          theme: 'os-theme-light list-cards',
+          visibility: 'auto',
+          autoHide: 'leave',
+          autoHideDelay: 1300,
+          dragScroll: true,
+          clickScroll: false,
+          pointers: ['mouse', 'touch', 'pen'],
+        },
+      }}
+      {...{ style }}
+    >
+      <div
+        // ref={ref} // TODO: не надо ref?
+        className="[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+      >
+        {children}
+        <div className="sticky bottom-0 z-[1000] rounded-b-[3px]">
+          <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+        </div>
+      </div>
+    </OverlayScrollbarsComponent>
+  )
+})
 
 function ColumnBody({ issues, issuesOrder }) {
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
