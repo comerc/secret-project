@@ -300,6 +300,10 @@ body::-webkit-scrollbar-track {
   margin-right: var(--menu-width);
 }
 
+.os-scrollbar-vertical.list-cards {
+  margin-bottom: var(--column-footer-height);
+}
+
 .os-theme-light.board {
   /* // The size of the scrollbar */
   --os-size: 28px;

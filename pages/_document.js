@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { createCache, extractStyle } from '@ant-design/cssinjs'
-import { MENU_WIDTH } from '.../constants'
+import { MENU_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
 // TODO: [Antd v5] support css-in-js in shadowdom https://github.com/ant-design/ant-design/issues/38911
 
@@ -55,6 +55,7 @@ class MyDocument extends Document {
             '--dynamic-background-transparent': 'hsla(0, 0%, 0%, 0.16)',
             '--menu-width': `${MENU_WIDTH}px`,
             '--body-dark-board-background': '#cd5a91',
+            '--column-footer-height': `${COLUMN_FOOTER_HEIGHT}px`,
           }}
         >
           <div id="nocss">

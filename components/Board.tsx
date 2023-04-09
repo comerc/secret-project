@@ -16,7 +16,7 @@ import { Input, Button, Tooltip, Avatar } from 'antd'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList, areEqual } from 'react-window'
-import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import { OverlayScrollbarsComponent, useOverlayScrollbars } from 'overlayscrollbars-react'
 import { useUpdateEffect } from 'usehooks-ts'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
@@ -27,7 +27,7 @@ import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
-import { MENU_WIDTH, COLUMN_WIDTH } from '.../constants'
+import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
 function ColumnFooter({ height }) {
   return (
@@ -252,6 +252,7 @@ function ListCard({ issue: { id, title, labels, members }, isServerRenderMode = 
   )
 }
 
+// @deprecated
 function ListCards({ maxHeight, issues, issuesOrder }) {
   const ref = React.useRef()
   const [initialize, osInstance] = useOverlayScrollbars({
@@ -296,8 +297,6 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
   )
 }
 
-const COLUMN_FOOTER_HEIGHT = 38
-
 // Recommended react-window performance optimisation: memoize the row render function
 // Things are still pretty fast without this, but I am a sucker for making things faster
 const Row = React.memo(function Row({ data, index, style }) {
@@ -317,6 +316,97 @@ const Row = React.memo(function Row({ data, index, style }) {
   //   </Draggable>
   // )
 }, areEqual)
+
+// Alter Case
+// import { Scrollbars } from 'react-custom-scrollbars-2'
+// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   const refSetter = React.useCallback((scrollbarsRef) => {
+//     if (scrollbarsRef) {
+//       ref(scrollbarsRef.view)
+//     } else {
+//       ref(null)
+//     }
+//   }, [])
+//   return (
+//     <Scrollbars
+//       ref={refSetter}
+//       {...{ onScroll, style }}
+//       className={cx(
+//         'overflow-hidden [&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+//       )}
+//     >
+//       {children}
+//       <div className="sticky bottom-0 z-10 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+//         <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+//       </div>
+//     </Scrollbars>
+//   )
+// })
+
+// Base Case
+// const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   return (
+//     <div
+//       {...{ ref, style, onScroll }}
+//       className={cx(
+//         'disable-system-scrollbar',
+//         '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+//       )}
+//     >
+//       {children}
+//       <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+//         <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+//       </div>
+//     </div>
+//   )
+// })
+
+// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   const ofRef = React.useRef(null)
+//   React.useEffect(() => {
+//     const viewport = ofRef.current.osInstance().elements().viewport
+//     if (onScroll) viewport.addEventListener('scroll', onScroll)
+//     return () => {
+//       if (onScroll) viewport.removeEventListener('scroll', onScroll)
+//     }
+//   }, [ofRef, onScroll])
+//   return (
+//     <OverlayScrollbarsComponent
+//       ref={ofRef}
+//       options={{
+//         overflow: {
+//           x: 'hidden',
+//           y: 'scroll',
+//         },
+//         paddingAbsolute: true,
+//         showNativeOverlaidScrollbars: true,
+//         scrollbars: {
+//           theme: 'os-theme-light list-cards',
+//           visibility: 'auto',
+//           autoHide: 'leave',
+//           autoHideDelay: 1300,
+//           dragScroll: true,
+//           clickScroll: false,
+//           pointers: ['mouse', 'touch', 'pen'],
+//         },
+//       }}
+//       {...{ style }}
+//     >
+//       <div
+//         // ref={ref} // TODO: не надо ref?
+//         className={cx(
+//           'disable-system-scrollbar',
+//           '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+//         )}
+//       >
+//         {children}
+//         <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+//           <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+//         </div>
+//       </div>
+//     </OverlayScrollbarsComponent>
+//   )
+// })
 
 function ColumnBody({ issues, issuesOrder }) {
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
@@ -338,35 +428,7 @@ function ColumnBody({ issues, issuesOrder }) {
   useUpdateEffect(() => {
     listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
-  const outerRef = React.useRef(null)
-  const [initialize, osInstance] = useOverlayScrollbars({
-    options: {
-      overflow: {
-        x: 'hidden',
-        y: 'scroll',
-      },
-      // paddingAbsolute: true,
-      // showNativeOverlaidScrollbars: true,
-      scrollbars: {
-        theme: 'os-theme-light list-cards',
-        visibility: 'auto',
-        autoHide: 'leave',
-        autoHideDelay: 1300,
-        dragScroll: true,
-        clickScroll: false,
-        pointers: ['mouse', 'touch', 'pen'],
-      },
-    },
-    // events,
-    defer: true,
-  })
-  React.useEffect(() => {
-    setTimeout(() => {
-      initialize(outerRef.current)
-    })
-  }, [initialize])
   const version = 'V2'
-  // TODO: useOverlayScrollbars & VariableSizeList https://stackblitz.com/edit/react-jnzpm8?file=index.js
   return (
     // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
     <div className="h-full overflow-hidden rounded-b-[3px]">
@@ -381,18 +443,12 @@ function ColumnBody({ issues, issuesOrder }) {
               issuesOrder.length
             return (
               <VariableSizeList
-                className={cx(
-                  'disable-system-scrollbar',
-                  '[&>.os-viewport>div]:rounded-b-[3px] [&>.os-viewport>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-                  // HACK: пока не инициализирован .os-viewport
-                  '[&>div:not(.os-viewport)]:rounded-b-[3px] [&>div:not(.os-viewport)]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-                )}
                 height={height}
                 itemCount={itemCount}
                 itemSize={getItemSize}
                 width={width}
                 // outerRef={provided.innerRef}
-                outerRef={outerRef}
+                outerElementType={withScrollbars}
                 itemData={itemData}
                 ref={listRef}
                 overscanCount={4}
@@ -811,6 +867,7 @@ function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
           visibility: 'hidden',
           position: 'absolute',
           bottom: 0,
+          // zIndex: 1000,
           width: COLUMN_WIDTH,
         }}
       />
