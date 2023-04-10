@@ -71,7 +71,6 @@
     "@graphql-codegen/introspection": "^2.2.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.0",
-    "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.8",
     "@types/node": "18.11.3",
     "@types/react": "18.0.26",

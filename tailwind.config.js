@@ -14,7 +14,6 @@ module.exports = {
     require('tailwindcss-logical'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/container-queries'),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       // addBase({
