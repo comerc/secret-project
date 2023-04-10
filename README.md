@@ -324,6 +324,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] recharts.org (as FinamTrade)
 - [ ] Temporal for clone Trello Butler
 - [ ] Backend via appwrite.io - https://github.com/appwrite/demo-todo-with-nextjs
+- [ ] Monorepo
+  - https://github.com/martpie/monorepo-typescript-next-the-sane-way
+  - https://nx.dev/
 
 ## Что нового (для меня) про вёрстку
 

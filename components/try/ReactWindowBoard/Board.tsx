@@ -9,6 +9,8 @@ import useHasMounted from '.../utils/useHasMounted'
 import useFontFaceObserver from 'use-font-face-observer'
 import { nanoid } from 'nanoid'
 import cx from 'classnames'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
+import { COLUMN_FOOTER_HEIGHT } from '.../constants'
 
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
@@ -112,6 +114,70 @@ const Row = React.memo(function Row(props) {
   )
 }, areEqual)
 
+const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  return (
+    <div
+      className="a1"
+      {...{ ref, style, onScroll }}
+      // className={cx(
+      //   'disable-system-scrollbar',
+      //   '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+      // )}
+    >
+      {children}
+      {/* <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+      </div> */}
+    </div>
+  )
+})
+
+const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  const ofRef = React.useRef(null)
+  React.useEffect(() => {
+    const viewport = ofRef.current.osInstance().elements().viewport
+    if (onScroll) viewport.addEventListener('scroll', onScroll)
+    return () => {
+      if (onScroll) viewport.removeEventListener('scroll', onScroll)
+    }
+  }, [ofRef, onScroll])
+  return (
+    <div ref={ref}>
+      <OverlayScrollbarsComponent
+        ref={ofRef}
+        options={{
+          overflow: {
+            x: 'hidden',
+            y: 'scroll',
+          },
+          // paddingAbsolute: true,
+          // showNativeOverlaidScrollbars: true,
+          scrollbars: {
+            theme: 'os-theme-light',
+            visibility: 'auto',
+            // autoHide: 'leave',
+            // autoHideDelay: 1300,
+            dragScroll: true,
+            clickScroll: false,
+            pointers: ['mouse', 'touch', 'pen'],
+          },
+        }}
+        {...{ style }}
+      >
+        <div>
+          {children}
+          <div
+            className="sticky bottom-0 bg-[red] text-3xl"
+            style={{ height: COLUMN_FOOTER_HEIGHT }}
+          >
+            Footer
+          </div>
+        </div>
+      </OverlayScrollbarsComponent>
+    </div>
+  )
+})
+
 const ItemList = React.memo(function ItemList({ column, index, height }) {
   // There is an issue I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
@@ -170,9 +236,24 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
         // Add an extra item to our list to make space for a dragging item
         // Usually the DroppableProvided.placeholder does this, but that won't
         // work in a virtual list
-        const itemCount = snapshot.isUsingPlaceholder
-          ? column.items.length + 1
-          : column.items.length
+        let itemCount =
+          snapshot.isUsingPlaceholder &&
+          snapshot.isDraggingOver &&
+          snapshot.draggingOverWith !== null &&
+          snapshot.draggingFromThisWith === null
+            ? column.items.length + 1
+            : column.items.length
+        // TODO: не работает из-за правил: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/changes-while-dragging.md#rules
+        // Can only recollect Droppable client for Droppables that have a scroll container
+        // if (
+        //   snapshot.isUsingPlaceholder &&
+        //   !snapshot.isDraggingOver &&
+        //   snapshot.draggingOverWith === null &&
+        //   snapshot.draggingFromThisWith !== null
+        // ) {
+        //   itemCount = column.items.length - 1
+        //   console.log(itemCount)
+        // }
         return (
           <VariableSizeList
             height={height - 80} // TODO: высчитывать точно высоту, учитывая скрол
@@ -180,6 +261,7 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
             itemSize={getSize}
             width={WIDTH}
             outerRef={provided.innerRef}
+            outerElementType={withScrollbars}
             itemData={column.items}
             className={styles['task-list']}
             ref={listRef}
