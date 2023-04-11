@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { VariableSizeList, areEqual } from 'react-window'
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from 'shared/dnd' // '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import getInitialData from './getInitialData'
 import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'
@@ -11,6 +11,7 @@ import { nanoid } from 'nanoid'
 import cx from 'classnames'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { COLUMN_FOOTER_HEIGHT } from '.../constants'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 
 // TODO: полупрозрачная карточка при перетаскивании (как в mattermost)
 
@@ -101,12 +102,16 @@ function Item({ provided, item, style, isDragging }) {
 // Recommended react-window performance optimisation: memoize the row render function
 // Things are still pretty fast without this, but I am a sucker for making things faster
 const Row = React.memo(function Row(props) {
-  const { data: items, index, style } = props
+  const { data: items, index, style, isScrolling } = props
   const item = items[index]
   // We are rendering an extra item for the placeholder
   if (!item) {
     return null
   }
+  // TODO: оптимизировать
+  // if (isScrolling) {
+  //   return <div style={style} className="border border-[red]"></div>
+  // }
   return (
     <Draggable draggableId={item.id} index={index} key={item.id}>
       {(provided) => <Item provided={provided} item={item} style={style} />}
@@ -119,62 +124,90 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
     <div
       className="a1"
       {...{ ref, style, onScroll }}
-      // className={cx(
-      //   'disable-system-scrollbar',
-      //   '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-      // )}
+      className={cx(
+        // 'disable-system-scrollbar',
+        '[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+      )}
     >
       {children}
-      {/* <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-      </div> */}
+      <div
+        className="sticky bottom-0 text-center text-3xl"
+        style={{ height: COLUMN_FOOTER_HEIGHT }}
+      >
+        Footer
+      </div>
     </div>
   )
 })
 
+// BUG: скролирую вторую колонку до конца и перемещаю на место первой - не отрисовывает элементы (эффект наблюдается только в первый раз)
+// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   const ofRef = React.useRef(null)
+//   React.useEffect(() => {
+//     const viewport = ofRef.current.osInstance().elements().viewport
+//     if (onScroll) viewport.addEventListener('scroll', onScroll)
+//     return () => {
+//       if (onScroll) viewport.removeEventListener('scroll', onScroll)
+//     }
+//   }, [ofRef, onScroll])
+//   return (
+//     <div ref={ref}>
+//       <OverlayScrollbarsComponent
+//         ref={ofRef}
+//         options={{
+//           overflow: {
+//             x: 'hidden',
+//             y: 'scroll',
+//           },
+//           // paddingAbsolute: true,
+//           // showNativeOverlaidScrollbars: true,
+//           scrollbars: {
+//             theme: 'os-theme-light',
+//             visibility: 'auto',
+//             // autoHide: 'leave',
+//             // autoHideDelay: 1300,
+//             dragScroll: true,
+//             clickScroll: false,
+//             pointers: ['mouse', 'touch', 'pen'],
+//           },
+//         }}
+//         {...{ style }}
+//       >
+//         <div>
+//           {children}
+//           <div
+//             className="sticky bottom-0 bg-[red] text-3xl"
+//             style={{ height: COLUMN_FOOTER_HEIGHT }}
+//           >
+//             Footer
+//           </div>
+//         </div>
+//       </OverlayScrollbarsComponent>
+//     </div>
+//   )
+// })
+
+// Alter Case
 const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const ofRef = React.useRef(null)
-  React.useEffect(() => {
-    const viewport = ofRef.current.osInstance().elements().viewport
-    if (onScroll) viewport.addEventListener('scroll', onScroll)
-    return () => {
-      if (onScroll) viewport.removeEventListener('scroll', onScroll)
+  const refSetter = React.useCallback((scrollbarsRef) => {
+    if (scrollbarsRef) {
+      ref(scrollbarsRef.view)
+    } else {
+      ref(null)
     }
-  }, [ofRef, onScroll])
+  }, [])
   return (
-    <div ref={ref}>
-      <OverlayScrollbarsComponent
-        ref={ofRef}
-        options={{
-          overflow: {
-            x: 'hidden',
-            y: 'scroll',
-          },
-          // paddingAbsolute: true,
-          // showNativeOverlaidScrollbars: true,
-          scrollbars: {
-            theme: 'os-theme-light',
-            visibility: 'auto',
-            // autoHide: 'leave',
-            // autoHideDelay: 1300,
-            dragScroll: true,
-            clickScroll: false,
-            pointers: ['mouse', 'touch', 'pen'],
-          },
-        }}
-        {...{ style }}
-      >
-        <div>
-          {children}
-          <div
-            className="sticky bottom-0 bg-[red] text-3xl"
-            style={{ height: COLUMN_FOOTER_HEIGHT }}
-          >
-            Footer
-          </div>
+    <Scrollbars ref={refSetter} {...{ onScroll, style }} className={cx('overflow-hidden ')}>
+      <div className="[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+        {children}
+        <div
+          className="sticky bottom-0 text-center text-3xl"
+          style={{ height: COLUMN_FOOTER_HEIGHT }}
+        >
+          Footer
         </div>
-      </OverlayScrollbarsComponent>
-    </div>
+      </div>
+    </Scrollbars>
   )
 })
 
@@ -216,7 +249,6 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
   //   const result = estimatedHeight / keys.length
   //   return result
   // }, []) // TODO: оптимизировать
-
   return (
     <Droppable
       droppableId={column.id}
@@ -243,19 +275,9 @@ const ItemList = React.memo(function ItemList({ column, index, height }) {
           snapshot.draggingFromThisWith === null
             ? column.items.length + 1
             : column.items.length
-        // TODO: не работает из-за правил: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/changes-while-dragging.md#rules
-        // Can only recollect Droppable client for Droppables that have a scroll container
-        // if (
-        //   snapshot.isUsingPlaceholder &&
-        //   !snapshot.isDraggingOver &&
-        //   snapshot.draggingOverWith === null &&
-        //   snapshot.draggingFromThisWith !== null
-        // ) {
-        //   itemCount = column.items.length - 1
-        //   console.log(itemCount)
-        // }
         return (
           <VariableSizeList
+            useIsScrolling // TODO: для isScrolling
             height={height - 80} // TODO: высчитывать точно высоту, учитывая скрол
             itemCount={itemCount}
             itemSize={getSize}

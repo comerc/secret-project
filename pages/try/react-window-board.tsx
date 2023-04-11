@@ -17,7 +17,6 @@ function TryReactWindowBoardPage() {
   const [hasMenu, setHasMenu] = React.useState(false)
   const [boardHeaderRef, { height: boardHeaderHeight }] = useElementSize()
   const [windowRef, { width: windowWidth, height: windowHeight }] = useElementSize()
-  console.log(boardHeaderHeight)
   const [initialize, instance] = useOverlayScrollbars({
     options: {
       overflow: {
@@ -93,7 +92,7 @@ function TryReactWindowBoardPage() {
   const menuWidth = 300
   return (
     <ClientOnly>
-      <div className="fixed top-0 left-0 right-0 bottom-0 bg-[pink]" ref={windowRef}>
+      <div className="fixed bottom-0 left-0 right-0 top-0 bg-[pink]" ref={windowRef}>
         <div
           className="flex overflow-hidden bg-[green]"
           style={{
@@ -105,7 +104,7 @@ function TryReactWindowBoardPage() {
           <div>444</div>
         </div>
         <div
-          className="absolute top-0 left-0 right-0 flex flex-wrap"
+          className="absolute left-0 right-0 top-0 flex flex-wrap"
           style={{
             marginTop: headerHeight,
             marginRight: isMenu ? menuWidth : 0,
@@ -157,13 +156,13 @@ function TryReactWindowBoardPage() {
       </div>
       {isMenu && (
         <div
-          className="fixed top-0 right-0 bottom-0"
+          className="fixed bottom-0 right-0 top-0"
           style={{
             marginTop: headerHeight,
           }}
         >
           <div
-            className="absolute top-0 right-0 bottom-0 z-[1000] flex flex-col bg-[gray]"
+            className="absolute bottom-0 right-0 top-0 z-[1000] flex flex-col bg-[gray]"
             style={{
               width: menuWidth,
             }}
