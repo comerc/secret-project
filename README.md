@@ -296,7 +296,10 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://www.freecodecamp.org/news/memoization-in-javascript-and-react/
   - https://www.npmjs.com/package/use-memo-one
 - [ ] react-beautiful-dnd-custom-placeholder
+  - https://codesandbox.io/s/suttp
   - https://codesandbox.io/s/react-beautiful-dnd-custom-placeholder-2lmf1
+  - https://codesandbox.io/s/react-beautiful-dnd-custom-placeholder-ghosting-61t3l
+  - https://github.com/atlassian/react-beautiful-dnd/issues/518
 - [ ] Интеграция в mattermost
   - https://github.com/mattermost/mattermost-server
 - [ ] Weblate - для переводов (подсмотрел на focalboard)
