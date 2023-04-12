@@ -65,7 +65,7 @@ function Item({ provided, item, style, isDragging }) {
         virtualStyle: style,
         isDragging,
       })}
-      className={cx(styles.item, {
+      className={cx({
         [styles['is-dragging']]: isDragging,
         [styles['is-selected']]: !isDragging && isSelectedId(item.id),
       })}
@@ -91,10 +91,23 @@ function Item({ provided, item, style, isDragging }) {
         setSelectedId(itemId)
       }}
     >
-      {item.text}
-      <button tabIndex="-1" onClick={onDeleteItem(item.columnId, item.id)}>
-        x
-      </button>
+      <div
+        className={cx(
+          isDragging && 'hidden',
+          'pointer-events-none absolute bottom-[-8px] left-[-8px] right-[-8px] top-[-8px] cursor-help bg-[orange]',
+        )}
+      ></div>
+      <div
+        className={cx(
+          styles.item,
+          'absolute bottom-0 left-0 right-0 top-0 border-[4px] border-solid border-[red] bg-[green]',
+        )}
+      >
+        {item.text}
+        {/* <button tabIndex="-1" onClick={onDeleteItem(item.columnId, item.id)}>
+          x
+        </button> */}
+      </div>
     </div>
   )
 }
@@ -197,7 +210,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
     }
   }, [])
   return (
-    <Scrollbars ref={refSetter} {...{ onScroll, style }} className={cx('overflow-hidden ')}>
+    <Scrollbars ref={refSetter} {...{ onScroll, style }} className={cx('overflow-hidden')}>
       <div className="[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
         {children}
         <div
