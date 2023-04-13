@@ -16,7 +16,8 @@ import { Input, Button, Tooltip, Avatar } from 'antd'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList, areEqual } from 'react-window'
-import { OverlayScrollbarsComponent, useOverlayScrollbars } from 'overlayscrollbars-react'
+import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import { useUpdateEffect } from 'usehooks-ts'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
@@ -32,7 +33,7 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 function ColumnFooter({ height }) {
   return (
     <div
-      className="px-2 pt-0.5 pb-2"
+      className="px-2 pb-2 pt-0.5"
       style={{
         height,
       }}
@@ -64,7 +65,7 @@ function DueDateBadge({ start, deadline, mode = 'warning' }) {
     <Badge
       title={currentMode.title}
       style={currentMode.style}
-      className="transition [&:hover>.badge-clock]:hidden [&:hover>.badge-check]:flex"
+      className="transition [&:hover>.badge-check]:flex [&:hover>.badge-clock]:hidden"
       onClick={(event) => {
         event.preventDefault()
         event.stopPropagation()
@@ -104,7 +105,7 @@ function Badge({ className, style, onClick, title, children }) {
       role={onClick ? 'button' : null}
       tabIndex={onClick ? '-1' : null}
       className={cx(
-        'mr-1 mb-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
+        'mb-1 mr-1 inline-flex max-w-full items-center truncate rounded-[3px] bg-[var(--background-color)] p-0.5 text-[var(--text-color)] hover:bg-[var(--background-color-hovered)]',
         className,
       )}
       {...{ style, onClick, title }}
@@ -193,7 +194,7 @@ function FrontLabel({ id, colorId, name }) {
       >
         {isExpanded && (
           <>
-            <div className="absolute top-1 bottom-1 left-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
+            <div className="absolute bottom-1 left-1 top-1 h-2 w-2 rounded-[50%] bg-[var(--foreground-color)]" />
             {name}
           </>
         )}
@@ -230,7 +231,7 @@ function ListCard({ issue: { id, title, labels, members }, isServerRenderMode = 
         // TODO: открывать модальный диалог по месту для лучшей анимации
       }}
     >
-      <div className="overflow-hidden px-2 pt-1.5 pb-0.5">
+      <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
         <FrontLabels {...{ labels }} />
         <div className="mb-1 break-words">{title}</div>
         <Badges />
@@ -318,30 +319,30 @@ const Row = React.memo(function Row({ data, index, style }) {
 }, areEqual)
 
 // Alter Case
-// import { Scrollbars } from 'react-custom-scrollbars-2'
-// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-//   const refSetter = React.useCallback((scrollbarsRef) => {
-//     if (scrollbarsRef) {
-//       ref(scrollbarsRef.view)
-//     } else {
-//       ref(null)
-//     }
-//   }, [])
-//   return (
-//     <Scrollbars
-//       ref={refSetter}
-//       {...{ onScroll, style }}
-//       className={cx(
-//         'overflow-hidden [&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-//       )}
-//     >
-//       {children}
-//       <div className="sticky bottom-0 z-10 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-//         <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-//       </div>
-//     </Scrollbars>
-//   )
-// })
+const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  const refSetter = React.useCallback((scrollbarsRef) => {
+    if (scrollbarsRef) {
+      ref(scrollbarsRef.view)
+    } else {
+      ref(null)
+    }
+  }, [])
+  return (
+    <Scrollbars
+      ref={refSetter}
+      {...{ onScroll, style }}
+      className={cx(
+        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
+        '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+      )}
+    >
+      {children}
+      <div className="sticky bottom-0 z-10 rounded-b-[3px]">
+        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+      </div>
+    </Scrollbars>
+  )
+})
 
 // Base Case
 // const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
@@ -361,49 +362,50 @@ const Row = React.memo(function Row({ data, index, style }) {
 //   )
 // })
 
-const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const ofRef = React.useRef(null)
-  React.useEffect(() => {
-    const viewport = ofRef.current.osInstance().elements().viewport
-    if (onScroll) viewport.addEventListener('scroll', onScroll)
-    return () => {
-      if (onScroll) viewport.removeEventListener('scroll', onScroll)
-    }
-  }, [ofRef, onScroll])
-  return (
-    <OverlayScrollbarsComponent
-      ref={ofRef}
-      options={{
-        overflow: {
-          x: 'hidden',
-          y: 'scroll',
-        },
-        paddingAbsolute: true,
-        showNativeOverlaidScrollbars: true,
-        scrollbars: {
-          theme: 'os-theme-light list-cards',
-          visibility: 'auto',
-          autoHide: 'leave',
-          autoHideDelay: 1300,
-          dragScroll: true,
-          clickScroll: false,
-          pointers: ['mouse', 'touch', 'pen'],
-        },
-      }}
-      {...{ style }}
-    >
-      <div
-        // ref={ref} // TODO: не надо ref?
-        className="[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
-      >
-        {children}
-        <div className="sticky bottom-0 z-[1000] rounded-b-[3px]">
-          <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-        </div>
-      </div>
-    </OverlayScrollbarsComponent>
-  )
-})
+// BUG: скролирую вторую колонку до конца и перемещаю на место первой - не отрисовывает элементы (эффект наблюдается только в первый раз)
+// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   const ofRef = React.useRef(null)
+//   React.useEffect(() => {
+//     const viewport = ofRef.current.osInstance().elements().viewport
+//     if (onScroll) viewport.addEventListener('scroll', onScroll)
+//     return () => {
+//       if (onScroll) viewport.removeEventListener('scroll', onScroll)
+//     }
+//   }, [ofRef, onScroll])
+//   return (
+//     <OverlayScrollbarsComponent
+//       ref={ofRef}
+//       options={{
+//         overflow: {
+//           x: 'hidden',
+//           y: 'scroll',
+//         },
+//         paddingAbsolute: true,
+//         showNativeOverlaidScrollbars: true,
+//         scrollbars: {
+//           theme: 'os-theme-light list-cards',
+//           visibility: 'auto',
+//           autoHide: 'leave',
+//           autoHideDelay: 1300,
+//           dragScroll: true,
+//           clickScroll: false,
+//           pointers: ['mouse', 'touch', 'pen'],
+//         },
+//       }}
+//       {...{ style }}
+//     >
+//       <div
+//         // ref={ref} // TODO: не надо ref?
+//         className="[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]"
+//       >
+//         {children}
+//         <div className="sticky bottom-0 z-[1000] rounded-b-[3px]">
+//           <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+//         </div>
+//       </div>
+//     </OverlayScrollbarsComponent>
+//   )
+// })
 
 function ColumnBody({ issues, issuesOrder }) {
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
@@ -551,7 +553,7 @@ function ColumnHeader({ title, dragHandleProps }) {
   const isFilter = true // TODO: реализовать isFilter через Context
   return (
     <div
-      className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pt-1.5 pb-2.5 pl-2 pr-10"
+      className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pb-2.5 pl-2 pr-10 pt-1.5"
       onClick={(event) => {
         event.preventDefault()
         if (isFocused) {
@@ -587,7 +589,7 @@ function ColumnHeader({ title, dragHandleProps }) {
         </p>
       )}
       <div
-        className={cx(isFocused && 'hidden', 'absolute top-0 left-0 right-0 bottom-0')}
+        className={cx(isFocused && 'hidden', 'absolute bottom-0 left-0 right-0 top-0')}
         onClick={(event) => {
           event.preventDefault()
           inputRef.current.focus({
@@ -596,7 +598,7 @@ function ColumnHeader({ title, dragHandleProps }) {
           })
         }}
       />
-      <div className="absolute top-1 right-1">
+      <div className="absolute right-1 top-1">
         <ExtrasButton />
       </div>
     </div>
