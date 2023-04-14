@@ -65,7 +65,7 @@ function Item({ provided, item, style, isDragging }) {
         virtualStyle: style,
         isDragging,
       })}
-      className={cx({
+      className={cx(styles.item, {
         [styles['is-dragging']]: isDragging,
         [styles['is-selected']]: !isDragging && isSelectedId(item.id),
       })}
@@ -91,7 +91,7 @@ function Item({ provided, item, style, isDragging }) {
         setSelectedId(itemId)
       }}
     >
-      <div
+      {/* <div
         className={cx(
           isDragging && 'hidden',
           'pointer-events-none absolute bottom-[-8px] left-[-8px] right-[-8px] top-[-8px] cursor-help bg-[orange]',
@@ -104,10 +104,11 @@ function Item({ provided, item, style, isDragging }) {
         )}
       >
         {item.text}
-        {/* <button tabIndex="-1" onClick={onDeleteItem(item.columnId, item.id)}>
+      </div> */}
+      {item.text}
+      {/* <button tabIndex="-1" onClick={onDeleteItem(item.columnId, item.id)}>
           x
         </button> */}
-      </div>
     </div>
   )
 }

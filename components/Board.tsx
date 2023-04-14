@@ -30,6 +30,9 @@ import getDueDateMode from '.../utils/getDueDateMode'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
 import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
+const _listRefMap = {}
+let _cloneSize = 0
+
 function ColumnFooter({ height }) {
   return (
     <div
@@ -48,6 +51,7 @@ function ColumnFooter({ height }) {
   )
 }
 
+// TODO: ощутимо мигают иконки при drop
 function Members({ members }) {
   return (
     <Avatar.Group className="float-right mb-1 mr-[-2px] block" size="small">
@@ -215,21 +219,12 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ issue: { id, title, labels, members }, isServerRenderMode = false }) {
-  const router = isServerRenderMode ? null : useRouter()
-  const urlName = React.useMemo(() => normalizeUrlName(title), [title])
+function ListCard({ issue: { id, title, labels, members }, href, onClick }) {
   // TODO: cover
   return (
     <a
-      href={`/c/${id}/${urlName}`}
       className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
-      onClick={(event) => {
-        event.preventDefault()
-        router?.push(`/c/${id}/${urlName}`, undefined, {
-          shallow: true,
-        })
-        // TODO: открывать модальный диалог по месту для лучшей анимации
-      }}
+      {...{ href, onClick }}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
         <FrontLabels {...{ labels }} />
@@ -298,24 +293,72 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
   )
 }
 
+function ColumnItem({ provided, issue, style, isDragging }) {
+  const router = useRouter()
+  const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
+  const href = `/c/${issue.id}/${urlName}`
+  const onClick = (event) => {
+    event.preventDefault()
+    router.push(href, undefined, {
+      shallow: true,
+    })
+    // TODO: открывать модальный диалог по месту для лучшей анимации
+  }
+  // const { onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed } =
+  //   React.useContext(BoardContext)
+  const itemId = isDragging ? '' : `issue-${issue.id}`
+  return (
+    <div
+      id={itemId}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={provided.innerRef}
+      style={{ ...style, ...provided.draggableProps.style }}
+      // className={cx({
+      //   styles.item,
+      //   [styles['is-dragging']]: isDragging,
+      //   [styles['is-selected']]: !isDragging && isSelectedId(itemId,
+      // })}
+      // onMouseEnter={(event) => {
+      //   if (isArrowKeyPressed.current) {
+      //     return
+      //   }
+      //   // const itemId = event.target.id
+      //   setSelectedId(itemId)
+      // }}
+      // onMouseLeave={(event) => {
+      //   if (isArrowKeyPressed.current) {
+      //     return
+      //   }
+      //   setSelectedId('')
+      // }}
+      // onFocus={(event) => {
+      //   const attribute = event.target.attributes['data-rfd-draggable-id']
+      //   if (!attribute) {
+      //     return // for child controls
+      //   }
+      //   // const itemId = event.target.id
+      //   setSelectedId(itemId)
+      // }}
+    >
+      <ListCard {...{ issue, href, onClick }} />
+    </div>
+  )
+}
+
 // Recommended react-window performance optimisation: memoize the row render function
 // Things are still pretty fast without this, but I am a sucker for making things faster
-const Row = React.memo(function Row({ data, index, style }) {
+const ColumnRow = React.memo(function Row({ data, index, style }) {
   const issue = data[index]
   // We are rendering an extra item for the placeholder
   if (!issue) {
     return null
   }
   return (
-    <div {...{ style }}>
-      <ListCard {...{ issue }} />
-    </div>
+    <Draggable draggableId={issue.id} key={issue.id} {...{ index }}>
+      {(provided) => <ColumnItem {...{ provided, issue, style }} />}
+    </Draggable>
   )
-  // return (
-  //   <Draggable draggableId={item.id} index={index} key={item.id}>
-  //     {(provided) => <Item provided={provided} item={item} style={style} />}
-  //   </Draggable>
-  // )
 }, areEqual)
 
 // Alter Case
@@ -407,12 +450,43 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
 //   )
 // })
 
-function ColumnBody({ issues, issuesOrder }) {
-  // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnBody?
+// TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки
+function ColumnItemList({ id, issuesOrder, issues, index }) {
+  // There is an issue I have noticed with react-window that when reordered
+  // react-window sets the scroll back to 0 but does not update the UI
+  // I should raise an issue for this.
+  // As a work around I am resetting the scroll to 0
+  // on any list that changes it's index
+  const listRef = React.useRef()
+  // TODO: а в оригинале скролится только drop-колонка и до начала dnd
+  React.useLayoutEffect(() => {
+    const list = listRef.current
+    if (list) {
+      list.scrollTo(0)
+    }
+  }, [index])
+  // Increases accuracy by calculating an average row height
+  // Fixes the scrollbar behaviour described here: https://github.com/bvaughn/react-window/issues/408
+  // const calcEstimatedSize = React.useCallback(() => {
+  //   const keys = Object.keys(column.items)
+  //   if (keys.length === 0) {
+  //     return 0
+  //   }
+  //   const estimatedHeight = keys.reduce((p, i) => p + getSize(i), 0)
+  //   const result = estimatedHeight / keys.length
+  //   return result
+  // }, []) // TODO: оптимизировать
+  // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnItemList?
+  React.useEffect(() => {
+    _listRefMap[id] = listRef
+  }, [])
   const { isExpanded } = React.useContext(FrontLabelsContext)
   const itemData = issuesOrder.map((issueId) => issues[issueId])
   const getItemSize = (index) => {
     const issue = itemData[index]
+    if (!issue) {
+      return _cloneSize
+    }
     const measureLayer = document.getElementById('measure-layer')
     measureLayer.innerHTML = renderToString(
       <FrontLabelsContext.Provider value={{ isExpanded, hasTooltip: false }}>
@@ -423,39 +497,65 @@ function ColumnBody({ issues, issuesOrder }) {
     const size = rect.height
     return size
   }
-  const listRef = React.useRef()
   useUpdateEffect(() => {
     listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
   const version = 'V2'
   return (
-    // HACK: overflow-hidden прячет мигание увеличенной высоты колоки
+    // HACK: overflow-hidden прячет мигание увеличенной высоты колонки
     <div className="h-full overflow-hidden rounded-b-[3px]">
       {version === 'V2' && (
         <AutoSizer>
           {({ height, width }) => {
-            // Add an extra item to our list to make space for a dragging item
-            // Usually the DroppableProvided.placeholder does this, but that won't
-            // work in a virtual list
-            const itemCount =
-              // snapshot.isUsingPlaceholder ? column.items.length + 1 :
-              issuesOrder.length
             return (
-              <VariableSizeList
-                height={height}
-                itemCount={itemCount}
-                itemSize={getItemSize}
-                width={width}
-                // outerRef={provided.innerRef}
-                outerElementType={withScrollbars}
-                itemData={itemData}
-                ref={listRef}
-                overscanCount={4}
-                // See notes at calcEstimatedSize
-                // estimatedItemSize={calcEstimatedSize()}
+              <Droppable
+                droppableId={id}
+                mode="virtual"
+                renderClone={(provided, snapshot, rubric) => {
+                  _cloneSize = getItemSize(rubric.source.index)
+                  return (
+                    <ColumnItem
+                      provided={provided}
+                      isDragging={snapshot.isDragging}
+                      issue={itemData[rubric.source.index]}
+                    />
+                  )
+                }}
               >
-                {Row}
-              </VariableSizeList>
+                {(
+                  provided,
+                  { isDraggingOver, draggingOverWith, draggingFromThisWith, isUsingPlaceholder },
+                ) => {
+                  // Add an extra item to our list to make space for a dragging item
+                  // Usually the DroppableProvided.placeholder does this, but that won't
+                  // work in a virtual list
+                  const itemCount =
+                    isDraggingOver &&
+                    draggingOverWith !== null &&
+                    draggingFromThisWith === null &&
+                    isUsingPlaceholder
+                      ? issuesOrder.length + 1
+                      : issuesOrder.length
+                  return (
+                    <VariableSizeList
+                      useIsScrolling // TODO: для isScrolling
+                      height={height}
+                      itemCount={itemCount}
+                      itemSize={getItemSize}
+                      width={width}
+                      outerRef={provided.innerRef}
+                      outerElementType={withScrollbars}
+                      itemData={itemData}
+                      ref={listRef}
+                      overscanCount={4}
+                      // See notes at calcEstimatedSize
+                      // estimatedItemSize={calcEstimatedSize()}
+                    >
+                      {ColumnRow}
+                    </VariableSizeList>
+                  )
+                }}
+              </Droppable>
             )
           }}
         </AutoSizer>
@@ -612,7 +712,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
         const { style, ...rest } = draggableProps
         return (
           <div
-            className="mr-2 flex h-full flex-col"
+            className="mr-2 flex flex-col"
             ref={innerRef}
             style={{
               width: COLUMN_WIDTH,
@@ -622,7 +722,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
             <ColumnHeader {...{ title, dragHandleProps }} />
-            <ColumnBody {...{ issues, issuesOrder }} />
+            <ColumnItemList {...{ id, issuesOrder, issues, index }} />
           </div>
         )
       }}
@@ -663,57 +763,58 @@ function CustomDragDropContext({ state, setState, children }) {
       })
       return
     }
-    // // reordering in same list
-    // if (result.source.droppableId === result.destination.droppableId) {
-    //   const column = state.columns[result.source.droppableId]
-    //   const items = reorderList(column.items, result.source.index, result.destination.index)
-    //   // updating column entry
-    //   const newState = {
-    //     ...state,
-    //     columns: {
-    //       ...state.columns,
-    //       [column.id]: {
-    //         ...column,
-    //         items,
-    //       },
-    //     },
-    //   }
-    //   setState(newState)
-    //   const index = Math.min(result.source.index, result.destination.index)
-    //   _listRefMap[column.id].current.resetAfterIndex(index)
-    //   return
-    // }
-    // // moving between lists
-    // const sourceColumn = state.columns[result.source.droppableId]
-    // const destinationColumn = state.columns[result.destination.droppableId]
-    // const item = sourceColumn.items[result.source.index]
-    // // 1. remove item from source column
-    // const newSourceColumn = {
-    //   ...sourceColumn,
-    //   items: [...sourceColumn.items],
-    // }
-    // newSourceColumn.items.splice(result.source.index, 1)
-    // // 2. insert into destination column
-    // const newDestinationColumn = {
-    //   ...destinationColumn,
-    //   items: [...destinationColumn.items],
-    // }
-    // // in line modification of items
-    // newDestinationColumn.items.splice(result.destination.index, 0, {
-    //   ...item,
-    //   columnId: destinationColumn.id,
-    // })
-    // const newState = {
-    //   ...state,
-    //   columns: {
-    //     ...state.columns,
-    //     [newSourceColumn.id]: newSourceColumn,
-    //     [newDestinationColumn.id]: newDestinationColumn,
-    //   },
-    // }
-    // setState(newState)
-    // _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
-    // _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
+    // reordering in same list
+    if (result.source.droppableId === result.destination.droppableId) {
+      const column = state.columns[result.source.droppableId]
+      const issuesOrder = reorderList(
+        column.issuesOrder,
+        result.source.index,
+        result.destination.index,
+      )
+      // updating column entry
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [column.id]: {
+            ...column,
+            issuesOrder,
+          },
+        },
+      }
+      setState(newState)
+      const index = Math.min(result.source.index, result.destination.index)
+      _listRefMap[column.id].current.resetAfterIndex(index)
+      return
+    }
+    // moving between lists
+    const sourceColumn = state.columns[result.source.droppableId]
+    const destinationColumn = state.columns[result.destination.droppableId]
+    const item = sourceColumn.issuesOrder[result.source.index]
+    // 1. remove item from source column
+    const newSourceColumn = {
+      ...sourceColumn,
+      issuesOrder: [...sourceColumn.issuesOrder],
+    }
+    newSourceColumn.issuesOrder.splice(result.source.index, 1)
+    // 2. insert into destination column
+    const newDestinationColumn = {
+      ...destinationColumn,
+      issuesOrder: [...destinationColumn.issuesOrder],
+    }
+    // in line modification of items
+    newDestinationColumn.issuesOrder.splice(result.destination.index, 0, item)
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [newSourceColumn.id]: newSourceColumn,
+        [newDestinationColumn.id]: newDestinationColumn,
+      },
+    }
+    setState(newState)
+    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
+    _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
   }
 
   return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>

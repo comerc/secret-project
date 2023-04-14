@@ -63,7 +63,7 @@
 
 .item {
   background: #333851;
-  /* border: 4px solid mediumpurple; */
+  border: 4px solid mediumpurple;
   box-sizing: border-box;
   border-radius: 8px;
   color: #cdd5ee;
