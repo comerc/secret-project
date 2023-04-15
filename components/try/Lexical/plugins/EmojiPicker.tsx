@@ -47,7 +47,7 @@ function EmojiMenuItem({
   return (
     <li
       key={option.key}
-      tabIndex={-1}
+      tabIndex="-1"
       className={className}
       ref={option.setRefElement}
       role="option"

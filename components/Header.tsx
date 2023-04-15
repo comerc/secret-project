@@ -152,11 +152,11 @@ function PlusButton() {
   const handleClick = () => {}
   const ariaLabel = 'Создать доску или рабочее пространство'
   return (
-    <div tabIndex={0} className="mr-1 mb-1 ml-2">
+    <div tabIndex="0" className="mb-1 ml-2 mr-1">
       <div className="lg:hidden">
         <HeaderButton
           aria-label={ariaLabel}
-          tabIndex={-1}
+          tabIndex="-1"
           indent={false}
           icon={<PlusOutlined />}
           onClick={handleClick}
@@ -165,7 +165,7 @@ function PlusButton() {
         />
       </div>
       <div className="hidden lg:block">
-        <HeaderButton aria-label={ariaLabel} tabIndex={-1} indent={false} onClick={handleClick}>
+        <HeaderButton aria-label={ariaLabel} tabIndex="-1" indent={false} onClick={handleClick}>
           Создать
         </HeaderButton>
       </div>
@@ -175,7 +175,7 @@ function PlusButton() {
 
 function InFavoritesButton({ favorites, onDelete }) {
   const items = favorites.map(({ boardId, name, workspace, color, wallpapper }) => (
-    <div key={boardId} className="pt-1 pb-1">
+    <div key={boardId} className="pb-1 pt-1">
       <div className="flex h-8 select-none rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
         <div
           className="h-8 w-[52px] flex-none rounded-[3px]"
@@ -192,7 +192,7 @@ function InFavoritesButton({ favorites, onDelete }) {
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
-            className="border-[var(--ds-border,#091e4221)] shadow-none [&:hover>.anticon]:scale-125 [&>.anticon]:text-[#f2d600] [&:focus>.anticon]:scale-125"
+            className="border-[var(--ds-border,#091e4221)] shadow-none [&:focus>.anticon]:scale-125 [&:hover>.anticon]:scale-125 [&>.anticon]:text-[#f2d600]"
             title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
             icon={<StarFilled />}
             size="small"
@@ -208,7 +208,7 @@ function InFavoritesButton({ favorites, onDelete }) {
       footer={
         items.length === 0 ? (
           // TODO: добавить картинку
-          <div className="mt-3 mb-2 text-center">
+          <div className="mb-2 mt-3 text-center">
             Чтобы быстро находить важные доски, отмечайте их.
           </div>
         ) : (
@@ -239,7 +239,7 @@ function Header({ favorites, handleDeleteFavorites }) {
       >
         <Link
           href="/"
-          className="mr-1 mb-1 h-8 rounded-[3px] px-1.5 hover:bg-[var(--dynamic-button-hovered)]"
+          className="mb-1 mr-1 h-8 rounded-[3px] px-1.5 hover:bg-[var(--dynamic-button-hovered)]"
           aria-label="Вернуться на главную страницу"
         >
           <div className="flex h-8 items-center gap-1 text-[18px] font-bold leading-8 text-[var(--dynamic-text)]">

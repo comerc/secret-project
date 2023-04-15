@@ -7,12 +7,12 @@ import cx from 'classnames'
 function CustomDropdownItem({ children }) {
   return (
     <a
-      tabIndex={-1}
+      tabIndex="-1"
       href="#" // TODO: replace to role="button" or <button />
       onClick={(event) => {
         event.preventDefault()
       }}
-      className="mx-[-12px] block py-[6px] px-[12px] text-sm text-[var(--ds-text,#172b4d)] hover:bg-[var(--ds-background-neutral-hovered,#091e420a)] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
+      className="mx-[-12px] block px-[12px] py-[6px] text-sm text-[var(--ds-text,#172b4d)] hover:bg-[var(--ds-background-neutral-hovered,#091e420a)] active:bg-[var(--ds-background-neutral-pressed,#e4f0f6)]"
     >
       {children}
     </a>

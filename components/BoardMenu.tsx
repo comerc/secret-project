@@ -69,19 +69,18 @@ function BoardMenu({ hasMenu, toggleMenu }) {
       width={339 + 6}
       closable={false}
     >
-      <div className="flex h-12 items-center justify-center px-9">
+      <div tabIndex="-1" className="flex h-12 items-center justify-center px-9">
         <h3 className="board-title">Меню</h3>
       </div>
-      <a
-        className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
-        role="button" // href="#" // TODO: replace to role="button" or <button />
+      <button
+        className="absolute right-0 top-0 m-1 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
         onClick={(event) => {
           event.preventDefault()
           toggleMenu()
         }}
       >
         <CloseOutlined className="scale-125" />
-      </a>
+      </button>
       <hr className="horizontal-divider mb-2" />
       <MenuButton icon={<ProjectOutlined />} subtitle="Добавьте описание для доски">
         О доске
