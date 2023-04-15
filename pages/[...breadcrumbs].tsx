@@ -4,10 +4,10 @@ import ClientOnly from '.../components/ClientOnly'
 import Header from '.../components/Header'
 import BoardHeader from '.../components/BoardHeader'
 import BoardCanvas from '.../components/BoardCanvas'
-import Board from '.../components/Board'
+import Board, { BoardState } from '.../components/Board'
 import BoardMenu from '.../components/BoardMenu'
 import CardDetailWindow from '.../components/CardDetailWindow'
-import FontFaceObserver from '.../components/FontFaceObserver'
+// import FontFaceObserver from '.../components/FontFaceObserver'
 import { resetServerContext } from 'react-beautiful-dnd'
 import { nanoid } from 'nanoid'
 import cx from 'classnames'
@@ -260,83 +260,81 @@ function BoardPage({
     const id = Object.keys(issues)[0]
     return <CardDetailWindow issue={issues[id]} />
   }
+  // const isFontListLoaded = useFontFaceObserver([{ family: FONT_FAMILY }])
   return (
     <ClientOnly>
-      <FontFaceObserver>
-        <Router {...{ urlName, renderCardDetailWindow }}>
-          {version === 'V2' && (
-            <>
-              <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col bg-[var(--body-dark-board-background)]">
+      {/* <FontFaceObserver> */}
+      <Router {...{ urlName, renderCardDetailWindow }}>
+        {version === 'V2' && (
+          <BoardState {...{ columns, columnsOrder, issues }}>
+            <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">
+              <Header {...{ favorites, handleDeleteFavorites }} />
+              <BoardHeader
+                {...{
+                  members,
+                  boardId,
+                  hasMenu,
+                  toggleMenu,
+                  favorites,
+                  handleChangeFavorites,
+                }}
+              />
+              <div id="board-warnings"></div>
+              <Board {...{ isMenu, hasMenu }} />
+            </div>
+            <div className="fixed bottom-0 right-0 top-0 mt-[44px]">
+              <BoardMenu {...{ hasMenu, toggleMenu }} />
+            </div>
+          </BoardState>
+        )}
+        {version === 'V1' && (
+          <>
+            <div
+              id="chrome-container"
+              className="fixed left-0 right-0 top-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
+            >
+              <div id="surface" className="flex h-full flex-col">
                 <Header {...{ favorites, handleDeleteFavorites }} />
-                <BoardHeader
-                  {...{
-                    members,
-                    boardId,
-                    hasMenu,
-                    toggleMenu,
-                    favorites,
-                    handleChangeFavorites,
-                  }}
-                />
-                <div id="board-warnings"></div>
-                <Board {...{ columns, columnsOrder, issues, isMenu, hasMenu }} />
-              </div>
-              <div className="fixed top-0 right-0 bottom-0 mt-[44px]">
-                <BoardMenu {...{ hasMenu, toggleMenu }} />
-              </div>
-            </>
-          )}
-          {version === 'V1' && (
-            <>
-              <div
-                id="chrome-container"
-                className="fixed top-0 left-0 right-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
-              >
-                <div id="surface" className="flex h-full flex-col">
-                  <Header {...{ favorites, handleDeleteFavorites }} />
-                  <div className="flex grow flex-col">
-                    <div className="flex flex-1 flex-row">
-                      <div id="content-wrapper" className="flex flex-1 flex-col">
-                        <div id="content" className="relative grow">
+                <div className="flex grow flex-col">
+                  <div className="flex flex-1 flex-row">
+                    <div id="content-wrapper" className="flex flex-1 flex-col">
+                      <div id="content" className="relative grow">
+                        <div id="board-wrapper" className="absolute bottom-0 left-0 right-0 top-0">
                           <div
-                            id="board-wrapper"
-                            className="absolute top-0 left-0 right-0 bottom-0"
+                            id="board-main-content"
+                            className={cx(
+                              isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
+                              'mr-0 flex h-full flex-col',
+                            )}
+                            style={{
+                              transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
+                            }}
                           >
-                            <div
-                              id="board-main-content"
-                              className={cx(
-                                isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
-                                'mr-0 flex h-full flex-col',
-                              )}
-                              style={{
-                                transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
+                            <BoardHeader
+                              {...{
+                                members,
+                                boardId,
+                                hasMenu,
+                                toggleMenu,
+                                favorites,
+                                handleChangeFavorites,
                               }}
-                            >
-                              <BoardHeader
-                                {...{
-                                  members,
-                                  boardId,
-                                  hasMenu,
-                                  toggleMenu,
-                                  favorites,
-                                  handleChangeFavorites,
-                                }}
-                              />
-                              <div id="board-warnings"></div>
-                              <Board {...{ columns, columnsOrder, issues }} />
-                            </div>
-                            <BoardMenu {...{ hasMenu, toggleMenu }} />
+                            />
+                            <div id="board-warnings"></div>
+                            <Board {...{ columns, columnsOrder, issues }} />
                           </div>
+                          <BoardMenu {...{ hasMenu, toggleMenu }} />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </>
-          )}
-        </Router>
-      </FontFaceObserver>
+            </div>
+          </>
+        )}
+      </Router>
+      {/* </FontFaceObserver> */}
     </ClientOnly>
   )
 }

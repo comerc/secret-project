@@ -33,7 +33,7 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 const _listRefMap = {}
 let _cloneSize = 0
 
-function ColumnFooter({ height }) {
+function ColumnFooter({ id, height }) {
   return (
     <div
       className="px-2 pb-2 pt-0.5"
@@ -42,6 +42,7 @@ function ColumnFooter({ height }) {
       }}
     >
       <Button
+        data-prev-tab-is-list={id}
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
       >
@@ -188,7 +189,7 @@ function FrontLabel({ id, colorId, name }) {
             : 'h-2 min-w-[40px] max-w-[40px] bg-[var(--foreground-color)]',
           'relative inline-block rounded text-left transition hover:brightness-[.85] hover:saturate-[.85]',
         )}
-        tabIndex={-1}
+        tabIndex="-1"
         // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
         onClick={(event) => {
           event.preventDefault()
@@ -219,12 +220,12 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ issue: { id, title, labels, members }, href, onClick }) {
+function ListCard({ issue: { id, title, labels, members }, ...rest }) {
   // TODO: cover
   return (
     <a
       className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
-      {...{ href, onClick }}
+      {...rest}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
         <FrontLabels {...{ labels }} />
@@ -306,14 +307,14 @@ function ColumnItem({ provided, issue, style, isDragging }) {
   }
   // const { onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed } =
   //   React.useContext(BoardContext)
-  const itemId = isDragging ? '' : `issue-${issue.id}`
+  const itemId = isDragging ? '' : `item-${issue.id}`
+  const { style: draggableStyle, ...draggableProps } = provided.draggableProps
   return (
     <div
       id={itemId}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
       ref={provided.innerRef}
-      style={{ ...style, ...provided.draggableProps.style }}
+      {...draggableProps}
+      style={{ ...style, ...draggableStyle }}
       // className={cx({
       //   styles.item,
       //   [styles['is-dragging']]: isDragging,
@@ -341,7 +342,7 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       //   setSelectedId(itemId)
       // }}
     >
-      <ListCard {...{ issue, href, onClick }} />
+      <ListCard {...{ issue, href, onClick, ...provided.dragHandleProps }} />
     </div>
   )
 }
@@ -362,30 +363,31 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
 }, areEqual)
 
 // Alter Case
-const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const refSetter = React.useCallback((scrollbarsRef) => {
-    if (scrollbarsRef) {
-      ref(scrollbarsRef.view)
-    } else {
-      ref(null)
-    }
-  }, [])
-  return (
-    <Scrollbars
-      ref={refSetter}
-      {...{ onScroll, style }}
-      className={cx(
-        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
-        '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-      )}
-    >
-      {children}
-      <div className="sticky bottom-0 z-10 rounded-b-[3px]">
-        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-      </div>
-    </Scrollbars>
-  )
-})
+const withScrollbars = (id) =>
+  React.forwardRef(({ children, onScroll, style }, ref) => {
+    const refSetter = React.useCallback((scrollbarsRef) => {
+      if (scrollbarsRef) {
+        ref(scrollbarsRef.view)
+      } else {
+        ref(null)
+      }
+    }, [])
+    return (
+      <Scrollbars
+        ref={refSetter}
+        {...{ onScroll, style }}
+        className={cx(
+          'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
+          '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+        )}
+      >
+        {children}
+        <div className="sticky bottom-0 z-10 rounded-b-[3px]">
+          <ColumnFooter height={COLUMN_FOOTER_HEIGHT} {...{ id }} />
+        </div>
+      </Scrollbars>
+    )
+  })
 
 // Base Case
 // const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
@@ -490,7 +492,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
     const measureLayer = document.getElementById('measure-layer')
     measureLayer.innerHTML = renderToString(
       <FrontLabelsContext.Provider value={{ isExpanded, hasTooltip: false }}>
-        <ListCard {...{ issue, isServerRenderMode: true }} />
+        <ListCard {...{ issue }} />
       </FrontLabelsContext.Provider>,
     )
     const rect = measureLayer.getBoundingClientRect()
@@ -544,7 +546,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
                       itemSize={getItemSize}
                       width={width}
                       outerRef={provided.innerRef}
-                      outerElementType={withScrollbars}
+                      outerElementType={withScrollbars(id)}
                       itemData={itemData}
                       ref={listRef}
                       overscanCount={4}
@@ -581,7 +583,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
   )
 }
 
-function ExtrasButton() {
+function ColumnExtrasButton({ id }) {
   const data = [
     { 'add-card': 'Добавить карточку…' },
     { 'copy-list': 'Копировать список…' },
@@ -626,6 +628,7 @@ function ExtrasButton() {
       smallSize
     >
       <Button
+        data-next-tab-is-list={id}
         className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<EllipsisOutlined />}
       />
@@ -635,7 +638,7 @@ function ExtrasButton() {
 
 const ColumnHeaderInputContext = React.createContext({})
 
-export function ColumnHeaderInputState({ children }) {
+function ColumnHeaderInputState({ children }) {
   const [focused, setFocused] = React.useState(null)
   return (
     <ColumnHeaderInputContext.Provider value={{ focused, setFocused }}>
@@ -644,7 +647,7 @@ export function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ title, dragHandleProps }) {
+function ColumnHeader({ id, title, dragHandleProps }) {
   const [value, setValue] = React.useState(title)
   const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
@@ -661,6 +664,7 @@ function ColumnHeader({ title, dragHandleProps }) {
         }
       }}
       {...dragHandleProps}
+      tabIndex="-1" // HACK: removed tabIndex="0" from dragHandleProps
     >
       <Input.TextArea
         className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
@@ -699,7 +703,7 @@ function ColumnHeader({ title, dragHandleProps }) {
         }}
       />
       <div className="absolute right-1 top-1">
-        <ExtrasButton />
+        <ColumnExtrasButton {...{ id }} />
       </div>
     </div>
   )
@@ -721,12 +725,23 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
             {...rest}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ title, dragHandleProps }} />
+            <ColumnHeader {...{ id, title, dragHandleProps }} />
             <ColumnItemList {...{ id, issuesOrder, issues, index }} />
           </div>
         )
       }}
     </Draggable>
+  )
+}
+
+function Columns() {
+  const { state, setState } = React.useContext(BoardContext)
+  return (
+    <FrontLabelsState>
+      {state.columnsOrder.map((id, index) => (
+        <Column key={id} column={state.columns[id]} issues={state.issues} {...{ index }} />
+      ))}
+    </FrontLabelsState>
   )
 }
 
@@ -737,7 +752,8 @@ function reorderList(list, startIndex, endIndex) {
   return result
 }
 
-function CustomDragDropContext({ state, setState, children }) {
+function CustomDragDropContext({ children }) {
+  const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const onBeforeDragStart = () => {
     if (focused) {
@@ -816,7 +832,6 @@ function CustomDragDropContext({ state, setState, children }) {
     _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
     _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
   }
-
   return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
 }
 
@@ -957,8 +972,187 @@ function Canvas({ isMenu, hasMenu, children }) {
   )
 }
 
-function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
-  const [state, setState] = React.useState({ columns, columnsOrder, selectedId: '' })
+const BoardContext = React.createContext({})
+
+export function BoardState({ children, columns, columnsOrder, issues }) {
+  const [state, setState] = React.useState({ columns, columnsOrder, issues, selectedId: '' })
+  React.useLayoutEffect(() => {
+    const element = document.getElementById('board-wrapper')
+    element.focus()
+  }, [])
+  // const onAddItem = (columnId) => () => {
+  //   let text = prompt('Please enter title')
+  //   const column = state.columns[columnId]
+  //   const items = column.items
+  //   const newState = {
+  //     ...state,
+  //     columns: {
+  //       ...state.columns,
+  //       [column.id]: {
+  //         ...column,
+  //         items: [{ id: nanoid(), text, columnId }, ...items],
+  //       },
+  //     },
+  //   }
+  //   setState(newState)
+  //   _listRefMap[column.id].current.resetAfterIndex(0)
+  // }
+  // const onDeleteItem = (columnId, itemId) => () => {
+  //   const column = state.columns[columnId]
+  //   const items = column.items
+  //   const index = items.findIndex((item) => item.id === itemId)
+  //   const newColumn = {
+  //     ...column,
+  //     items: [...column.items],
+  //   }
+  //   newColumn.items.splice(index, 1)
+  //   const newState = {
+  //     ...state,
+  //     columns: {
+  //       ...state.columns,
+  //       [columnId]: newColumn,
+  //     },
+  //   }
+  //   setState(newState)
+  //   _listRefMap[column.id].current.resetAfterIndex(index)
+  // }
+  const isSelectedId = (itemId) => itemId === state.selectedId
+  const setSelectedId = (selectedId) => {
+    const newState = { ...state, selectedId }
+    setState(newState)
+  }
+  const isArrowKeyPressed = React.useRef(false)
+  const selectFirstItem = (columnId) => {
+    const column = state.columns[columnId]
+    const listRef = _listRefMap[column.id]
+    const list = listRef.current
+    list.scrollTo(0)
+    const item = column.issuesOrder[0]
+    // setSelectedId(item.id)
+    setTimeout(() => {
+      const element = document.getElementById(`item-${item}`)
+      const listCard = element.childNodes[0]
+      listCard.focus()
+    })
+  }
+  const onKeyDown = (event) => {
+    if (event.code === 'Tab') {
+      isArrowKeyPressed.current = true
+      if (!event.shiftKey && event.target.dataset.nextTabIsList) {
+        const columnId = event.target.dataset.nextTabIsList
+        selectFirstItem(columnId)
+        event.preventDefault()
+      }
+      if (event.shiftKey && event.target.dataset.prevTabIsList) {
+        const columnId = event.target.dataset.prevTabIsList
+        selectFirstItem(columnId)
+        event.preventDefault()
+      }
+      return
+    }
+    // const cases = {
+    //   ArrowDown: () => {
+    //     console.log('ArrowDown')
+    //     isArrowKeyPressed.current = true
+    //     for (const column of Object.values(state.columns)) {
+    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
+    //       if (index !== -1) {
+    //         if (column.items.length === index + 1) {
+    //           const item = column.items[index]
+    //           // setSelectedId(item.id)
+    //           const element = document.getElementById(item.id)
+    //           element.focus()
+    //         } else {
+    //           const item = column.items[index + 1]
+    //           // setSelectedId(item.id)
+    //           const element = document.getElementById(item.id)
+    //           element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+    //           element.focus()
+    //         }
+    //         break
+    //       }
+    //     }
+    //   },
+    //   ArrowUp: () => {
+    //     isArrowKeyPressed.current = true
+    //     for (const column of Object.values(state.columns)) {
+    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
+    //       if (index !== -1) {
+    //         if (index === 0) {
+    //           const item = column.items[index]
+    //           const element = document.getElementById(item.id)
+    //           element.focus()
+    //         } else {
+    //           const item = column.items[index - 1]
+    //           // setSelectedId(item.id)
+    //           const element = document.getElementById(item.id)
+    //           element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+    //           element.focus()
+    //         }
+    //         break
+    //       }
+    //     }
+    //   },
+    //   ArrowLeft: () => {
+    //     isArrowKeyPressed.current = true
+    //     for (const column of Object.values(state.columns)) {
+    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
+    //       if (index !== -1) {
+    //         const columnOrderIndex = state.columnOrder.findIndex(
+    //           (columnId) => columnId === column.id,
+    //         )
+    //         if (columnOrderIndex > 0) {
+    //           const columnId = state.columnOrder[columnOrderIndex - 1]
+    //           selectFirstItem(columnId)
+    //         }
+    //         break
+    //       }
+    //     }
+    //   },
+    //   ArrowRight: () => {
+    //     isArrowKeyPressed.current = true
+    //     for (const column of Object.values(state.columns)) {
+    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
+    //       if (index !== -1) {
+    //         const columnOrderIndex = state.columnOrder.findIndex(
+    //           (columnId) => columnId === column.id,
+    //         )
+    //         if (columnOrderIndex + 1 !== state.columnOrder.length) {
+    //           const columnId = state.columnOrder[columnOrderIndex + 1]
+    //           selectFirstItem(columnId)
+    //         }
+    //         break
+    //       }
+    //     }
+    //   },
+    // }
+    // const onCase = cases[event.code]
+    // if (onCase) {
+    //   onCase()
+    //   if (state.selectedId === '') {
+    //     const columnId = state.columnOrder[0]
+    //     selectFirstItem(columnId)
+    //   }
+    //   event.preventDefault()
+    // }
+  }
+  const onKeyUp = () => {
+    isArrowKeyPressed.current = false
+  }
+  return (
+    <BoardContext.Provider value={{ state, setState }}>
+      <div
+        id="board-wrapper"
+        tabIndex="-1" // for fire onKeyDown after .focus()
+        {...{ onKeyDown, onKeyUp }}
+      >
+        {children}
+      </div>
+    </BoardContext.Provider>
+  )
+}
+
+function Board({ isMenu, hasMenu }) {
   return (
     <>
       <div
@@ -973,7 +1167,7 @@ function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
       />
       <Canvas {...{ isMenu, hasMenu }}>
         <ColumnHeaderInputState>
-          <CustomDragDropContext {...{ state, setState }}>
+          <CustomDragDropContext>
             <Droppable droppableId="all-droppables" direction="horizontal" type="column">
               {(provided) => (
                 <div
@@ -982,14 +1176,10 @@ function Board({ columns, columnsOrder, issues, isMenu, hasMenu }) {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  <FrontLabelsState>
-                    {state.columnsOrder.map((id, index) => (
-                      <Column key={id} column={state.columns[id]} {...{ issues, index }} />
-                    ))}
-                  </FrontLabelsState>
+                  <Columns />
                   {provided.placeholder}
                   {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
-                  <div style={{ width: hasMenu ? MENU_WIDTH : 0 }}></div>
+                  <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
                   {/* <Image
                     // TODO: обои
                     priority
