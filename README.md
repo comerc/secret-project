@@ -137,6 +137,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://egghead.io/lessons/react-create-reorderable-horizontal-lists-with-react-beautiful-dnd-direction-prop
   - https://egghead.io/lessons/react-optimize-performance-in-react-beautiful-dnd-with-shouldcomponentupdate-and-purecomponent
   - https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd
+- [x] dnd-kit
+  - https://codesandbox.io/s/dnd-kit-virtualized-variable-size-list-forked-uzhkc6?file=/src/App.tsx
 - [x] quill or prosemirror or slatejs or editorjs.io
   - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
   - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
