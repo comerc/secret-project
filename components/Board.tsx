@@ -223,9 +223,10 @@ function FrontLabels({ labels }) {
 
 function ListCard({ issue: { id, title, labels, members }, ...rest }) {
   // TODO: cover
+  // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
     <a
-      className="relative mx-2 my-1 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
+      className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
       {...rest}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
@@ -377,7 +378,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       ref={refSetter}
       {...{ onScroll, style }}
       className={cx(
-        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
+        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)] [&>:last-child]:mt-[-2px]',
         '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
       )}
     >
