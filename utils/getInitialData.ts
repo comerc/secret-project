@@ -64,7 +64,7 @@ function getInitialData({ members, actions }) {
   const columns = columnTitles
     .map((columnTitle) => {
       const columnId = nanoid(8)
-      const columnIssues = getIssues(40, columnId, { members, actions })
+      const columnIssues = getIssues(4, columnId, { members, actions })
       issues = { ...issues, ...columnIssues }
       return {
         id: columnId,

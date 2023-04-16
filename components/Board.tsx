@@ -27,13 +27,14 @@ import pluralize from '.../utils/pluralize'
 import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
+import getParentColumnId from '.../utils/getParentColumnId'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
 import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
 const _listRefMap = {}
 let _cloneSize = 0
 
-function ColumnFooter({ id, height }) {
+function ColumnFooter({ height }) {
   return (
     <div
       className="px-2 pb-2 pt-0.5"
@@ -42,7 +43,7 @@ function ColumnFooter({ id, height }) {
       }}
     >
       <Button
-        data-prev-tab-is-list={id}
+        data-tab-is-list="prev"
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
       >
@@ -224,7 +225,7 @@ function ListCard({ issue: { id, title, labels, members }, ...rest }) {
   // TODO: cover
   return (
     <a
-      className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
+      className="relative mx-2 my-1 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
       {...rest}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
@@ -363,31 +364,30 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
 }, areEqual)
 
 // Alter Case
-const withScrollbars = (id) =>
-  React.forwardRef(({ children, onScroll, style }, ref) => {
-    const refSetter = React.useCallback((scrollbarsRef) => {
-      if (scrollbarsRef) {
-        ref(scrollbarsRef.view)
-      } else {
-        ref(null)
-      }
-    }, [])
-    return (
-      <Scrollbars
-        ref={refSetter}
-        {...{ onScroll, style }}
-        className={cx(
-          'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
-          '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-        )}
-      >
-        {children}
-        <div className="sticky bottom-0 z-10 rounded-b-[3px]">
-          <ColumnFooter height={COLUMN_FOOTER_HEIGHT} {...{ id }} />
-        </div>
-      </Scrollbars>
-    )
-  })
+const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  const refSetter = React.useCallback((scrollbarsRef) => {
+    if (scrollbarsRef) {
+      ref(scrollbarsRef.view)
+    } else {
+      ref(null)
+    }
+  }, [])
+  return (
+    <Scrollbars
+      ref={refSetter}
+      {...{ onScroll, style }}
+      className={cx(
+        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)]',
+        '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+      )}
+    >
+      {children}
+      <div className="sticky bottom-0 z-10 rounded-b-[3px]">
+        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+      </div>
+    </Scrollbars>
+  )
+})
 
 // Base Case
 // const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
@@ -546,7 +546,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
                       itemSize={getItemSize}
                       width={width}
                       outerRef={provided.innerRef}
-                      outerElementType={withScrollbars(id)}
+                      outerElementType={withScrollbars}
                       itemData={itemData}
                       ref={listRef}
                       overscanCount={4}
@@ -583,7 +583,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
   )
 }
 
-function ColumnExtrasButton({ id }) {
+function ColumnExtrasButton() {
   const data = [
     { 'add-card': 'Добавить карточку…' },
     { 'copy-list': 'Копировать список…' },
@@ -628,7 +628,7 @@ function ColumnExtrasButton({ id }) {
       smallSize
     >
       <Button
-        data-next-tab-is-list={id}
+        data-tab-is-list="next"
         className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
         icon={<EllipsisOutlined />}
       />
@@ -647,7 +647,7 @@ function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ id, title, dragHandleProps }) {
+function ColumnHeader({ title, dragHandleProps }) {
   const [value, setValue] = React.useState(title)
   const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
@@ -703,7 +703,7 @@ function ColumnHeader({ id, title, dragHandleProps }) {
         }}
       />
       <div className="absolute right-1 top-1">
-        <ColumnExtrasButton {...{ id }} />
+        <ColumnExtrasButton />
       </div>
     </div>
   )
@@ -716,6 +716,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
         const { style, ...rest } = draggableProps
         return (
           <div
+            data-column-id={id}
             className="mr-2 flex flex-col"
             ref={innerRef}
             style={{
@@ -725,7 +726,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
             {...rest}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ id, title, dragHandleProps }} />
+            <ColumnHeader {...{ title, dragHandleProps }} />
             <ColumnItemList {...{ id, issuesOrder, issues, index }} />
           </div>
         )
@@ -1038,13 +1039,13 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   const onKeyDown = (event) => {
     if (event.code === 'Tab') {
       isArrowKeyPressed.current = true
-      if (!event.shiftKey && event.target.dataset.nextTabIsList) {
-        const columnId = event.target.dataset.nextTabIsList
+      if (!event.shiftKey && event.target.dataset.tabIsList === 'next') {
+        const columnId = getParentColumnId(event.target)
         selectFirstItem(columnId)
         event.preventDefault()
       }
-      if (event.shiftKey && event.target.dataset.prevTabIsList) {
-        const columnId = event.target.dataset.prevTabIsList
+      if (event.shiftKey && event.target.dataset.tabIsList === 'prev') {
+        const columnId = getParentColumnId(event.target)
         selectFirstItem(columnId)
         event.preventDefault()
       }
