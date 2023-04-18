@@ -1040,12 +1040,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   const onKeyDown = (event) => {
     if (event.code === 'Tab') {
       isArrowKeyPressed.current = true
-      if (!event.shiftKey && event.target.dataset.tabIsList === 'next') {
-        const columnId = getParentColumnId(event.target)
-        selectFirstItem(columnId)
-        event.preventDefault()
-      }
-      if (event.shiftKey && event.target.dataset.tabIsList === 'prev') {
+      const tabIsList = event.target.dataset.tabIsList
+      if ((tabIsList === 'prev' && event.shiftKey) || (tabIsList === 'next' && !event.shiftKey)) {
         const columnId = getParentColumnId(event.target)
         selectFirstItem(columnId)
         event.preventDefault()
