@@ -332,6 +332,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Monorepo
   - https://github.com/martpie/monorepo-typescript-next-the-sane-way
   - https://nx.dev/
+- [ ] TailwindCSS group
 
 ## Что нового (для меня) про вёрстку
 
