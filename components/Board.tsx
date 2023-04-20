@@ -18,7 +18,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList, areEqual } from 'react-window'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
-import { useUpdateEffect } from 'usehooks-ts'
+import { useUpdateEffect, useIsFirstRender } from 'usehooks-ts'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
 import cx from 'classnames'
@@ -226,7 +226,7 @@ function ListCard({ issue: { id, title, labels, members }, ...rest }) {
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
     <a
-      className="relative mx-2 my-1 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
+      className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
       {...rest}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
@@ -307,13 +307,16 @@ function ColumnItem({ provided, issue, style, isDragging }) {
     })
     // TODO: открывать модальный диалог по месту для лучшей анимации
   }
-  // const { onDeleteItem, isSelectedId, setSelectedId, isArrowKeyPressed } =
-  //   React.useContext(BoardContext)
+  const {
+    // onDeleteItem, isSelectedId,
+    state,
+    setState,
+    isArrowKeyPressed,
+  } = React.useContext(BoardContext)
   const itemId = isDragging ? '' : `item-${issue.id}`
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
   return (
     <div
-      id={itemId}
       ref={provided.innerRef}
       {...draggableProps}
       style={{ ...style, ...draggableStyle }}
@@ -327,24 +330,28 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       //     return
       //   }
       //   // const itemId = event.target.id
-      //   setSelectedId(itemId)
+      //   setState({ ...state, selectedId: itemId })
       // }}
       // onMouseLeave={(event) => {
       //   if (isArrowKeyPressed.current) {
       //     return
       //   }
-      //   setSelectedId('')
+      //   setState({ ...state, selectedId: '' })
       // }}
-      // onFocus={(event) => {
-      //   const attribute = event.target.attributes['data-rfd-draggable-id']
-      //   if (!attribute) {
-      //     return // for child controls
-      //   }
-      //   // const itemId = event.target.id
-      //   setSelectedId(itemId)
-      // }}
+      onFocus={(event) => {
+        const regex = /^item-\d+$/g
+        if (!regex.test(event.target.id)) {
+          return // for child controls
+        }
+        // const itemId = event.target.id
+        setState({ ...state, selectedId: itemId })
+        setTimeout(() => {
+          // HACK: после вызова перестаёт работать скролл на Tab по карточкам
+          event.target.scrollIntoView({ alignToTop: false, block: 'nearest' })
+        })
+      }}
     >
-      <ListCard {...{ issue, href, onClick, ...provided.dragHandleProps }} />
+      <ListCard {...{ id: itemId, issue, href, onClick, ...provided.dragHandleProps }} />
     </div>
   )
 }
@@ -373,40 +380,60 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       ref(null)
     }
   }, [])
+  const isFirst = useIsFirstRender()
+  if (isFirst) return // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
   return (
-    <Scrollbars
-      ref={refSetter}
-      {...{ onScroll, style }}
-      className={cx(
-        'overflow-hidden [&>:last-child]:mb-[var(--column-footer-height)] [&>:last-child]:mt-[-2px]',
-        '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-      )}
+    <div
+      className="relative"
+      style={{
+        height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
+        width: COLUMN_WIDTH,
+      }}
     >
-      {children}
-      <div className="sticky bottom-0 z-10 rounded-b-[3px]">
+      <Scrollbars
+        ref={refSetter}
+        {...{ onScroll, style }}
+        className={cx(
+          'overflow-hidden [&>:last-child]:mt-[-2px]',
+          '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+        )}
+      >
+        {children}
+      </Scrollbars>
+      <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
         <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
       </div>
-    </Scrollbars>
+    </div>
   )
 })
 
 // Base Case
-// const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-//   return (
-//     <div
-//       {...{ ref, style, onScroll }}
-//       className={cx(
-//         'disable-system-scrollbar',
-//         '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-//       )}
-//     >
-//       {children}
-//       <div className="sticky bottom-0 z-[1000] rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-//         <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-//       </div>
-//     </div>
-//   )
-// })
+const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  const isFirst = useIsFirstRender()
+  if (isFirst) return // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+  return (
+    <div
+      className="relative"
+      style={{
+        height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
+        width: COLUMN_WIDTH,
+      }}
+    >
+      <div
+        {...{ ref, style, onScroll }}
+        className={cx(
+          'disable-system-scrollbar',
+          '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+        )}
+      >
+        {children}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+      </div>
+    </div>
+  )
+})
 
 // BUG: скролирую вторую колонку до конца и перемещаю на место первой - не отрисовывает элементы (эффект наблюдается только в первый раз)
 // const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
@@ -541,8 +568,8 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
                       : issuesOrder.length
                   return (
                     <VariableSizeList
-                      useIsScrolling // TODO: для isScrolling
-                      height={height}
+                      // useIsScrolling // TODO: для isScrolling
+                      height={height - COLUMN_FOOTER_HEIGHT}
                       itemCount={itemCount}
                       itemSize={getItemSize}
                       width={width}
@@ -657,7 +684,7 @@ function ColumnHeader({ title, dragHandleProps }) {
   const isFilter = true // TODO: реализовать isFilter через Context
   return (
     <div
-      className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] pb-2.5 pl-2 pr-10 pt-1.5"
+      className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
       onClick={(event) => {
         event.preventDefault()
         if (isFocused) {
@@ -668,7 +695,10 @@ function ColumnHeader({ title, dragHandleProps }) {
       tabIndex="-1" // HACK: removed tabIndex="0" from dragHandleProps
     >
       <Input.TextArea
-        className="mb-[-4px] min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]"
+        className={cx(
+          isFilter && 'mb-[-4px]',
+          'min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]',
+        )}
         bordered={false}
         spellCheck={false}
         ref={inputRef}
@@ -839,6 +869,7 @@ function CustomDragDropContext({ children }) {
 
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
+  // TODO: при dnd перекрывает колонки (но не карточки) - хочется поменять на Scrollbars (react-custom-scrollbars-2)
   const [initialize, osInstance] = useOverlayScrollbars({
     options: {
       overflow: {
@@ -1018,23 +1049,24 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   //   setState(newState)
   //   _listRefMap[column.id].current.resetAfterIndex(index)
   // }
-  const isSelectedId = (itemId) => itemId === state.selectedId
-  const setSelectedId = (selectedId) => {
-    const newState = { ...state, selectedId }
-    setState(newState)
-  }
+  // const isSelectedId = (itemId) => itemId === state.selectedId
+  // @deprecated
+  // const setSelectedId = (selectedId) => {
+  //   const newState = { ...state, selectedId }
+  //   setState(newState)
+  // }
   const isArrowKeyPressed = React.useRef(false)
   const selectFirstItem = (columnId) => {
     const column = state.columns[columnId]
     const listRef = _listRefMap[column.id]
     const list = listRef.current
     list.scrollTo(0)
-    const item = column.issuesOrder[0]
-    // setSelectedId(item.id)
+    const id = column.issuesOrder[0]
+    const itemId = `item-${id}`
+    // setState({ ...state, selectedId: itemId })
     setTimeout(() => {
-      const element = document.getElementById(`item-${item}`)
-      const listCard = element.childNodes[0]
-      listCard.focus()
+      const element = document.getElementById(itemId)
+      element.focus()
     })
   }
   const onKeyDown = (event) => {
@@ -1048,97 +1080,102 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       }
       return
     }
-    // const cases = {
-    //   ArrowDown: () => {
-    //     console.log('ArrowDown')
-    //     isArrowKeyPressed.current = true
-    //     for (const column of Object.values(state.columns)) {
-    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
-    //       if (index !== -1) {
-    //         if (column.items.length === index + 1) {
-    //           const item = column.items[index]
-    //           // setSelectedId(item.id)
-    //           const element = document.getElementById(item.id)
-    //           element.focus()
-    //         } else {
-    //           const item = column.items[index + 1]
-    //           // setSelectedId(item.id)
-    //           const element = document.getElementById(item.id)
-    //           element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-    //           element.focus()
-    //         }
-    //         break
-    //       }
-    //     }
-    //   },
-    //   ArrowUp: () => {
-    //     isArrowKeyPressed.current = true
-    //     for (const column of Object.values(state.columns)) {
-    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
-    //       if (index !== -1) {
-    //         if (index === 0) {
-    //           const item = column.items[index]
-    //           const element = document.getElementById(item.id)
-    //           element.focus()
-    //         } else {
-    //           const item = column.items[index - 1]
-    //           // setSelectedId(item.id)
-    //           const element = document.getElementById(item.id)
-    //           element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-    //           element.focus()
-    //         }
-    //         break
-    //       }
-    //     }
-    //   },
-    //   ArrowLeft: () => {
-    //     isArrowKeyPressed.current = true
-    //     for (const column of Object.values(state.columns)) {
-    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
-    //       if (index !== -1) {
-    //         const columnOrderIndex = state.columnOrder.findIndex(
-    //           (columnId) => columnId === column.id,
-    //         )
-    //         if (columnOrderIndex > 0) {
-    //           const columnId = state.columnOrder[columnOrderIndex - 1]
-    //           selectFirstItem(columnId)
-    //         }
-    //         break
-    //       }
-    //     }
-    //   },
-    //   ArrowRight: () => {
-    //     isArrowKeyPressed.current = true
-    //     for (const column of Object.values(state.columns)) {
-    //       const index = column.items.findIndex((item) => item.id === state.selectedId)
-    //       if (index !== -1) {
-    //         const columnOrderIndex = state.columnOrder.findIndex(
-    //           (columnId) => columnId === column.id,
-    //         )
-    //         if (columnOrderIndex + 1 !== state.columnOrder.length) {
-    //           const columnId = state.columnOrder[columnOrderIndex + 1]
-    //           selectFirstItem(columnId)
-    //         }
-    //         break
-    //       }
-    //     }
-    //   },
-    // }
-    // const onCase = cases[event.code]
-    // if (onCase) {
-    //   onCase()
-    //   if (state.selectedId === '') {
-    //     const columnId = state.columnOrder[0]
-    //     selectFirstItem(columnId)
-    //   }
-    //   event.preventDefault()
-    // }
+    const cases = {
+      ArrowDown: () => {
+        isArrowKeyPressed.current = true
+        if (state.selectedId === '') {
+          return
+        }
+        for (const column of Object.values(state.columns)) {
+          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          if (index !== -1) {
+            if (column.issuesOrder.length === index + 1) {
+              const id = column.issuesOrder[index]
+              const itemId = `item-${id}`
+              // setState({ ...state, selectedId: itemId })
+              const element = document.getElementById(itemId)
+              element?.focus()
+            } else {
+              const id = column.issuesOrder[index + 1]
+              const itemId = `item-${id}`
+              // setState({ ...state, selectedId: itemId })
+              const element = document.getElementById(itemId)
+              // console.log('scrollIntoView')
+              element?.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              element?.focus()
+            }
+            break
+          }
+        }
+      },
+      // ArrowUp: () => {
+      //   isArrowKeyPressed.current = true
+      //   for (const column of Object.values(state.columns)) {
+      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
+      //     if (index !== -1) {
+      //       if (index === 0) {
+      //         const item = column.items[index]
+      //         const element = document.getElementById(item.id)
+      //         element?.focus()
+      //       } else {
+      //         const item = column.items[index - 1]
+      //         // setState({ ...state, selectedId: itemId })
+      //         const element = document.getElementById(item.id)
+      //         element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+      //         element?.focus()
+      //       }
+      //       break
+      //     }
+      //   }
+      // },
+      // ArrowLeft: () => {
+      //   isArrowKeyPressed.current = true
+      //   for (const column of Object.values(state.columns)) {
+      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
+      //     if (index !== -1) {
+      //       const columnsOrderIndex = state.columnsOrder.findIndex(
+      //         (columnId) => columnId === column.id,
+      //       )
+      //       if (columnsOrderIndex > 0) {
+      //         const columnId = state.columnsOrder[columnsOrderIndex - 1]
+      //         selectFirstItem(columnId)
+      //       }
+      //       break
+      //     }
+      //   }
+      // },
+      // ArrowRight: () => {
+      //   isArrowKeyPressed.current = true
+      //   for (const column of Object.values(state.columns)) {
+      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
+      //     if (index !== -1) {
+      //       const columnsOrderIndex = state.columnsOrder.findIndex(
+      //         (columnId) => columnId === column.id,
+      //       )
+      //       if (columnsOrderIndex + 1 !== state.columnsOrder.length) {
+      //         const columnId = state.columnsOrder[columnsOrderIndex + 1]
+      //         selectFirstItem(columnId)
+      //       }
+      //       break
+      //     }
+      //   }
+      // },
+    }
+    const onCase = cases[event.code]
+    if (onCase) {
+      onCase()
+      if (state.selectedId === '') {
+        const columnId = state.columnsOrder[0]
+        selectFirstItem(columnId)
+      }
+      event.preventDefault()
+    }
   }
   const onKeyUp = () => {
     isArrowKeyPressed.current = false
   }
   return (
-    <BoardContext.Provider value={{ state, setState }}>
+    <BoardContext.Provider value={{ state, setState, isArrowKeyPressed }}>
       <div
         id="board-wrapper"
         tabIndex="-1" // for fire onKeyDown after .focus()
