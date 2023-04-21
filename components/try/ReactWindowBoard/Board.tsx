@@ -139,7 +139,7 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
       className="a1"
       {...{ ref, style, onScroll }}
       className={cx(
-        // 'disable-system-scrollbar',
+        // 'hide-system-scrollbar',
         '[&>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
       )}
     >

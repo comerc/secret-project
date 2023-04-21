@@ -115,7 +115,7 @@ function Board() {
     initialize(ref.current)
   }, [initialize])
   return (
-    <div className="disable-system-scrollbar h-full overflow-y-hidden" {...{ ref }}>
+    <div className="hide-system-scrollbar h-full overflow-y-hidden" {...{ ref }}>
       <div
         className="mr-[var(--menu-width)] flex h-full bg-[pink] pb-7"
         style={{
@@ -138,7 +138,7 @@ function TryResizePage() {
     setIsExpandedHeaderHeight((isExpandedHeaderHeight) => !isExpandedHeaderHeight)
   }
   return (
-    <div id="content" className="fixed top-0 left-0 right-0 bottom-0 flex flex-col bg-[green]">
+    <div id="content" className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[green]">
       <div
         id="header"
         className={cx(

@@ -287,11 +287,11 @@ body::-webkit-scrollbar-track {
 } */
 
 /* как спрятать системный скролл */
-.disable-system-scrollbar {
+.hide-system-scrollbar {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 }
-.disable-system-scrollbar::-webkit-scrollbar {
+.hide-system-scrollbar::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
 

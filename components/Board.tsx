@@ -399,7 +399,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
         )}
         renderView={(props) => {
           // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола
-          return <div className="disable-system-scrollbar mx-0 my-0" {...props} />
+          return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
         }}
       >
         {children}
@@ -426,7 +426,7 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
       <div
         {...{ ref, style, onScroll }}
         className={cx(
-          'disable-system-scrollbar',
+          'hide-system-scrollbar',
           '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
         )}
       >
@@ -1010,7 +1010,7 @@ function Canvas({ isMenu, hasMenu, children }) {
       }}
       renderView={(props) => {
         // HACK: dnd колонки вправо не дотягивает скрол на размер системного скрола
-        return <div className="disable-system-scrollbar mx-0 my-0" {...props} />
+        return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
       }}
       renderTrackHorizontal={() => {
         return (
