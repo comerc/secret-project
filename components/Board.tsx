@@ -741,6 +741,9 @@ function ColumnHeader({ title, dragHandleProps }) {
 }
 
 function Column({ column: { id, title, issuesOrder }, issues, index }) {
+  const handleMouseDown = (event) => {
+    event.stopPropagation() // запрещает передавать событие для горизонтального скрола
+  }
   return (
     <Draggable draggableId={id} {...{ index }}>
       {({ innerRef, draggableProps, dragHandleProps }) => {
@@ -755,6 +758,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
               ...style,
             }}
             {...rest}
+            onMouseDown={handleMouseDown}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
             <ColumnHeader {...{ title, dragHandleProps }} />
@@ -869,29 +873,28 @@ function CustomDragDropContext({ children }) {
 
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
-  // TODO: при dnd перекрывает колонки (но не карточки) - хочется поменять на Scrollbars (react-custom-scrollbars-2)
-  const [initialize, osInstance] = useOverlayScrollbars({
-    options: {
-      overflow: {
-        x: isMenu === hasMenu ? 'scroll' : 'hidden',
-        y: 'hidden',
-      },
-      scrollbars: {
-        theme: cx('os-theme-light board', hasMenu && 'has-menu'),
-        visibility: 'auto',
-        autoHide: 'never',
-        autoHideDelay: 1300,
-        dragScroll: true,
-        clickScroll: true,
-        pointers: ['mouse', 'touch', 'pen'],
-      },
-    },
-    // events,
-    defer: true,
-  })
-  React.useEffect(() => {
-    initialize(ref.current)
-  }, [initialize])
+  // const [initialize, osInstance] = useOverlayScrollbars({
+  //   options: {
+  //     overflow: {
+  //       x: isMenu === hasMenu ? 'scroll' : 'hidden',
+  //       y: 'hidden',
+  //     },
+  //     scrollbars: {
+  //       theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+  //       visibility: 'auto',
+  //       autoHide: 'never',
+  //       autoHideDelay: 1300,
+  //       dragScroll: true,
+  //       clickScroll: true,
+  //       pointers: ['mouse', 'touch', 'pen'],
+  //     },
+  //   },
+  //   // events,
+  //   defer: true,
+  // })
+  // React.useEffect(() => {
+  //   initialize(ref.current)
+  // }, [initialize])
   // TODO: enable doNestedScroll
   // const isMenuRef = React.useRef()
   // React.useEffect(() => {
@@ -925,11 +928,13 @@ function Canvas({ isMenu, hasMenu, children }) {
     startScrollX: null,
   })
   const handleMouseDown = ({ target, clientX }) => {
-    if (['os-scrollbar-track', 'os-scrollbar-handle'].includes(target.className)) {
+    // if (['os-scrollbar-track', 'os-scrollbar-handle'].includes(target.className)) {
+    if (target === ref.current.trackHorizontal) {
       return
     }
-    const { viewport } = osInstance().elements()
-    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = viewport
+    // const { viewport } = osInstance().elements()
+    // const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
+    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
     if (scrollWidth > clientWidth) {
       positionRef.current = {
         startX: clientX,
@@ -947,16 +952,19 @@ function Canvas({ isMenu, hasMenu, children }) {
     const { startX, startScrollX } = positionRef.current
     if (startScrollX !== null) {
       const scrollX = startScrollX - clientX + startX
-      const { viewport } = osInstance().elements()
-      const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
+      // const { viewport } = osInstance().elements()
+      // const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
+      const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
       if (
         (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
         (scrollX < windowScrollX && windowScrollX > 0)
       ) {
-        viewport.scrollTo({ left: scrollX })
+        // viewport.scrollTo({ left: scrollX })
+        ref.current.scrollLeft(scrollX)
       }
       if (scrollX !== windowScrollX) {
-        const { scrollLeft: windowScrollX } = viewport
+        // const { scrollLeft: windowScrollX } = viewport
+        const windowScrollX = ref.current.getScrollLeft()
         positionRef.current = {
           startX: clientX + windowScrollX - startScrollX,
           startScrollX,
@@ -978,30 +986,45 @@ function Canvas({ isMenu, hasMenu, children }) {
     // timeoutIdRef.current = null
     // isActiveRef.current = false
   }
-  // TODO: enable positionRef
-  // React.useEffect(() => {
-  //   document.addEventListener('mousemove', handleMouseMove)
-  //   document.addEventListener('mouseup', handleMouseUp)
-  //   return () => {
-  //     document.addEventListener('mousemove', handleMouseMove)
-  //     document.removeEventListener('mouseup', handleMouseUp)
-  //   }
-  // }, [])
+  React.useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
+  const [hasScroll, setHasScroll] = React.useState(false)
   return (
-    <div
-      className="disable-system-scrollbar h-full overflow-y-hidden"
+    <Scrollbars
+      {...{ ref }}
+      onMouseDown={handleMouseDown}
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
-      // TODO: enable positionRef
-      // onMouseDown={handleMouseDown}
-      {...{ ref }}
+      renderTrackHorizontal={() => {
+        return (
+          <div
+            className={cx(
+              'absolute bottom-0 left-0 mx-[24px] mb-[8px] h-[12px] rounded-[4px] bg-[#00000026]',
+              hasScroll || 'invisible',
+              hasMenu ? 'right-[var(--menu-width)]' : 'right-0 ',
+            )}
+          />
+        )
+      }}
+      renderThumbHorizontal={() => {
+        return <div className="h-full rounded-[inherit] bg-[#ffffff66]" />
+      }}
+      onUpdate={({ scrollWidth, clientWidth }) => {
+        setHasScroll(scrollWidth - clientWidth > 1)
+      }}
     >
       <div className="flex h-full pb-7">
         <div className="flex flex-col">{children}</div>
       </div>
-    </div>
+    </Scrollbars>
   )
 }
 
