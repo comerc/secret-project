@@ -746,7 +746,10 @@ function ColumnHeader({ title, dragHandleProps }) {
 
 function Column({ column: { id, title, issuesOrder }, issues, index }) {
   const handleMouseDown = (event) => {
-    event.stopPropagation() // запрещает передавать событие для горизонтального скрола
+    if (event.target.parentElement.dataset.columnId) {
+      return
+    }
+    event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
   }
   return (
     <Draggable draggableId={id} {...{ index }}>
@@ -754,7 +757,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
         const { style, ...rest } = draggableProps
         return (
           <div
-            data-column-id={id}
+            data-column-id={id} // !! зависит handleMouseDown
             className="mr-2 flex flex-col"
             ref={innerRef}
             style={{
