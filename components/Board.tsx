@@ -397,6 +397,10 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
           'overflow-hidden [&>:last-child]:mt-[-2px]',
           '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
         )}
+        renderView={(props) => {
+          // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола
+          return <div className="disable-system-scrollbar mx-0 my-0" {...props} />
+        }}
       >
         {children}
       </Scrollbars>
@@ -997,11 +1001,16 @@ function Canvas({ isMenu, hasMenu, children }) {
   const [hasScroll, setHasScroll] = React.useState(false)
   return (
     <Scrollbars
+      // className="h-full overflow-y-hidden"
       {...{ ref }}
       onMouseDown={handleMouseDown}
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+      }}
+      renderView={(props) => {
+        // HACK: dnd колонки вправо не дотягивает скрол на размер системного скрола
+        return <div className="disable-system-scrollbar mx-0 my-0" {...props} />
       }}
       renderTrackHorizontal={() => {
         return (
