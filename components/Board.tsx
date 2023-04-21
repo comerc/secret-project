@@ -380,8 +380,8 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       ref(null)
     }
   }, [])
-  const isFirst = useIsFirstRender()
-  if (isFirst) return // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+  const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+  if (isFirst) return <div {...{ ref }} />
   return (
     <div
       className="relative"
@@ -409,8 +409,8 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
 
 // Base Case
 const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const isFirst = useIsFirstRender()
-  if (isFirst) return // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+  const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+  if (isFirst) return <div {...{ ref }} />
   return (
     <div
       className="relative"
