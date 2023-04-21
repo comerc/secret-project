@@ -533,6 +533,7 @@ function Board({ height, right }) {
           if (index !== -1) {
             if (index === 0) {
               const item = column.items[index]
+              // setSelectedId(item.id)
               const element = document.getElementById(item.id)
               element.focus()
             } else {

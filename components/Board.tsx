@@ -221,12 +221,18 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ issue: { id, title, labels, members }, ...rest }) {
+function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) {
   // TODO: cover
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
     <a
-      className="relative mx-2 mb-2 block rounded-[3px] bg-[var(--ds-surface-raised,#fff)] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]"
+      className={cx(
+        selected
+          ? 'bg-[var(--ds-surface-raised-hovered,#f4f5f7)]'
+          : 'bg-[var(--ds-surface-raised,#fff)]',
+        'relative mx-2 mb-2 block rounded-[3px] text-sm text-[var(--ds-text,inherit)] shadow hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]',
+        // TODO: без hover: видимая задержка при перемещении мышкой, но конфликт с selected при ArrowLeft/ArrowRight
+      )}
       {...rest}
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
@@ -311,10 +317,25 @@ function ColumnItem({ provided, issue, style, isDragging }) {
     // onDeleteItem, isSelectedId,
     state,
     setState,
+    dragType,
     isArrowKeyPressed,
   } = React.useContext(BoardContext)
-  const itemId = isDragging ? '' : `item-${issue.id}`
+  const itemId = isDragging ? 'item-clone' : `item-${issue.id}`
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
+  const onMouseEnter = (event) => {
+    if (isArrowKeyPressed.current || dragType.current !== '') {
+      return
+    }
+    // TODO: если мышка над карточкой, то selected стрелками ломается
+    // setState({ ...state, selectedId: itemId })
+  }
+  const onMouseLeave = (event) => {
+    if (isArrowKeyPressed.current || dragType.current !== '') {
+      return
+    }
+    // TODO: если мышка над карточкой, то selected стрелками ломается
+    // setState({ ...state, selectedId: '' })
+  }
   return (
     <div
       ref={provided.innerRef}
@@ -325,33 +346,25 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       //   [styles['is-dragging']]: isDragging,
       //   [styles['is-selected']]: !isDragging && isSelectedId(itemId,
       // })}
-      // onMouseEnter={(event) => {
-      //   if (isArrowKeyPressed.current) {
-      //     return
+      // @deprecated
+      // onFocus={(event) => {
+      //   const regex = /^item-\d+$/g
+      //   if (!regex.test(event.target.id)) {
+      //     return // for child controls
       //   }
-      //   // const itemId = event.target.id
+      //   const itemId = event.target.id
       //   setState({ ...state, selectedId: itemId })
+      //   setTimeout(() => {
+      //     // HACK: после вызова перестаёт работать скролл на Tab по карточкам
+      //     event.target.scrollIntoView({ alignToTop: false, block: 'nearest' })
+      //   })
       // }}
-      // onMouseLeave={(event) => {
-      //   if (isArrowKeyPressed.current) {
-      //     return
-      //   }
-      //   setState({ ...state, selectedId: '' })
-      // }}
-      onFocus={(event) => {
-        const regex = /^item-\d+$/g
-        if (!regex.test(event.target.id)) {
-          return // for child controls
-        }
-        // const itemId = event.target.id
-        setState({ ...state, selectedId: itemId })
-        setTimeout(() => {
-          // HACK: после вызова перестаёт работать скролл на Tab по карточкам
-          event.target.scrollIntoView({ alignToTop: false, block: 'nearest' })
-        })
-      }}
     >
-      <ListCard {...{ id: itemId, issue, href, onClick, ...provided.dragHandleProps }} />
+      <ListCard
+        id={itemId}
+        selected={state.selectedId === itemId}
+        {...{ issue, href, onClick, onMouseEnter, onMouseLeave, ...provided.dragHandleProps }}
+      />
     </div>
   )
 }
@@ -545,6 +558,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
               <Droppable
                 droppableId={id}
                 mode="virtual"
+                type="row"
                 renderClone={(provided, snapshot, rubric) => {
                   _cloneSize = getItemSize(rubric.source.index)
                   return (
@@ -650,6 +664,7 @@ function ColumnExtrasButton() {
       ),
     }
   })
+  // TODO: useOnClickOutside
   return (
     <CustomDropdown
       header="Действия со списком"
@@ -686,13 +701,16 @@ function ColumnHeader({ title, dragHandleProps }) {
   const isFocused = focused === inputRef.current
   const issuesCount = 98 // TODO: отображать реальное кол-во issues
   const isFilter = true // TODO: реализовать isFilter через Context
+  // TODO: Esc - закончить редактирование
+  // TODO: перехватывать arrow-keys при редактировании
   return (
     <div
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
       onClick={(event) => {
         event.preventDefault()
         if (isFocused) {
-          focused.blur()
+          const element = document.getElementById('board-wrapper')
+          element.focus()
         }
       }}
       {...dragHandleProps}
@@ -796,14 +814,19 @@ function reorderList(list, startIndex, endIndex) {
 }
 
 function CustomDragDropContext({ children }) {
-  const { state, setState } = React.useContext(BoardContext)
+  const { state, setState, dragType } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
-  const onBeforeDragStart = () => {
-    if (focused) {
-      focused.blur()
-    }
+  const onBeforeDragStart = (result) => {
+    setState({ ...state, selectedId: '' })
+    dragType.current = result.type
+    // if (focused) {
+    //   const element = document.getElementById('board-wrapper')
+    //   element.focus()
+    // }
+    // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
   const onDragEnd = (result) => {
+    dragType.current = ''
     if (!result.destination) {
       return
     }
@@ -1091,26 +1114,38 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   //   setState(newState)
   // }
   const isArrowKeyPressed = React.useRef(false)
-  const selectFirstItem = (columnId) => {
-    const column = state.columns[columnId]
-    const listRef = _listRefMap[column.id]
+  const focusFirstItem = (columnId) => {
+    const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
+    const column = state.columns[columnId]
     const id = column.issuesOrder[0]
     const itemId = `item-${id}`
-    // setState({ ...state, selectedId: itemId })
     setTimeout(() => {
       const element = document.getElementById(itemId)
       element.focus()
     })
   }
+  const selectFirstItem = (columnId) => {
+    const listRef = _listRefMap[columnId]
+    const list = listRef.current
+    list.scrollTo(0)
+    const column = state.columns[columnId]
+    const id = column.issuesOrder[0]
+    const itemId = `item-${id}`
+    setState({ ...state, selectedId: itemId })
+  }
   const onKeyDown = (event) => {
+    if (isArrowKeyPressed.current) {
+      // TODO: обрабатывать удерживаемую нажатой клавишу
+      return
+    }
     if (event.code === 'Tab') {
       isArrowKeyPressed.current = true
       const tabIsList = event.target.dataset.tabIsList
       if ((tabIsList === 'prev' && event.shiftKey) || (tabIsList === 'next' && !event.shiftKey)) {
         const columnId = getParentColumnId(event.target)
-        selectFirstItem(columnId)
+        focusFirstItem(columnId)
         event.preventDefault()
       }
       return
@@ -1119,6 +1154,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       ArrowDown: () => {
         isArrowKeyPressed.current = true
         if (state.selectedId === '') {
+          selectFirstItem(state.columnsOrder[0])
           return
         }
         for (const column of Object.values(state.columns)) {
@@ -1127,90 +1163,108 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
             if (column.issuesOrder.length === index + 1) {
               const id = column.issuesOrder[index]
               const itemId = `item-${id}`
-              // setState({ ...state, selectedId: itemId })
+              setState({ ...state, selectedId: itemId })
               const element = document.getElementById(itemId)
-              element?.focus()
+              if (element) {
+                element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              } else {
+                selectFirstItem(column.id)
+              }
             } else {
               const id = column.issuesOrder[index + 1]
               const itemId = `item-${id}`
-              // setState({ ...state, selectedId: itemId })
+              setState({ ...state, selectedId: itemId })
               const element = document.getElementById(itemId)
-              // console.log('scrollIntoView')
-              element?.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-              element?.focus()
+              if (element) {
+                element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              } else {
+                selectFirstItem(column.id)
+              }
             }
             break
           }
         }
       },
-      // ArrowUp: () => {
-      //   isArrowKeyPressed.current = true
-      //   for (const column of Object.values(state.columns)) {
-      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
-      //     if (index !== -1) {
-      //       if (index === 0) {
-      //         const item = column.items[index]
-      //         const element = document.getElementById(item.id)
-      //         element?.focus()
-      //       } else {
-      //         const item = column.items[index - 1]
-      //         // setState({ ...state, selectedId: itemId })
-      //         const element = document.getElementById(item.id)
-      //         element.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-      //         element?.focus()
-      //       }
-      //       break
-      //     }
-      //   }
-      // },
-      // ArrowLeft: () => {
-      //   isArrowKeyPressed.current = true
-      //   for (const column of Object.values(state.columns)) {
-      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
-      //     if (index !== -1) {
-      //       const columnsOrderIndex = state.columnsOrder.findIndex(
-      //         (columnId) => columnId === column.id,
-      //       )
-      //       if (columnsOrderIndex > 0) {
-      //         const columnId = state.columnsOrder[columnsOrderIndex - 1]
-      //         selectFirstItem(columnId)
-      //       }
-      //       break
-      //     }
-      //   }
-      // },
-      // ArrowRight: () => {
-      //   isArrowKeyPressed.current = true
-      //   for (const column of Object.values(state.columns)) {
-      //     const index = column.items.findIndex((item) => item.id === state.selectedId)
-      //     if (index !== -1) {
-      //       const columnsOrderIndex = state.columnsOrder.findIndex(
-      //         (columnId) => columnId === column.id,
-      //       )
-      //       if (columnsOrderIndex + 1 !== state.columnsOrder.length) {
-      //         const columnId = state.columnsOrder[columnsOrderIndex + 1]
-      //         selectFirstItem(columnId)
-      //       }
-      //       break
-      //     }
-      //   }
-      // },
+      ArrowUp: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          if (index !== -1) {
+            if (index === 0) {
+              const id = column.issuesOrder[index]
+              const itemId = `item-${id}`
+              setState({ ...state, selectedId: itemId })
+              const element = document.getElementById(itemId)
+              if (element) {
+                element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              } else {
+                selectFirstItem(column.id)
+              }
+            } else {
+              const id = column.issuesOrder[index - 1]
+              const itemId = `item-${id}`
+              setState({ ...state, selectedId: itemId })
+              const element = document.getElementById(itemId)
+              if (element) {
+                element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
+              } else {
+                selectFirstItem(column.id)
+              }
+            }
+            break
+          }
+        }
+      },
+      ArrowLeft: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          if (index !== -1) {
+            const columnsOrderIndex = state.columnsOrder.findIndex(
+              (columnId) => columnId === column.id,
+            )
+            if (columnsOrderIndex > 0) {
+              const columnId = state.columnsOrder[columnsOrderIndex - 1]
+              selectFirstItem(columnId)
+            }
+            break
+          }
+        }
+      },
+      ArrowRight: () => {
+        isArrowKeyPressed.current = true
+        for (const column of Object.values(state.columns)) {
+          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          if (index !== -1) {
+            const columnsOrderIndex = state.columnsOrder.findIndex(
+              (columnId) => columnId === column.id,
+            )
+            if (columnsOrderIndex + 1 !== state.columnsOrder.length) {
+              const columnId = state.columnsOrder[columnsOrderIndex + 1]
+              selectFirstItem(columnId)
+            }
+            break
+          }
+        }
+      },
     }
     const onCase = cases[event.code]
     if (onCase) {
       onCase()
-      if (state.selectedId === '') {
-        const columnId = state.columnsOrder[0]
-        selectFirstItem(columnId)
-      }
+      // if (state.selectedId === '') {
+      //   const columnId = state.columnsOrder[0]
+      //   selectFirstItem(columnId)
+      // }
+
       event.preventDefault()
     }
   }
   const onKeyUp = () => {
     isArrowKeyPressed.current = false
   }
+  const dragType = React.useRef('')
   return (
-    <BoardContext.Provider value={{ state, setState, isArrowKeyPressed }}>
+    <BoardContext.Provider value={{ state, setState, isArrowKeyPressed, dragType }}>
       <div
         id="board-wrapper"
         tabIndex="-1" // for fire onKeyDown after .focus()
