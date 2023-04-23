@@ -810,7 +810,7 @@ function CustomDragDropContext({ children }) {
     // #POC
     // if (event.type === 'row' && event.destination) {
     //   const columnId = event.destination.droppableId
-    //   const element = document.querySelector(`[data-column-id=${columnId}]`)
+    //   const element = document.querySelector(`[data-column-id="${columnId}"]`)
     //   element.scrollIntoView()
     // }
   }
@@ -1108,7 +1108,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
-    const element = document.querySelector(`[data-column-id=${columnId}]`)
+    const element = document.querySelector(`[data-column-id="${columnId}"]`)
     element.scrollIntoView()
     return true
   }
@@ -1116,6 +1116,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollToItem(index)
+    const element = document.querySelector(`[data-column-id="${columnId}"]`)
+    element.scrollIntoView()
   }
   const selectNextColumn = (columnsOrder) => {
     for (const columnId of columnsOrder) {
@@ -1134,10 +1136,10 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       }
     }
   }
-  const isArrowKeyPressed = React.useRef(false)
   const onKeyDown = (event) => {
-    if (isArrowKeyPressed.current) {
+    if (event.repeat) {
       // TODO: обрабатывать удерживаемую нажатой клавишу стрелки
+      event.preventDefault()
       return
     }
     setIsMouseFirst(false)
@@ -1153,7 +1155,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     }
     const cases = {
       ArrowDown: () => {
-        isArrowKeyPressed.current = true
         for (const column of Object.values(state.columns)) {
           const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
           if (index !== -1) {
@@ -1170,7 +1171,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
         }
       },
       ArrowUp: () => {
-        isArrowKeyPressed.current = true
         for (const column of Object.values(state.columns)) {
           const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
           if (index !== -1) {
@@ -1187,11 +1187,9 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
         }
       },
       ArrowLeft: () => {
-        isArrowKeyPressed.current = true
         selectNextColumn([...state.columnsOrder].reverse())
       },
       ArrowRight: () => {
-        isArrowKeyPressed.current = true
         selectNextColumn(state.columnsOrder)
       },
     }
@@ -1209,9 +1207,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       event.preventDefault()
     }
   }
-  const onKeyUp = () => {
-    isArrowKeyPressed.current = false
-  }
   return (
     <BoardContext.Provider
       value={{
@@ -1225,7 +1220,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
         id="board-wrapper"
         className={cx(isMouseFirst && 'is-mouse-first')}
         tabIndex="-1" // for fire onKeyDown after .focus()
-        {...{ onKeyDown, onKeyUp, onMouseMove }}
+        {...{ onKeyDown, onMouseMove }}
       >
         {children}
       </div>
