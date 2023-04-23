@@ -377,7 +377,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
   if (isFirst) return <div {...{ ref }} />
   return (
     <div
-      className="relative"
+      className="relative overflow-hidden"
       style={{
         height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
         width: COLUMN_WIDTH,
@@ -528,9 +528,20 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
     listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
   const version = 'V2'
+  const ref = React.useRef()
+  const handleMouseDown = (event) => {
+    if (event.target === ref.current) {
+      return
+    }
+    event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
+  }
   return (
     // HACK: overflow-hidden прячет мигание увеличенной высоты колонки
-    <div className="h-full overflow-hidden rounded-b-[3px]">
+    <div
+      className="h-full overflow-hidden rounded-b-[3px]"
+      onMouseDown={handleMouseDown}
+      {...{ ref }}
+    >
       {version === 'V2' && (
         <AutoSizer>
           {({ height, width }) => {
@@ -683,9 +694,14 @@ function ColumnHeader({ title, dragHandleProps }) {
   const isFilter = true // TODO: реализовать isFilter через Context
   // TODO: Esc - закончить редактирование
   // TODO: перехватывать arrow-keys при редактировании
+  // TODO: если инициировать фокус на редактирование а потом потащить заголовок, то не сбрасывается фокус редактирования
   return (
     <div
+      data-column-header="yes"
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
+      onMouseDown={(event) => {
+        event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
+      }}
       onClick={(event) => {
         event.preventDefault()
         if (isFocused) {
@@ -741,19 +757,13 @@ function ColumnHeader({ title, dragHandleProps }) {
 }
 
 function Column({ column: { id, title, issuesOrder }, issues, index }) {
-  const handleMouseDown = (event) => {
-    if (event.target.parentElement.dataset.columnId) {
-      return
-    }
-    event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
-  }
   return (
     <Draggable draggableId={id} {...{ index }}>
       {({ innerRef, draggableProps, dragHandleProps }) => {
         const { style, ...rest } = draggableProps
         return (
           <div
-            data-column-id={id} // !! зависит handleMouseDown
+            data-column-id={id}
             className="mr-2 flex flex-col"
             ref={innerRef}
             style={{
@@ -761,7 +771,6 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
               ...style,
             }}
             {...rest}
-            onMouseDown={handleMouseDown}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
             <ColumnHeader {...{ title, dragHandleProps }} />
@@ -796,6 +805,14 @@ function CustomDragDropContext({ children }) {
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const onBeforeDragStart = (result) => {
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
+  }
+  const onDragUpdate = (event) => {
+    // #POC
+    // if (event.type === 'row' && event.destination) {
+    //   const columnId = event.destination.droppableId
+    //   const element = document.querySelector(`[data-column-id=${columnId}]`)
+    //   element.scrollIntoView()
+    // }
   }
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -868,7 +885,11 @@ function CustomDragDropContext({ children }) {
     _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
     _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
   }
-  return <DragDropContext {...{ onBeforeDragStart, onDragEnd }}>{children}</DragDropContext>
+  return (
+    <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
+      {children}
+    </DragDropContext>
+  )
 }
 
 function Canvas({ isMenu, hasMenu, children }) {
@@ -1087,6 +1108,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
+    const element = document.querySelector(`[data-column-id=${columnId}]`)
+    element.scrollIntoView()
     return true
   }
   const scrollToItem = (columnId, index) => {
