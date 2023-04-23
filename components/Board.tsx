@@ -227,11 +227,11 @@ function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) 
   return (
     <a
       className={cx(
+        'list-card',
         selected
           ? 'bg-[var(--ds-surface-raised-hovered,#f4f5f7)]'
           : 'bg-[var(--ds-surface-raised,#fff)]',
-        'relative mx-2 mb-2 block rounded-[3px] text-sm text-[var(--ds-text,inherit)] shadow', // hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)]
-        // TODO: без hover: видимая задержка при перемещении мышкой, но конфликт с selected при ArrowLeft/ArrowRight
+        'relative mx-2 mb-2 block rounded-[3px] text-sm text-[var(--ds-text,inherit)] shadow',
       )}
       {...rest}
     >
@@ -242,17 +242,17 @@ function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) 
         <Members {...{ members }} />
       </div>
       {/* <Button
-              // TODO: добавить редактирование карточки на месте
-              icon={<EditOutlined />}
-              size="small"
-              className="absolute right-0.5 top-0.5 rounded-[3px] border-0 bg-[var(--ds-surface-raised-hovered,#f4f5f7)]
-              opacity-80 shadow-none
-              "
-              onClick={(event) => {
-                event.preventDefault()
-                event.stopPropagation()
-              }}
-            /> */}
+        // TODO: добавить редактирование карточки на месте
+        icon={<EditOutlined />}
+        size="small"
+        className="absolute right-0.5 top-0.5 rounded-[3px] border-0 bg-[var(--ds-surface-raised-hovered,#f4f5f7)]
+        opacity-80 shadow-none
+        "
+        onClick={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+        }}
+      /> */}
     </a>
   )
 }
@@ -314,55 +314,25 @@ function ColumnItem({ provided, issue, style, isDragging }) {
     // TODO: открывать модальный диалог по месту для лучшей анимации
   }
   const {
-    // onDeleteItem, isSelectedId,
+    // onDeleteItem,
     state,
     setState,
-    // selectedId,
-    dragType,
-    isArrowKeyPressed,
+    isMouseFirst,
   } = React.useContext(BoardContext)
   const itemId = isDragging ? 'item-clone' : `item-${issue.id}`
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
-  const onMouseEnter = (event) => {
-    if (isArrowKeyPressed.current || dragType.current !== '') {
-      return
+  const onMouseMove = (event) => {
+    if (isMouseFirst) {
+      setState({ ...state, selectedId: itemId })
     }
-    console.log('onMouseEnter', itemId)
-    // TODO: если мышка над карточкой, то selected стрелками ломается
-    setState({ ...state, selectedId: itemId })
   }
   const onMouseLeave = (event) => {
-    if (isArrowKeyPressed.current || dragType.current !== '') {
-      return
+    if (isMouseFirst) {
+      setState({ ...state, selectedId: '' })
     }
-    console.log('onMouseLeave', itemId)
-    // TODO: если мышка над карточкой, то selected стрелками ломается
-    setState({ ...state, selectedId: '' })
   }
   return (
-    <div
-      ref={provided.innerRef}
-      {...draggableProps}
-      style={{ ...style, ...draggableStyle }}
-      // className={cx({
-      //   styles.item,
-      //   [styles['is-dragging']]: isDragging,
-      //   [styles['is-selected']]: !isDragging && isSelectedId(itemId,
-      // })}
-      // @deprecated
-      // onFocus={(event) => {
-      //   const regex = /^item-\d+$/g
-      //   if (!regex.test(event.target.id)) {
-      //     return // for child controls
-      //   }
-      //   const itemId = event.target.id
-      //   setState({ ...state, selectedId: itemId })
-      //   setTimeout(() => {
-      //     // HACK: после вызова перестаёт работать скролл на Tab по карточкам
-      //     event.target.scrollIntoView({ alignToTop: false, block: 'nearest' })
-      //   })
-      // }}
-    >
+    <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
       <ListCard
         id={itemId}
         selected={state.selectedId === itemId}
@@ -370,7 +340,7 @@ function ColumnItem({ provided, issue, style, isDragging }) {
           issue,
           href,
           onClick,
-          onMouseEnter,
+          onMouseMove,
           onMouseLeave,
           ...provided.dragHandleProps,
         }}
@@ -421,7 +391,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
           '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
         )}
         renderView={(props) => {
-          // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола
+          // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола из-за отрицательного margin
           return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
         }}
       >
@@ -743,11 +713,9 @@ function ColumnHeader({ title, dragHandleProps }) {
         }}
         onBlur={() => {
           setFocused(null)
-          // setIsFocused(false)
         }}
         onFocus={() => {
           setFocused(inputRef.current)
-          // setIsFocused(true)
         }}
       />
       {isFilter && (
@@ -824,19 +792,12 @@ function reorderList(list, startIndex, endIndex) {
 }
 
 function CustomDragDropContext({ children }) {
-  const { state, setState, dragType } = React.useContext(BoardContext)
+  const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const onBeforeDragStart = (result) => {
-    setState({ ...state, selectedId: '' })
-    dragType.current = result.type
-    // if (focused) {
-    //   const element = document.getElementById('board-wrapper')
-    //   element.focus()
-    // }
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
   const onDragEnd = (result) => {
-    dragType.current = ''
     if (!result.destination) {
       return
     }
@@ -912,28 +873,6 @@ function CustomDragDropContext({ children }) {
 
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
-  // const [initialize, osInstance] = useOverlayScrollbars({
-  //   options: {
-  //     overflow: {
-  //       x: isMenu === hasMenu ? 'scroll' : 'hidden',
-  //       y: 'hidden',
-  //     },
-  //     scrollbars: {
-  //       theme: cx('os-theme-light board', hasMenu && 'has-menu'),
-  //       visibility: 'auto',
-  //       autoHide: 'never',
-  //       autoHideDelay: 1300,
-  //       dragScroll: true,
-  //       clickScroll: true,
-  //       pointers: ['mouse', 'touch', 'pen'],
-  //     },
-  //   },
-  //   // events,
-  //   defer: true,
-  // })
-  // React.useEffect(() => {
-  //   initialize(ref.current)
-  // }, [initialize])
   // TODO: enable doNestedScroll
   // const isMenuRef = React.useRef()
   // React.useEffect(() => {
@@ -949,14 +888,14 @@ function Canvas({ isMenu, hasMenu, children }) {
   //   const INDENT = 150 // TODO: половина размера карточки
   //   const TIMEOUT = 16
   //   const SCROLL = 4
-  //   const { viewport } = osInstance().elements()
-  //   if (clientXRef.current > viewport.clientWidth - INDENT - (isMenuRef.current ? MENU_WIDTH : 0)) {
-  //     viewport.scrollTo({ left: viewport.scrollLeft + SCROLL })
+  //   const { scrollLeft: windowScrollX, clientWidth } = ref.current.getValues()
+  //   if (clientXRef.current > clientWidth - INDENT - (isMenuRef.current ? MENU_WIDTH : 0)) {
+  //     ref.current.scrollLeft(windowScrollX + SCROLL)
   //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
   //     return
   //   }
   //   if (clientXRef.current < INDENT) {
-  //     viewport.scrollTo({ left: viewport.scrollLeft - SCROLL })
+  //     ref.current.scrollLeft(windowScrollX - SCROLL)
   //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
   //     return
   //   }
@@ -967,12 +906,9 @@ function Canvas({ isMenu, hasMenu, children }) {
     startScrollX: null,
   })
   const handleMouseDown = ({ target, clientX }) => {
-    // if (['os-scrollbar-track', 'os-scrollbar-handle'].includes(target.className)) {
     if (target === ref.current.trackHorizontal) {
       return
     }
-    // const { viewport } = osInstance().elements()
-    // const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
     const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
     if (scrollWidth > clientWidth) {
       positionRef.current = {
@@ -991,19 +927,15 @@ function Canvas({ isMenu, hasMenu, children }) {
     const { startX, startScrollX } = positionRef.current
     if (startScrollX !== null) {
       const scrollX = startScrollX - clientX + startX
-      // const { viewport } = osInstance().elements()
-      // const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
       const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
       if (
         (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
         (scrollX < windowScrollX && windowScrollX > 0)
       ) {
-        // viewport.scrollTo({ left: scrollX })
         ref.current.scrollLeft(scrollX)
       }
       if (scrollX !== windowScrollX) {
-        // const { scrollLeft: windowScrollX } = viewport
-        const windowScrollX = ref.current.getScrollLeft()
+        const { scrollLeft: windowScrollX } = ref.current.getValues()
         positionRef.current = {
           startX: clientX + windowScrollX - startScrollX,
           startScrollX,
@@ -1036,7 +968,6 @@ function Canvas({ isMenu, hasMenu, children }) {
   const [hasScroll, setHasScroll] = React.useState(false)
   return (
     <Scrollbars
-      // className="h-full overflow-y-hidden"
       {...{ ref }}
       onMouseDown={handleMouseDown}
       style={{
@@ -1044,7 +975,7 @@ function Canvas({ isMenu, hasMenu, children }) {
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
       renderView={(props) => {
-        // HACK: dnd колонки вправо не дотягивает скрол на размер системного скрола
+        // HACK: dnd колонки вправо не дотягивает скрол на размер системного скрола из-за отрицательного margin
         return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
       }}
       renderTrackHorizontal={() => {
@@ -1075,8 +1006,12 @@ function Canvas({ isMenu, hasMenu, children }) {
 const BoardContext = React.createContext({})
 
 export function BoardState({ children, columns, columnsOrder, issues }) {
-  const [state, setState] = React.useState({ columns, columnsOrder, issues, selectedId: '' })
-  // const selectedId = React.useRef('')
+  const [state, setState] = React.useState({
+    columns,
+    columnsOrder,
+    issues,
+    selectedId: '',
+  })
   React.useLayoutEffect(() => {
     const element = document.getElementById('board-wrapper')
     element.focus()
@@ -1123,80 +1058,89 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   //   const newState = { ...state, selectedId }
   //   setState(newState)
   // }
-  const isArrowKeyPressed = React.useRef(false)
+  const [isMouseFirst, setIsMouseFirst] = React.useState(false)
+  const onMouseMove = () => {
+    setIsMouseFirst(true)
+  }
   const focusFirstItem = (columnId) => {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
     const column = state.columns[columnId]
-    // TODO: если в колонке нет карточек, то переходить к следующей колонке
+    if (column.issuesOrder.length === 0) {
+      return false
+    }
     const id = column.issuesOrder[0]
     const itemId = `item-${id}`
     const element = document.getElementById(itemId)
     element.focus()
+    return true
   }
   const selectFirstItem = (columnId) => {
     const column = state.columns[columnId]
-    // TODO: если в колонке нет карточек, то переходить к следующей колонке
+    if (column.issuesOrder.length === 0) {
+      return false
+    }
     const id = column.issuesOrder[0]
     const itemId = `item-${id}`
     setState({ ...state, selectedId: itemId })
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
+    return true
   }
   const scrollToItem = (columnId, index) => {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollToItem(index)
   }
+  const selectNextColumn = (columnsOrder) => {
+    for (const columnId of columnsOrder) {
+      const column = state.columns[columnId]
+      const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+      if (index !== -1) {
+        const columnsOrderIndex = columnsOrder.findIndex((columnId) => columnId === column.id)
+        if (columnsOrderIndex + 1 !== columnsOrder.length) {
+          for (const columnId of columnsOrder.slice(columnsOrderIndex + 1)) {
+            if (selectFirstItem(columnId)) {
+              break
+            }
+          }
+        }
+        break
+      }
+    }
+  }
+  const isArrowKeyPressed = React.useRef(false)
   const onKeyDown = (event) => {
     if (isArrowKeyPressed.current) {
       // TODO: обрабатывать удерживаемую нажатой клавишу стрелки
       return
     }
+    setIsMouseFirst(false)
     if (event.code === 'Tab') {
-      isArrowKeyPressed.current = true
       const tabIsList = event.target.dataset.tabIsList
       if ((tabIsList === 'prev' && event.shiftKey) || (tabIsList === 'next' && !event.shiftKey)) {
         const columnId = getParentColumnId(event.target)
-        focusFirstItem(columnId)
-        event.preventDefault()
+        if (focusFirstItem(columnId)) {
+          event.preventDefault()
+        }
       }
       return
     }
     const cases = {
       ArrowDown: () => {
         isArrowKeyPressed.current = true
-        if (state.selectedId === '') {
-          selectFirstItem(state.columnsOrder[0])
-          return
-        }
         for (const column of Object.values(state.columns)) {
           const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
           if (index !== -1) {
             if (column.issuesOrder.length === index + 1) {
-              // const id = column.issuesOrder[index]
-              // const itemId = `item-${id}`
-              // setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index)
-              // const element = document.getElementById(itemId)
-              // if (element) {
-              //   element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-              // } else {
-              //   selectFirstItem(column.id)
-              // }
             } else {
               const id = column.issuesOrder[index + 1]
               const itemId = `item-${id}`
               setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index + 1)
-              // const element = document.getElementById(itemId)
-              // if (element) {
-              //   element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-              // } else {
-              //   selectFirstItem(column.id)
-              // }
             }
             break
           }
@@ -1208,27 +1152,12 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
           const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
           if (index !== -1) {
             if (index === 0) {
-              // const id = column.issuesOrder[index]
-              // const itemId = `item-${id}`
-              // setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index)
-              // const element = document.getElementById(itemId)
-              // if (element) {
-              //   element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-              // } else {
-              //   selectFirstItem(column.id)
-              // }
             } else {
               const id = column.issuesOrder[index - 1]
               const itemId = `item-${id}`
               setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index - 1)
-              // const element = document.getElementById(itemId)
-              // if (element) {
-              //   element.parentElement.scrollIntoView({ alignToTop: false, block: 'nearest' }) // TODO: портит курсор
-              // } else {
-              //   selectFirstItem(column.id)
-              // }
             }
             break
           }
@@ -1236,45 +1165,23 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       },
       ArrowLeft: () => {
         isArrowKeyPressed.current = true
-        for (const column of Object.values(state.columns)) {
-          // TODO: если в колонке нет карточек, то переходить к следующей колонке
-          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
-          if (index !== -1) {
-            const columnsOrderIndex = state.columnsOrder.findIndex(
-              (columnId) => columnId === column.id,
-            )
-            if (columnsOrderIndex > 0) {
-              const columnId = state.columnsOrder[columnsOrderIndex - 1]
-              selectFirstItem(columnId)
-            }
-            break
-          }
-        }
+        selectNextColumn([...state.columnsOrder].reverse())
       },
       ArrowRight: () => {
         isArrowKeyPressed.current = true
-        for (const column of Object.values(state.columns)) {
-          // TODO: если в колонке нет карточек, то переходить к предыдущей колонке
-          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
-          if (index !== -1) {
-            const columnsOrderIndex = state.columnsOrder.findIndex(
-              (columnId) => columnId === column.id,
-            )
-            if (columnsOrderIndex + 1 !== state.columnsOrder.length) {
-              const columnId = state.columnsOrder[columnsOrderIndex + 1]
-              selectFirstItem(columnId)
-            }
-            break
-          }
-        }
+        selectNextColumn(state.columnsOrder)
       },
     }
     const onCase = cases[event.code]
     if (onCase) {
-      onCase()
       if (state.selectedId === '') {
-        const columnId = state.columnsOrder[0]
-        selectFirstItem(columnId)
+        for (const columnId of state.columnsOrder) {
+          if (selectFirstItem(columnId)) {
+            break
+          }
+        }
+      } else {
+        onCase()
       }
       event.preventDefault()
     }
@@ -1282,21 +1189,20 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   const onKeyUp = () => {
     isArrowKeyPressed.current = false
   }
-  const dragType = React.useRef('')
   return (
     <BoardContext.Provider
       value={{
         state,
         setState,
         // selectedId,
-        isArrowKeyPressed,
-        dragType,
+        isMouseFirst,
       }}
     >
       <div
         id="board-wrapper"
+        className={cx(isMouseFirst && 'is-mouse-first')}
         tabIndex="-1" // for fire onKeyDown after .focus()
-        {...{ onKeyDown, onKeyUp }}
+        {...{ onKeyDown, onKeyUp, onMouseMove }}
       >
         {children}
       </div>
