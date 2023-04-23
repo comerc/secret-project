@@ -733,6 +733,9 @@ function ColumnHeader({ title, dragHandleProps }) {
         onFocus={() => {
           setFocused(inputRef.current)
         }}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+        }}
       />
       {isFilter && (
         <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
@@ -1137,11 +1140,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     }
   }
   const onKeyDown = (event) => {
-    if (event.repeat) {
-      // TODO: обрабатывать удерживаемую нажатой клавишу стрелки
-      event.preventDefault()
-      return
-    }
     setIsMouseFirst(false)
     if (event.code === 'Tab') {
       const tabIsList = event.target.dataset.tabIsList

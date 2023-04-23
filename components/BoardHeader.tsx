@@ -456,6 +456,9 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
             width: textRef.current.offsetWidth,
           })
         }}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+        }}
       />
     </div>
   )
