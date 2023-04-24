@@ -384,6 +384,8 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       }}
     >
       <Scrollbars
+        // TODO: колёсико мышки не работает при позиционировании мышки над скролами
+        // onWheel={(event) => console.log(event)}
         ref={refSetter}
         {...{ onScroll, style }}
         className={cx(
@@ -697,7 +699,6 @@ function ColumnHeader({ title, dragHandleProps }) {
   // TODO: если инициировать фокус на редактирование а потом потащить заголовок, то не сбрасывается фокус редактирования
   return (
     <div
-      data-column-header="yes"
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
       onMouseDown={(event) => {
         event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
@@ -1036,6 +1037,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     issues,
     selectedId: '',
   })
+  // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
   React.useLayoutEffect(() => {
     const element = document.getElementById('board-wrapper')
     element.focus()
@@ -1075,12 +1077,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   //   }
   //   setState(newState)
   //   _listRefMap[column.id].current.resetAfterIndex(index)
-  // }
-  // const isSelectedId = (itemId) => itemId === state.selectedId
-  // @deprecated
-  // const setSelectedId = (selectedId) => {
-  //   const newState = { ...state, selectedId }
-  //   setState(newState)
   // }
   const [isMouseFirst, setIsMouseFirst] = React.useState(false)
   const onMouseMove = () => {
@@ -1210,7 +1206,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       value={{
         state,
         setState,
-        // selectedId,
         isMouseFirst,
       }}
     >
