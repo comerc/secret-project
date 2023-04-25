@@ -884,6 +884,29 @@ function CustomDragDropContext({ children }) {
 
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
+  // TODO: при dnd перекрывает колонки (но не карточки) - как исправить?
+  const [initialize, osInstance] = useOverlayScrollbars({
+    options: {
+      overflow: {
+        x: isMenu === hasMenu ? 'scroll' : 'hidden',
+        y: 'hidden',
+      },
+      scrollbars: {
+        theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+        visibility: 'auto',
+        autoHide: 'never',
+        // autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: true,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    },
+    // events,
+    defer: true,
+  })
+  React.useEffect(() => {
+    initialize(ref.current)
+  }, [initialize])
   // TODO: enable doNestedScroll
   // const isMenuRef = React.useRef()
   // React.useEffect(() => {
@@ -917,13 +940,11 @@ function Canvas({ isMenu, hasMenu, children }) {
     startScrollX: null,
   })
   const handleMouseDown = ({ target, clientX }) => {
-    if (
-      target === ref.current.trackHorizontal ||
-      (target.id !== 'board' && target.dataset.element !== 'column-item-list')
-    ) {
+    if (target.id !== 'board' && target.dataset.element !== 'column-item-list') {
       return
     }
-    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
+    const { viewport } = osInstance().elements()
+    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = viewport
     if (scrollWidth > clientWidth) {
       positionRef.current = {
         startX: clientX,
@@ -941,15 +962,16 @@ function Canvas({ isMenu, hasMenu, children }) {
     const { startX, startScrollX } = positionRef.current
     if (startScrollX !== null) {
       const scrollX = startScrollX - clientX + startX
-      const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
+      const { viewport } = osInstance().elements()
+      const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
       if (
         (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
         (scrollX < windowScrollX && windowScrollX > 0)
       ) {
-        ref.current.scrollLeft(scrollX)
+        viewport.scrollTo({ left: scrollX })
       }
       if (scrollX !== windowScrollX) {
-        const { scrollLeft: windowScrollX } = ref.current.getValues()
+        const { scrollLeft: windowScrollX } = viewport
         positionRef.current = {
           startX: clientX + windowScrollX - startScrollX,
           startScrollX,
@@ -979,41 +1001,20 @@ function Canvas({ isMenu, hasMenu, children }) {
       document.removeEventListener('mouseup', handleMouseUp)
     }
   }, [])
-  const [hasScroll, setHasScroll] = React.useState(false)
   return (
-    <Scrollbars
-      {...{ ref }}
-      onMouseDown={handleMouseDown}
+    <div
+      className="hide-system-scrollbar h-full overflow-y-hidden"
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
-      renderView={(props) => {
-        // HACK: dnd колонки вправо не дотягивает скрол на размер системного скрола из-за отрицательного margin
-        return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
-      }}
-      renderTrackHorizontal={() => {
-        return (
-          <div
-            className={cx(
-              'absolute bottom-0 left-0 mx-[24px] mb-[8px] h-[12px] rounded-[4px] bg-[#00000026]',
-              hasScroll || 'invisible',
-              hasMenu ? 'right-[var(--menu-width)]' : 'right-0 ',
-            )}
-          />
-        )
-      }}
-      renderThumbHorizontal={() => {
-        return <div className="h-full rounded-[inherit] bg-[#ffffff66]" />
-      }}
-      onUpdate={({ scrollWidth, clientWidth }) => {
-        setHasScroll(scrollWidth - clientWidth > 1)
-      }}
+      onMouseDown={handleMouseDown}
+      {...{ ref }}
     >
       <div className="flex h-full pb-7">
         <div className="flex flex-col">{children}</div>
       </div>
-    </Scrollbars>
+    </div>
   )
 }
 
