@@ -907,34 +907,6 @@ function Canvas({ isMenu, hasMenu, children }) {
   React.useEffect(() => {
     initialize(ref.current)
   }, [initialize])
-  // TODO: enable doNestedScroll
-  // const isMenuRef = React.useRef()
-  // React.useEffect(() => {
-  //   isMenuRef.current = isMenu
-  // }, [isMenu])
-  // const isActiveRef = React.useRef(false)
-  // const timeoutIdRef = React.useRef(null)
-  // const clientXRef = React.useRef()
-  // const doNestedScroll = () => {
-  //   if (!isActiveRef.current) {
-  //     return
-  //   }
-  //   const INDENT = 150 // TODO: половина размера карточки
-  //   const TIMEOUT = 16
-  //   const SCROLL = 4
-  //   const { scrollLeft: windowScrollX, clientWidth } = ref.current.getValues()
-  //   if (clientXRef.current > clientWidth - INDENT - (isMenuRef.current ? MENU_WIDTH : 0)) {
-  //     ref.current.scrollLeft(windowScrollX + SCROLL)
-  //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
-  //     return
-  //   }
-  //   if (clientXRef.current < INDENT) {
-  //     ref.current.scrollLeft(windowScrollX - SCROLL)
-  //     timeoutIdRef.current = setTimeout(doNestedScroll, TIMEOUT)
-  //     return
-  //   }
-  //   timeoutIdRef.current = null
-  // }
   const positionRef = React.useRef({
     startX: null,
     startScrollX: null,
@@ -951,12 +923,6 @@ function Canvas({ isMenu, hasMenu, children }) {
         startScrollX: windowScrollX,
       }
     }
-    // TODO: enable doNestedScroll
-    // isActiveRef.current = true
-    // clientXRef.current = clientX
-    // if (timeoutIdRef.current === null) {
-    //   doNestedScroll()
-    // }
   }
   const handleMouseMove = ({ clientX }) => {
     const { startX, startScrollX } = positionRef.current
@@ -978,20 +944,12 @@ function Canvas({ isMenu, hasMenu, children }) {
         }
       }
     }
-    // TODO: enable doNestedScroll
-    // clientXRef.current = clientX
-    // if (timeoutIdRef.current === null) {
-    //   doNestedScroll()
-    // }
   }
   const handleMouseUp = () => {
     positionRef.current = {
       startX: null,
       startScrollX: null,
     }
-    // TODO: enable doNestedScroll
-    // timeoutIdRef.current = null
-    // isActiveRef.current = false
   }
   React.useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove)
