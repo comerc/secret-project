@@ -530,20 +530,9 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
     listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
   const version = 'V2'
-  const ref = React.useRef()
-  const handleMouseDown = (event) => {
-    if (event.target === ref.current) {
-      return
-    }
-    event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
-  }
   return (
     // HACK: overflow-hidden прячет мигание увеличенной высоты колонки
-    <div
-      className="h-full overflow-hidden rounded-b-[3px]"
-      onMouseDown={handleMouseDown}
-      {...{ ref }}
-    >
+    <div data-element="column-item-list" className="h-full overflow-hidden rounded-b-[3px]">
       {version === 'V2' && (
         <AutoSizer>
           {({ height, width }) => {
@@ -700,9 +689,6 @@ function ColumnHeader({ title, dragHandleProps }) {
   return (
     <div
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
-      onMouseDown={(event) => {
-        event.stopPropagation() // запрещает передавать событие для горизонтального скрола в дочерних элементах
-      }}
       onClick={(event) => {
         event.preventDefault()
         if (isFocused) {
@@ -807,7 +793,7 @@ function reorderList(list, startIndex, endIndex) {
 function CustomDragDropContext({ children }) {
   const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
-  const onBeforeDragStart = (result) => {
+  const onBeforeDragStart = (event) => {
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
   const onDragUpdate = (event) => {
@@ -818,18 +804,18 @@ function CustomDragDropContext({ children }) {
     //   element.scrollIntoView()
     // }
   }
-  const onDragEnd = (result) => {
-    if (!result.destination) {
+  const onDragEnd = (event) => {
+    if (!event.destination) {
       return
     }
-    if (result.type === 'column') {
+    if (event.type === 'column') {
       // if the list is scrolled it looks like there is some strangeness going on
       // with react-window. It looks to be scrolling back to scroll: 0
       // I should log an issue with the project
       const columnsOrder = reorderList(
         state.columnsOrder,
-        result.source.index,
-        result.destination.index,
+        event.source.index,
+        event.destination.index,
       )
       setState({
         ...state,
@@ -838,12 +824,12 @@ function CustomDragDropContext({ children }) {
       return
     }
     // reordering in same list
-    if (result.source.droppableId === result.destination.droppableId) {
-      const column = state.columns[result.source.droppableId]
+    if (event.source.droppableId === event.destination.droppableId) {
+      const column = state.columns[event.source.droppableId]
       const issuesOrder = reorderList(
         column.issuesOrder,
-        result.source.index,
-        result.destination.index,
+        event.source.index,
+        event.destination.index,
       )
       // updating column entry
       setState({
@@ -856,27 +842,27 @@ function CustomDragDropContext({ children }) {
           },
         },
       })
-      const index = Math.min(result.source.index, result.destination.index)
+      const index = Math.min(event.source.index, event.destination.index)
       _listRefMap[column.id].current.resetAfterIndex(index)
       return
     }
     // moving between lists
-    const sourceColumn = state.columns[result.source.droppableId]
-    const destinationColumn = state.columns[result.destination.droppableId]
-    const item = sourceColumn.issuesOrder[result.source.index]
+    const sourceColumn = state.columns[event.source.droppableId]
+    const destinationColumn = state.columns[event.destination.droppableId]
+    const item = sourceColumn.issuesOrder[event.source.index]
     // 1. remove item from source column
     const newSourceColumn = {
       ...sourceColumn,
       issuesOrder: [...sourceColumn.issuesOrder],
     }
-    newSourceColumn.issuesOrder.splice(result.source.index, 1)
+    newSourceColumn.issuesOrder.splice(event.source.index, 1)
     // 2. insert into destination column
     const newDestinationColumn = {
       ...destinationColumn,
       issuesOrder: [...destinationColumn.issuesOrder],
     }
     // in line modification of items
-    newDestinationColumn.issuesOrder.splice(result.destination.index, 0, item)
+    newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
     const newState = {
       ...state,
       columns: {
@@ -886,8 +872,8 @@ function CustomDragDropContext({ children }) {
       },
     }
     setState(newState)
-    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(result.destination.index)
-    _listRefMap[newSourceColumn.id].current.resetAfterIndex(result.source.index)
+    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
+    _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
   }
   return (
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
@@ -931,7 +917,10 @@ function Canvas({ isMenu, hasMenu, children }) {
     startScrollX: null,
   })
   const handleMouseDown = ({ target, clientX }) => {
-    if (target === ref.current.trackHorizontal) {
+    if (
+      target === ref.current.trackHorizontal ||
+      (target.id !== 'board' && target.dataset.element !== 'column-item-list')
+    ) {
       return
     }
     const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = ref.current.getValues()
@@ -1250,15 +1239,15 @@ function Board({ isMenu, hasMenu }) {
                   {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
                   <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
                   {/* <Image
-                    // TODO: обои
-                    priority
-                    src="/wallpapper.jpg"
-                    fill
-                    // width="5760" height="3840"
-                    style={{
-                      objectFit: 'cover',
-                    }}
-                  /> */}
+                  // TODO: обои
+                  priority
+                  src="/wallpapper.jpg"
+                  fill
+                  // width="5760" height="3840"
+                  style={{
+                    objectFit: 'cover',
+                  }}
+                /> */}
                 </div>
               )}
             </Droppable>
