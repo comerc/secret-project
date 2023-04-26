@@ -333,6 +333,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/martpie/monorepo-typescript-next-the-sane-way
   - https://nx.dev/
 - [ ] TailwindCSS group
+- [ ] react-monaco-editor
+  - https://blog.logrocket.com/build-web-editor-with-react-monaco-editor/
 
 ## Что нового (для меня) про вёрстку
 

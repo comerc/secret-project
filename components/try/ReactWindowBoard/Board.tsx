@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { VariableSizeList, areEqual } from 'react-window'
-import { DragDropContext, Droppable, Draggable } from 'shared/dnd' // '@hello-pangea/dnd' // 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import getInitialData from './getInitialData'
 import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'

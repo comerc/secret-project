@@ -885,28 +885,28 @@ function CustomDragDropContext({ children }) {
 function Canvas({ isMenu, hasMenu, children }) {
   const ref = React.useRef()
   // TODO: при dnd перекрывает колонки (но не карточки) - как исправить?
-  const [initialize, osInstance] = useOverlayScrollbars({
-    options: {
-      overflow: {
-        x: isMenu === hasMenu ? 'scroll' : 'hidden',
-        y: 'hidden',
-      },
-      scrollbars: {
-        theme: cx('os-theme-light board', hasMenu && 'has-menu'),
-        visibility: 'auto',
-        autoHide: 'never',
-        // autoHideDelay: 1300,
-        dragScroll: true,
-        clickScroll: true,
-        pointers: ['mouse', 'touch', 'pen'],
-      },
-    },
-    // events,
-    defer: true,
-  })
-  React.useEffect(() => {
-    initialize(ref.current)
-  }, [initialize])
+  // const [initialize, osInstance] = useOverlayScrollbars({
+  //   options: {
+  //     overflow: {
+  //       x: isMenu === hasMenu ? 'scroll' : 'hidden',
+  //       y: 'hidden',
+  //     },
+  //     scrollbars: {
+  //       theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+  //       visibility: 'auto',
+  //       autoHide: 'never',
+  //       // autoHideDelay: 1300,
+  //       dragScroll: true,
+  //       clickScroll: true,
+  //       pointers: ['mouse', 'touch', 'pen'],
+  //     },
+  //   },
+  //   // events,
+  //   defer: true,
+  // })
+  // React.useEffect(() => {
+  //   initialize(ref.current)
+  // }, [initialize])
   const positionRef = React.useRef({
     startX: null,
     startScrollX: null,
@@ -961,12 +961,13 @@ function Canvas({ isMenu, hasMenu, children }) {
   }, [])
   return (
     <div
-      className="hide-system-scrollbar h-full overflow-y-hidden"
+      className="h-full overflow-y-hidden"
+      // className="hide-system-scrollbar h-full overflow-y-hidden"
       style={{
         background:
           'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
       }}
-      onMouseDown={handleMouseDown}
+      // onMouseDown={handleMouseDown}
       {...{ ref }}
     >
       <div className="flex h-full pb-7">
@@ -1159,7 +1160,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     >
       <div
         id="board-wrapper"
-        className={cx(isMouseFirst && 'is-mouse-first')}
+        className={cx(isMouseFirst && 'is-mouse-first', 'h-full')}
         tabIndex="-1" // for fire onKeyDown after .focus()
         {...{ onKeyDown, onMouseMove }}
       >
@@ -1198,15 +1199,15 @@ function Board({ isMenu, hasMenu }) {
                   {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
                   <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
                   {/* <Image
-                  // TODO: обои
-                  priority
-                  src="/wallpapper.jpg"
-                  fill
-                  // width="5760" height="3840"
-                  style={{
-                    objectFit: 'cover',
-                  }}
-                /> */}
+                    // TODO: обои
+                    priority
+                    src="/wallpapper.jpg"
+                    fill
+                    // width="5760" height="3840"
+                    style={{
+                      objectFit: 'cover',
+                    }}
+                  /> */}
                 </div>
               )}
             </Droppable>
