@@ -206,6 +206,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://habr.com/ru/companies/vdsina/articles/533208/
   - https://gwfh.mranftl.com/fonts/bellota?subsets=cyrillic,latin
   - https://habr.com/ru/articles/539680/
+- [x] `position: sticky` для body
+  - https://stackoverflow.com/questions/49848196/position-sticky-not-working-when-height-is-defined
 - [ ] RBD - мигает курсор стрелки
   - https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md
 - [ ] Оценить интерфейсы Trello
@@ -337,8 +339,6 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://blog.logrocket.com/build-web-editor-with-react-monaco-editor/
 - [ ] NextJS + iframe
   - https://github.com/andriishupta/cross-origin-iframe-communication-with-nextjs
-- [ ] `position: sticky` для body
-  - https://stackoverflow.com/questions/49848196/position-sticky-not-working-when-height-is-defined
 
 ## Что нового (для меня) про вёрстку
 
