@@ -335,6 +335,10 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] TailwindCSS group
 - [ ] react-monaco-editor
   - https://blog.logrocket.com/build-web-editor-with-react-monaco-editor/
+- [ ] NextJS + iframe
+  - https://github.com/andriishupta/cross-origin-iframe-communication-with-nextjs
+- [ ] `position: sticky` для body
+  - https://stackoverflow.com/questions/49848196/position-sticky-not-working-when-height-is-defined
 
 ## Что нового (для меня) про вёрстку
 
@@ -346,6 +350,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [Когда правильно padding, а когда margin?](https://bureau.ru/soviet/20220526)
 - [Вёрстка слева направо и сверху вниз](https://bureau.ru/soviet/20210422/)
 - [NativeWind](https://www.nativewind.dev/)
+- [Как на самом деле работает position: sticky в CSS](https://medium.com/web-standards/sticky-bc7ff7088693)
 
 ---
 
