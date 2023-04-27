@@ -154,7 +154,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
               ? 'border-for-new-checklist-input min-h-[32px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
               : 'border-for-checklist-input bg-[var(--ds-background-input,#091e420a)]',
             isTitle ? 'text-[16px] font-semibold' : 'text-[14px]',
-            'focus-borderless overflow-hidden rounded-[3px] py-2 px-3 leading-5 text-[var(--ds-text,#172b4d)]',
+            'focus-borderless overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[var(--ds-text,#172b4d)]',
           )}
           placeholder={isNew && 'Добавить элемент'}
           bordered={false}
@@ -254,7 +254,7 @@ function ChecklistItem({ text }) {
   return (
     //transition-[background-color] duration-300
     <div className="relative cursor-pointer rounded-[3px] pl-10 hover:bg-[var(--ds-background-neutral,#091e420a)] [&:hover>.checklist-item-text-and-controls>.checklist-item-controls]:z-0">
-      <Checkbox className="absolute top-[8px] left-[4px] m-[-6px] box-content h-5 w-5 justify-center p-[6px]" />
+      <Checkbox className="absolute left-[4px] top-[8px] m-[-6px] box-content h-5 w-5 justify-center p-[6px]" />
       {isEdit ? (
         <ChecklistInputBox
           className="pb-2"
@@ -522,7 +522,7 @@ function getActionContent({ record, args, createdByLink }) {
               }}
             />
           ) : (
-            <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] py-2 px-3 text-[var(--ds-text,#172b4d)]">
+            <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] px-3 py-2 text-[var(--ds-text,#172b4d)]">
               {args.text}
             </div>
           )}
@@ -596,7 +596,7 @@ function getActionContent({ record, args, createdByLink }) {
         {args.thumbnail && (
           <a target="_blank" href={args.url}>
             <img
-              className="action-image-preview mt-2 mb-1 max-h-[500px] max-w-full rounded-[3px]"
+              className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
               src={args.thumbnail}
             />
           </a>
@@ -652,7 +652,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
         'relative ml-[-12px] border-l-4 py-2 pl-12 pr-0.5 leading-5',
       )}
     >
-      <div className="absolute top-2 left-2">
+      <div className="absolute left-2 top-2">
         {/* // TODO: надо 32px и без бардюра */}
         <MemberIcon {...member} />
       </div>
@@ -747,7 +747,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
               : isShowControls
               ? ''
               : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
-            isFocused ? 'p-0' : 'my-[-8px] mx-[-12px] cursor-pointer py-[8px] px-[12px]',
+            isFocused ? 'p-0' : 'mx-[-12px] my-[-8px] cursor-pointer px-[12px] py-[8px]',
             'focus-borderless box-content min-h-[20px] overflow-hidden rounded-[3px] leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
           )}
           bordered={false}
@@ -832,7 +832,7 @@ function Actions({ actions }) {
       }
     >
       <CommentBoxState>
-        <div className="relative ml-10 mb-3 pr-0.5">
+        <div className="relative mb-3 ml-10 pr-0.5">
           <CommentBox
             avatar={
               <Avatar
@@ -1108,7 +1108,7 @@ function Attachments() {
 function Dropzone() {
   return (
     // TODO: не больше 50 members из-за z-50 - как создать "локальный контекст наложения z-index"?
-    <div className="absolute top-0 left-0 right-0 bottom-0 z-50 flex flex-col justify-center bg-[var(--ds-surface-overlay,#ffffffb3)] text-center text-xl font-bold">
+    <div className="absolute bottom-0 left-0 right-0 top-0 z-50 flex flex-col justify-center bg-[var(--ds-surface-overlay,#ffffffb3)] text-center text-xl font-bold">
       Перетяните файлы, чтобы загрузить.
     </div>
   )
@@ -1167,7 +1167,7 @@ function Description() {
             onClick={() => {
               setIsMore(false)
             }}
-            className="description-content-fade-button absolute top-0 left-0 right-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
+            className="description-content-fade-button absolute left-0 right-0 top-0 h-[432px] pt-[400px] text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text,#172b4d)]"
           >
             <div className="truncate p-2 text-center leading-5 underline">
               Показать полное описание
@@ -1245,7 +1245,7 @@ function WindowModule({ className, children }) {
 function WindowSidebar({ isArchive, setIsArchive }) {
   return (
     <div
-      className="float-right overflow-hidden pr-4 pl-2"
+      className="float-right overflow-hidden pl-2 pr-4"
       style={{
         width: `calc(100% - ${mainWidth}px)`,
       }}
@@ -1371,7 +1371,7 @@ function Notifications({ notifications }) {
       {isChecked ? (
         <>
           {'Вы подписаны'}
-          <span className="absolute top-1 right-1 flex h-6 w-7 justify-center rounded-[3px] bg-[var(--ds-icon-subtle,#42526e)] text-[var(--ds-icon-inverse,#fff)]">
+          <span className="absolute right-1 top-1 flex h-6 w-7 justify-center rounded-[3px] bg-[var(--ds-icon-subtle,#42526e)] text-[var(--ds-icon-inverse,#fff)]">
             <CheckOutlined />
           </span>
         </>
@@ -1395,7 +1395,7 @@ function Members({ members }) {
 
 function ItemTitle({ children }) {
   return (
-    <h3 className="mr-2 mb-1 truncate text-[12px] font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+    <h3 className="mb-1 mr-2 truncate text-[12px] font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
       {children}
     </h3>
   )
@@ -1403,7 +1403,7 @@ function ItemTitle({ children }) {
 
 function Item({ title, children }) {
   return (
-    <div className="mr-4 mb-4 inline-block">
+    <div className="mb-4 mr-4 inline-block">
       <ItemTitle>{title}</ItemTitle>
       {children}
     </div>
@@ -1503,7 +1503,7 @@ function Label({ id, colorId, name }) {
         // onClick={(event) => {}}
       >
         <>
-          <div className="absolute top-2 bottom-2 left-2 h-4 w-4 rounded-[50%] bg-[var(--foreground-color)]" />
+          <div className="absolute bottom-2 left-2 top-2 h-4 w-4 rounded-[50%] bg-[var(--foreground-color)]" />
           {name}
         </>
       </button>
@@ -1559,14 +1559,14 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
       {/* // TODO: Обложка */}
       {isArchive && (
         <div className="card-back-archive-banner relative py-3 pl-12 pr-3">
-          <div className="absolute top-3 left-2 flex h-8 w-8 justify-center">
+          <div className="absolute left-2 top-3 flex h-8 w-8 justify-center">
             <DatabaseOutlined className="scale-125" />
           </div>
           <span className="text-[16px] leading-8">Архивная карточка</span>
         </div>
       )}
-      <div className="relative px-12 pt-3 pb-2">
-        <div className="absolute top-5 left-4 flex h-8 w-8 justify-center">
+      <div className="relative px-12 pb-2 pt-3">
+        <div className="absolute left-4 top-5 flex h-8 w-8 justify-center">
           <CreditCardOutlined className="scale-125" rotate={180} />
         </div>
         <Input.TextArea
@@ -1609,12 +1609,12 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
         </div>
       </div>
       <div
-        className="relative float-left pr-2 pb-2 pl-4"
+        className="relative float-left pb-2 pl-4 pr-2"
         style={{
           width: mainWidth,
         }}
       >
-        <div className="mt-2 ml-10">
+        <div className="ml-10 mt-2">
           {/* <Item title="Список"> // TODO: реализовать кнопку "Список" </Item> */}
           <Item title="Участники">
             <Members {...{ members }} />
