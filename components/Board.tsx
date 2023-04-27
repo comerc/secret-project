@@ -1089,34 +1089,31 @@ function Board({ hasMenu }) {
       startX: clientX,
       startScrollX: window.scrollX,
     }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
   }
   const handleMouseMove = ({ clientX }) => {
     const { startX, startScrollX } = positionRef.current
-    if (startScrollX !== null) {
-      const scrollX = startScrollX - clientX + startX
-      window.scrollTo(scrollX, 0)
-      const windowScrollX = window.scrollX
-      if (scrollX !== windowScrollX) {
-        positionRef.current = {
-          startX: clientX + windowScrollX - startScrollX,
-          startScrollX,
-        }
+    const scrollX = startScrollX - clientX + startX
+    window.scrollTo(scrollX, 0)
+    const windowScrollX = window.scrollX
+    if (scrollX !== windowScrollX) {
+      positionRef.current = {
+        startX: clientX + windowScrollX - startScrollX,
+        startScrollX,
       }
     }
   }
   const handleMouseUp = () => {
+    window.removeEventListener('mousemove', handleMouseMove)
+    window.removeEventListener('mouseup', handleMouseUp)
     positionRef.current = {
       startX: null,
       startScrollX: null,
     }
   }
   React.useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-    return () => {
-      document.addEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
+    return () => {}
   }, [])
   return (
     <>
