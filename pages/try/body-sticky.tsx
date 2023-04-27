@@ -29,15 +29,36 @@ function TryBodyStickyPage() {
   React.useEffect(() => {
     initialize(document.body)
   }, [initialize])
+  const MAIN_HEADER_HEIGHT = 48
+  const MENU_WIDTH = 100
   return (
     <ClientOnly>
       <div>
-        <div id="container" className="h-screen w-max bg-slate-200">
-          <div id="header" className="sticky left-0 w-screen bg-slate-300">
-            Header <br />
-            Menu
+        <div id="container" className="h-screen w-max bg-slate-300">
+          <div
+            id="main-header"
+            className="sticky left-0 w-screen bg-slate-100"
+            style={{ height: MAIN_HEADER_HEIGHT }}
+          >
+            <b>Main Header</b> {generateSentence(3)}
           </div>
-          <div id="scroll">{generateSentence(10)}</div>
+          <div
+            id="board-header"
+            className="sticky left-0 w-screen bg-slate-200"
+            style={{ paddingRight: MENU_WIDTH }}
+          >
+            <b>Board Header</b> {generateSentence(3)}
+          </div>
+          <div id="board-scroll">
+            <b>Board Scroll</b> {generateSentence(3)}
+          </div>
+        </div>
+        <div
+          id="menu"
+          className="fixed bottom-0 right-0 z-[10000] bg-slate-400"
+          style={{ top: MAIN_HEADER_HEIGHT, width: MENU_WIDTH }}
+        >
+          Menu
         </div>
       </div>
     </ClientOnly>
