@@ -352,7 +352,7 @@ function PermisionLevelButton() {
 
 function HeaderDivider() {
   return (
-    <div className="float-left ml-1 mr-2 mt-2 mb-3 inline-block h-4 border-l border-[var(--dynamic-text-transparent)]" />
+    <div className="float-left mb-3 ml-1 mr-2 mt-2 inline-block h-4 border-l border-[var(--dynamic-text-transparent)]" />
   )
 }
 
@@ -365,7 +365,7 @@ function FavoriteButton({ boardId, favorites, onChange }) {
     <HeaderButton
       className={cx(
         'float-left',
-        '[&:hover>.anticon]:scale-125 [&:focus>.anticon]:scale-125',
+        '[&:focus>.anticon]:scale-125 [&:hover>.anticon]:scale-125',
         switchState && '[&>.anticon]:text-[#f2d600]',
       )}
       aria-label="Добавить или удалить доску из избранного"
@@ -389,7 +389,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
   return (
     <div
       className={cx(
-        'relative float-left mr-1 mb-1 h-[32px] rounded-[3px] text-[18px] font-bold leading-8',
+        'relative float-left mb-1 mr-1 h-[32px] rounded-[3px] text-[18px] font-bold leading-8',
         'text-[var(--dynamic-text)]',
         'hover:bg-[var(--dynamic-button-hovered)]',
         'active:bg-[var(--dynamic-button-pressed)]',
@@ -424,7 +424,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
       </a>
       <Input
         className={cx(
-          'absolute top-0 left-0 right-0 bottom-0',
+          'absolute bottom-0 left-0 right-0 top-0',
           'h-[32px] rounded-[3px] px-3 py-0 text-[18px] font-bold leading-5',
           'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
           state.isInput || 'hidden',
@@ -480,7 +480,7 @@ function BoardHeader({
         hasMenu && 'pr-[var(--menu-width)]',
       )}
     >
-      <div className="flex flex-wrap pt-2 pb-1 pl-2.5 pr-1">
+      <div className="flex flex-wrap pb-1 pl-2.5 pr-1 pt-2">
         <BoardNameButton
           defaultValue="Minsk4"
           onEndEdit={(value) => {
@@ -508,6 +508,7 @@ function BoardHeader({
           )}
         </div>
       </div>
+      <div id="board-warnings"></div>
     </div>
   )
 }

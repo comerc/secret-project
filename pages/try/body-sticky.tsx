@@ -34,7 +34,7 @@ function TryBodyStickyPage() {
   return (
     <ClientOnly>
       <div>
-        <div id="container" className="h-screen w-max bg-slate-300">
+        <div id="container" className="flex h-screen w-max flex-col">
           <div
             id="main-header"
             className="sticky left-0 w-screen bg-slate-100"
@@ -49,7 +49,7 @@ function TryBodyStickyPage() {
           >
             <b>Board Header</b> {generateSentence(3)}
           </div>
-          <div id="board-scroll">
+          <div id="board-scroll" className="grow bg-slate-300">
             <b>Board Scroll</b> {generateSentence(3)}
           </div>
         </div>

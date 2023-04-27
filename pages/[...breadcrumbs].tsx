@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid'
 import cx from 'classnames'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
+import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
@@ -227,10 +228,11 @@ function BoardPage({
   columnsOrder,
   issues,
 }: IProps) {
+  // @deprecated
   const [isMenu, setIsMenu] = React.useState(false)
   const [hasMenu, setHasMenu] = React.useState(false)
   const toggleMenu = () => {
-    setIsMenu(!isMenu)
+    // setIsMenu(!isMenu)
     setTimeout(() => {
       setHasMenu(!hasMenu)
     })
@@ -255,16 +257,67 @@ function BoardPage({
   const handleDeleteFavorites = (deletedBoardId) => {
     setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
   }
-  const version = 'V2'
+  const version = 'V3'
   const renderCardDetailWindow = () => {
     const id = Object.keys(issues)[0]
     return <CardDetailWindow issue={issues[id]} />
   }
   // const isFontListLoaded = useFontFaceObserver([{ family: FONT_FAMILY }])
+  const [initialize, osInstance] = useOverlayScrollbars({
+    options: {
+      overflow: {
+        // x: isMenu === hasMenu ? 'scroll' : 'hidden',
+        x: 'scroll',
+        y: 'hidden',
+      },
+      scrollbars: {
+        // theme: cx('os-theme-light board', hasMenu && 'has-menu'),
+        theme: 'os-theme-light board',
+        visibility: 'auto',
+        autoHide: 'never',
+        // autoHideDelay: 1300,
+        dragScroll: true,
+        clickScroll: true,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+    },
+    // events,
+    defer: true,
+  })
+  React.useEffect(() => {
+    initialize(document.body)
+  }, [initialize])
   return (
     <ClientOnly>
       {/* <FontFaceObserver> */}
       <Router {...{ urlName, renderCardDetailWindow }}>
+        {version === 'V3' && (
+          <BoardState {...{ columns, columnsOrder, issues }}>
+            <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
+              <div className="sticky left-0 w-screen">
+                <Header {...{ favorites, handleDeleteFavorites }} />
+                <BoardHeader
+                  {...{
+                    members,
+                    boardId,
+                    hasMenu: false, // !! отключено
+                    toggleMenu,
+                    favorites,
+                    handleChangeFavorites,
+                  }}
+                />
+              </div>
+              <div className="grow pb-7">
+                <Board
+                  {...{
+                    hasMenu: false, // !! отключено
+                  }}
+                />
+              </div>
+            </div>
+            <BoardMenu {...{ hasMenu, toggleMenu }} />
+          </BoardState>
+        )}
         {version === 'V2' && (
           <BoardState {...{ columns, columnsOrder, issues }}>
             <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">

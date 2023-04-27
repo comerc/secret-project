@@ -34,6 +34,7 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 const _listRefMap = {}
 let _cloneSize = 0
 
+// TODO: убрать hover:, пока выполняется dnd (для Header тоже самое)
 function ColumnFooter({ height }) {
   return (
     <div
@@ -882,101 +883,6 @@ function CustomDragDropContext({ children }) {
   )
 }
 
-function Canvas({ isMenu, hasMenu, children }) {
-  const ref = React.useRef()
-  // TODO: при dnd перекрывает колонки (но не карточки) - как исправить?
-  // const [initialize, osInstance] = useOverlayScrollbars({
-  //   options: {
-  //     overflow: {
-  //       x: isMenu === hasMenu ? 'scroll' : 'hidden',
-  //       y: 'hidden',
-  //     },
-  //     scrollbars: {
-  //       theme: cx('os-theme-light board', hasMenu && 'has-menu'),
-  //       visibility: 'auto',
-  //       autoHide: 'never',
-  //       // autoHideDelay: 1300,
-  //       dragScroll: true,
-  //       clickScroll: true,
-  //       pointers: ['mouse', 'touch', 'pen'],
-  //     },
-  //   },
-  //   // events,
-  //   defer: true,
-  // })
-  // React.useEffect(() => {
-  //   initialize(ref.current)
-  // }, [initialize])
-  const positionRef = React.useRef({
-    startX: null,
-    startScrollX: null,
-  })
-  const handleMouseDown = ({ target, clientX }) => {
-    if (target.id !== 'board' && target.dataset.element !== 'column-item-list') {
-      return
-    }
-    const { viewport } = osInstance().elements()
-    const { scrollLeft: windowScrollX, clientWidth, scrollWidth } = viewport
-    if (scrollWidth > clientWidth) {
-      positionRef.current = {
-        startX: clientX,
-        startScrollX: windowScrollX,
-      }
-    }
-  }
-  const handleMouseMove = ({ clientX }) => {
-    const { startX, startScrollX } = positionRef.current
-    if (startScrollX !== null) {
-      const scrollX = startScrollX - clientX + startX
-      const { viewport } = osInstance().elements()
-      const { scrollLeft: windowScrollX, scrollWidth, clientWidth } = viewport
-      if (
-        (scrollX > windowScrollX && windowScrollX < scrollWidth - clientWidth) ||
-        (scrollX < windowScrollX && windowScrollX > 0)
-      ) {
-        viewport.scrollTo({ left: scrollX })
-      }
-      if (scrollX !== windowScrollX) {
-        const { scrollLeft: windowScrollX } = viewport
-        positionRef.current = {
-          startX: clientX + windowScrollX - startScrollX,
-          startScrollX,
-        }
-      }
-    }
-  }
-  const handleMouseUp = () => {
-    positionRef.current = {
-      startX: null,
-      startScrollX: null,
-    }
-  }
-  React.useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-    return () => {
-      document.addEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-  }, [])
-  return (
-    <div
-      className="h-full overflow-y-hidden"
-      // className="hide-system-scrollbar h-full overflow-y-hidden"
-      style={{
-        background:
-          'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
-      }}
-      // onMouseDown={handleMouseDown}
-      {...{ ref }}
-    >
-      <div className="flex h-full pb-7">
-        <div className="flex flex-col">{children}</div>
-      </div>
-    </div>
-  )
-}
-
 const BoardContext = React.createContext({})
 
 export function BoardState({ children, columns, columnsOrder, issues }) {
@@ -1170,7 +1076,48 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   )
 }
 
-function Board({ isMenu, hasMenu }) {
+function Board({ hasMenu }) {
+  const positionRef = React.useRef({
+    startX: null,
+    startScrollX: null,
+  })
+  const handleMouseDown = ({ target, clientX }) => {
+    if (target.id !== 'board' && target.dataset.element !== 'column-item-list') {
+      return
+    }
+    positionRef.current = {
+      startX: clientX,
+      startScrollX: window.scrollX,
+    }
+  }
+  const handleMouseMove = ({ clientX }) => {
+    const { startX, startScrollX } = positionRef.current
+    if (startScrollX !== null) {
+      const scrollX = startScrollX - clientX + startX
+      window.scrollTo(scrollX, 0)
+      const windowScrollX = window.scrollX
+      if (scrollX !== windowScrollX) {
+        positionRef.current = {
+          startX: clientX + windowScrollX - startScrollX,
+          startScrollX,
+        }
+      }
+    }
+  }
+  const handleMouseUp = () => {
+    positionRef.current = {
+      startX: null,
+      startScrollX: null,
+    }
+  }
+  React.useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
   return (
     <>
       <div
@@ -1183,22 +1130,26 @@ function Board({ isMenu, hasMenu }) {
           width: COLUMN_WIDTH,
         }}
       />
-      <Canvas {...{ isMenu, hasMenu }}>
-        <ColumnHeaderInputState>
-          <CustomDragDropContext>
-            <Droppable droppableId="all-droppables" direction="horizontal" type="column">
-              {(provided) => (
-                <div
-                  id="board"
-                  className="ml-2.5 flex h-full select-none"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <Columns />
-                  {provided.placeholder}
-                  {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
-                  <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
-                  {/* <Image
+      <ColumnHeaderInputState>
+        <CustomDragDropContext>
+          <Droppable droppableId="all-droppables" direction="horizontal" type="column">
+            {(provided) => (
+              <div
+                id="board"
+                className="flex h-full select-none pl-2.5"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  background:
+                    'linear-gradient(to bottom,var(--board-header-background-color),#0000 80px,#0000)',
+                }}
+                onMouseDown={handleMouseDown}
+              >
+                <Columns />
+                {provided.placeholder}
+                {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
+                <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
+                {/* <Image
                     // TODO: обои
                     priority
                     src="/wallpapper.jpg"
@@ -1208,12 +1159,11 @@ function Board({ isMenu, hasMenu }) {
                       objectFit: 'cover',
                     }}
                   /> */}
-                </div>
-              )}
-            </Droppable>
-          </CustomDragDropContext>
-        </ColumnHeaderInputState>
-      </Canvas>
+              </div>
+            )}
+          </Droppable>
+        </CustomDragDropContext>
+      </ColumnHeaderInputState>
     </>
   )
 }

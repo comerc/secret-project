@@ -5,6 +5,7 @@ import {
   Button,
   // TODO: renderCloseIcon,
 } from 'antd'
+import { MENU_WIDTH } from '.../constants'
 
 function MenuButton({ icon, children, subtitle }) {
   return (
@@ -64,10 +65,11 @@ function BoardMenu({ hasMenu, toggleMenu }) {
       }}
       placement="right"
       open={hasMenu}
-      mask={false}
-      getContainer={false}
-      width={339 + 6}
+      // mask={false}
+      // getContainer={false} // если отключить, то надо обернуть в <div className="fixed bottom-0 right-0 top-[44px] z-10"></div>
+      width={MENU_WIDTH}
       closable={false}
+      onClose={toggleMenu}
     >
       <div tabIndex="-1" className="flex h-12 items-center justify-center px-9">
         <h3 className="board-title">Меню</h3>

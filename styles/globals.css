@@ -267,7 +267,7 @@ textarea {
 
 /* FIX: RBD */
 body {
-  width: unset;
+  width: unset; /* https://stackoverflow.com/a/49852675/4315996 */
   /* overflow-y: hidden; */
   /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
 }
@@ -289,6 +289,10 @@ body::-webkit-scrollbar-track {
   margin-left: 100px;
   margin-right: 100px;
 } */
+
+body > .os-scrollbar {
+  z-index: unset !important;
+}
 
 /* как спрятать системный скролл */
 .hide-system-scrollbar {
