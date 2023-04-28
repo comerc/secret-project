@@ -1,5 +1,6 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import {
   EllipsisOutlined,
@@ -54,7 +55,8 @@ function ColumnFooter({ height }) {
   )
 }
 
-// TODO: ощутимо мигают иконки при drop
+// ощутимо мигают иконки при drop - просто закрыть DevTools в Chrome
+// https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/avoiding-image-flickering.md
 function Members({ members }) {
   return (
     <Avatar.Group className="float-right mb-1 mr-[-2px] block" size="small">
@@ -242,6 +244,7 @@ function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) 
         <Badges />
         <Members {...{ members }} />
       </div>
+
       {/* <Button
         // TODO: добавить редактирование карточки на месте
         icon={<EditOutlined />}
