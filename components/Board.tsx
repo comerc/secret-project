@@ -35,7 +35,6 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 const _listRefMap = {}
 let _cloneSize = 0
 
-// TODO: убрать hover:, пока выполняется dnd (для Header тоже самое)
 function ColumnFooter({ height }) {
   return (
     <div
@@ -335,6 +334,7 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       setState({ ...state, selectedId: '' })
     }
   }
+  if (isDragging) console.log({ ...style, ...draggableStyle })
   return (
     <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
       <ListCard
@@ -800,7 +800,9 @@ function reorderList(list, startIndex, endIndex) {
 function CustomDragDropContext({ children }) {
   const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
+  const [isDragging, setDragging] = React.useState(false)
   const onBeforeDragStart = (event) => {
+    setDragging(true)
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
   const onDragUpdate = (event) => {
@@ -812,6 +814,7 @@ function CustomDragDropContext({ children }) {
     // }
   }
   const onDragEnd = (event) => {
+    setDragging(false)
     if (!event.destination) {
       return
     }
@@ -885,6 +888,8 @@ function CustomDragDropContext({ children }) {
   return (
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
       {children}
+      {/* // убирает hover:, пока выполняется dnd, и отключает прокрутку мыши колёсиком внутри колонок */}
+      {isDragging && <div className="fixed top-0 left-0 right-0 bottom-0" />}
     </DragDropContext>
   )
 }
