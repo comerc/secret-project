@@ -72,6 +72,7 @@ function ShareButton() {
 
 function MembersButton({ members }) {
   const maxCount = 5
+  // TODO: нет фокуса для элементов
   return (
     <Avatar.Group
       className={cx(
@@ -458,6 +459,9 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         }}
         onKeyDown={(event) => {
           event.stopPropagation()
+          if (event.key === 'Escape') {
+            event.target.blur()
+          }
         }}
       />
     </div>

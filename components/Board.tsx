@@ -370,13 +370,13 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
 
 // Alter Case
 const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const refSetter = React.useCallback((scrollbarsRef) => {
+  const refSetter = (scrollbarsRef) => {
     if (scrollbarsRef) {
       ref(scrollbarsRef.view)
     } else {
       ref(null)
     }
-  }, [])
+  }
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
   if (isFirst) return <div {...{ ref }} />
   return (
@@ -726,6 +726,9 @@ function ColumnHeader({ title, dragHandleProps }) {
         }}
         onKeyDown={(event) => {
           event.stopPropagation()
+          if (event.key === 'Escape') {
+            event.target.blur()
+          }
         }}
       />
       {isFilter && (
