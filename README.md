@@ -187,6 +187,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://linear.app (коммуникации только в комментах)
 - [x] Notion Alternatives
   - https://monday.com/lang/ru/workdocs
+  - https://zenkit.com/ru/hypernotes/
+  - https://daily10.ru/ne-pishesh-ne-dumaesh-metod-produktivnosti-i-vedeniya-zametok-zettelkasten/
 - [x] Как выдать сообщение в консоль Хрома (как Linear)
 - [x] Навигация кнопками от элемента под мышкой (как в Trello и Linear)
   - https://codepen.io/kc3svj/pen/MWVPQXz
