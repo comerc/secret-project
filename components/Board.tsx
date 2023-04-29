@@ -224,7 +224,7 @@ function FrontLabels({ labels }) {
 }
 
 function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) {
-  // TODO: cover
+  // TODO: .list-card-cover
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
     <a
@@ -334,7 +334,6 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       setState({ ...state, selectedId: '' })
     }
   }
-  if (isDragging) console.log({ ...style, ...draggableStyle })
   return (
     <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
       <ListCard
@@ -377,6 +376,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       ref(null)
     }
   }
+
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
   if (isFirst) return <div {...{ ref }} />
   return (
@@ -389,6 +389,7 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
     >
       <Scrollbars
         // TODO: колёсико мышки не работает при позиционировании мышки над скролами
+        // https://github.com/RobPethick/react-custom-scrollbars-2/issues/44
         // onWheel={(event) => console.log(event)}
         ref={refSetter}
         {...{ onScroll, style }}
@@ -438,6 +439,8 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
   )
 })
 
+// TODO: как заменить на useOverlayScrollbars?
+// https://github.com/KingSora/OverlayScrollbars/issues/148
 // BUG: скролирую вторую колонку до конца и перемещаю на место первой - не отрисовывает элементы (эффект наблюдается только в первый раз)
 // const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
 //   const ofRef = React.useRef(null)
@@ -483,7 +486,7 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
 //   )
 // })
 
-// TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки
+// TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки - проблема больше не наблюдается
 function ColumnItemList({ id, issuesOrder, issues, index }) {
   // There is an issue I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
@@ -650,7 +653,6 @@ function ColumnExtrasButton() {
       ),
     }
   })
-  // TODO: useOnClickOutside
   return (
     <CustomDropdown
       header="Действия со списком"
@@ -680,16 +682,15 @@ function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ title, dragHandleProps }) {
+function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
   const [value, setValue] = React.useState(title)
   const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const isFocused = focused === inputRef.current
-  const issuesCount = 98 // TODO: отображать реальное кол-во issues
+  const issuesCount = issuesOrder.length
   const isFilter = true // TODO: реализовать isFilter через Context
-  // TODO: Esc - закончить редактирование
-  // TODO: перехватывать arrow-keys при редактировании
   // TODO: если инициировать фокус на редактирование а потом потащить заголовок, то не сбрасывается фокус редактирования
+  const columnExtrasTabWrapperId = `column-extras-tab-wrapper-${id}`
   return (
     <div
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
@@ -727,7 +728,7 @@ function ColumnHeader({ title, dragHandleProps }) {
         onKeyDown={(event) => {
           event.stopPropagation()
           if (event.key === 'Escape') {
-            event.target.blur()
+            document.getElementById(columnExtrasTabWrapperId).focus()
           }
         }}
       />
@@ -746,7 +747,7 @@ function ColumnHeader({ title, dragHandleProps }) {
           })
         }}
       />
-      <div className="absolute right-1 top-1">
+      <div id={columnExtrasTabWrapperId} tabIndex="-1" className="absolute right-1 top-1">
         <ColumnExtrasButton />
       </div>
     </div>
@@ -770,7 +771,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
             {...rest}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ title, dragHandleProps }} />
+            <ColumnHeader {...{ id, title, issuesOrder, dragHandleProps }} />
             <ColumnItemList {...{ id, issuesOrder, issues, index }} />
           </div>
         )
@@ -1155,7 +1156,7 @@ function Board({ hasMenu }) {
               >
                 <Columns />
                 {provided.placeholder}
-                {/* // TODO: кнопка "Добавьте ещё одну колонку" */}
+                {/* // TODO: !! кнопка "Добавьте ещё одну колонку" */}
                 <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
                 {/* <Image
                     // TODO: обои

@@ -24,7 +24,6 @@ import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
 
 function MoreButton({ onClick }) {
-  // TODO: во время анимации появляется горизонтальная прокрутка окна
   return (
     <HeaderButton className="float-left" icon={<MoreOutlined />} {...{ onClick }}></HeaderButton>
   )
@@ -363,19 +362,21 @@ function HeaderDivider() {
 function FavoriteButton({ boardId, favorites, onChange }) {
   const switchState = favorites.findIndex((item) => item.boardId === boardId) > -1
   return (
-    <HeaderButton
-      className={cx(
-        'float-left',
-        '[&:focus>.anticon]:scale-125 [&:hover>.anticon]:scale-125',
-        switchState && '[&>.anticon]:text-[#f2d600]',
-      )}
-      aria-label="Добавить или удалить доску из избранного"
-      title="Нажмите, чтобы добавить или удалить доску из избранного. Избранные доски отображаются вверху вашего списка досок."
-      icon={switchState ? <StarFilled /> : <StarOutlined />}
-      onClick={() => {
-        onChange(!switchState)
-      }}
-    />
+    <div id="favorite-button-tab-wrapper" tabIndex="-1">
+      <HeaderButton
+        className={cx(
+          'float-left',
+          '[&:focus>.anticon]:scale-125 [&:hover>.anticon]:scale-125',
+          switchState && '[&>.anticon]:text-[#f2d600]',
+        )}
+        aria-label="Добавить или удалить доску из избранного"
+        title="Нажмите, чтобы добавить или удалить доску из избранного. Избранные доски отображаются вверху вашего списка досок."
+        icon={switchState ? <StarFilled /> : <StarOutlined />}
+        onClick={() => {
+          onChange(!switchState)
+        }}
+      />
+    </div>
   )
 }
 
@@ -460,7 +461,7 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
         onKeyDown={(event) => {
           event.stopPropagation()
           if (event.key === 'Escape') {
-            event.target.blur()
+            document.getElementById('favorite-button-tab-wrapper').focus()
           }
         }}
       />
