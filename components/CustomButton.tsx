@@ -17,14 +17,15 @@ function CustomButton({
   ghost,
   htmlType, // TODO: применять 'submit' для form.onSubmit, как в AddColumnButton
 }) {
-  return (
+  const withOverflowHidden = (сondition, children) => {
+    return сondition ? <div className="p-[8px] m-[-8px] overflow-hidden">{children}</div> : children
+  }
+  return withOverflowHidden(
+    truncated,
     <Button
       className={cx(
-        truncated
-          ? 'flex items-center overflow-hidden [&>:last-child]:truncate'
-          : 'whitespace-normal',
+        truncated ? 'flex w-full items-center [&>:last-child]:truncate' : 'whitespace-normal',
         children && 'px-3 text-start',
-
         // indent && 'mr-1 mb-1',
         shape === 'default' && 'rounded-[3px]',
         'h-auto min-h-[32px] border-0 leading-5 shadow-none',
@@ -73,7 +74,7 @@ function CustomButton({
       {...{ shape, icon, onClick, disabled, htmlType }}
     >
       {children}
-    </Button>
+    </Button>,
   )
 }
 

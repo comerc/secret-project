@@ -182,17 +182,19 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
             >
               Назначить
             </CustomButton>
-            <CustomButton
-              className="min-w-[96px]"
-              truncated
-              asLink
-              icon={<ClockCircleOutlined />}
-              onClick={() => {
-                console.log('4444')
-              }}
-            >
-              Срок
-            </CustomButton>
+            {/* // HACK: из-за truncated, требуется отдельный div */}
+            <div className="min-w-[96px]">
+              <CustomButton
+                truncated
+                asLink
+                icon={<ClockCircleOutlined />}
+                onClick={() => {
+                  console.log('4444')
+                }}
+              >
+                Срок
+              </CustomButton>
+            </div>
             <CustomButton
               className="min-w-[32px]"
               asLink
@@ -1212,7 +1214,7 @@ function Description() {
 
 function WindowSidebarButton({ children, ...rest }) {
   return (
-    <CustomButton className="mb-2 w-full" truncated {...rest}>
+    <CustomButton truncated {...rest}>
       {children}
     </CustomButton>
   )
@@ -1249,7 +1251,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
         <WindowSidebarButton icon={<CopyOutlined />}>Копирование</WindowSidebarButton>
         {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
         {/* <WindowSidebarButton icon={<LikeOutlined />}>// TODO: Голосовать</WindowSidebarButton> */}
-        <hr className="horizontal-divider mb-2" />
+        <hr className="horizontal-divider my-2" />
         {isArchive || (
           <WindowSidebarButton
             icon={<DatabaseOutlined />}
