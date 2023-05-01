@@ -244,10 +244,10 @@ html {
 .ant-input:focus:not(.focus-borderless) {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
 }
-.border-for-new-checklist-input {
+.input-border-focused {
   box-shadow: inset 0 0 0 2px var(--ds-border-focused, #0079bf) !important;
 }
-.border-for-checklist-input {
+.input-border {
   box-shadow: inset 0 0 0 1px var(--ds-border-input, #091e4221) !important;
 }
 

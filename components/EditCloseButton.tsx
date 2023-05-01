@@ -16,7 +16,7 @@ function EditCloseButton({ onClick }) {
         ].join(' '),
         'min-w-[32px] rounded-[3px] border-0 bg-transparent shadow-none',
       )}
-      aria-label="Отменить изменения"
+      aria-label="Отменить редактирование"
       icon={<CloseOutlined className="scale-125" />}
       {...{ onClick }}
     />

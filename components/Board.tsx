@@ -19,11 +19,14 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList, areEqual } from 'react-window'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 import { Scrollbars } from 'react-custom-scrollbars-2'
-import { useUpdateEffect, useIsFirstRender } from 'usehooks-ts'
+import { useOnClickOutside, useUpdateEffect, useIsFirstRender } from 'usehooks-ts'
 import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
+import CustomButton from '.../components/CustomButton'
+import EditCloseButton from '.../components/EditCloseButton'
 import cx from 'classnames'
 import dayjs from 'dayjs'
+import { nanoid } from 'nanoid'
 import pluralize from '.../utils/pluralize'
 import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
@@ -34,6 +37,114 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
 const _listRefMap = {}
 let _cloneSize = 0
+
+function AddColumnButton() {
+  const { state, setState } = React.useContext(BoardContext)
+  const [isIdle, setIsIdle] = React.useState(true)
+  const [value, setValue] = React.useState('')
+  const submit = () => {
+    const columnTitle = value.trim()
+    if (columnTitle === '') {
+      inputRef.current.focus()
+      return
+    }
+    const columnId = nanoid()
+    setState({
+      ...state,
+      columns: {
+        ...state.columns,
+        [columnId]: {
+          id: columnId,
+          title: columnTitle,
+          issuesOrder: [],
+        },
+      },
+      columnsOrder: [...state.columnsOrder, columnId],
+    })
+    setValue('')
+    setTimeout(() => {
+      inputRef.current.focus({ preventScroll: true })
+      ref.current.scrollIntoView({ behavior: 'smooth', inline: 'start' })
+    })
+    // TODO: сохранить данные
+  }
+  const close = () => {
+    setIsIdle(true)
+  }
+  const ref = React.useRef()
+  const inputRef = React.useRef()
+  // TODO: клики внутри колонок не закрывают эту форму (например: редактировать заголовок, добавить карточку)
+  useOnClickOutside(ref, close)
+  return (
+    <div
+      data-element
+      className={cx(
+        isIdle
+          ? 'bg-[#ffffff3d] hover:bg-[var(--dynamic-button-hovered)]'
+          : 'bg-[var(--ds-surface-sunken,#ebecf0)]',
+        'mr-2 h-max rounded-[3px] transition-[background]',
+      )}
+      style={{
+        width: COLUMN_WIDTH,
+      }}
+      {...{ ref }}
+    >
+      <Button
+        className={cx(
+          isIdle || 'hidden',
+          'flex h-10 w-full items-center rounded-[3px] border-0 px-[14px] py-[10px] leading-5 text-[var(--dynamic-text)] shadow-none text-start [&>:last-child]:truncate bg-transparent',
+        )}
+        icon={<PlusOutlined />}
+        onClick={() => {
+          ref.current.scrollIntoView({ inline: 'start' })
+          setIsIdle(false)
+          setTimeout(() => {
+            inputRef.current.focus()
+          })
+        }}
+      >
+        Добавить ещё одну колонку
+      </Button>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <div className={cx(isIdle ? 'pt-0' : 'pt-1', 'px-1')}>
+          <Input
+            placeholder="Ввести заголовок списка"
+            className={cx(
+              isIdle && 'hidden',
+              'input-border-focused h-[36px] rounded-[3px] px-3 py-0 text-[14px] leading-5',
+              'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
+              'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+            )}
+            bordered={false}
+            spellCheck={false}
+            ref={inputRef}
+            onChange={(event) => {
+              setValue(event.target.value)
+            }}
+            {...{ value }}
+          />
+        </div>
+        <div
+          className={cx(
+            isIdle ? 'h-0 opacity-0' : 'h-10 opacity-100',
+            'overflow-hidden transition-[height,opacity]',
+          )}
+        >
+          <div className="flex gap-1 py-1 px-1">
+            <CustomButton primary htmlType="submit" onClick={submit}>
+              Добавить список
+            </CustomButton>
+            <EditCloseButton onClick={close} />
+          </div>
+        </div>
+      </form>
+    </div>
+  )
+}
 
 function ColumnFooter({ height }) {
   return (
@@ -369,6 +480,7 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
 
 // Alter Case
 const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+  // TODO: горизонтальный скрол "прилипает" к половине ширины колонки, т.е. докручивает до нужного положения
   const refSetter = (scrollbarsRef) => {
     if (scrollbarsRef) {
       ref(scrollbarsRef.view)
@@ -376,7 +488,6 @@ const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => 
       ref(null)
     }
   }
-
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
   if (isFirst) return <div {...{ ref }} />
   return (
@@ -874,15 +985,14 @@ function CustomDragDropContext({ children }) {
     }
     // in line modification of items
     newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
-    const newState = {
+    setState({
       ...state,
       columns: {
         ...state.columns,
         [newSourceColumn.id]: newSourceColumn,
         [newDestinationColumn.id]: newDestinationColumn,
       },
-    }
-    setState(newState)
+    })
     _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
     _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
   }
@@ -1107,6 +1217,7 @@ function Board({ hasMenu }) {
   const handleMouseMove = ({ clientX }) => {
     const { startX, startScrollX } = positionRef.current
     const scrollX = startScrollX - clientX + startX
+    // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
     window.scrollTo(scrollX, 0)
     const windowScrollX = window.scrollX
     if (scrollX !== windowScrollX) {
@@ -1124,9 +1235,9 @@ function Board({ hasMenu }) {
       startScrollX: null,
     }
   }
-  React.useEffect(() => {
-    return () => {}
-  }, [])
+  // React.useEffect(() => {
+  //   return () => {}
+  // }, [])
   return (
     <>
       <div
@@ -1156,8 +1267,8 @@ function Board({ hasMenu }) {
               >
                 <Columns />
                 {provided.placeholder}
-                {/* // TODO: !! кнопка "Добавьте ещё одну колонку" */}
-                <div style={{ width: hasMenu ? MENU_WIDTH : 0 }} />
+                <AddColumnButton />
+                {hasMenu && <div className="w-[var(--menu-width)]" />}
                 {/* <Image
                     // TODO: обои
                     priority

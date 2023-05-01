@@ -15,6 +15,7 @@ function CustomButton({
   danger,
   asLink,
   ghost,
+  htmlType, // TODO: применять 'submit' для form.onSubmit, как в AddColumnButton
 }) {
   return (
     <Button
@@ -69,7 +70,7 @@ function CustomButton({
         asLink && children && icon && '[&>:last-child]:ml-1',
         className,
       )}
-      {...{ shape, icon, onClick, disabled }}
+      {...{ shape, icon, onClick, disabled, htmlType }}
     >
       {children}
     </Button>
