@@ -38,6 +38,8 @@ import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 const _listRefMap = {}
 let _cloneSize = 0
 
+// TODO: double-click на пустом месте борды открывает диалог "Добавление списка"
+
 function AddColumnButton() {
   const { state, setState } = React.useContext(BoardContext)
   const [isIdle, setIsIdle] = React.useState(true)
@@ -798,7 +800,7 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
   const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const isFocused = focused === inputRef.current
-  const issuesCount = issuesOrder.length
+  const issuesCount = issuesOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
   const isFilter = true // TODO: реализовать isFilter через Context
   // TODO: если инициировать фокус на редактирование а потом потащить заголовок, то не сбрасывается фокус редактирования
   const columnExtrasTabWrapperId = `column-extras-tab-wrapper-${id}`
