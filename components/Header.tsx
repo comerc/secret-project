@@ -123,7 +123,7 @@ function SearchButton() {
       </div>
       <Modal
         className={cx(
-          'top-[6px] pb-0',
+          'top-[6px] pb-0', // TODO: margin-left - если размера окна хватает, то позиционировать не по центру, а с привязкой к кнопке "Поиск"
           '[&>.ant-modal-content]:pointer-events-none',
           '[&>.ant-modal-content]:rounded-[3px]',
           '[&>.ant-modal-content]:bg-white/0',
