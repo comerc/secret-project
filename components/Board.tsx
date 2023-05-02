@@ -1190,12 +1190,16 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     >
       <div
         id="board-wrapper"
-        className={cx(isMouseFirst && 'is-mouse-first', 'h-full')}
+        className={cx(isMouseFirst && 'is-mouse-first')}
         tabIndex="-1" // for fire onKeyDown after .focus()
         {...{ onKeyDown, onMouseMove }}
       >
         {children}
       </div>
+      <div
+        id="board-screen-width"
+        className="fixed top-0 left-0 right-0" // bottom-0 pointer-events-none
+      />
     </BoardContext.Provider>
   )
 }

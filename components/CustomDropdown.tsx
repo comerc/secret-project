@@ -42,6 +42,7 @@ function CustomDropdown({
   }
   return (
     <Dropdown
+      getPopupContainer={() => document.getElementById('board-screen-width')}
       menu={{
         items,
         onClick: (event) => {

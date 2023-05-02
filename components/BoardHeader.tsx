@@ -168,7 +168,6 @@ function FilterButton() {
   return (
     <CustomDropdown
       items={[]}
-      placement="bottom"
       header="Фильтр"
       footer={
         <Form

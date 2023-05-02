@@ -267,7 +267,7 @@ textarea {
 
 /* FIX: RBD */
 body {
-  width: unset; /* https://stackoverflow.com/a/49852675/4315996 */
+  /* width: unset; /* https://stackoverflow.com/a/49852675/4315996 */
   /* overflow-y: hidden; */
   /* https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1144736558 */
 }
