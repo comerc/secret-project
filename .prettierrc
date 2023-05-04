@@ -2,9 +2,5 @@
   "singleQuote": true,
   "printWidth": 100,
   "trailingComma": "all",
-  "semi": false,
-  "plugins": [
-    "prettier-plugin-tailwindcss"
-  ],
-  "pluginSearchDirs": false
+  "semi": false
 }
