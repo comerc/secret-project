@@ -107,7 +107,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
     if (isExpanded) {
       inputRef.current.focus({
         preventScroll: true,
-        cursor: 'all',
+        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus()
       })
     } else {
       close()
@@ -696,7 +696,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
     React.useEffect(() => {
       inputRef.current.focus({
         preventScroll: true,
-        cursor: 'all',
+        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus()
       })
     }, [])
   }
