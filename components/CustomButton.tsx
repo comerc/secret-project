@@ -16,6 +16,7 @@ function CustomButton({
   asLink,
   ghost,
   htmlType, // TODO: применять 'submit' для form.onSubmit, как в AddColumnButton
+  tabIndex,
 }) {
   const withOverflowHidden = (сondition, children) => {
     return сondition ? <div className="p-[8px] m-[-8px] overflow-hidden">{children}</div> : children
@@ -71,7 +72,7 @@ function CustomButton({
         asLink && children && icon && '[&>:last-child]:ml-1',
         className,
       )}
-      {...{ shape, icon, onClick, disabled, htmlType }}
+      {...{ shape, icon, onClick, disabled, htmlType, tabIndex }}
     >
       {children}
     </Button>,
