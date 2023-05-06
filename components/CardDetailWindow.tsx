@@ -140,6 +140,9 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
           bordered={false}
           ref={inputRef}
           autoSize={{ minRows: 2 }}
+          onKeyDown={(event) => {
+            event.stopPropagation()
+          }}
           {...{ value, onChange }}
         />
       </div>
@@ -747,6 +750,9 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
               setIsExpanded(false)
             }
             setIsFocused(true)
+          }}
+          onKeyDown={(event) => {
+            event.stopPropagation()
           }}
           ref={inputRef}
         />
@@ -1495,6 +1501,9 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
           // onFocus={() => {
           //   setIsFocused(true)
           // }}
+          onKeyDown={(event) => {
+            event.stopPropagation()
+          }}
         />
         <div className="mb-3 cursor-default pl-2.5 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
           в колонке{' '}

@@ -24,9 +24,7 @@ import CustomDropdown from '.../components/CustomDropdown'
 import MemberIcon from '.../components/MemberIcon'
 
 function MoreButton({ onClick }) {
-  return (
-    <HeaderButton className="float-left" icon={<MoreOutlined />} {...{ onClick }}></HeaderButton>
-  )
+  return <HeaderButton className="float-left" icon={<MoreOutlined />} {...{ onClick }} />
 }
 
 function ShareButton() {
@@ -186,6 +184,9 @@ function FilterButton() {
             <Input
               placeholder="Введите ключевое слово…"
               className="mt-[-2px] rounded-[3px] bg-[var(--ds-background-input,#fafbfc)] text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#6b778c)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]"
+              onKeyDown={(event) => {
+                event.stopPropagation()
+              }}
             />
           </Form.Item>
           <Form.Item label="Участники">

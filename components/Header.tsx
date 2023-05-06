@@ -43,6 +43,9 @@ function Search({ defaultValue, close }) {
         bordered={false}
         placeholder="Поиск в CSP"
         prefix={<SearchPrefixIcon />}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+        }}
         {...{ defaultValue }}
       />
       <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
@@ -111,6 +114,9 @@ function SearchButton() {
           }}
           value={search}
           ref={inputRef}
+          onKeyDown={(event) => {
+            event.stopPropagation()
+          }}
         />
       </div>
       <div ref={buttonContainerRef} className={cx('md:hidden', isSearch && 'hidden')}>
