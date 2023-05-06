@@ -79,7 +79,6 @@ function AddColumnButton() {
   useOnClickOutside(ref, close)
   return (
     <div
-      data-element
       className={cx(
         isIdle
           ? 'bg-[#ffffff3d] hover:bg-[var(--dynamic-button-hovered)]'
@@ -94,7 +93,7 @@ function AddColumnButton() {
       <Button
         className={cx(
           isIdle || 'hidden',
-          'flex h-10 w-full items-center rounded-[3px] border-0 px-[14px] py-[10px] leading-5 text-[var(--dynamic-text)] shadow-none text-start [&>:last-child]:truncate bg-transparent',
+          'flex h-10 w-full items-center rounded-[3px] border-0 bg-transparent px-[14px] py-[10px] leading-5 text-[var(--dynamic-text)] shadow-none text-start [&>:last-child]:truncate',
         )}
         icon={<PlusOutlined />}
         onClick={() => {
@@ -127,6 +126,9 @@ function AddColumnButton() {
             onChange={(event) => {
               setValue(event.target.value)
             }}
+            onKeyDown={(event) => {
+              event.stopPropagation()
+            }}
             {...{ value }}
           />
         </div>
@@ -136,8 +138,13 @@ function AddColumnButton() {
             'overflow-hidden transition-[height,opacity]',
           )}
         >
-          <div className="flex gap-1 py-1 px-1">
-            <CustomButton primary htmlType="submit" onClick={submit}>
+          <div className="flex gap-1 px-1 py-1">
+            <CustomButton
+              tabIndex={value.trim() === '' ? '-1' : '0'}
+              primary
+              htmlType="submit"
+              onClick={submit}
+            >
               Добавить список
             </CustomButton>
             <EditCloseButton onClick={close} />
@@ -148,18 +155,157 @@ function AddColumnButton() {
   )
 }
 
-function ColumnFooter({ height }) {
+function removeCardForm(state, setState) {
+  const columnId = state.cardFormColumnId
+  const column = state.columns[columnId]
+  const index = column.issuesOrder.indexOf('0')
+  const issuesOrder = [...column.issuesOrder]
+  issuesOrder.splice(index, 1)
+  const newState = {
+    ...state,
+    columns: {
+      ...state.columns,
+      [columnId]: {
+        ...column,
+        issuesOrder,
+      },
+    },
+    cardFormColumnId: '',
+  }
+  setState(newState)
+  const listRef = _listRefMap[columnId]
+  const list = listRef.current
+  list.resetAfterIndex(index)
+  return newState
+}
+
+// TODO: редактирование карточки нажимается правой кнопкой мышки
+
+function CardForm(props) {
+  const { state, setState } = React.useContext(BoardContext)
+  const [value, setValue] = React.useState(state.cardFormTitle)
+  const ref = React.useRef()
+  const submit = () => {
+    // const columnTitle = value.trim()
+    // if (columnTitle === '') {
+    //   inputRef.current.focus()
+    //   return
+    // }
+    // const columnId = nanoid()
+    // setState({
+    //   ...state,
+    //   columns: {
+    //     ...state.columns,
+    //     [columnId]: {
+    //       id: columnId,
+    //       title: columnTitle,
+    //       issuesOrder: [],
+    //     },
+    //   },
+    //   columnsOrder: [...state.columnsOrder, columnId],
+    // })
+    // setValue('')
+    // setTimeout(() => {
+    //   inputRef.current.focus({ preventScroll: true })
+    //   ref.current.scrollIntoView({ behavior: 'smooth', inline: 'start' })
+    // })
+    // TODO: сохранить данные
+  }
+  const close = () => {
+    removeCardForm(state, setState)
+  }
+  useOnClickOutside(ref, (event) => {
+    const element = event.target
+    if (element.closest('[id^="item-"]')) {
+      return
+    }
+    // TODO: если редактирование заголовка колонки или форма новой колоки, то не закрывают эту форму
+    removeCardForm(state, setState)
+  })
   return (
-    <div
-      className="px-2 pb-2 pt-0.5"
-      style={{
-        height,
-      }}
-    >
+    <div tabIndex="-1" ref={ref} {...props} className="mx-2">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <div>
+          <Input.TextArea
+            id="input-card"
+            className={cx(
+              'shadow focus-borderless resize-none overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[14px]',
+              'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
+              'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+            )}
+            placeholder="Ввести заголовок для этой карточки"
+            bordered={false}
+            autoSize={{ minRows: 3, maxRows: 3 }}
+            onFocus={(event) => {
+              document.getElementById('input-card').select()
+            }}
+            onKeyDown={(event) => {
+              event.stopPropagation()
+            }}
+            onChange={(event) => {
+              setValue(event.target.value)
+            }}
+            {...{ value }}
+          />
+          <div className="flex gap-1 py-2">
+            <CustomButton
+              tabIndex={value.trim() === '' ? '-1' : '0'}
+              primary
+              htmlType="submit"
+              onClick={submit}
+            >
+              Добавить карточку
+            </CustomButton>
+            <EditCloseButton onClick={close} />
+            {/* <div className="grow" /> */}
+            {/* <Button
+              className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+              icon={<EllipsisOutlined className="scale-125" />}
+            /> */}
+          </div>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+function ColumnFooter() {
+  const { state, setState } = React.useContext(BoardContext)
+  const ref = React.useRef()
+  return (
+    <div className="px-2 pb-2 pt-0.5" style={{ height: COLUMN_FOOTER_HEIGHT }} {...{ ref }}>
       <Button
         data-tab-is-list="prev"
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
+        onClick={() => {
+          const newState = state.cardFormColumnId === '' ? state : removeCardForm(state, setState)
+          const columnId = getParentColumnId(ref.current)
+          const column = newState.columns[columnId]
+          const issuesOrder = [...column.issuesOrder, '0']
+          setState({
+            ...newState,
+            columns: {
+              ...newState.columns,
+              [columnId]: {
+                ...column,
+                issuesOrder,
+              },
+            },
+            cardFormColumnId: columnId,
+          })
+          setTimeout(() => {
+            const listRef = _listRefMap[columnId]
+            const list = listRef.current
+            const index = issuesOrder.length - 1
+            list.scrollToItem(index)
+            document.getElementById('input-card').focus()
+          })
+        }}
       >
         Добавить карточку
       </Button>
@@ -412,23 +558,13 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
       ref={ref}
     >
       {issuesOrder.map((id) => (
-        <ListCard key={id} issue={issues[id]} />
+        <ListCard key={id} issue={id === '0' ? { id: '0' } : issues[id]} />
       ))}
     </div>
   )
 }
 
 function ColumnItem({ provided, issue, style, isDragging }) {
-  const router = useRouter()
-  const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
-  const href = `/c/${issue.id}/${urlName}`
-  const onClick = (event) => {
-    event.preventDefault()
-    router.push(href, undefined, {
-      shallow: true,
-    })
-    // TODO: открывать модальный диалог по месту для лучшей анимации
-  }
   const {
     // onDeleteItem,
     state,
@@ -447,8 +583,29 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       setState({ ...state, selectedId: '' })
     }
   }
-  return (
-    <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
+  const renderCardForm = () => {
+    return (
+      <CardForm
+        // id={itemId}
+        {...{
+          onMouseMove,
+          onMouseLeave,
+        }}
+      />
+    )
+  }
+  const renderListCard = () => {
+    const router = useRouter()
+    const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
+    const href = `/c/${issue.id}/${urlName}`
+    const onClick = (event) => {
+      event.preventDefault()
+      router.push(href, undefined, {
+        shallow: true,
+      })
+      // TODO: открывать модальный диалог по месту для лучшей анимации
+    }
+    return (
       <ListCard
         id={itemId}
         selected={state.selectedId === itemId}
@@ -461,6 +618,11 @@ function ColumnItem({ provided, issue, style, isDragging }) {
           ...provided.dragHandleProps,
         }}
       />
+    )
+  }
+  return (
+    <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
+      {issue.id === '0' ? renderCardForm() : renderListCard()}
     </div>
   )
 }
@@ -474,83 +636,144 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
     return null
   }
   return (
-    <Draggable draggableId={issue.id} key={issue.id} {...{ index }}>
+    <Draggable
+      isDragDisabled={issue.id === '0'}
+      draggableId={issue.id}
+      key={issue.id}
+      {...{ index }}
+    >
       {(provided) => <ColumnItem {...{ provided, issue, style }} />}
     </Draggable>
   )
 }, areEqual)
 
-// Alter Case
-const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  // TODO: горизонтальный скрол "прилипает" к половине ширины колонки, т.е. докручивает до нужного положения
-  const refSetter = (scrollbarsRef) => {
-    if (scrollbarsRef) {
-      ref(scrollbarsRef.view)
-    } else {
-      ref(null)
-    }
-  }
-  const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
-  if (isFirst) return <div {...{ ref }} />
-  return (
-    <div
-      className="relative overflow-hidden"
-      style={{
-        height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
-        width: COLUMN_WIDTH,
-      }}
-    >
-      <Scrollbars
-        // TODO: колёсико мышки не работает при позиционировании мышки над скролами
-        // https://github.com/RobPethick/react-custom-scrollbars-2/issues/44
-        // onWheel={(event) => console.log(event)}
-        ref={refSetter}
-        {...{ onScroll, style }}
-        className={cx(
-          'overflow-hidden [&>:last-child]:mt-[-2px]',
-          '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-        )}
-        renderView={(props) => {
-          // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола из-за отрицательного margin
-          return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
-        }}
-      >
-        {children}
-      </Scrollbars>
-      <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-      </div>
-    </div>
-  )
+const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
+  const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (для Input.TextArea.autoSize)
+  const outerElementType = React.useMemo(() => {
+    return React.forwardRef(({ children, onScroll, style }, ref) => {
+      // TODO: в оригинале горизонтальный скрол "прилипает" к половине ширины колонки, т.е. докручивает до нужного положения
+      const refSetter = (scrollbarsRef) => {
+        if (scrollbarsRef) {
+          ref(scrollbarsRef.view)
+        } else {
+          ref(null)
+        }
+      }
+      if (isFirst) {
+        return <div {...{ ref }} />
+      }
+      return (
+        <div
+          className="relative overflow-hidden rounded-b-[3px]"
+          style={{
+            height:
+              Math.min(style.height, children.props.style.height) +
+              (isCardForm ? 0 : COLUMN_FOOTER_HEIGHT),
+            width: COLUMN_WIDTH,
+          }}
+        >
+          <Scrollbars
+            // TODO: колёсико мышки не работает при позиционировании мышки над скролами
+            // https://github.com/RobPethick/react-custom-scrollbars-2/issues/44
+            // onWheel={(event) => console.log(event)}
+            ref={refSetter}
+            {...{ onScroll, style }}
+            className={cx(
+              'overflow-hidden [&>:last-child]:mt-[-2px]',
+              '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+            )}
+            renderView={(props) => {
+              // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола из-за отрицательного margin
+              return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
+            }}
+          >
+            {children}
+          </Scrollbars>
+          {isCardForm || (
+            <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+              <ColumnFooter />
+            </div>
+          )}
+        </div>
+      )
+    })
+  }, [isCardForm, isFirst])
+  return <VariableSizeList {...props} {...{ ref, outerElementType }} />
 })
 
+// Alter Case
+// const withScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   // TODO: горизонтальный скрол "прилипает" к половине ширины колонки, т.е. докручивает до нужного положения
+//   const refSetter = (scrollbarsRef) => {
+//     if (scrollbarsRef) {
+//       ref(scrollbarsRef.view)
+//     } else {
+//       ref(null)
+//     }
+//   }
+//   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+//   if (isFirst) {
+//     return <div {...{ ref }} />
+//   }
+//   return (
+//     <div
+//       className="relative overflow-hidden rounded-b-[3px]"
+//       style={{
+//         height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
+//         width: COLUMN_WIDTH,
+//       }}
+//     >
+//       <Scrollbars
+//         // TODO: колёсико мышки не работает при позиционировании мышки над скролами
+//         // https://github.com/RobPethick/react-custom-scrollbars-2/issues/44
+//         // onWheel={(event) => console.log(event)}
+//         ref={refSetter}
+//         {...{ onScroll, style }}
+//         className={cx(
+//           'overflow-hidden [&>:last-child]:mt-[-2px]',
+//           '[&>:first-child>div]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+//         )}
+//         renderView={(props) => {
+//           // HACK: dnd карточки вниз не дотягивает скрол на размер системного скрола из-за отрицательного margin
+//           return <div className="hide-system-scrollbar mx-0 my-0" {...props} />
+//         }}
+//       >
+//         {children}
+//       </Scrollbars>
+//       <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+//         <ColumnFooter />
+//       </div>
+//     </div>
+//   )
+// })
+
 // Base Case
-const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
-  const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
-  if (isFirst) return <div {...{ ref }} />
-  return (
-    <div
-      className="relative"
-      style={{
-        height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
-        width: COLUMN_WIDTH,
-      }}
-    >
-      <div
-        {...{ ref, style, onScroll }}
-        className={cx(
-          'hide-system-scrollbar',
-          '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
-        )}
-      >
-        {children}
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-        <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
-      </div>
-    </div>
-  )
-})
+// const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) => {
+//   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (Input.TextArea.autoSize)
+//   if (isFirst) return <div {...{ ref }} />
+//   return (
+//     <div
+//       className="relative"
+//       style={{
+//         height: Math.min(style.height, children.props.style.height) + COLUMN_FOOTER_HEIGHT,
+//         width: COLUMN_WIDTH,
+//       }}
+//     >
+//       <div
+//         {...{ ref, style, onScroll }}
+//         className={cx(
+//           'hide-system-scrollbar',
+//           '[&>:first-child]:bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]',
+//         )}
+//       >
+//         {children}
+//       </div>
+//       <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
+//         <ColumnFooter />
+//       </div>
+//     </div>
+//   )
+// })
 
 // TODO: как заменить на useOverlayScrollbars?
 // https://github.com/KingSora/OverlayScrollbars/issues/148
@@ -592,7 +815,7 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
 //       >
 //         {children}
 //         <div className="sticky bottom-0 z-[1000] rounded-b-[3px]">
-//           <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+//           <ColumnFooter  />
 //         </div>
 //       </div>
 //     </OverlayScrollbarsComponent>
@@ -600,7 +823,7 @@ const withoutScrollbars = React.forwardRef(({ children, onScroll, style }, ref) 
 // })
 
 // TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки - проблема больше не наблюдается
-function ColumnItemList({ id, issuesOrder, issues, index }) {
+function ColumnItemList({ id, issuesOrder, issues, index, isCardForm }) {
   // There is an issue I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
   // I should raise an issue for this.
@@ -630,11 +853,14 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
     _listRefMap[id] = listRef
   }, [])
   const { isExpanded } = React.useContext(FrontLabelsContext)
-  const itemData = issuesOrder.map((issueId) => issues[issueId])
+  const itemData = issuesOrder.map((id) => (id === '0' ? { id: '0' } : issues[id]))
   const getItemSize = (index) => {
     const issue = itemData[index]
     if (!issue) {
       return _cloneSize
+    }
+    if (issue.id === '0') {
+      return 124 // CARD_FORM_HEIGHT
     }
     const measureLayer = document.getElementById('measure-layer')
     measureLayer.innerHTML = renderToString(
@@ -684,17 +910,18 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
                     draggingOverWith !== null &&
                     draggingFromThisWith === null &&
                     isUsingPlaceholder
-                      ? issuesOrder.length + 1
-                      : issuesOrder.length
+                      ? itemData.length + 1
+                      : itemData.length
                   return (
-                    <VariableSizeList
+                    <List
                       // useIsScrolling // TODO: для isScrolling
-                      height={height - COLUMN_FOOTER_HEIGHT}
+                      height={height - (isCardForm ? 0 : COLUMN_FOOTER_HEIGHT)}
                       itemCount={itemCount}
                       itemSize={getItemSize}
                       width={width}
                       outerRef={provided.innerRef}
-                      outerElementType={withScrollbars}
+                      // outerElementType={withScrollbars}
+                      isCardForm={isCardForm}
                       itemData={itemData}
                       ref={listRef}
                       overscanCount={4}
@@ -702,7 +929,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
                       // estimatedItemSize={calcEstimatedSize()}
                     >
                       {ColumnRow}
-                    </VariableSizeList>
+                    </List>
                   )
                 }}
               </Droppable>
@@ -721,7 +948,7 @@ function ColumnItemList({ id, issuesOrder, issues, index }) {
             >
               <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
                 <ListCards maxHeight={height - COLUMN_FOOTER_HEIGHT} {...{ issues, issuesOrder }} />
-                <ColumnFooter height={COLUMN_FOOTER_HEIGHT} />
+                <ColumnFooter />
               </div>
             </div>
           )}
@@ -787,7 +1014,7 @@ function ColumnExtrasButton() {
 const ColumnHeaderInputContext = React.createContext({})
 
 function ColumnHeaderInputState({ children }) {
-  const [focused, setFocused] = React.useState(null)
+  const [focused, setFocused] = React.useState('')
   return (
     <ColumnHeaderInputContext.Provider value={{ focused, setFocused }}>
       {children}
@@ -797,20 +1024,19 @@ function ColumnHeaderInputState({ children }) {
 
 function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
   const [value, setValue] = React.useState(title)
-  const inputRef = React.useRef()
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
-  const isFocused = focused === inputRef.current
   const issuesCount = issuesOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
   const isFilter = true // TODO: реализовать isFilter через Context
-  // TODO: если инициировать фокус на редактирование а потом потащить заголовок, то не сбрасывается фокус редактирования
   const columnExtrasTabWrapperId = `column-extras-tab-wrapper-${id}`
+  const inputId = `input-column-header-${id}`
+  const isFocused = focused === inputId
   return (
     <div
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
       onClick={(event) => {
-        event.preventDefault()
+        event.stopPropagation()
         if (isFocused) {
-          const element = document.getElementById('board-wrapper')
+          const element = document.getElementById(inputId).parentNode
           element.focus()
         }
       }}
@@ -818,13 +1044,14 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
       tabIndex="-1" // HACK: removed tabIndex="0" from dragHandleProps
     >
       <Input.TextArea
+        id={inputId}
         className={cx(
           isFilter && 'mb-[-4px]',
+          // 'cursor-pointer focus:cursor-text',
           'min-h-[28px] resize-none overflow-hidden rounded-[3px] bg-transparent px-2 py-1 font-semibold leading-5 text-[var(--ds-text,#172b4d)] focus:bg-[var(--ds-background-input,#fff)]',
         )}
         bordered={false}
         spellCheck={false}
-        ref={inputRef}
         autoSize
         // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
         size={512}
@@ -833,16 +1060,20 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
           setValue(event.target.value)
         }}
         onBlur={() => {
-          setFocused(null)
+          setFocused('')
         }}
         onFocus={() => {
-          setFocused(inputRef.current)
+          setFocused(inputId)
+          document.getElementById(inputId).select()
         }}
         onKeyDown={(event) => {
           event.stopPropagation()
           if (event.key === 'Escape') {
             document.getElementById(columnExtrasTabWrapperId).focus()
           }
+        }}
+        onClick={(event) => {
+          event.stopPropagation()
         }}
       />
       {isFilter && (
@@ -853,10 +1084,11 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
       <div
         className={cx(isFocused && 'hidden', 'absolute bottom-0 left-0 right-0 top-0')}
         onClick={(event) => {
-          event.preventDefault()
-          inputRef.current.focus({
-            preventScroll: true,
-            cursor: 'all',
+          event.stopPropagation()
+          const element = document.getElementById(inputId)
+          element.focus({
+            // preventScroll: true,
+            // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus()
           })
         }}
       />
@@ -867,7 +1099,7 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
   )
 }
 
-function Column({ column: { id, title, issuesOrder }, issues, index }) {
+function Column({ column: { id, title, issuesOrder }, issues, index, isCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
       {({ innerRef, draggableProps, dragHandleProps }) => {
@@ -885,7 +1117,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index }) {
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
             <ColumnHeader {...{ id, title, issuesOrder, dragHandleProps }} />
-            <ColumnItemList {...{ id, issuesOrder, issues, index }} />
+            <ColumnItemList {...{ id, issuesOrder, issues, index, isCardForm }} />
           </div>
         )
       }}
@@ -897,9 +1129,11 @@ function Columns() {
   const { state, setState } = React.useContext(BoardContext)
   return (
     <FrontLabelsState>
-      {state.columnsOrder.map((id, index) => (
-        <Column key={id} column={state.columns[id]} issues={state.issues} {...{ index }} />
-      ))}
+      {state.columnsOrder.map((id, index) => {
+        const column = state.columns[id]
+        const isCardForm = column.issuesOrder.indexOf('0') !== -1
+        return <Column key={id} issues={state.issues} {...{ index, column, isCardForm }} />
+      })}
     </FrontLabelsState>
   )
 }
@@ -916,6 +1150,10 @@ function CustomDragDropContext({ children }) {
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const [isDragging, setDragging] = React.useState(false)
   const onBeforeDragStart = (event) => {
+    if (focused) {
+      const element = document.getElementById(focused).parentNode
+      element.focus()
+    }
     setDragging(true)
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
@@ -932,77 +1170,88 @@ function CustomDragDropContext({ children }) {
     if (!event.destination) {
       return
     }
-    if (event.type === 'column') {
-      // if the list is scrolled it looks like there is some strangeness going on
-      // with react-window. It looks to be scrolling back to scroll: 0
-      // I should log an issue with the project
-      const columnsOrder = reorderList(
-        state.columnsOrder,
-        event.source.index,
-        event.destination.index,
-      )
-      setState({
-        ...state,
-        columnsOrder,
-      })
-      return
-    }
-    // reordering in same list
-    if (event.source.droppableId === event.destination.droppableId) {
-      const column = state.columns[event.source.droppableId]
-      const issuesOrder = reorderList(
-        column.issuesOrder,
-        event.source.index,
-        event.destination.index,
-      )
-      // updating column entry
+    const activeElementId = document.activeElement.id
+    const fn = () => {
+      if (event.type === 'column') {
+        // if the list is scrolled it looks like there is some strangeness going on
+        // with react-window. It looks to be scrolling back to scroll: 0
+        // I should log an issue with the project
+        const columnsOrder = reorderList(
+          state.columnsOrder,
+          event.source.index,
+          event.destination.index,
+        )
+        setState({
+          ...state,
+          columnsOrder,
+        })
+        return
+      }
+      // reordering in same list
+      if (event.source.droppableId === event.destination.droppableId) {
+        const column = state.columns[event.source.droppableId]
+        const issuesOrder = reorderList(
+          column.issuesOrder,
+          event.source.index,
+          event.destination.index,
+        )
+        // updating column entry
+        setState({
+          ...state,
+          columns: {
+            ...state.columns,
+            [column.id]: {
+              ...column,
+              issuesOrder,
+            },
+          },
+        })
+        const index = Math.min(event.source.index, event.destination.index)
+        _listRefMap[column.id].current.resetAfterIndex(index)
+        return
+      }
+      // moving between lists
+      const sourceColumn = state.columns[event.source.droppableId]
+      const destinationColumn = state.columns[event.destination.droppableId]
+      const item = sourceColumn.issuesOrder[event.source.index]
+      // 1. remove item from source column
+      const newSourceColumn = {
+        ...sourceColumn,
+        issuesOrder: [...sourceColumn.issuesOrder],
+      }
+      newSourceColumn.issuesOrder.splice(event.source.index, 1)
+      // 2. insert into destination column
+      const newDestinationColumn = {
+        ...destinationColumn,
+        issuesOrder: [...destinationColumn.issuesOrder],
+      }
+      // in line modification of items
+      newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
       setState({
         ...state,
         columns: {
           ...state.columns,
-          [column.id]: {
-            ...column,
-            issuesOrder,
-          },
+          [newSourceColumn.id]: newSourceColumn,
+          [newDestinationColumn.id]: newDestinationColumn,
         },
       })
-      const index = Math.min(event.source.index, event.destination.index)
-      _listRefMap[column.id].current.resetAfterIndex(index)
-      return
+      _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
+      _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
     }
-    // moving between lists
-    const sourceColumn = state.columns[event.source.droppableId]
-    const destinationColumn = state.columns[event.destination.droppableId]
-    const item = sourceColumn.issuesOrder[event.source.index]
-    // 1. remove item from source column
-    const newSourceColumn = {
-      ...sourceColumn,
-      issuesOrder: [...sourceColumn.issuesOrder],
-    }
-    newSourceColumn.issuesOrder.splice(event.source.index, 1)
-    // 2. insert into destination column
-    const newDestinationColumn = {
-      ...destinationColumn,
-      issuesOrder: [...destinationColumn.issuesOrder],
-    }
-    // in line modification of items
-    newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
-    setState({
-      ...state,
-      columns: {
-        ...state.columns,
-        [newSourceColumn.id]: newSourceColumn,
-        [newDestinationColumn.id]: newDestinationColumn,
-      },
+    fn()
+    setTimeout(() => {
+      if (activeElementId === 'input-card') {
+        document.getElementById('input-card').focus()
+      } else if (document.activeElement.tagName === 'BODY') {
+        document.getElementById('board-wrapper').focus()
+      }
     })
-    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
-    _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
   }
   return (
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
       {children}
       {/* // убирает hover:, пока выполняется dnd, и отключает прокрутку мыши колёсиком внутри колонок */}
-      {isDragging && <div className="fixed top-0 left-0 right-0 bottom-0" />}
+      {isDragging && <div className="fixed bottom-0 left-0 right-0 top-0" />}
     </DragDropContext>
   )
 }
@@ -1015,6 +1264,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     columnsOrder,
     issues,
     selectedId: '',
+    cardFormColumnId: '',
+    cardFormTitle: '',
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
   React.useLayoutEffect(() => {
@@ -1198,7 +1449,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       </div>
       <div
         id="board-screen-width"
-        className="fixed top-0 left-0 right-0" // bottom-0 pointer-events-none
+        className="fixed left-0 right-0 top-0" // bottom-0 pointer-events-none
       />
     </BoardContext.Provider>
   )
