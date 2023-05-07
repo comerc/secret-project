@@ -79,7 +79,7 @@ function AddColumnButton() {
   useOnClickOutside(
     ref,
     close,
-    // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+    'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
   )
   return (
     <div
@@ -236,7 +236,7 @@ function AddCardForm(props) {
       // TODO: если редактирование заголовка колонки или форма новой колонки, то не закрывают эту форму
       close(value)
     },
-    'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+    'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
   )
   return (
     <div tabIndex="-1" ref={ref} {...props} className="mx-2">
@@ -306,10 +306,10 @@ function openAddCardForm(state, setState, columnId, index = -1) {
       columnId,
     },
   })
+  const listRef = _listRefMap[columnId]
+  const list = listRef.current
+  list.resetAfterIndex(index)
   setTimeout(() => {
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.resetAfterIndex(index)
     list.scrollToItem(index)
     document.getElementById('input-card').focus({
       preventScroll: true,

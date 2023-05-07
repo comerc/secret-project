@@ -123,7 +123,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
       }
       setIsExpanded(false)
     },
-    // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+    'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
   )
   return (
     <div {...{ className }}>
@@ -698,7 +698,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
         }
         setIsFocused(false)
       },
-      // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+      'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
     )
   } else {
     React.useEffect(() => {
@@ -717,7 +717,8 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
           isFocused ? 'is-focused pb-14' : 'pb-2',
           'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
         )}
-        onMouseDown={(event) => {
+        // TODO: заменить на onMouseDown, если useOnClickOutside будет отслеживать 'mousedown'
+        onMouseUp={(event) => {
           if (!isNewComment) {
             event.stopPropagation() // для отключения useOnClickOutside
           }
