@@ -229,44 +229,42 @@ function CardForm(props) {
           event.preventDefault()
         }}
       >
-        <div>
-          <Input.TextArea
-            id="input-card"
-            className={cx(
-              'shadow focus-borderless resize-none overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[14px]',
-              'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
-              'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
-            )}
-            placeholder="Ввести заголовок для этой карточки"
-            bordered={false}
-            autoSize={{ minRows: 3, maxRows: 3 }}
-            onFocus={(event) => {
-              document.getElementById('input-card').select()
-            }}
-            onKeyDown={(event) => {
-              event.stopPropagation()
-            }}
-            onChange={(event) => {
-              setValue(event.target.value)
-            }}
-            {...{ value }}
-          />
-          <div className="flex gap-1 py-2">
-            <CustomButton
-              tabIndex={value.trim() === '' ? '-1' : '0'}
-              primary
-              htmlType="submit"
-              onClick={submit}
-            >
-              Добавить карточку
-            </CustomButton>
-            <EditCloseButton onClick={close} />
-            {/* <div className="grow" /> */}
-            {/* <Button
+        <Input.TextArea
+          id="input-card"
+          className={cx(
+            'shadow focus-borderless resize-none overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[14px]',
+            'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
+            'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+          )}
+          placeholder="Ввести заголовок для этой карточки"
+          bordered={false}
+          autoSize={{ minRows: 3, maxRows: 3 }}
+          onFocus={(event) => {
+            document.getElementById('input-card').select()
+          }}
+          onKeyDown={(event) => {
+            event.stopPropagation()
+          }}
+          onChange={(event) => {
+            setValue(event.target.value)
+          }}
+          {...{ value }}
+        />
+        <div className="flex gap-1 py-2">
+          <CustomButton
+            tabIndex={value.trim() === '' ? '-1' : '0'}
+            primary
+            htmlType="submit"
+            onClick={submit}
+          >
+            Добавить карточку
+          </CustomButton>
+          <EditCloseButton onClick={close} />
+          {/* <div className="grow" /> */}
+          {/* <Button
               className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
               icon={<EllipsisOutlined className="scale-125" />}
             /> */}
-          </div>
         </div>
       </form>
     </div>
@@ -1492,9 +1490,6 @@ function Board({ hasMenu }) {
       startScrollX: null,
     }
   }
-  // React.useEffect(() => {
-  //   return () => {}
-  // }, [])
   return (
     <>
       <div
