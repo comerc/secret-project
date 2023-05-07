@@ -107,7 +107,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
     if (isExpanded) {
       inputRef.current.focus({
         preventScroll: true,
-        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus()
+        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
       })
     } else {
       close()
@@ -123,7 +123,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
       }
       setIsExpanded(false)
     },
-    'mouseup',
+    // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
   )
   return (
     <div {...{ className }}>
@@ -689,17 +689,22 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
   const ref = React.useRef()
   const inputRef = React.useRef()
   if (isNewComment) {
-    useOnClickOutside(ref, (event) => {
-      if (isShowControls || isHTMLControl(event.target, ref.current)) {
-        return
-      }
-      setIsFocused(false)
-    })
+    useOnClickOutside(
+      ref,
+      (event) => {
+        console.log('useOnClickOutside')
+        if (isShowControls || isHTMLControl(event.target, ref.current)) {
+          return
+        }
+        setIsFocused(false)
+      },
+      // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+    )
   } else {
     React.useEffect(() => {
       inputRef.current.focus({
         preventScroll: true,
-        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus()
+        cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
       })
     }, [])
   }
@@ -712,6 +717,11 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
           isFocused ? 'is-focused pb-14' : 'pb-2',
           'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
         )}
+        onMouseDown={(event) => {
+          if (!isNewComment) {
+            event.stopPropagation() // для отключения useOnClickOutside
+          }
+        }}
       >
         {/* <Form
         // className="w-full pt-1"

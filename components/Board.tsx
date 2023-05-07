@@ -76,7 +76,11 @@ function AddColumnButton() {
   const ref = React.useRef()
   const inputRef = React.useRef()
   // TODO: клики внутри колонок не закрывают эту форму (например: редактировать заголовок, добавить карточку)
-  useOnClickOutside(ref, close)
+  useOnClickOutside(
+    ref,
+    close,
+    // 'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+  )
   return (
     <div
       className={cx(
@@ -106,7 +110,7 @@ function AddColumnButton() {
       >
         Добавить ещё одну колонку
       </Button>
-      <form
+      <form // отрабатывает [Enter] для <input>
         onSubmit={(event) => {
           event.preventDefault()
         }}
@@ -155,13 +159,140 @@ function AddColumnButton() {
   )
 }
 
-function removeCardForm(state, setState) {
-  const columnId = state.cardFormColumnId
+// TODO: редактирование карточки нажимается правой кнопкой мышки
+
+function AddCardForm(props) {
+  const { state, setState } = React.useContext(BoardContext)
+  const value = state.addCardForm.title
+  const ref = React.useRef()
+  const close = (title = '') => {
+    const columnId = state.addCardForm.columnId
+    const column = state.columns[columnId]
+    const index = column.issuesOrder.indexOf('0')
+    const issuesOrder = [...column.issuesOrder]
+    issuesOrder.splice(index, 1)
+    setState({
+      ...state,
+      columns: {
+        ...state.columns,
+        [columnId]: {
+          ...column,
+          issuesOrder,
+        },
+      },
+      addCardForm: {
+        columnId: '',
+        title,
+      },
+    })
+    const listRef = _listRefMap[columnId]
+    const list = listRef.current
+    list.resetAfterIndex(index)
+  }
+  const submit = () => {
+    const title = value.trim()
+    if (title === '') {
+      document.getElementById('input-card').focus()
+      return
+    }
+    const columnId = state.addCardForm.columnId
+    const column = state.columns[columnId]
+    const keys = Object.keys(state.issues)
+    const id = keys.length === 0 ? '1' : parseInt(keys[keys.length - 1]) + 1 + ''
+    const issues = {
+      ...state.issues,
+      [id]: { id, title, description: '', members: [], labels: [], actions: [] },
+    }
+    const issuesOrder = [...column.issuesOrder]
+    const index = issuesOrder.indexOf('0')
+    issuesOrder.splice(index, 1, id)
+    setState({
+      ...state,
+      issues,
+      columns: {
+        ...state.columns,
+        [columnId]: {
+          ...column,
+          issuesOrder,
+        },
+      },
+      addCardForm: { columnId: '', title: '' },
+    })
+    const listRef = _listRefMap[columnId]
+    const list = listRef.current
+    list.resetAfterIndex(index)
+    setTimeout(() => {
+      list.scrollToItem(index)
+    })
+    // TODO: сохранить данные
+  }
+  useOnClickOutside(
+    ref,
+    (event) => {
+      const element = event.target
+      if (element.id === 'dragging-mask') {
+        return
+      }
+      // TODO: если редактирование заголовка колонки или форма новой колонки, то не закрывают эту форму
+      close(value)
+    },
+    'mouseup', // TODO:  надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку
+  )
+  return (
+    <div tabIndex="-1" ref={ref} {...props} className="mx-2">
+      <Input.TextArea
+        id="input-card"
+        className={cx(
+          'focus-borderless resize-none overflow-hidden rounded-[3px] px-3 py-2 text-[14px] leading-5 shadow',
+          'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
+          'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+        )}
+        placeholder="Ввести заголовок для этой карточки"
+        bordered={false}
+        autoSize={{ minRows: 3, maxRows: 3 }}
+        onFocus={(event) => {
+          document.getElementById('input-card').setSelectionRange(value.length, value.length)
+        }}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+        }}
+        onChange={(event) => {
+          setState({ ...state, addCardForm: { ...state.addCardForm, title: event.target.value } })
+        }}
+        {...{ value }}
+      />
+      <div className="flex gap-1 py-2">
+        <CustomButton
+          tabIndex={value.trim() === '' ? '-1' : '0'}
+          primary
+          htmlType="submit"
+          onClick={submit}
+        >
+          Добавить карточку
+        </CustomButton>
+        <EditCloseButton
+          onClick={() => {
+            close()
+          }}
+        />
+        {/* <div className="grow" /> */}
+        {/* <Button
+          className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
+          icon={<EllipsisOutlined className="scale-125" />}
+        /> */}
+      </div>
+    </div>
+  )
+}
+
+function openAddCardForm(state, setState, columnId, index = -1) {
   const column = state.columns[columnId]
-  const index = column.issuesOrder.indexOf('0')
   const issuesOrder = [...column.issuesOrder]
-  issuesOrder.splice(index, 1)
-  const newState = {
+  if (index === -1) {
+    index = column.issuesOrder.length
+  }
+  issuesOrder.splice(index, 0, '0')
+  setState({
     ...state,
     columns: {
       ...state.columns,
@@ -170,139 +301,35 @@ function removeCardForm(state, setState) {
         issuesOrder,
       },
     },
-    cardFormColumnId: '',
-  }
-  setState(newState)
-  const listRef = _listRefMap[columnId]
-  const list = listRef.current
-  list.resetAfterIndex(index)
-  return newState
-}
-
-// TODO: редактирование карточки нажимается правой кнопкой мышки
-
-function CardForm(props) {
-  const { state, setState } = React.useContext(BoardContext)
-  const [value, setValue] = React.useState(state.cardFormTitle)
-  const ref = React.useRef()
-  const submit = () => {
-    // const columnTitle = value.trim()
-    // if (columnTitle === '') {
-    //   inputRef.current.focus()
-    //   return
-    // }
-    // const columnId = nanoid()
-    // setState({
-    //   ...state,
-    //   columns: {
-    //     ...state.columns,
-    //     [columnId]: {
-    //       id: columnId,
-    //       title: columnTitle,
-    //       issuesOrder: [],
-    //     },
-    //   },
-    //   columnsOrder: [...state.columnsOrder, columnId],
-    // })
-    // setValue('')
-    // setTimeout(() => {
-    //   inputRef.current.focus({ preventScroll: true })
-    //   ref.current.scrollIntoView({ behavior: 'smooth', inline: 'start' })
-    // })
-    // TODO: сохранить данные
-  }
-  const close = () => {
-    removeCardForm(state, setState)
-  }
-  useOnClickOutside(ref, (event) => {
-    const element = event.target
-    if (element.closest('[id^="item-"]')) {
-      return
-    }
-    // TODO: если редактирование заголовка колонки или форма новой колоки, то не закрывают эту форму
-    removeCardForm(state, setState)
+    addCardForm: {
+      ...state.addCardForm,
+      columnId,
+    },
   })
-  return (
-    <div tabIndex="-1" ref={ref} {...props} className="mx-2">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault()
-        }}
-      >
-        <Input.TextArea
-          id="input-card"
-          className={cx(
-            'shadow focus-borderless resize-none overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[14px]',
-            'bg-[var(--ds-background-input,#fff)] text-[var(--ds-text,#172b4d)]',
-            'placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
-          )}
-          placeholder="Ввести заголовок для этой карточки"
-          bordered={false}
-          autoSize={{ minRows: 3, maxRows: 3 }}
-          onFocus={(event) => {
-            document.getElementById('input-card').select()
-          }}
-          onKeyDown={(event) => {
-            event.stopPropagation()
-          }}
-          onChange={(event) => {
-            setValue(event.target.value)
-          }}
-          {...{ value }}
-        />
-        <div className="flex gap-1 py-2">
-          <CustomButton
-            tabIndex={value.trim() === '' ? '-1' : '0'}
-            primary
-            htmlType="submit"
-            onClick={submit}
-          >
-            Добавить карточку
-          </CustomButton>
-          <EditCloseButton onClick={close} />
-          {/* <div className="grow" /> */}
-          {/* <Button
-              className="rounded-[3px] border-0 bg-transparent text-[var(--ds-icon-subtle,#6b778c)] shadow-none hover:bg-[var(--ds-background-neutral-hovered,#091e4214)] hover:text-[var(--ds-icon,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)]"
-              icon={<EllipsisOutlined className="scale-125" />}
-            /> */}
-        </div>
-      </form>
-    </div>
-  )
+  setTimeout(() => {
+    const listRef = _listRefMap[columnId]
+    const list = listRef.current
+    list.resetAfterIndex(index)
+    list.scrollToItem(index)
+    document.getElementById('input-card').focus({
+      preventScroll: true,
+      // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
+    })
+  })
+  // TODO: паразитно дёргается высота списка на размер больше, чем надо (эффекта нет при добавлении в самый конец)
 }
 
 function ColumnFooter() {
   const { state, setState } = React.useContext(BoardContext)
-  const ref = React.useRef()
   return (
-    <div className="px-2 pb-2 pt-0.5" style={{ height: COLUMN_FOOTER_HEIGHT }} {...{ ref }}>
+    <div className="px-2 pb-2 pt-0.5" style={{ height: COLUMN_FOOTER_HEIGHT }}>
       <Button
         data-tab-is-list="prev"
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
-        onClick={() => {
-          const newState = state.cardFormColumnId === '' ? state : removeCardForm(state, setState)
-          const columnId = getParentColumnId(ref.current)
-          const column = newState.columns[columnId]
-          const issuesOrder = [...column.issuesOrder, '0']
-          setState({
-            ...newState,
-            columns: {
-              ...newState.columns,
-              [columnId]: {
-                ...column,
-                issuesOrder,
-              },
-            },
-            cardFormColumnId: columnId,
-          })
-          setTimeout(() => {
-            const listRef = _listRefMap[columnId]
-            const list = listRef.current
-            const index = issuesOrder.length - 1
-            list.scrollToItem(index)
-            document.getElementById('input-card').focus()
-          })
+        onClick={(event) => {
+          const columnId = getParentColumnId(event.target)
+          openAddCardForm(state, setState, columnId)
         }}
       >
         Добавить карточку
@@ -581,9 +608,9 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       setState({ ...state, selectedId: '' })
     }
   }
-  const renderCardForm = () => {
+  const renderAddCardForm = () => {
     return (
-      <CardForm
+      <AddCardForm
         // id={itemId}
         {...{
           onMouseMove,
@@ -604,23 +631,48 @@ function ColumnItem({ provided, issue, style, isDragging }) {
       // TODO: открывать модальный диалог по месту для лучшей анимации
     }
     return (
-      <ListCard
-        id={itemId}
-        selected={state.selectedId === itemId}
-        {...{
-          issue,
-          href,
-          onClick,
-          onMouseMove,
-          onMouseLeave,
-          ...provided.dragHandleProps,
-        }}
-      />
+      <>
+        <ListCard
+          id={itemId}
+          selected={state.selectedId === itemId}
+          {...{
+            issue,
+            href,
+            onClick,
+            onMouseMove,
+            onMouseLeave,
+            ...provided.dragHandleProps,
+          }}
+        />
+        <div
+          className="h-2 mx-2 mt-[-8px]"
+          onDoubleClick={(event) => {
+            event.stopPropagation()
+            const columnId = getParentColumnId(event.target)
+            const column = state.columns[columnId]
+            const index = column.issuesOrder.indexOf(issue.id)
+            openAddCardForm(state, setState, columnId, index + 1)
+          }}
+        />
+      </>
     )
   }
   return (
-    <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
-      {issue.id === '0' ? renderCardForm() : renderListCard()}
+    <div
+      ref={provided.innerRef}
+      {...draggableProps}
+      style={{ ...style, ...draggableStyle }}
+      // TODO: справа мешает скролл
+      // onDoubleClick={(event) => {
+      //   event.stopPropagation()
+      //   if (issue.id === '0') {
+      //     return
+      //   }
+      //   const columnId = getParentColumnId(event.target)
+      //   openAddCardForm(state, setState, columnId, 0)
+      // }}
+    >
+      {issue.id === '0' ? renderAddCardForm() : renderListCard()}
     </div>
   )
 }
@@ -645,7 +697,7 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
   )
 }, areEqual)
 
-const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
+const List = React.forwardRef(function List({ isAddCardForm, ...props }, ref) {
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (для Input.TextArea.autoSize)
   const outerElementType = React.useMemo(() => {
     return React.forwardRef(({ children, onScroll, style }, ref) => {
@@ -666,7 +718,7 @@ const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
           style={{
             height:
               Math.min(style.height, children.props.style.height) +
-              (isCardForm ? 0 : COLUMN_FOOTER_HEIGHT),
+              (isAddCardForm ? 0 : COLUMN_FOOTER_HEIGHT),
             width: COLUMN_WIDTH,
           }}
         >
@@ -687,7 +739,7 @@ const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
           >
             {children}
           </Scrollbars>
-          {isCardForm || (
+          {isAddCardForm || (
             <div className="absolute bottom-0 left-0 right-0 rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
               <ColumnFooter />
             </div>
@@ -695,7 +747,7 @@ const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
         </div>
       )
     })
-  }, [isCardForm, isFirst])
+  }, [isAddCardForm, isFirst])
   return <VariableSizeList {...props} {...{ ref, outerElementType }} />
 })
 
@@ -821,7 +873,7 @@ const List = React.forwardRef(function List({ isCardForm, ...props }, ref) {
 // })
 
 // TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки - проблема больше не наблюдается
-function ColumnItemList({ id, issuesOrder, issues, index, isCardForm }) {
+function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
   // There is an issue I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
   // I should raise an issue for this.
@@ -913,13 +965,13 @@ function ColumnItemList({ id, issuesOrder, issues, index, isCardForm }) {
                   return (
                     <List
                       // useIsScrolling // TODO: для isScrolling
-                      height={height - (isCardForm ? 0 : COLUMN_FOOTER_HEIGHT)}
+                      height={height - (isAddCardForm ? 0 : COLUMN_FOOTER_HEIGHT)}
                       itemCount={itemCount}
                       itemSize={getItemSize}
                       width={width}
                       outerRef={provided.innerRef}
                       // outerElementType={withScrollbars}
-                      isCardForm={isCardForm}
+                      isAddCardForm={isAddCardForm}
                       itemData={itemData}
                       ref={listRef}
                       overscanCount={4}
@@ -956,7 +1008,8 @@ function ColumnItemList({ id, issuesOrder, issues, index, isCardForm }) {
   )
 }
 
-function ColumnExtrasButton() {
+function ColumnExtrasButton({ id }) {
+  const { state, setState } = React.useContext(BoardContext)
   const data = [
     { 'add-card': 'Добавить карточку…' },
     { 'copy-list': 'Копировать список…' },
@@ -996,6 +1049,9 @@ function ColumnExtrasButton() {
       header="Действия со списком"
       items={items}
       onClick={(event) => {
+        if (event.key === 'add-card') {
+          openAddCardForm(state, setState, id, 0)
+        }
         // setSelected(event.key)
       }}
       smallSize
@@ -1085,19 +1141,19 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
           event.stopPropagation()
           const element = document.getElementById(inputId)
           element.focus({
-            // preventScroll: true,
-            // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus()
+            preventScroll: true,
+            // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
           })
         }}
       />
       <div id={columnExtrasTabWrapperId} tabIndex="-1" className="absolute right-1 top-1">
-        <ColumnExtrasButton />
+        <ColumnExtrasButton {...{ id }} />
       </div>
     </div>
   )
 }
 
-function Column({ column: { id, title, issuesOrder }, issues, index, isCardForm }) {
+function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
       {({ innerRef, draggableProps, dragHandleProps }) => {
@@ -1115,7 +1171,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index, isCardForm 
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
             <ColumnHeader {...{ id, title, issuesOrder, dragHandleProps }} />
-            <ColumnItemList {...{ id, issuesOrder, issues, index, isCardForm }} />
+            <ColumnItemList {...{ id, issuesOrder, issues, index, isAddCardForm }} />
           </div>
         )
       }}
@@ -1129,8 +1185,8 @@ function Columns() {
     <FrontLabelsState>
       {state.columnsOrder.map((id, index) => {
         const column = state.columns[id]
-        const isCardForm = column.issuesOrder.indexOf('0') !== -1
-        return <Column key={id} issues={state.issues} {...{ index, column, isCardForm }} />
+        const isAddCardForm = column.issuesOrder.indexOf('0') !== -1
+        return <Column key={id} issues={state.issues} {...{ index, column, isAddCardForm }} />
       })}
     </FrontLabelsState>
   )
@@ -1249,7 +1305,7 @@ function CustomDragDropContext({ children }) {
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
       {children}
       {/* // убирает hover:, пока выполняется dnd, и отключает прокрутку мыши колёсиком внутри колонок */}
-      {isDragging && <div className="fixed bottom-0 left-0 right-0 top-0" />}
+      {isDragging && <div id="dragging-mask" className="fixed bottom-0 left-0 right-0 top-0" />}
     </DragDropContext>
   )
 }
@@ -1262,8 +1318,10 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     columnsOrder,
     issues,
     selectedId: '',
-    cardFormColumnId: '',
-    cardFormTitle: '',
+    addCardForm: {
+      columnId: '',
+      title: '',
+    },
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
   React.useLayoutEffect(() => {

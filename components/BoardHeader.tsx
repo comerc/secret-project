@@ -267,6 +267,7 @@ function FilterButton() {
             onClick={(event) => {
               event.stopPropagation()
               setFilterCount(0)
+              // TODO: закрыть окно с фильтрами
             }}
           />
         )}

@@ -1,4 +1,5 @@
 function getParentColumnId(node) {
+  // TODO: element.closest()
   while (node !== null) {
     node = node.parentNode
     const result = node?.dataset?.columnId
