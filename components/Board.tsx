@@ -188,6 +188,9 @@ function AddCardForm(props) {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.resetAfterIndex(index)
+    setTimeout(() => {
+      list.scrollToItem(index)
+    })
   }
   const submit = () => {
     const title = value.trim()
@@ -311,12 +314,13 @@ function openAddCardForm(state, setState, columnId, index = -1) {
   list.resetAfterIndex(index)
   setTimeout(() => {
     list.scrollToItem(index)
-    document.getElementById('input-card').focus({
-      preventScroll: true,
-      // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
+    setTimeout(() => {
+      document.getElementById('input-card')?.focus({
+        preventScroll: true,
+        // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
+      })
     })
   })
-  // TODO: паразитно дёргается высота списка на размер больше, чем надо (эффекта нет при добавлении в самый конец)
 }
 
 function ColumnFooter() {
@@ -1295,8 +1299,11 @@ function CustomDragDropContext({ children }) {
     fn()
     setTimeout(() => {
       if (activeElementId === 'input-card') {
-        document.getElementById('input-card').focus()
+        document.getElementById('input-card').focus({
+          preventScroll: true,
+        })
       } else if (document.activeElement.tagName === 'BODY') {
+        // TODO: из-за виртуального списка, форма может умереть при дропе после длинноого скролла
         document.getElementById('board-wrapper').focus()
       }
     })
