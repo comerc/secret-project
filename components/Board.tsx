@@ -593,18 +593,18 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
   )
 }
 
-function ColumnItem({ provided, issue, style, isDragging }) {
+function ColumnItem({ provided, snapshot, issue, style }) {
   const {
     // onDeleteItem,
     state,
     setState,
     isMouseFirst,
   } = React.useContext(BoardContext)
-  const itemId = isDragging ? 'item-clone' : `item-${issue.id}`
+  const itemId = snapshot.isDragging ? 'item-clone' : `item-${issue.id}`
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
   // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
   // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
-  if (!!draggableStyle.transition) {
+  if (!!draggableStyle.transition && snapshot.isDropAnimating) {
     draggableStyle.transition = 'transform 0.001s'
   }
   const onMouseMove = () => {
@@ -701,7 +701,7 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
       key={issue.id}
       {...{ index }}
     >
-      {(provided) => <ColumnItem {...{ provided, issue, style }} />}
+      {(provided, snapshot) => <ColumnItem {...{ provided, snapshot, issue, style }} />}
     </Draggable>
   )
 }, areEqual)
@@ -949,11 +949,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
                 renderClone={(provided, snapshot, rubric) => {
                   _cloneSize = getItemSize(rubric.source.index)
                   return (
-                    <ColumnItem
-                      provided={provided}
-                      isDragging={snapshot.isDragging}
-                      issue={itemData[rubric.source.index]}
-                    />
+                    <ColumnItem {...{ provided, snapshot }} issue={itemData[rubric.source.index]} />
                   )
                 }}
               >
@@ -1166,10 +1162,10 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
 function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
-      {(provided) => {
+      {(provided, snapshot) => {
         const { style: draggableStyle, ...draggableProps } = provided.draggableProps
         // HACK: отменил анимацию для согласованности с ColumnItem
-        if (!!draggableStyle.transition) {
+        if (!!draggableStyle.transition && snapshot.isDropAnimating) {
           draggableStyle.transition = 'transform 0.001s'
         }
         return (
