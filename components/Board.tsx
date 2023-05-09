@@ -1229,7 +1229,7 @@ function CustomDragDropContext({ children }) {
       return
     }
     const activeElementId = document.activeElement.id
-    const fn = () => {
+    ;(() => {
       if (event.type === 'column') {
         // if the list is scrolled it looks like there is some strangeness going on
         // with react-window. It looks to be scrolling back to scroll: 0
@@ -1295,15 +1295,17 @@ function CustomDragDropContext({ children }) {
       })
       _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
       _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
-    }
-    fn()
+    })()
     setTimeout(() => {
       if (activeElementId === 'input-card') {
         document.getElementById('input-card').focus({
           preventScroll: true,
         })
       } else if (document.activeElement.tagName === 'BODY') {
-        // TODO: из-за виртуального списка, форма может умереть при дропе после длинноого скролла
+        // TODO: из-за виртуального списка, форма может умереть при дропе после длинноого скролла (как вариант - sticky для формы)
+        // https://github.com/bvaughn/react-window/issues/55
+        // https://codesandbox.io/s/0mk3qwpl4l
+        // https://codesandbox.io/s/grouped-list-with-sticky-headers-shgok
         document.getElementById('board-wrapper').focus()
       }
     })
