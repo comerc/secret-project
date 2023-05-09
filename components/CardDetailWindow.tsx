@@ -1465,12 +1465,12 @@ function CardDetailWindow({ issue: { members, labels, actions } }) {
   const isSubscribed = true // TODO: подписка на карточку
   return (
     <Modal
+      transitionName="" // HACK: отменил анимацию для окна
+      maskTransitionName="dummy" // HACK: отменил анимацию для маски
       open={isOpen}
       onCancel={close}
       afterClose={() => {}}
       // title="Карточка"
-      // transitionName=""
-      // maskTransitionName=""
       // style={null}
       // closable={false}
       footer={null}

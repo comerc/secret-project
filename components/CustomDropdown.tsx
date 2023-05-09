@@ -28,8 +28,10 @@ function CustomDropdown({
   placement = 'bottomLeft',
   smallSize = false,
   children,
+  isOpen,
+  setIsOpen,
 }) {
-  const [open, setOpen] = React.useState(false)
+  // const [open, setOpen] = React.useState(isOpen)
   // const { width, height } = useWindowSize() // TODO: ошибки в смещении при уменьшении размера экрана
   const { token } = theme.useToken()
   const contentStyle = {
@@ -42,6 +44,7 @@ function CustomDropdown({
   }
   return (
     <Dropdown
+      transitionName="" // HACK: отменил анимацию
       getPopupContainer={() => document.getElementById('board-screen-width')}
       menu={{
         items,
@@ -49,7 +52,7 @@ function CustomDropdown({
           if (onClick) {
             onClick(event)
           }
-          setOpen(false)
+          setIsOpen(false)
         },
       }}
       dropdownRender={(menu) => (
@@ -76,7 +79,7 @@ function CustomDropdown({
                 href="#" // TODO: replace to role="button" or <button />
                 onClick={(event) => {
                   event.preventDefault()
-                  setOpen(false)
+                  setIsOpen(false)
                 }}
               >
                 <CloseOutlined />
@@ -106,13 +109,14 @@ function CustomDropdown({
       )}
       trigger={['click']}
       onOpenChange={(flag) => {
-        setOpen(flag)
+        setIsOpen(flag)
         if (onOpenChange) {
           onOpenChange(flag)
         }
       }}
+      open={isOpen}
       // TODO: placement - ошибки в смещении при уменьшении размера экрана
-      {...{ open, placement }}
+      {...{ placement }}
     >
       {children}
     </Dropdown>
