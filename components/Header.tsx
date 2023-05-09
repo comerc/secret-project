@@ -208,6 +208,7 @@ function InFavoritesButton({ favorites, onDelete }) {
       </div>
     </div>
   ))
+  const [isOpen, setIsOpen] = React.useState(false)
   return (
     <CustomDropdown
       smallSize
@@ -222,6 +223,7 @@ function InFavoritesButton({ favorites, onDelete }) {
           <div className="mb-2">{items}</div>
         )
       }
+      {...{ isOpen, setIsOpen }}
     >
       <HeaderButton
         aria-label="Избранные"

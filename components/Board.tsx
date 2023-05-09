@@ -1019,6 +1019,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
 
 function ColumnExtrasButton({ id }) {
   const { state, setState } = React.useContext(BoardContext)
+  const [isOpen, setIsOpen] = React.useState(false)
   const data = [
     { 'add-card': 'Добавить карточку…' },
     { 'copy-list': 'Копировать список…' },
@@ -1055,15 +1056,15 @@ function ColumnExtrasButton({ id }) {
   })
   return (
     <CustomDropdown
+      smallSize
       header="Действия со списком"
-      items={items}
       onClick={(event) => {
         if (event.key === 'add-card') {
           openAddCardForm(state, setState, id, 0)
         }
         // setSelected(event.key)
       }}
-      smallSize
+      {...{ items, isOpen, setIsOpen }}
     >
       <Button
         data-tab-is-list="next"

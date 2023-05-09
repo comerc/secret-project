@@ -116,7 +116,7 @@ function FilterButton() {
   const [isAllDeadlineItems, setAllDeadlineItems] = React.useState(false)
   const [filterCount, setFilterCount] = React.useState(8)
   const isFilter = filterCount > 0
-  const [isOpen, setOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
   const [form] = Form.useForm()
   const memberItems = [
     {
@@ -225,7 +225,6 @@ function FilterButton() {
         // TODO: выбор типа совпадения
       }
       onOpenChange={(flag) => {
-        setOpen(flag)
         if (flag) {
           setAllDeadlineItems(false) // TODO: сворачивать, только если не отмечено из расширенного списка
           // setFilter(true)
@@ -233,6 +232,7 @@ function FilterButton() {
           // setFilter(false)
         }
       }}
+      {...{ isOpen, setIsOpen }}
     >
       <div className="float-left mb-1 mr-1 inline-flex">
         <HeaderButton
@@ -267,7 +267,7 @@ function FilterButton() {
             onClick={(event) => {
               event.stopPropagation()
               setFilterCount(0)
-              // TODO: закрыть окно с фильтрами
+              setIsOpen(false)
             }}
           />
         )}
@@ -327,6 +327,7 @@ function PermisionLevelButton() {
       </CustomDropdown.Item>
     ),
   }))
+  const [isOpen, setIsOpen] = React.useState(false)
   const value = map[selected]
   return (
     <CustomDropdown
@@ -334,7 +335,7 @@ function PermisionLevelButton() {
       onClick={(event) => {
         setSelected(event.key)
       }}
-      {...{ items }}
+      {...{ items, isOpen, setIsOpen }}
     >
       <HeaderButton
         aria-label="Изменить уровень доступа к доске"
