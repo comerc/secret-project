@@ -645,7 +645,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
         title={`${member.name.first} ${member.name.last} (${member.login.username})`}
         className="font-bold"
         onClick={(event) => {
-          // event.preventDefault()
+          event.preventDefault()
           // TODO: popup профиля
         }}
       >
@@ -692,7 +692,6 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
     useOnClickOutside(
       ref,
       (event) => {
-        console.log('useOnClickOutside')
         if (isShowControls || isHTMLControl(event.target, ref.current)) {
           return
         }
@@ -794,6 +793,7 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
             icon={<PaperClipOutlined />}
             title="Добавить вложение…"
             onClick={(event) => {
+              event.preventDefault()
               console.log('onClick')
             }}
           />

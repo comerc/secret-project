@@ -14,7 +14,7 @@ function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, z
         'active:[&>.ant-avatar>img]:opacity-70 active:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtle,#b3bac5)]',
       )}
       onClick={(event) => {
-        // event.preventDefault()
+        event.preventDefault()
         // TODO: popup профиля
       }}
       tabIndex="-1"

@@ -253,7 +253,7 @@ function AddCardForm(props) {
         placeholder="Ввести заголовок для этой карточки"
         bordered={false}
         autoSize={{ minRows: 3, maxRows: 3 }}
-        onFocus={(event) => {
+        onFocus={() => {
           document.getElementById('input-card').setSelectionRange(value.length, value.length)
         }}
         onKeyDown={(event) => {
@@ -602,12 +602,17 @@ function ColumnItem({ provided, issue, style, isDragging }) {
   } = React.useContext(BoardContext)
   const itemId = isDragging ? 'item-clone' : `item-${issue.id}`
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
-  const onMouseMove = (event) => {
+  // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
+  // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
+  if (!!draggableStyle.transition) {
+    draggableStyle.transition = 'transform 0.001s'
+  }
+  const onMouseMove = () => {
     if (isMouseFirst) {
       setState({ ...state, selectedId: itemId })
     }
   }
-  const onMouseLeave = (event) => {
+  const onMouseLeave = () => {
     if (isMouseFirst) {
       setState({ ...state, selectedId: '' })
     }
@@ -1080,7 +1085,7 @@ function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
+function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
   const [value, setValue] = React.useState(title)
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const issuesCount = issuesOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
@@ -1160,21 +1165,25 @@ function ColumnHeader({ id, title, issuesOrder, dragHandleProps }) {
 function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
-      {({ innerRef, draggableProps, dragHandleProps }) => {
-        const { style, ...rest } = draggableProps
+      {(provided) => {
+        const { style: draggableStyle, ...draggableProps } = provided.draggableProps
+        // HACK: отменил анимацию для согласованности с ColumnItem
+        if (!!draggableStyle.transition) {
+          draggableStyle.transition = 'transform 0.001s'
+        }
         return (
           <div
             data-column-id={id}
             className="mr-2 flex flex-col"
-            ref={innerRef}
+            ref={provided.innerRef}
             style={{
               width: COLUMN_WIDTH,
-              ...style,
+              ...draggableStyle,
             }}
-            {...rest}
+            {...draggableProps}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ id, title, issuesOrder, dragHandleProps }} />
+            <ColumnHeader {...{ id, title, issuesOrder, ...provided.dragHandleProps }} />
             <ColumnItemList {...{ id, issuesOrder, issues, index, isAddCardForm }} />
           </div>
         )
@@ -1207,7 +1216,7 @@ function CustomDragDropContext({ children }) {
   const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const [isDragging, setDragging] = React.useState(false)
-  const onBeforeDragStart = (event) => {
+  const onBeforeDragStart = () => {
     if (focused) {
       const element = document.getElementById(focused).parentNode
       element.focus()
@@ -1215,7 +1224,7 @@ function CustomDragDropContext({ children }) {
     setDragging(true)
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
-  const onDragUpdate = (event) => {
+  const onDragUpdate = () => {
     // #POC
     // if (event.type === 'row' && event.destination) {
     //   const columnId = event.destination.droppableId
@@ -1374,7 +1383,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   //   _listRefMap[column.id].current.resetAfterIndex(index)
   // }
   const [isMouseFirst, setIsMouseFirst] = React.useState(false)
-  const onMouseMove = () => {
+  const onMouseMove = (event) => {
     setIsMouseFirst(true)
   }
   const focusFirstItem = (columnId) => {
