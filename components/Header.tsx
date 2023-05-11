@@ -46,6 +46,11 @@ function Search({ defaultValue, close }) {
         onKeyDown={(event) => {
           event.stopPropagation()
         }}
+        onBlur={() => {
+          if (process.env.NODE_ENV === 'production') {
+            close()
+          }
+        }}
         {...{ defaultValue }}
       />
       <div className="search-results pointer-events-auto mt-2 h-96 rounded-[3px] bg-white p-8">
@@ -80,6 +85,7 @@ function SearchPrefixIcon({ onClick }) {
 }
 
 function SearchButton() {
+  const SEARCH_MODAL_WIDTH = 760
   const [isSearch, setIsSearch] = React.useState(false)
   const [search, setSearch] = React.useState('')
   const inputContainerRef = React.useRef()
@@ -99,15 +105,32 @@ function SearchButton() {
       }
     })
   }
+  const getRight = () => {
+    const bodyRect = document.body.getBoundingClientRect()
+    const element = document.getElementById('search-button')
+    const elementRect = element.getBoundingClientRect()
+    const right = bodyRect.right - elementRect.right
+    return bodyRect.width - right * 2 > SEARCH_MODAL_WIDTH ? right : 'unset'
+  }
+  const right = isSearch ? getRight() : 'unset'
   return (
-    <>
+    <div id="search-button">
       <div ref={inputContainerRef} className={cx('hidden', isSearch || 'md:block')}>
         <Input
           className="rounded-[5px] border border-solid border-white/30 bg-white/[.15] pl-1 caret-white hover:bg-white/30 [&>input::placeholder]:text-white"
           bordered={false}
           placeholder="Поиск"
-          prefix={<SearchPrefixIcon onClick={() => setIsSearch(true)} />}
-          onClick={() => setIsSearch(true)}
+          prefix={
+            <SearchPrefixIcon
+              onClick={() => {
+                setIsSearch(true)
+              }}
+            />
+          }
+          onClick={() => {
+            setIsSearch(true)
+            // const bodyRect = document.body.getBoundingClientRect()
+          }}
           onChange={(event) => {
             setSearch(event.target.value)
             setIsSearch(true)
@@ -123,19 +146,25 @@ function SearchButton() {
         <Button
           className="rounded-[3px] border-0 bg-transparent text-[var(--dynamic-text)] shadow-none hover:bg-[var(--dynamic-button-hovered)]"
           icon={<SearchOutlined />}
-          onClick={() => setIsSearch(true)}
+          onClick={() => {
+            setIsSearch(true)
+          }}
           ref={buttonRef}
         />
       </div>
       <Modal
         className={cx(
-          'top-[6px] pb-0', // TODO: margin-left - если размера окна хватает, то позиционировать не по центру, а с привязкой к кнопке "Поиск"
+          'top-[6px] pb-0',
           '[&>.ant-modal-content]:pointer-events-none',
           '[&>.ant-modal-content]:rounded-[3px]',
           '[&>.ant-modal-content]:bg-white/0',
           '[&>.ant-modal-content]:p-0',
           '[&>.ant-modal-content]:shadow-none',
+          right !== 'unset' && 'absolute mx-0',
         )}
+        style={{
+          right,
+        }}
         open={isSearch}
         onCancel={close}
         transitionName=""
@@ -144,13 +173,13 @@ function SearchButton() {
         closable={false}
         footer={null}
         destroyOnClose
-        width={760}
+        width={SEARCH_MODAL_WIDTH}
         mask={false}
         wrapClassName="search-modal"
       >
         <Search defaultValue={search} {...{ close }} />
       </Modal>
-    </>
+    </div>
   )
 }
 
