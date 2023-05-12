@@ -1239,13 +1239,15 @@ function CustomDragDropContext({ children }) {
       return
     }
     const activeElementId = document.activeElement.id
-    const restoreFocus = (column) => {
+    const restoreFocus = (column = null) => {
       setTimeout(() => {
         if (activeElementId === 'input-card') {
-          const listRef = _listRefMap[column.id]
-          const list = listRef.current
-          const index = column.issuesOrder.indexOf('0')
-          list.scrollToItem(index)
+          if (column !== null) {
+            const listRef = _listRefMap[column.id]
+            const list = listRef.current
+            const index = column.issuesOrder.indexOf('0')
+            list.scrollToItem(index)
+          }
           document.getElementById('input-card').focus({
             preventScroll: true,
           })
@@ -1279,7 +1281,7 @@ function CustomDragDropContext({ children }) {
       })
       const index = Math.min(event.source.index, event.destination.index)
       _listRefMap[column.id].current.resetAfterIndex(index)
-      restoreFocus(column)
+      restoreFocus() // как в оригинале: если в той же колонке, то не скролится к форме
       return
     }
     // moving between lists
