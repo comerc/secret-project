@@ -617,54 +617,28 @@ function ColumnItem({ provided, snapshot, issue, style }) {
       setState({ ...state, selectedId: '' })
     }
   }
-  const renderAddCardForm = () => {
+  if (issue.id === '0') {
     return (
-      <AddCardForm
-        // id={itemId}
-        {...{
-          onMouseMove,
-          onMouseLeave,
-        }}
-      />
-    )
-  }
-  const renderListCard = () => {
-    const router = useRouter()
-    const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
-    const href = `/c/${issue.id}/${urlName}`
-    const onClick = (event) => {
-      event.preventDefault()
-      router.push(href, undefined, {
-        shallow: true,
-      })
-      // TODO: открывать модальный диалог по месту для лучшей анимации
-    }
-    return (
-      <>
-        <ListCard
-          id={itemId}
-          selected={state.selectedId === itemId}
+      <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
+        <AddCardForm
+          // id={itemId}
           {...{
-            issue,
-            href,
-            onClick,
             onMouseMove,
             onMouseLeave,
-            ...provided.dragHandleProps,
           }}
         />
-        <div
-          className="h-2 mx-2 mt-[-8px]"
-          onDoubleClick={(event) => {
-            event.stopPropagation()
-            const columnId = getParentColumnId(event.target)
-            const column = state.columns[columnId]
-            const index = column.issuesOrder.indexOf(issue.id)
-            openAddCardForm(state, setState, columnId, index + 1)
-          }}
-        />
-      </>
+      </div>
     )
+  }
+  const router = useRouter()
+  const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
+  const href = `/c/${issue.id}/${urlName}`
+  const onClick = (event) => {
+    event.preventDefault()
+    router.push(href, undefined, {
+      shallow: true,
+    })
+    // TODO: открывать модальный диалог по месту для лучшей анимации
   }
   return (
     <div
@@ -681,7 +655,28 @@ function ColumnItem({ provided, snapshot, issue, style }) {
       //   openAddCardForm(state, setState, columnId, 0)
       // }}
     >
-      {issue.id === '0' ? renderAddCardForm() : renderListCard()}
+      <ListCard
+        id={itemId}
+        selected={state.selectedId === itemId}
+        {...{
+          issue,
+          href,
+          onClick,
+          onMouseMove,
+          onMouseLeave,
+          ...provided.dragHandleProps,
+        }}
+      />
+      <div
+        className="h-2 mx-2 mt-[-8px]"
+        onDoubleClick={(event) => {
+          event.stopPropagation()
+          const columnId = getParentColumnId(event.target)
+          const column = state.columns[columnId]
+          const index = column.issuesOrder.indexOf(issue.id)
+          openAddCardForm(state, setState, columnId, index + 1)
+        }}
+      />
     </div>
   )
 }
