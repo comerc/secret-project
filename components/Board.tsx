@@ -161,7 +161,7 @@ function AddColumnButton() {
 
 // TODO: редактирование карточки нажимается правой кнопкой мышки
 
-function AddCardForm(props) {
+function AddCardForm() {
   const { state, setState } = React.useContext(BoardContext)
   const value = state.addCardForm.title
   const ref = React.useRef()
@@ -242,7 +242,7 @@ function AddCardForm(props) {
     'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
   )
   return (
-    <div tabIndex="-1" ref={ref} {...props} className="mx-2">
+    <div tabIndex="-1" ref={ref} className="mx-2">
       <Input.TextArea
         id="input-card"
         className={cx(
@@ -594,6 +594,19 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
 }
 
 function ColumnItem({ provided, snapshot, issue, style }) {
+  const { style: draggableStyle, ...draggableProps } = provided.draggableProps
+  // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
+  // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
+  if (!!draggableStyle.transition && snapshot.isDropAnimating) {
+    draggableStyle.transition = 'transform 0.001s'
+  }
+  if (issue.id === '0') {
+    return (
+      <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
+        <AddCardForm />
+      </div>
+    )
+  }
   const {
     // onDeleteItem,
     state,
@@ -601,12 +614,6 @@ function ColumnItem({ provided, snapshot, issue, style }) {
     isMouseFirst,
   } = React.useContext(BoardContext)
   const itemId = snapshot.isDragging ? 'item-clone' : `item-${issue.id}`
-  const { style: draggableStyle, ...draggableProps } = provided.draggableProps
-  // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
-  // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
-  if (!!draggableStyle.transition && snapshot.isDropAnimating) {
-    draggableStyle.transition = 'transform 0.001s'
-  }
   const onMouseMove = () => {
     if (isMouseFirst) {
       setState({ ...state, selectedId: itemId })
@@ -616,19 +623,6 @@ function ColumnItem({ provided, snapshot, issue, style }) {
     if (isMouseFirst) {
       setState({ ...state, selectedId: '' })
     }
-  }
-  if (issue.id === '0') {
-    return (
-      <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
-        <AddCardForm
-          // id={itemId}
-          {...{
-            onMouseMove,
-            onMouseLeave,
-          }}
-        />
-      </div>
-    )
   }
   const router = useRouter()
   const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
@@ -1229,87 +1223,93 @@ function CustomDragDropContext({ children }) {
     if (!event.destination) {
       return
     }
+    if (event.type === 'column') {
+      // if the list is scrolled it looks like there is some strangeness going on
+      // with react-window. It looks to be scrolling back to scroll: 0
+      // I should log an issue with the project
+      const columnsOrder = reorderList(
+        state.columnsOrder,
+        event.source.index,
+        event.destination.index,
+      )
+      setState({
+        ...state,
+        columnsOrder,
+      })
+      return
+    }
     const activeElementId = document.activeElement.id
-    ;(() => {
-      if (event.type === 'column') {
-        // if the list is scrolled it looks like there is some strangeness going on
-        // with react-window. It looks to be scrolling back to scroll: 0
-        // I should log an issue with the project
-        const columnsOrder = reorderList(
-          state.columnsOrder,
-          event.source.index,
-          event.destination.index,
-        )
-        setState({
-          ...state,
-          columnsOrder,
-        })
-        return
-      }
-      // reordering in same list
-      if (event.source.droppableId === event.destination.droppableId) {
-        const column = state.columns[event.source.droppableId]
-        const issuesOrder = reorderList(
-          column.issuesOrder,
-          event.source.index,
-          event.destination.index,
-        )
-        // updating column entry
-        setState({
-          ...state,
-          columns: {
-            ...state.columns,
-            [column.id]: {
-              ...column,
-              issuesOrder,
-            },
-          },
-        })
-        const index = Math.min(event.source.index, event.destination.index)
-        _listRefMap[column.id].current.resetAfterIndex(index)
-        return
-      }
-      // moving between lists
-      const sourceColumn = state.columns[event.source.droppableId]
-      const destinationColumn = state.columns[event.destination.droppableId]
-      const item = sourceColumn.issuesOrder[event.source.index]
-      // 1. remove item from source column
-      const newSourceColumn = {
-        ...sourceColumn,
-        issuesOrder: [...sourceColumn.issuesOrder],
-      }
-      newSourceColumn.issuesOrder.splice(event.source.index, 1)
-      // 2. insert into destination column
-      const newDestinationColumn = {
-        ...destinationColumn,
-        issuesOrder: [...destinationColumn.issuesOrder],
-      }
-      // in line modification of items
-      newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
+    const restoreFocus = (column) => {
+      setTimeout(() => {
+        if (activeElementId === 'input-card') {
+          const listRef = _listRefMap[column.id]
+          const list = listRef.current
+          const index = column.issuesOrder.indexOf('0')
+          list.scrollToItem(index)
+          document.getElementById('input-card').focus({
+            preventScroll: true,
+          })
+        } else if (document.activeElement.tagName === 'BODY') {
+          // TODO: из-за виртуального списка, форма может умереть при дропе после длинноого скролла (как вариант - sticky для формы)
+          // https://github.com/bvaughn/react-window/issues/55
+          // https://codesandbox.io/s/0mk3qwpl4l
+          // https://codesandbox.io/s/grouped-list-with-sticky-headers-shgok
+          document.getElementById('board-wrapper').focus()
+        }
+      })
+    }
+    // reordering in same list
+    if (event.source.droppableId === event.destination.droppableId) {
+      const column = state.columns[event.source.droppableId]
+      const issuesOrder = reorderList(
+        column.issuesOrder,
+        event.source.index,
+        event.destination.index,
+      )
+      // updating column entry
       setState({
         ...state,
         columns: {
           ...state.columns,
-          [newSourceColumn.id]: newSourceColumn,
-          [newDestinationColumn.id]: newDestinationColumn,
+          [column.id]: {
+            ...column,
+            issuesOrder,
+          },
         },
       })
-      _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
-      _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
-    })()
-    setTimeout(() => {
-      if (activeElementId === 'input-card') {
-        document.getElementById('input-card').focus({
-          preventScroll: true,
-        })
-      } else if (document.activeElement.tagName === 'BODY') {
-        // TODO: из-за виртуального списка, форма может умереть при дропе после длинноого скролла (как вариант - sticky для формы)
-        // https://github.com/bvaughn/react-window/issues/55
-        // https://codesandbox.io/s/0mk3qwpl4l
-        // https://codesandbox.io/s/grouped-list-with-sticky-headers-shgok
-        document.getElementById('board-wrapper').focus()
-      }
+      const index = Math.min(event.source.index, event.destination.index)
+      _listRefMap[column.id].current.resetAfterIndex(index)
+      restoreFocus(column)
+      return
+    }
+    // moving between lists
+    const sourceColumn = state.columns[event.source.droppableId]
+    const destinationColumn = state.columns[event.destination.droppableId]
+    const item = sourceColumn.issuesOrder[event.source.index]
+    // 1. remove item from source column
+    const newSourceColumn = {
+      ...sourceColumn,
+      issuesOrder: [...sourceColumn.issuesOrder],
+    }
+    newSourceColumn.issuesOrder.splice(event.source.index, 1)
+    // 2. insert into destination column
+    const newDestinationColumn = {
+      ...destinationColumn,
+      issuesOrder: [...destinationColumn.issuesOrder],
+    }
+    // in line modification of items
+    newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
+    setState({
+      ...state,
+      columns: {
+        ...state.columns,
+        [newSourceColumn.id]: newSourceColumn,
+        [newDestinationColumn.id]: newDestinationColumn,
+      },
     })
+    _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
+    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
+    restoreFocus(newDestinationColumn)
   }
   return (
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
