@@ -481,7 +481,7 @@ function ActionSpin() {
   )
 }
 
-function getActionContent({ record, args, createdByLink }) {
+function ActionContent({ record, args, createdByLink }) {
   const fn = actionRecords[record]
   const isLoading = false
   if (record === 'comment') {
@@ -651,10 +651,9 @@ function Action({ id, member, record, args, createdBy, highligted }) {
       >
         {member.name.first} {member.name.last}
       </button>
-      {getActionContent({
-        record,
-        args,
-        createdByLink: (
+      <ActionContent
+        {...{ record, args }}
+        createdByLink={
           <a
             className="whitespace-pre text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
             href={actionUrl}
@@ -665,8 +664,8 @@ function Action({ id, member, record, args, createdBy, highligted }) {
           >
             {getLiteralDate(dayjs(createdBy), { withTime: true })}
           </a>
-        ),
-      })}
+        }
+      />
     </div>
   )
 }
