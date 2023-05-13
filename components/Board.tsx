@@ -219,7 +219,10 @@ function AddCardForm() {
           issuesOrder,
         },
       },
-      addCardForm: { columnId: '', title: '' },
+      addCardForm: {
+        columnId: '',
+        title: '',
+      },
     })
     const listRef = _listRefMap[columnId]
     const list = listRef.current
@@ -260,7 +263,13 @@ function AddCardForm() {
           event.stopPropagation()
         }}
         onChange={(event) => {
-          setState({ ...state, addCardForm: { ...state.addCardForm, title: event.target.value } })
+          setState({
+            ...state,
+            addCardForm: {
+              ...state.addCardForm,
+              title: event.target.value,
+            },
+          })
         }}
         {...{ value }}
       />
@@ -593,20 +602,7 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
   )
 }
 
-function ColumnItem({ provided, snapshot, issue, style }) {
-  const { style: draggableStyle, ...draggableProps } = provided.draggableProps
-  // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
-  // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
-  if (!!draggableStyle.transition && snapshot.isDropAnimating) {
-    draggableStyle.transition = 'transform 0.001s'
-  }
-  if (issue.id === '0') {
-    return (
-      <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
-        <AddCardForm />
-      </div>
-    )
-  }
+function ActiveListCard({ provided, snapshot, issue }) {
   const {
     // onDeleteItem,
     state,
@@ -635,10 +631,7 @@ function ColumnItem({ provided, snapshot, issue, style }) {
     // TODO: открывать модальный диалог по месту для лучшей анимации
   }
   return (
-    <div
-      ref={provided.innerRef}
-      {...draggableProps}
-      style={{ ...style, ...draggableStyle }}
+    <
       // TODO: справа мешает скролл
       // onDoubleClick={(event) => {
       //   event.stopPropagation()
@@ -671,6 +664,20 @@ function ColumnItem({ provided, snapshot, issue, style }) {
           openAddCardForm(state, setState, columnId, index + 1)
         }}
       />
+    </>
+  )
+}
+
+function ColumnItem({ provided, snapshot, issue, style }) {
+  const { style: draggableStyle, ...draggableProps } = provided.draggableProps
+  // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
+  // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
+  if (!!draggableStyle.transition && snapshot.isDropAnimating) {
+    draggableStyle.transition = 'transform 0.001s'
+  }
+  return (
+    <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
+      {issue.id === '0' ? <AddCardForm /> : <ActiveListCard {...{ provided, snapshot, issue }} />}
     </div>
   )
 }
@@ -1340,23 +1347,6 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const element = document.getElementById('board-wrapper')
     element.focus()
   }, [])
-  // const onAddItem = (columnId) => () => {
-  //   let text = prompt('Please enter title')
-  //   const column = state.columns[columnId]
-  //   const items = column.items
-  //   const newState = {
-  //     ...state,
-  //     columns: {
-  //       ...state.columns,
-  //       [column.id]: {
-  //         ...column,
-  //         items: [{ id: nanoid(), text, columnId }, ...items],
-  //       },
-  //     },
-  //   }
-  //   setState(newState)
-  //   _listRefMap[column.id].current.resetAfterIndex(0)
-  // }
   // const onDeleteItem = (columnId, itemId) => () => {
   //   const column = state.columns[columnId]
   //   const items = column.items
