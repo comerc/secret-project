@@ -488,6 +488,8 @@ function ActionAttachment({ isLoading, args, createdByLink }) {
       <a
         className="text-[var(--ds-link,#172b4d)] underline"
         // для поддержки контекстного меню по правой кнопки мышки
+        target="_blank" // TODO: если файл для скачивания, то _blank не нужен
+        rel="noopener noreferrer"
         href={args.url}
         onClick={(event) => {
           event.preventDefault()
@@ -498,10 +500,11 @@ function ActionAttachment({ isLoading, args, createdByLink }) {
       <InlineSpacer />
       {isLoading || createdByLink}
       {args.thumbnail && (
-        <a target="_blank" href={args.url}>
+        <a target="_blank" rel="noopener noreferrer" href={args.url}>
           <img
             className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
             src={args.thumbnail}
+            alt=""
           />
         </a>
       )}
@@ -940,6 +943,8 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
               ? `var(--ds-background-thumbnail,rgb(${thumbnailColor[0]},${thumbnailColor[1]},${thumbnailColor[2]}))`
               : 'var(--ds-background-neutral,#091e420a)',
         }}
+        target="_blank" // TODO: если файл для скачивания, то _blank не нужен
+        rel="noopener noreferrer nofollow"
         // для поддержки контекстного меню по правой кнопки мышки
         href={url}
         onClick={(event) => {
@@ -955,6 +960,7 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
             // src="/attachments/previews/transparent1.png"
             // src="/attachments/previews/transparent2.png"
             src={thumbnail}
+            alt=""
             onLoad={() => {
               const colorThief = new ColorThief()
               const img = imgRef.current
@@ -975,7 +981,8 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
         <span className="text-sm font-bold">{title || filename}</span>
         <a
           className="relative ml-1 h-5"
-          target="_blank"
+          target="_blank" // TODO: если файл для скачивания, то _blank не нужен
+          rel="noopener noreferrer nofollow"
           href={url}
           onClick={(event) => {
             event.stopPropagation()
