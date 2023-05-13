@@ -481,130 +481,138 @@ function ActionSpin() {
   )
 }
 
+function ActionAttachment({ isLoading, args, createdByLink }) {
+  return (
+    <>
+      {` ${fn()} `}
+      <a
+        className="text-[var(--ds-link,#172b4d)] underline"
+        // для поддержки контекстного меню по правой кнопки мышки
+        href={args.url}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        {getFilename(args.url)}
+      </a>{' '}
+      <InlineSpacer />
+      {isLoading || createdByLink}
+      {args.thumbnail && (
+        <a target="_blank" href={args.url}>
+          <img
+            className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
+            src={args.thumbnail}
+          />
+        </a>
+      )}
+      <div>
+        {isLoading ? (
+          <ActionSpin />
+        ) : (
+          <>
+            <button
+              className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
+              onClick={() => {
+                // TODO: заполнить коммент ссылкой на текущий action
+              }}
+            >
+              Ответить
+            </button>
+            {/* // TODO: • В этом поле есть несохранённые изменения */}
+          </>
+        )}
+      </div>
+    </>
+  )
+}
+
+function ActionComment({ isLoading, args, createdByLink }) {
+  const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
+  const [isEdit, setIsEdit] = React.useState(false)
+  React.useEffect(() => {
+    if (!isExpanded) {
+      setIsEdit(false)
+    }
+  }, [isExpanded])
+  return (
+    <>
+      {' '}
+      <InlineSpacer />
+      {isLoading || createdByLink}
+      {/* // TODO: (изменён) */}
+      <div className="my-1 ">
+        {isExpanded && isEdit ? (
+          <CommentBox
+            defaultValue={args.text}
+            close={() => {
+              setIsEdit(false)
+            }}
+          />
+        ) : (
+          <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] px-3 py-2 text-[var(--ds-text,#172b4d)]">
+            {args.text}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-wrap items-center pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
+        <Button
+          className={cx(
+            'm-[-4px] box-content p-[4px]',
+            // TODO: так же увеличить кликабельную область для ссылок (по высоте, минимум 24px)
+            'bg-transparent',
+            'text-[var(--ds-icon-subtle,#6b778c)]',
+            'hover:text-[var(--ds-icon-accent-gray,#172b4d)]',
+            'h-4 w-4 rounded-[3px] border-0 leading-4 shadow-none',
+          )}
+          title="Добавить реакцию"
+          icon={
+            <SmileOutlined
+              onClick={() => {
+                // TODO: добавить смайлик для комментария
+              }}
+            />
+          }
+        />
+        <InlineSpacer />
+        {isLoading ? (
+          <div className="inline-block select-none [&>:last-child]:ml-1">
+            {'• '}
+            <ActionSpin />
+          </div>
+        ) : (
+          <>
+            <LinkButton
+              onClick={() => {
+                setIsExpanded(true)
+                setIsEdit(true)
+              }}
+            >
+              Изменить
+            </LinkButton>
+            <LinkButton
+              onClick={() => {
+                // TODO: удалить комментарий
+                Modal.confirm()
+              }}
+            >
+              Удалить
+            </LinkButton>
+            {/* // TODO: <div>• В этом поле есть несохранённые изменения</div> */}
+          </>
+        )}
+      </div>
+    </>
+  )
+}
+
 function ActionContent({ record, args, createdByLink }) {
   const fn = actionRecords[record]
   const isLoading = false
   if (record === 'comment') {
-    const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
-    const [isEdit, setIsEdit] = React.useState(false)
-    React.useEffect(() => {
-      if (!isExpanded) {
-        setIsEdit(false)
-      }
-    }, [isExpanded])
-    return (
-      <>
-        {' '}
-        <InlineSpacer />
-        {isLoading || createdByLink}
-        {/* // TODO: (изменён) */}
-        <div className="my-1 ">
-          {isExpanded && isEdit ? (
-            <CommentBox
-              defaultValue={args.text}
-              close={() => {
-                setIsEdit(false)
-              }}
-            />
-          ) : (
-            <div className="action-comment truncate rounded-[3px] bg-[var(--ds-background-input,#fff)] px-3 py-2 text-[var(--ds-text,#172b4d)]">
-              {args.text}
-            </div>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center pt-0.5 text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
-          <Button
-            className={cx(
-              'm-[-4px] box-content p-[4px]',
-              // TODO: так же увеличить кликабельную область для ссылок (по высоте, минимум 24px)
-              'bg-transparent',
-              'text-[var(--ds-icon-subtle,#6b778c)]',
-              'hover:text-[var(--ds-icon-accent-gray,#172b4d)]',
-              'h-4 w-4 rounded-[3px] border-0 leading-4 shadow-none',
-            )}
-            title="Добавить реакцию"
-            icon={
-              <SmileOutlined
-                onClick={() => {
-                  // TODO: добавить смайлик для комментария
-                }}
-              />
-            }
-          />
-          <InlineSpacer />
-          {isLoading ? (
-            <div className="inline-block select-none [&>:last-child]:ml-1">
-              {'• '}
-              <ActionSpin />
-            </div>
-          ) : (
-            <>
-              <LinkButton
-                onClick={() => {
-                  setIsExpanded(true)
-                  setIsEdit(true)
-                }}
-              >
-                Изменить
-              </LinkButton>
-              <LinkButton
-                onClick={() => {
-                  // TODO: удалить комментарий
-                  Modal.confirm()
-                }}
-              >
-                Удалить
-              </LinkButton>
-              {/* // TODO: <div>• В этом поле есть несохранённые изменения</div> */}
-            </>
-          )}
-        </div>
-      </>
-    )
+    return <ActionComment {...{ isLoading, args, createdByLink }} />
   }
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
-    return (
-      <>
-        {` ${fn()} `}
-        <a
-          className="text-[var(--ds-link,#172b4d)] underline"
-          // для поддержки контекстного меню по правой кнопки мышки
-          href={args.url}
-          onClick={(event) => {
-            event.preventDefault()
-          }}
-        >
-          {getFilename(args.url)}
-        </a>{' '}
-        <InlineSpacer />
-        {isLoading || createdByLink}
-        {args.thumbnail && (
-          <a target="_blank" href={args.url}>
-            <img
-              className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
-              src={args.thumbnail}
-            />
-          </a>
-        )}
-        <div>
-          {isLoading ? (
-            <ActionSpin />
-          ) : (
-            <>
-              <button
-                className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
-                onClick={() => {
-                  // TODO: заполнить коммент ссылкой на текущий action
-                }}
-              >
-                Ответить
-              </button>
-              {/* // TODO: • В этом поле есть несохранённые изменения */}
-            </>
-          )}
-        </div>
-      </>
-    )
+    return <ActionAttachment {...{ isLoading, args, createdByLink }} />
   }
   return (
     <>
