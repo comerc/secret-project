@@ -705,7 +705,7 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
 const List = React.forwardRef(function List({ isAddCardForm, ...props }, ref) {
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (для Input.TextArea.autoSize)
   const outerElementType = React.useMemo(() => {
-    return React.forwardRef(({ children, onScroll, style }, ref) => {
+    return React.forwardRef(function OuterElement({ children, onScroll, style }, ref) {
       // TODO: в оригинале горизонтальный скрол "прилипает" к половине ширины колонки, т.е. докручивает до нужного положения
       const refSetter = (scrollbarsRef) => {
         if (scrollbarsRef) {
