@@ -481,54 +481,6 @@ function ActionSpin() {
   )
 }
 
-function ActionAttachment({ isLoading, args, createdByLink }) {
-  return (
-    <>
-      {` ${fn()} `}
-      <a
-        className="text-[var(--ds-link,#172b4d)] underline"
-        // для поддержки контекстного меню по правой кнопки мышки
-        target="_blank" // TODO: если файл для скачивания, то _blank не нужен
-        rel="noopener noreferrer"
-        href={args.url}
-        onClick={(event) => {
-          event.preventDefault()
-        }}
-      >
-        {getFilename(args.url)}
-      </a>{' '}
-      <InlineSpacer />
-      {isLoading || createdByLink}
-      {args.thumbnail && (
-        <a target="_blank" rel="noopener noreferrer" href={args.url}>
-          <img
-            className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
-            src={args.thumbnail}
-            alt=""
-          />
-        </a>
-      )}
-      <div>
-        {isLoading ? (
-          <ActionSpin />
-        ) : (
-          <>
-            <button
-              className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
-              onClick={() => {
-                // TODO: заполнить коммент ссылкой на текущий action
-              }}
-            >
-              Ответить
-            </button>
-            {/* // TODO: • В этом поле есть несохранённые изменения */}
-          </>
-        )}
-      </div>
-    </>
-  )
-}
-
 function ActionComment({ isLoading, args, createdByLink }) {
   const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
   const [isEdit, setIsEdit] = React.useState(false)
@@ -615,7 +567,51 @@ function ActionContent({ record, args, createdByLink }) {
     return <ActionComment {...{ isLoading, args, createdByLink }} />
   }
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
-    return <ActionAttachment {...{ isLoading, args, createdByLink }} />
+    return (
+      <>
+        {` ${fn()} `}
+        <a
+          className="text-[var(--ds-link,#172b4d)] underline"
+          // для поддержки контекстного меню по правой кнопки мышки
+          target="_blank" // TODO: если файл для скачивания, то _blank не нужен
+          rel="noopener noreferrer"
+          href={args.url}
+          onClick={(event) => {
+            event.preventDefault()
+          }}
+        >
+          {getFilename(args.url)}
+        </a>{' '}
+        <InlineSpacer />
+        {isLoading || createdByLink}
+        {args.thumbnail && (
+          <a target="_blank" rel="noopener noreferrer" href={args.url}>
+            <img
+              className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
+              src={args.thumbnail}
+              alt=""
+            />
+          </a>
+        )}
+        <div>
+          {isLoading ? (
+            <ActionSpin />
+          ) : (
+            <>
+              <button
+                className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
+                onClick={() => {
+                  // TODO: заполнить коммент ссылкой на текущий action
+                }}
+              >
+                Ответить
+              </button>
+              {/* // TODO: • В этом поле есть несохранённые изменения */}
+            </>
+          )}
+        </div>
+      </>
+    )
   }
   return (
     <>
