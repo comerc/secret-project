@@ -90,7 +90,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       member: members[0],
       createdBy: '2023-02-23 20:21:22',
       record: 'moveCard',
-      args: { listTitle1: 'Backlog', listTitle2: 'To Do' },
+      args: { oldListTitle: 'Backlog', newListTitle: 'To Do' },
     },
     {
       id: 'a-6',
