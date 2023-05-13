@@ -721,7 +721,7 @@ function EditCommentWrapper({ inputRef, render }) {
       preventScroll: true,
       cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
     })
-  }, [])
+  }, [inputRef])
   return render()
 }
 
