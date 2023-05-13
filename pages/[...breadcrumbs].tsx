@@ -207,7 +207,7 @@ function Router({ urlName, children, renderCardDetailWindow }) {
       return
     }
     setIsUrlName(true)
-  }, [breadcrumbs])
+  }, [breadcrumbs, router, urlName])
   if (!isUrlName) {
     return
   }
