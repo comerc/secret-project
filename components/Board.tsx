@@ -906,7 +906,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnItemList?
   React.useEffect(() => {
     _listRefMap[id] = listRef
-  }, [])
+  }, [id])
   const { isExpanded } = React.useContext(FrontLabelsContext)
   const itemData = issuesOrder.map((id) => (id === '0' ? { id: '0' } : issues[id]))
   const getItemSize = (index) => {
