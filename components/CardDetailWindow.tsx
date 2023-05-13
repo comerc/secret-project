@@ -308,7 +308,7 @@ function ChecklistItem({ text }) {
   )
 }
 
-function getChecklistTitleBox(title, getDefaultTitleBox) {
+function ChecklistTitleBox(title, getDefaultTitleBox) {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
   const [value, setValue] = React.useState(title)
@@ -347,7 +347,7 @@ function Checklist({ title, items }) {
   // TODO: у Checklist тоже есть drag'n'drop
   return (
     <Section
-      getCustomTitleBox={getChecklistTitleBox}
+      getCustomTitleBox={ChecklistTitleBox}
       icon={<CheckSquareOutlined className="scale-125" />}
       title={title}
       right
