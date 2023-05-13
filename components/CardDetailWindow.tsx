@@ -112,7 +112,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
     } else {
       close()
     }
-  }, [isExpanded])
+  }, [isExpanded, close])
   const ref = React.useRef()
   const inputRef = React.useRef()
   useOnClickOutside(
@@ -1141,7 +1141,7 @@ function Description() {
         setIsMore(true)
       }
     }
-  }, [])
+  }, [isFirst, isEdit])
   const hasNotSavedChanges = true
   const isSaveError = false
   return (
