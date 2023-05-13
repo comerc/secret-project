@@ -481,6 +481,54 @@ function ActionSpin() {
   )
 }
 
+function ActionAttachment({ isLoading, args, createdByLink, children }) {
+  return (
+    <>
+      {` ${children} `}
+      <a
+        className="text-[var(--ds-link,#172b4d)] underline"
+        // для поддержки контекстного меню по правой кнопки мышки
+        target="_blank" // TODO: если файл для скачивания, то _blank не нужен
+        rel="noopener noreferrer"
+        href={args.url}
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        {getFilename(args.url)}
+      </a>{' '}
+      <InlineSpacer />
+      {isLoading || createdByLink}
+      {args.thumbnail && (
+        <a target="_blank" rel="noopener noreferrer" href={args.url}>
+          <img
+            className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
+            src={args.thumbnail}
+            alt=""
+          />
+        </a>
+      )}
+      <div>
+        {isLoading ? (
+          <ActionSpin />
+        ) : (
+          <>
+            <button
+              className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
+              onClick={() => {
+                // TODO: заполнить коммент ссылкой на текущий action
+              }}
+            >
+              Ответить
+            </button>
+            {/* // TODO: • В этом поле есть несохранённые изменения */}
+          </>
+        )}
+      </div>
+    </>
+  )
+}
+
 function ActionComment({ isLoading, args, createdByLink }) {
   const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
   const [isEdit, setIsEdit] = React.useState(false)
@@ -567,49 +615,9 @@ function ActionContent({ record, args, createdByLink }) {
   }
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
     return (
-      <>
-        {` ${actionRecords[record]()} `}
-        <a
-          className="text-[var(--ds-link,#172b4d)] underline"
-          // для поддержки контекстного меню по правой кнопки мышки
-          target="_blank" // TODO: если файл для скачивания, то _blank не нужен
-          rel="noopener noreferrer"
-          href={args.url}
-          onClick={(event) => {
-            event.preventDefault()
-          }}
-        >
-          {getFilename(args.url)}
-        </a>{' '}
-        <InlineSpacer />
-        {isLoading || createdByLink}
-        {args.thumbnail && (
-          <a target="_blank" rel="noopener noreferrer" href={args.url}>
-            <img
-              className="action-image-preview mb-1 mt-2 max-h-[500px] max-w-full rounded-[3px]"
-              src={args.thumbnail}
-              alt=""
-            />
-          </a>
-        )}
-        <div>
-          {isLoading ? (
-            <ActionSpin />
-          ) : (
-            <>
-              <button
-                className="select-none text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] underline hover:text-[var(--ds-text-subtle,#172b4d)]"
-                onClick={() => {
-                  // TODO: заполнить коммент ссылкой на текущий action
-                }}
-              >
-                Ответить
-              </button>
-              {/* // TODO: • В этом поле есть несохранённые изменения */}
-            </>
-          )}
-        </div>
-      </>
+      <ActionAttachment {...{ isLoading, args, createdByLink }}>
+        {actionRecords[record]()}
+      </ActionAttachment>
     )
   }
   return (
@@ -687,7 +695,7 @@ function CommentBoxState({ children }) {
   )
 }
 
-function NewCommentWrapper({ isShowControls, setIsFocused, children }) {
+function NewCommentWrapper({ isShowControls, setIsFocused, avatar, render }) {
   const ref = React.useRef()
   useOnClickOutside(
     ref,
@@ -699,17 +707,22 @@ function NewCommentWrapper({ isShowControls, setIsFocused, children }) {
     },
     'mouseup', // TODO: надо отслеживать target от mousedown, т.к. можно нажать-переместить-отпустить мышку (в оригинале такой же косяк)
   )
-  return <div {...{ ref }}>{children}</div>
+  return (
+    <div {...{ ref }}>
+      {avatar}
+      {render()}
+    </div>
+  )
 }
 
-function EditCommentWrapper({ inputRef, children }) {
+function EditCommentWrapper({ inputRef, render }) {
   React.useEffect(() => {
     inputRef.current.focus({
       preventScroll: true,
       cursor: 'all', // TODO: см. ColumnHeader - не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
     })
   }, [])
-  return children
+  return render()
 }
 
 function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) {
@@ -719,22 +732,20 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
   const inputRef = React.useRef()
   const render = () => {
     return (
-      <>
-        {avatar}
-        <div
-          className={cx(
-            'comment-box',
-            isFocused ? 'is-focused pb-14' : 'pb-2',
-            'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
-          )}
-          // TODO: заменить на onMouseDown, если useOnClickOutside будет отслеживать 'mousedown'
-          onMouseUp={(event) => {
-            if (!isNewComment) {
-              event.stopPropagation() // для отключения useOnClickOutside
-            }
-          }}
-        >
-          {/* <Form
+      <div
+        className={cx(
+          'comment-box',
+          isFocused ? 'is-focused pb-14' : 'pb-2',
+          'relative overflow-hidden rounded-[3px] bg-[var(--ds-background-input,#ffffff)] px-3 pt-2 leading-5 transition-[box-shadow,padding-bottom]',
+        )}
+        // TODO: заменить на onMouseDown, если useOnClickOutside будет отслеживать 'mousedown'
+        onMouseUp={(event) => {
+          if (!isNewComment) {
+            event.stopPropagation() // для отключения useOnClickOutside
+          }
+        }}
+      >
+        {/* <Form
             // className="w-full pt-1"
             form={form}
             layout="vertical"
@@ -742,89 +753,88 @@ function CommentBox({ avatar, isNewComment = false, defaultValue = '', close }) 
             // onValuesChange={onRequiredTypeChange}
             // requiredMark={requiredMark}
           > */}
-          {/* <Form.Item> */}
-          <Input.TextArea
-            // TODO: Вы ничего не написали!
-            // TODO: Ваш комментарий слишком длинный.
-            placeholder={isNewComment ? 'Напишите комментарий…' : null}
-            className={cx(
-              isFocused
-                ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
-                : isShowControls
-                ? ''
-                : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
-              isFocused ? 'p-0' : 'mx-[-12px] my-[-8px] cursor-pointer px-[12px] py-[8px]',
-              'focus-borderless box-content min-h-[20px] overflow-hidden rounded-[3px] leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
-            )}
-            bordered={false}
-            // ref={inputRef}
-            autoSize
-            aria-label={isNewComment ? 'Написать комментарий' : 'Изменить комментарий'}
-            // value={value}
-            defaultValue={defaultValue}
-            onChange={(event) => {
-              // setValue(event.target.value)
-              setIsShowControls(event.target.value !== '')
+        {/* <Form.Item> */}
+        <Input.TextArea
+          // TODO: Вы ничего не написали!
+          // TODO: Ваш комментарий слишком длинный.
+          placeholder={isNewComment ? 'Напишите комментарий…' : null}
+          className={cx(
+            isFocused
+              ? 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,transparent)] focus:transition-none'
+              : isShowControls
+              ? ''
+              : 'hover:bg-[var(--ds-background-input-hovered,#ebecf0)]',
+            isFocused ? 'p-0' : 'mx-[-12px] my-[-8px] cursor-pointer px-[12px] py-[8px]',
+            'focus-borderless box-content min-h-[20px] overflow-hidden rounded-[3px] leading-5 text-[var(--ds-text,#172b4d)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]',
+          )}
+          bordered={false}
+          // ref={inputRef}
+          autoSize
+          aria-label={isNewComment ? 'Написать комментарий' : 'Изменить комментарий'}
+          // value={value}
+          defaultValue={defaultValue}
+          onChange={(event) => {
+            // setValue(event.target.value)
+            setIsShowControls(event.target.value !== '')
+          }}
+          onFocus={() => {
+            if (isNewComment) {
+              setIsExpanded(false)
+            }
+            setIsFocused(true)
+          }}
+          onKeyDown={(event) => {
+            event.stopPropagation()
+          }}
+          ref={inputRef}
+        />
+        <div
+          className={cx(
+            'absolute bottom-2 left-3 right-2 flex gap-1 transition-[transform,opacity]',
+            isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
+          )}
+        >
+          {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
+          <CustomButton
+            disabled={!isShowControls}
+            primary
+            // colors={
+            //   isShowControls
+            //     ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
+            //     : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
+            // }
+            onClick={() => {
+              console.log('2222')
             }}
-            onFocus={() => {
-              if (isNewComment) {
-                setIsExpanded(false)
-              }
-              setIsFocused(true)
-            }}
-            onKeyDown={(event) => {
-              event.stopPropagation()
-            }}
-            ref={inputRef}
-          />
-          <div
-            className={cx(
-              'absolute bottom-2 left-3 right-2 flex gap-1 transition-[transform,opacity]',
-              isFocused ? 'translate-y-0 opacity-100' : 'translate-y-[48px] opacity-0',
-            )}
           >
-            {/* // TODO: не меняет фокус для input при клике по disabled <input type="submit" disabled value="123"></input> */}
-            <CustomButton
-              disabled={!isShowControls}
-              primary
-              // colors={
-              //   isShowControls
-              //     ? 'bg-[var(--ds-background-brand-bold,#0079bf)] text-[var(--ds-text-inverse,#fff)] hover:bg-[var(--ds-background-brand-bold-hovered,#026aa7)] active:bg-[var(--ds-background-brand-bold-pressed,#055a8c)]'
-              //     : 'bg-[var(--ds-background-disabled,#091e420a)] text-[var(--ds-text-disabled,#a5adba)]'
-              // }
-              onClick={() => {
-                console.log('2222')
-              }}
-            >
-              Сохранить
-            </CustomButton>
-            {isNewComment || <EditCloseButton onClick={close} />}
-            <div className="ml-[-4px] grow" />
-            <CommentBoxOptionsButton
-              icon={<PaperClipOutlined />}
-              title="Добавить вложение…"
-              onClick={(event) => {
-                event.preventDefault()
-                console.log('onClick')
-              }}
-            />
-            <CommentBoxOptionsButton icon={<FireOutlined />} title="Упомянуть участника…" />
-            <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
-            <CommentBoxOptionsButton
-              icon={<CreditCardOutlined rotate={180} />}
-              title="Добавить карточку…"
-            />
-          </div>
-          {/* </Form.Item> */}
-          {/* </Form> */}
+            Сохранить
+          </CustomButton>
+          {isNewComment || <EditCloseButton onClick={close} />}
+          <div className="ml-[-4px] grow" />
+          <CommentBoxOptionsButton
+            icon={<PaperClipOutlined />}
+            title="Добавить вложение…"
+            onClick={(event) => {
+              event.preventDefault()
+              console.log('onClick')
+            }}
+          />
+          <CommentBoxOptionsButton icon={<FireOutlined />} title="Упомянуть участника…" />
+          <CommentBoxOptionsButton icon={<SmileOutlined />} title="Добавить эмодзи…" />
+          <CommentBoxOptionsButton
+            icon={<CreditCardOutlined rotate={180} />}
+            title="Добавить карточку…"
+          />
         </div>
-      </>
+        {/* </Form.Item> */}
+        {/* </Form> */}
+      </div>
     )
   }
   return isNewComment ? (
-    <NewCommentWrapper {...{ isShowControls, setIsFocused }}>{render()}</NewCommentWrapper>
+    <NewCommentWrapper {...{ isShowControls, setIsFocused, avatar, render }} />
   ) : (
-    <EditCommentWrapper {...{ inputRef }}>{render()}</EditCommentWrapper>
+    <EditCommentWrapper {...{ inputRef, render }} />
   )
 }
 
