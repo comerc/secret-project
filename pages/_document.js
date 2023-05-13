@@ -62,7 +62,8 @@ class MyDocument extends Document {
             Your browser was unable to load all of resources. They may have been blocked by your
             firewall, proxy or browser configuration.
             <br />
-            Press Ctrl+F5 or Ctrl+Shift+R to have your browser try again and if that doesn't work.
+            Press Ctrl+F5 or Ctrl+Shift+R to have your browser try again and if that doesn&#39;t
+            work.
             <hr />
           </div>
           <Main />
