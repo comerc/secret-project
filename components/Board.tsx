@@ -1012,6 +1012,14 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
 function ColumnExtrasButton({ id }) {
   const { state, setState } = React.useContext(BoardContext)
   const [isOpen, setIsOpen] = React.useState(false)
+  const [back, setBack] = React.useState('')
+  const backHeaders = {
+    'copy-list': 'Копирование списка',
+    'move-list': 'Перемещение списка',
+    'sort-cards': 'Сортировать список',
+    'move-cards': 'Переместить в список',
+    'archive-cards': 'Архивировать список?',
+  }
   const data = [
     { 'add-card': 'Добавить карточку…' },
     { 'copy-list': 'Копировать список…' },
@@ -1032,29 +1040,52 @@ function ColumnExtrasButton({ id }) {
     'divider',
     { 'close-list': 'Архивировать список' },
   ]
-  const items = data.map((currentValue, index) => {
-    if (currentValue === 'divider') {
-      return { type: 'divider' }
-    }
-    const [key, itemText] = Object.entries(currentValue)[0]
-    return {
-      key,
-      label: (
-        <CustomDropdown.Item>
-          <div className="truncate">{itemText}</div>
-        </CustomDropdown.Item>
-      ),
-    }
-  })
+  const items =
+    back === ''
+      ? data.map((currentValue, index) => {
+          if (currentValue === 'divider') {
+            return { type: 'divider' }
+          }
+          const [key, itemText] = Object.entries(currentValue)[0]
+          return {
+            key,
+            label: (
+              <CustomDropdown.Item>
+                <div className="truncate">{itemText}</div>
+              </CustomDropdown.Item>
+            ),
+          }
+        })
+      : []
+  const backFooters = {
+    'copy-list': <div>Footer</div>,
+  }
   return (
     <CustomDropdown
       smallSize
-      header="Действия со списком"
+      header={backHeaders[back] || 'Действия со списком'}
+      footer={backFooters[back]}
+      hasBack={back !== ''}
+      resetBack={() => {
+        setBack('')
+      }}
       onClick={(event) => {
         if (event.key === 'add-card') {
           openAddCardForm(state, setState, id, 0)
+          setIsOpen(false)
+          return
+        }
+        if (!!backHeaders[event.key]) {
+          setBack(event.key)
         }
         // setSelected(event.key)
+      }}
+      onOpenChange={(flag) => {
+        if (!flag && back !== '') {
+          setTimeout(() => {
+            setBack('')
+          })
+        }
       }}
       {...{ items, isOpen, setIsOpen }}
     >

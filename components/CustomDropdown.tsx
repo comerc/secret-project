@@ -1,5 +1,5 @@
 import React from 'react'
-import { CloseOutlined } from '@ant-design/icons'
+import { LeftOutlined, CloseOutlined } from '@ant-design/icons'
 import { Dropdown, theme } from 'antd'
 import cx from 'classnames'
 // import { useWindowSize } from 'usehooks-ts'
@@ -30,6 +30,8 @@ function CustomDropdown({
   children,
   isOpen,
   setIsOpen,
+  hasBack,
+  resetBack,
 }) {
   // const [open, setOpen] = React.useState(isOpen)
   // const { width, height } = useWindowSize() // TODO: ошибки в смещении при уменьшении размера экрана
@@ -48,12 +50,7 @@ function CustomDropdown({
       getPopupContainer={() => document.getElementById('board-screen-width')}
       menu={{
         items,
-        onClick: (event) => {
-          if (onClick) {
-            onClick(event)
-          }
-          setIsOpen(false)
-        },
+        onClick,
       }}
       dropdownRender={(menu) => (
         <div
@@ -71,6 +68,18 @@ function CustomDropdown({
         >
           {header && (
             <div className="relative mb-2">
+              {hasBack && (
+                <a
+                  className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"
+                  href="#" // TODO: replace to role="button" or <button />
+                  onClick={(event) => {
+                    event.preventDefault()
+                    resetBack()
+                  }}
+                >
+                  <LeftOutlined />
+                </a>
+              )}
               <span className="mx-3 block truncate border-b border-[var(--ds-border,#091e4221)] px-7 text-center leading-10 text-[var(--ds-text-subtle,#5e6c84)]">
                 {header}
               </span>
