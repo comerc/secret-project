@@ -702,7 +702,7 @@ const ColumnRow = React.memo(function Row({ data, index, style }) {
   )
 }, areEqual)
 
-const List = React.forwardRef(function List({ isAddCardForm, ...props }, ref) {
+const List = React.forwardRef(function List2({ isAddCardForm, ...props }, ref) {
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (для Input.TextArea.autoSize)
   const outerElementType = React.useMemo(() => {
     return React.forwardRef(function OuterElement({ children, onScroll, style }, ref) {
