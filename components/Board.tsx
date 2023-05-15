@@ -1009,25 +1009,26 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
   )
 }
 
-function ArchiveCards() {
+const ArchiveCards = React.memo(function ArchiveCards2() {
   return <div></div>
-}
+})
 
-function MoveCards() {
+const MoveCards = React.memo(function MoveCards2() {
   return <div></div>
-}
+})
 
-function SortCards() {
+const SortCards = React.memo(function SortCards2() {
   return <div></div>
-}
+})
 
-function MoveList() {
+const MoveList = React.memo(function MoveList2() {
   return <div></div>
-}
+})
 
-function CopyList() {
+const CopyList = React.memo(function CopyList2() {
+  console.log('CopyList')
   return <div></div>
-}
+})
 
 function ColumnExtrasButton({ id }) {
   const { state, setState } = React.useContext(BoardContext)
@@ -1078,11 +1079,11 @@ function ColumnExtrasButton({ id }) {
         })
       : []
   const backFooters = {
-    'copy-list': <CopyList/>,
-    'move-list': <MoveList/>,
-    'sort-cards': <SortCards/>,
-    'move-cards': <MoveCards/>,
-    'archive-cards': <ArchiveCards/>,
+    'copy-list': <CopyList />,
+    'move-list': <MoveList />,
+    'sort-cards': <SortCards />,
+    'move-cards': <MoveCards />,
+    'archive-cards': <ArchiveCards />,
   }
   return (
     <CustomDropdown
