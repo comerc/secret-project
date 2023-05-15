@@ -1009,6 +1009,26 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
   )
 }
 
+function ArchiveCards() {
+  return <div></div>
+}
+
+function MoveCards() {
+  return <div></div>
+}
+
+function SortCards() {
+  return <div></div>
+}
+
+function MoveList() {
+  return <div></div>
+}
+
+function CopyList() {
+  return <div></div>
+}
+
 function ColumnExtrasButton({ id }) {
   const { state, setState } = React.useContext(BoardContext)
   const [isOpen, setIsOpen] = React.useState(false)
@@ -1058,7 +1078,11 @@ function ColumnExtrasButton({ id }) {
         })
       : []
   const backFooters = {
-    'copy-list': <div>Footer</div>,
+    'copy-list': <CopyList/>,
+    'move-list': <MoveList/>,
+    'sort-cards': <SortCards/>,
+    'move-cards': <MoveCards/>,
+    'archive-cards': <ArchiveCards/>,
   }
   return (
     <CustomDropdown
