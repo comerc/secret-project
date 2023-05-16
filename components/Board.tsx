@@ -1026,7 +1026,6 @@ const MoveList = React.memo(function MoveList2() {
 })
 
 const CopyList = React.memo(function CopyList2() {
-  console.log('CopyList')
   return <div></div>
 })
 
