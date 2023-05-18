@@ -13,7 +13,7 @@ import {
   BorderOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
-import { Input, Button, Tooltip, Avatar } from 'antd'
+import { Form, Input, Button, Tooltip, Avatar } from 'antd'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd' // 'react-beautiful-dnd'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList, areEqual } from 'react-window'
@@ -97,7 +97,7 @@ function AddColumnButton() {
       <Button
         className={cx(
           isIdle || 'hidden',
-          'flex h-10 w-full items-center rounded-[3px] border-0 bg-transparent px-[14px] py-[10px] leading-5 text-[var(--dynamic-text)] shadow-none text-start [&>:last-child]:truncate',
+          'flex h-10 w-full items-center rounded-[3px] border-0 bg-transparent px-[14px] py-[10px] text-start leading-5 text-[var(--dynamic-text)] shadow-none [&>:last-child]:truncate',
         )}
         icon={<PlusOutlined />}
         onClick={() => {
@@ -338,7 +338,7 @@ function ColumnFooter() {
     <div className="px-2 pb-2 pt-0.5" style={{ height: COLUMN_FOOTER_HEIGHT }}>
       <Button
         data-tab-is-list="prev"
-        className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none text-start hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
+        className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 text-start leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
         onClick={(event) => {
           const columnId = getParentColumnId(event.target)
@@ -655,7 +655,7 @@ function ActiveListCard({ provided, snapshot, issue }) {
         }}
       />
       <div
-        className="h-2 mx-2 mt-[-8px]"
+        className="mx-2 mt-[-8px] h-2"
         onDoubleClick={(event) => {
           event.stopPropagation()
           const columnId = getParentColumnId(event.target)
@@ -1026,7 +1026,32 @@ const MoveList = React.memo(function MoveList2() {
 })
 
 const CopyList = React.memo(function CopyList2() {
-  return <div></div>
+  return (
+    <Form
+      className="extras-button-form"
+      layout="vertical"
+      // initialValues={{ requiredMarkValue: requiredMark }}
+      // onValuesChange={onRequiredTypeChange}
+      // requiredMark={requiredMark}
+      // {...{ form }}
+    >
+      <Form.Item label="Название">
+        <Input.TextArea
+          className={cx(
+            'rounded-[3px] px-3 py-2 text-[14px] leading-5 text-[var(--ds-text,#172b4d)]',
+            'bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]',
+          )}
+          // bordered={false}
+          // ref={inputRef}
+          autoSize
+          // onKeyDown={(event) => {
+          //   event.stopPropagation()
+          // }}
+          // {...{ value, onChange }}
+        />
+      </Form.Item>
+    </Form>
+  )
 })
 
 function ColumnExtrasButton({ id }) {
@@ -1613,6 +1638,7 @@ function Board({ hasMenu }) {
           visibility: 'hidden',
           position: 'absolute',
           bottom: 0,
+          right: 0,
           // zIndex: 1000,
           width: COLUMN_WIDTH,
         }}
