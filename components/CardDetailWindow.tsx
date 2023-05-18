@@ -51,6 +51,7 @@ function ChecklistNewItem() {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
   // TODO: если заполнить поле ввода через буфер обмена многострочным текстом, то каждая строка будет отдельным элементом после отправки формы
+  // TODO: когда открыто в одном Checklist-е, надо закрывать в другом (если ранее был открыт)
   const [value, setValue] = React.useState('')
   return isEdit ? (
     <ChecklistInputBox
@@ -112,7 +113,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
     } else {
       close()
     }
-  }, [isExpanded, close])
+  }, [])
   const ref = React.useRef()
   const inputRef = React.useRef()
   useOnClickOutside(
@@ -131,7 +132,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
         <Input.TextArea
           className={cx(
             isNew
-              ? 'input-border-focused min-h-[32px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
+              ? 'input-border-focused min-h-[36px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
               : 'input-border bg-[var(--ds-background-input,#091e420a)]',
             isTitle ? 'text-[16px] font-semibold' : 'text-[14px]',
             'focus-borderless overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[var(--ds-text,#172b4d)]',
