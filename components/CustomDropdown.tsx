@@ -113,7 +113,7 @@ function CustomDropdown({
               })}
             </div>
           )}
-          {footer && <div className="px-3 py-3">{footer}</div>}
+          {footer && <div className="px-3 pb-3">{footer}</div>}
         </div>
       )}
       trigger={['click']}

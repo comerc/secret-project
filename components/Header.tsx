@@ -244,12 +244,12 @@ function InFavoritesButton({ favorites, onDelete }) {
       footer={
         items.length === 0 ? (
           // TODO: добавить картинку
-          <div className="mb-2 mt-3 text-center">
+          <div className="pb-2 pt-3 text-center">
             Чтобы быстро находить важные доски, отмечайте их.
           </div>
         ) : (
           // TODO: добавить перестановку через drag'n'drop
-          <div className="mb-2">{items}</div>
+          <div className="pb-2 pt-3">{items}</div>
         )
       }
       {...{ isOpen, setIsOpen }}

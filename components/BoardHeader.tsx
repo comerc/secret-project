@@ -169,7 +169,7 @@ function FilterButton() {
       header="Фильтр"
       footer={
         <Form
-          className="w-full pt-1"
+          className="w-full pt-3"
           layout="vertical"
           // initialValues={{ requiredMarkValue: requiredMark }}
           // onValuesChange={onRequiredTypeChange}
