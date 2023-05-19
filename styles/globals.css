@@ -29,6 +29,9 @@
   .extras-button-form .ant-form-item-label {
     @apply pb-1 leading-4 !important;
   }
+  .extras-button-form .ant-form-item {
+    @apply mb-5 !important;
+  }
   .root .ant-form-item-label > label {
     @apply text-xs font-semibold text-[var(--ds-text-subtle,#5e6c84)] !important;
   }
