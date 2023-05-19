@@ -19,6 +19,8 @@ function CustomDropdownItem({ children }) {
   )
 }
 
+// TODO: не работает [TAB] для элементов внутри CustomDropdown, пока открыто
+// TODO: [Esc] if (hasBack) resetBack()
 function CustomDropdown({
   header,
   footer,
@@ -89,6 +91,10 @@ function CustomDropdown({
                 onClick={(event) => {
                   event.preventDefault()
                   setIsOpen(false)
+                  // HACK: не срабатывает по клику на крестике в header, но срабатывает по [Esc]
+                  if (onOpenChange) {
+                    onOpenChange(false)
+                  }
                 }}
               >
                 <CloseOutlined />
