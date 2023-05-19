@@ -114,6 +114,12 @@ function AddColumnButton() {
         onSubmit={(event) => {
           event.preventDefault()
         }}
+        onKeyDown={(event) => {
+          event.stopPropagation()
+          if (event.code === 'Escape') {
+            close()
+          }
+        }}
       >
         <div className={cx(isIdle ? 'pt-0' : 'pt-1', 'px-1')}>
           <Input
@@ -129,9 +135,6 @@ function AddColumnButton() {
             ref={inputRef}
             onChange={(event) => {
               setValue(event.target.value)
-            }}
-            onKeyDown={(event) => {
-              event.stopPropagation()
             }}
             {...{ value }}
           />
@@ -1025,36 +1028,67 @@ const MoveList = React.memo(function MoveList2() {
   return <div></div>
 })
 
-const CopyList = React.memo(function CopyList2() {
+const CopyList = React.memo(function CopyList2({ title, close }) {
+  React.useEffect(() => {
+    const element = document.getElementById('input-copy-list')
+    element.focus()
+    element.setSelectionRange(0, value.length)
+  }, [])
+  const [value, setValue] = React.useState(title)
+  const onChange = (event) => {
+    setValue(event.target.value)
+  }
+  const submit = () => {
+    const title = value.trim()
+    if (title === '') {
+      document.getElementById('input-copy-list').focus()
+      return
+    }
+    close()
+    // TODO: скопировать список
+  }
   return (
-    <Form
-      className="extras-button-form"
-      layout="vertical"
-      // initialValues={{ requiredMarkValue: requiredMark }}
-      // onValuesChange={onRequiredTypeChange}
-      // requiredMark={requiredMark}
-      // {...{ form }}
-    >
+    <Form className="extras-button-form" layout="vertical">
       <Form.Item label="Название">
         <Input.TextArea
+          id="input-copy-list"
           className={cx(
             'rounded-[3px] px-3 py-2 text-[14px] leading-5 text-[var(--ds-text,#172b4d)]',
             'bg-[var(--ds-background-input,#fafbfc)] hover:bg-[var(--ds-background-input-hovered,#ebecf0)] focus:bg-[var(--ds-background-input,#ffffff)]',
           )}
-          // bordered={false}
-          // ref={inputRef}
           autoSize
-          // onKeyDown={(event) => {
-          //   event.stopPropagation()
-          // }}
-          // {...{ value, onChange }}
+          spellCheck={false}
+          size={512}
+          onKeyDown={(event) => {
+            if (event.code === 'Escape') {
+              return
+            }
+            event.stopPropagation()
+            if (event.code === 'Enter') {
+              event.preventDefault()
+              submit()
+            }
+          }}
+          {...{ value, onChange }}
         />
       </Form.Item>
+      <CustomButton
+        primary
+        htmlType="submit"
+        onClick={submit}
+        // HACK: для [TAB], пока это не реализовано для CustomDropdown
+        onKeyDown={(event) => {
+          event.stopPropagation()
+        }}
+      >
+        Создать список
+      </CustomButton>
     </Form>
   )
 })
 
-function ColumnExtrasButton({ id }) {
+// TODO: по [Esc] закрывается меню и фокусируется кнопка - не ожидаю такое поведение
+function ColumnExtrasButton({ id, title }) {
   const { state, setState } = React.useContext(BoardContext)
   const [isOpen, setIsOpen] = React.useState(false)
   const [back, setBack] = React.useState('')
@@ -1102,8 +1136,11 @@ function ColumnExtrasButton({ id }) {
           }
         })
       : []
+  const close = () => {
+    setIsOpen(false)
+  }
   const backFooters = {
-    'copy-list': <CopyList />,
+    'copy-list': <CopyList {...{ title, close }} />,
     'move-list': <MoveList />,
     'sort-cards': <SortCards />,
     'move-cards': <MoveCards />,
@@ -1166,6 +1203,9 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
   const columnExtrasTabWrapperId = `column-extras-tab-wrapper-${id}`
   const inputId = `input-column-header-${id}`
   const isFocused = focused === inputId
+  const submit = () => {
+    // TODO: реализовать submit
+  }
   return (
     <div
       className="relative flex-none cursor-pointer rounded-t-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)] py-1.5 pl-2 pr-10"
@@ -1204,8 +1244,14 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
         }}
         onKeyDown={(event) => {
           event.stopPropagation()
-          if (event.key === 'Escape') {
+          if (event.code === 'Escape') {
+            // TODO: сбрасывать value к начальному
             document.getElementById(columnExtrasTabWrapperId).focus()
+          }
+          if (event.code === 'Enter') {
+            event.preventDefault()
+            document.getElementById(columnExtrasTabWrapperId).focus()
+            submit()
           }
         }}
         onClick={(event) => {
@@ -1229,7 +1275,7 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
         }}
       />
       <div id={columnExtrasTabWrapperId} tabIndex="-1" className="absolute right-1 top-1">
-        <ColumnExtrasButton {...{ id }} />
+        <ColumnExtrasButton {...{ id, title }} />
       </div>
     </div>
   )
