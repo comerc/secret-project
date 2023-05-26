@@ -337,6 +337,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://blog.logrocket.com/build-web-editor-with-react-monaco-editor/
 - [ ] NextJS + iframe
   - https://github.com/andriishupta/cross-origin-iframe-communication-with-nextjs
+- [ ] Investigate Clockwise
+  - https://www.getclockwise.com/blog/time-blocking-app
 
 ## Что нового (для меня) про вёрстку
 
