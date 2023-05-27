@@ -339,6 +339,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://github.com/andriishupta/cross-origin-iframe-communication-with-nextjs
 - [ ] Investigate Clockwise
   - https://www.getclockwise.com/blog/time-blocking-app
+- [ ] (css) mix-blend-mode: overlay;
 
 ## Что нового (для меня) про вёрстку
 
