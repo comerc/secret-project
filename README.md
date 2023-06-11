@@ -340,6 +340,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Investigate Clockwise
   - https://www.getclockwise.com/blog/time-blocking-app
 - [ ] (css) mix-blend-mode: overlay;
+- [ ] Вероятностная структура данных. С небольшой ошибкой ( ≈ 0.4% ) считает количество уникальных элементов, не храня сами ключи. Даёт огромную экономию памяти. Если стоит задача быстро посчитать количество посетителей или запросов — [HyperLogLog](https://github.com/axiomhq/hyperloglog) подходит идеально.
+- [ ] apollo-client-nextjs
 
 ## Что нового (для меня) про вёрстку
 
