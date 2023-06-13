@@ -342,6 +342,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] (css) mix-blend-mode: overlay;
 - [ ] Вероятностная структура данных. С небольшой ошибкой ( ≈ 0.4% ) считает количество уникальных элементов, не храня сами ключи. Даёт огромную экономию памяти. Если стоит задача быстро посчитать количество посетителей или запросов — [HyperLogLog](https://github.com/axiomhq/hyperloglog) подходит идеально.
 - [ ] apollo-client-nextjs
+- [ ] AI
+  - [Asana CEO: how A.I. will make work more human](https://finance.yahoo.com/news/asana-ceo-way-now-soon-090708980.html)
 
 ## Что нового (для меня) про вёрстку
 
