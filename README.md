@@ -170,6 +170,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://focalboard.com (коммуникации в комментах + mattermost)
   - https://openproject.org (коммуникации в комментах + forum)
   - https://asana.com
+  - https://ru.yougile.com
 - [x] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
   - https://fibery.io (1.0)
   - https://monday.com (коммуникации только в комментах)
@@ -344,6 +345,11 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] apollo-client-nextjs
 - [ ] AI
   - [Asana CEO: how A.I. will make work more human](https://finance.yahoo.com/news/asana-ceo-way-now-soon-090708980.html)
+  - [AI powered project planning](https://www.tomsplanner.com/ai-assist/)
+- [ ] fixed-data-table-2
+  - https://schrodinger.github.io/fixed-data-table-2/
+- [ ] Nostr
+  - https://github.com/nostr-protocol/nostr
 
 ## Что нового (для меня) про вёрстку
 
