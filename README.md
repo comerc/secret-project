@@ -350,6 +350,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://schrodinger.github.io/fixed-data-table-2/
 - [ ] Nostr
   - https://github.com/nostr-protocol/nostr
+- [ ] Go Skills
+  - [scheduling-in-go](https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part1.html)
+  - [garbage-collection-in-go](https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html)
 
 ## Что нового (для меня) про вёрстку
 
