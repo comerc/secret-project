@@ -13,6 +13,10 @@
 ![artist](./assets/artist.jpg)
 Отдам дизайнерское кресло вместе с дизайнером.
 
+В рамках R&D, продолжаю пилить клон Trello с амбицией повторить функционал бесплатной версии не хуже оригинала. А потом вокруг этого алтаря построю храм хрустальный про автоматизацию рабочего процесса для Developer Centric Team.
+
+Мой актуальный стек: NextJS + NextAuth + GraphQL CodeGen + AntDesign Component + TailwindCSS + Lexical + Beautiful-DND + React Window + Hasura + Temporal + GoLang.
+
 ## Setup Hasura
 
 ```bash
