@@ -17,6 +17,8 @@
 
 Мой актуальный стек: NextJS + NextAuth + GraphQL CodeGen + AntDesign Component + TailwindCSS + Lexical + Beautiful-DND + React Window + Hasura + Temporal + GoLang.
 
+![trello](./assets/trello.jpg)
+
 ## Setup Hasura
 
 ```bash
