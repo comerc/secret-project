@@ -361,6 +361,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - [garbage-collection-in-go](https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html)
 - [ ] Temporal
   - [Building Resilient Microservice Workflows with Temporal: A Next-Gen Workflow Engine](https://medium.com/safetycultureengineering/building-resilient-microservice-workflows-with-temporal-a-next-gen-workflow-engine-a9637a73572d)
+- [ ] Интеграция с Gogs / Gitea [about](https://about.gitea.com/) [setup](https://fmnx.su/core/infr)
 
 ## Что нового (для меня) про вёрстку
 
