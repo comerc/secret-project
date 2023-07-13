@@ -87,6 +87,24 @@ import React from 'react'
 import { Progress, Space } from 'antd'
 import pluralize from '.../utils/pluralize'
 
+// function addOneDay(date = new Date(), days = 1) {
+//   date.setDate(date.getDate() + days)
+
+//   return date
+// }
+
+// // ✅ Add 1 day to the current date
+// const result1 = addOneDay()
+// console.log(result1) // 👉️ 2023-01-15T07:27:24.910Z
+
+// // -----------------------------------------------
+
+// // ✅ Add some days to a different date
+// const date = new Date('2022-12-11T00:00:00.000Z')
+
+// const result2 = addOneDay(date, 300)
+// console.log(result2) // 👉️ 2023-06-18T00:00:00.000Z
+
 // This gets called on every request
 export async function getServerSideProps() {
   // Fetch data from external API

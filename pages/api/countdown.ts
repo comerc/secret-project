@@ -28,7 +28,7 @@ type Data = {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const dString = 'Jul, 12, 2023'
+  const dString = 'Oct, 07, 2023'
   const final = new Date(dString)
   const now = new Date()
   const diff = DateDiff.inDays(final, now)
