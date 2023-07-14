@@ -1,0 +1,256 @@
+Some user stories for a Trello product backlog:
+
+- As a user, I want to be able to create a new board to organize my tasks and projects.
+- As a user, I want to be able to add new cards to a board to represent tasks and projects.
+- As a user, I want to be able to assign labels to cards to categorize them and make them easier to search for.
+- As a user, I want to be able to add comments to cards to provide additional information or context.
+- As a user, I want to be able to move cards between lists on a board to represent different stages of a project.
+- As a user, I want to be able to set due dates and deadlines for cards to keep track of their status and ensure they are completed on time.
+- As a user, I want to be able to search for cards on a board using keywords or labels to find specific tasks or projects.
+- As a user, I want to be able to create checklists for cards to track progress and ensure that tasks are completed correctly.
+- As a user, I want to be able to create custom fields for cards to capture additional information or metadata about tasks and projects.
+- As a user, I want to be able to share boards with other users to collaborate on projects and tasks.
+- As a user, I want to be able to create boards based on templates to save time and effort.
+- As a user, I want to be able to export boards and data to other platforms to share with others.
+- As a user, I want to be able to import data from other platforms to Trello to save time and effort.
+- As a user, I want to be able to integrate Trello with other tools and services to streamline my workflow.
+- As a user, I want to be able to access Trello from any device with internet access, not just my computer.
+- As a user, I want to be able to customize the appearance and behavior of Trello to suit my needs and preferences.
+- As a user, I want to be able to create custom views and dashboards to monitor my progress and performance.
+- As a user, I want to be able to create custom workflows and automations to streamline my work process.
+- As a user, I want to be able to create custom notifications and alerts to keep me informed about my tasks and projects.
+- As a user, I want to be able to create custom reports and analytics to track my progress and performance over time.
+- As a user, I want to be able to create boards that are specific to a project or task, so that I can easily track my progress and stay organized.
+- As a user, I want to be able to create boards that are personal to me, so that I can keep track of my personal tasks and projects.
+- As a user, I want to be able to create boards that are shared with others, so that we can collaborate on projects and tasks.
+- As a user, I want to be able to create boards that are specific to a team or organization, so that we can work together effectively.
+- As a user, I want to be able to create boards that are based on a specific theme or topic, so that I can focus on a specific area of work.
+- As a user, I want to be able to create boards that are based on a specific project or task, so that I can easily track my progress and stay organized.
+- As a user, I want to be able to create boards that are based on a specific time period or duration, so that I can track my progress over time.
+- As a user, I want to be able to create boards that are based on a specific location or context, so that I can stay organized and focused.
+- As a user, I want to be able to create boards that are based on a specific purpose or objective, so that I can focus on the right tasks and stay on track.
+- As a user, I want to be able to create boards that are based on a specific set of rules or guidelines, so that I can ensure that tasks and projects are completed correctly and consistently.
+- As a user, I want to be able to create boards that are based on a specific set of stakeholders or collaborators, so that we can work together effectively and ensure that everyone is on the same page.
+- As a user, I want to be able to create boards that are based on a specific set of milestones or deadlines, so that I can stay organized and focused on my tasks and projects.
+- As a user, I want to be able to create boards that are based on a specific set of tasks or projects, so that I can easily find and access them later.
+- As a user, I want to be able to create boards that are based on a specific set of tags or categories, so that I can easily search for and filter them.
+- As a user, I want to be able to create boards that are based on a specific set of filters or search criteria, so that I can quickly find the information I need.
+- As a user, I want to be able to create boards that are based on a specific set of actions or interactions, so that I can easily track my progress and stay organized.
+- As a user, I want to be able to create boards that are based on a specific set of goals or objectives, so that I can focus on the right tasks and stay on track.
+- As a user, I want to be able to create boards that are based on a specific set of time zones or locations, so that I can stay organized and focused in different parts of the world.
+- As a user, I want to be able to create boards that are based on a specific set of rules or regulations, so that I can ensure that tasks and projects are completed in a safe and compliant manner.
+- As a user, I want to be able to create boards that are based on a specific set of resources or materials, so that I can easily find and use the right tools and resources.
+- As a user, I want to be able to create boards that are based on a specific set of preferences or settings, so that I can customize my experience and get the most out of Trello.
+- As a user, I want to be able to create boards that are based on a specific set of features or functionalities, so that I can use Trello to its full potential.
+- As a user, I want to be able to create boards that are based on a specific set of use cases or scenarios, so that I can tailor my workflow to meet specific needs.
+- As a user, I want to be able to create boards that are based on a specific set of goals or objectives, so that I can measure my progress and stay motivated.
+- As a user, I want to be able to create boards that are based on a specific set of values or ethics, so that I can align my work with my personal and professional values.
+- As a user, I want to be able to create boards that are based on a specific set of principles or guidelines, so that I can ensure that tasks and projects are completed ethically and socially responsible.
+- As a user, I want to be able to create boards that are based on a specific set of budgets or resources, so that I can plan and manage my time and resources more effectively.
+- As a user, I want to be able to create boards that are based on a specific set of timelines or deadlines, so that I can stay organized and focused on my tasks and projects.
+- As a user, I want to be able to create boards that are based on a specific set of themes or styles, so that I can personalize my experience and get the most out of Trello.
+- As a user, I want to be able to create boards that are based on a specific set of tools or software, so that I can easily integrate Trello with other tools and services.
+- As a user, I want to be able to create boards that are based on a specific set of workflows or processes, so that I can streamline my work process and get the most out of Trello.
+- As a user, I want to be able to create boards that are based on a specific set of data or information, so that I can analyze and understand my work more effectively.
+- As a user, I want to be able to create boards that are based on a specific set of metrics or KPIs, so that I can track my progress and performance over time.
+- As a user, I want to be able to create boards that are based on a specific set of audiences or target audiences, so that I can tailor my content and messaging to meet specific needs.
+- As a user, I want to be able to create boards that are based on a specific set of devices or platforms, so that I can access Trello from any device with internet access.
+- As a user, I want to be able to create boards that are based on a specific set of languages or cultures, so that I can communicate effectively with others in different countries and cultures.
+- As a user, I want to be able to create boards that are based on a specific set of goals or objectives, so that I can stay motivated and focused on my work.
+- As a user, I want to be able to create boards that are based on a specific set of roles or responsibilities, so that I can easily manage my work and stay organized.
+- As a user, I want to be able to create boards that are based on a specific set of projects or initiatives, so that I can track my progress and stay on track.
+- As a user, I want to be able to create boards that are based on a specific set of tasks or activities, so that I can easily prioritize and manage my time.
+- As a user, I want to be able to create boards that are based on a specific set of formats or templates, so that I can easily create and organize my tasks and projects.
+
+---
+
+Some possible subject matter objects for a Trello product backlog:
+
+- User authentication and authorization
+- User profile management
+- Board creation and management
+- List creation and management
+- Card creation and management
+- Card movement and scheduling
+- Card labeling and categorization
+- Card attachment and file management
+- Card commenting and discussion
+- Card estimation and planning
+- Card due date and completion tracking
+- Card attachment and file sharing
+- Card integration with other tools and services
+- Card customization and personalization
+- Card automation and workflow management
+- Card data analysis and reporting
+- Card analytics and metrics
+- Card security and privacy
+- Card backup and restore
+- Card mobile app integration
+- Card web app integration
+- Card desktop app integration
+- Card API integration
+- Card integration with third-party apps and services
+- Card integration with enterprise systems and tools
+- Card integration with cloud storage and collaboration tools
+- Card integration with project management tools
+- Card integration with customer relationship management (CRM) tools
+- Card integration with marketing automation tools
+- Card integration with sales automation tools
+- Card integration with human resources (HR) tools
+- Card integration with accounting and finance tools
+- Card integration with supply chain management (SCM) tools
+- Card integration with logistics and transportation tools
+- Card integration with e-commerce tools
+- Card integration with social media tools
+- Card integration with email marketing tools
+- Card integration with analytics and reporting tools
+- Card integration with project planning and management tools
+- Card integration with task management and organization tools
+- Card integration with team collaboration and communication tools
+- Card integration with project time tracking and billing tools
+- Card integration with project budgeting and forecasting tools
+- Card integration with project risk management and compliance tools
+- Card integration with project performance and tracking tools
+- Card integration with project collaboration and communication tools
+- Card integration with project project management and organization tools
+- Card integration with project task management and organization tools
+- Card integration with project team collaboration and communication tools
+- Card integration with project project time tracking and billing tools
+
+---
+
+List of Trello objects with a functional description:
+
+- Board: Represents a Trello board, which is a container for lists and cards. It acts as a main organizational unit for managing tasks and projects.
+- List: A list is a collection of cards that belong to a specific category or stage within a board. It helps in organizing tasks and providing structure to the workflow.
+- Card: A card represents an individual task or item within a list. It contains information like a title, description, due date, and other details related to the task.
+- Label: Labels are used to categorize or tag cards. They provide a way to visually differentiate and group cards based on different criteria or attributes.
+- Member: A member represents a user who has access to a board. They can be assigned to cards, collaborate with others, and contribute to the overall project.
+- Checklist: A checklist is a set of sub-tasks or items associated with a card. It helps in breaking down larger tasks into smaller, manageable steps.
+- Attachment: Attachments are files or links associated with a card. They allow users to add supporting documents, images, or external references relevant to a task.
+- Comment: Comments are notes or messages added to a card by members. They enable communication, collaboration, and discussion around specific tasks or topics.
+- Organization: An organization represents a group or team within Trello. It provides a way to collaborate and manage multiple boards and members within a shared workspace.
+- Power-Up: Power-Ups are additional features and integrations that can be added to boards to enhance functionality. They can provide custom workflows, integrations with external tools, and more.
+- Notification: Notifications are alerts or updates that inform users about changes, activities, or mentions related to boards, cards, or other objects. They help users stay informed and updated on their projects.
+- Action: Actions represent specific activities or events that occur within a board or card. They can include actions like card creation, moving cards between lists, adding labels, and more.
+- Plugin: A plugin is a software component that extends the functionality of Trello. Plugins can add custom features, integrations, or automation to enhance the user experience.
+- Team: A team represents a group of members within Trello who collaborate on projects. It allows for better organization and coordination among team members.
+- Sticker: Stickers are small graphical images that can be added to cards to add visual elements or represent specific themes, emotions, or branding.
+- Checklist Item: A checklist item represents a specific task or sub-task within a checklist associated with a card. It helps in tracking progress and completion of smaller tasks within a larger task.
+- Due Date: A due date is a specific date and time set for a card or checklist item to be completed. It helps in managing deadlines and prioritizing tasks.
+- Board Member Role: Board member roles define the level of access and permissions assigned to members within a board. Roles can include administrators, regular members, or observers.
+- Archive: Archiving an object, such as a card or board, removes it from the active view while preserving its data. It helps in decluttering the workspace while still retaining important information.
+- Voting: Voting allows members to express their preferences or opinions on cards or specific topics within a board. It helps in gathering input and making decisions collaboratively.
+- Attachment Preview: Attachment previews provide a visual representation or summary of attached files or links within a card. It allows for quick access and preview of relevant information.
+- Checklist Template: Checklist templates are pre-defined sets of checklist items that can be reused across multiple cards or projects. They provide consistency and efficiency in task management.
+- Custom Fields: Custom fields allow users to add additional data fields or attributes to cards. It enables customization and tracking of specific information relevant to a project or workflow.
+- Team Member Roles: Team member roles define the level of access and permissions assigned to members within a team. Roles can include administrators, regular members, or guests.
+- Calendar Integration: Calendar integration allows users to sync due dates and other events from Trello with their preferred calendar application. It helps in managing tasks and deadlines across different platforms.
+- Custom Backgrounds: Custom backgrounds allow users to personalize the appearance of their boards by setting custom images or colors as the background. It adds a visual touch and branding to the workspace.
+- Card Templates: Card templates are pre-defined card structures that can be reused across multiple cards or projects. It helps in standardizing card formats and streamlining task creation.
+- Power-Up Marketplace: The Power-Up Marketplace is a marketplace within Trello where users can find and install various Power-Ups to extend the functionality of their boards. It offers a wide range of integrations and features.
+- Card Covers: Card covers are visual representations or thumbnails that can be set for cards. They add a visual element to cards and help in quickly identifying and distinguishing them.
+- Butler Automation: Butler is a built-in automation feature in Trello that allows users to create custom rules and commands to automate repetitive tasks and workflows. It helps in saving time and streamlining processes.
+- Card Labels: Card labels are small colored tags that can be applied to cards to indicate categories, priorities, or any other custom criteria. They help in visually organizing and categorizing cards.
+- Card Voting Limits: Card voting limits define the maximum number of votes a member can cast on a card. It helps in managing and prioritizing tasks based on the input of team members.
+- Power-Up Butler: Power-Up Butler is a specific Power-Up within Trello that provides advanced automation capabilities. It allows users to create custom commands and automated actions to streamline their workflows.
+- Custom Card Covers: Custom card covers allow users to upload their own images or graphics as covers for individual cards. It adds a personalized touch and branding to specific cards.
+- Swimlanes: Swimlanes are horizontal divisions within a board that help in visually organizing and categorizing cards. They can represent different stages, teams, or categories within a project.
+- Card Aging: Card aging is a visual feature in Trello that gradually fades out older cards over time. It helps in prioritizing and focusing on more recent tasks or items.
+- Custom Fields Templates: Custom fields templates allow users to create predefined sets of custom fields that can be applied to cards. It helps in standardizing data collection and tracking across different cards.
+- Card Dependencies: Card dependencies allow users to establish relationships between cards, where one card depends on another. It helps in visualizing and managing dependencies between tasks.
+- Card Voting Power: Card voting power is a feature that assigns different weights or values to the votes of individual members on a card. It helps in reflecting the influence or importance of different team members' inputs.
+- Card Aging Policies: Card aging policies allow users to customize the fading behavior of older cards in Trello. It provides flexibility in adjusting the visual representation of aging cards based on user preferences.
+- Card Templates Gallery: The card templates gallery is a collection of pre-designed card templates provided by Trello. It offers a variety of ready-to-use templates for different types of projects or workflows.
+- Custom Card Actions: Custom card actions allow users to define and create their own custom actions that can be performed on cards. It provides flexibility in extending the functionality and capabilities of cards.
+- Card Voting Restrictions: Card voting restrictions allow users to limit the ability to vote on cards to specific members or roles. It helps in controlling and managing the voting process within a board.
+- Custom Card Templates: Custom card templates allow users to create their own predefined card structures with specific fields and attributes. It helps in standardizing card creation and ensuring consistency across projects.
+- Card Aging Filters: Card aging filters allow users to customize the criteria for determining which cards should be faded out over time. It provides flexibility in adjusting the aging behavior based on specific conditions or attributes.
+- Comment Mentions: Comment mentions allow users to tag or mention specific members in comments on cards. It helps in directing attention or notifying relevant members about specific discussions or updates.
+- Card Cover Templates: Card cover templates are pre-designed cover images or graphics that can be applied to cards. It helps in quickly adding visual elements and themes to cards.
+- Card Import/Export: Card import/export functionality allows users to import or export cards and their associated data to/from Trello. It enables seamless integration with external tools or platforms and facilitates data migration.
+- Card Templates Marketplace: The card templates marketplace is a marketplace within Trello where users can find and install a variety of pre-designed templates for different types of projects or workflows. It offers a wide range of options to kickstart new projects.
+- Custom Card Actions Triggers: Custom card actions triggers allow users to define specific triggers or conditions that activate custom actions on cards. It provides automation and customization options for specific card-related events.
+- Card Voting History: Card voting history keeps a record of the voting activity on a card, including the members who voted and their respective votes. It helps in tracking the voting process and analyzing member preferences.
+- Card Expiration: Card expiration allows users to set a specific expiration date for cards. Once the expiration date is reached, the card is automatically archived or moved to a designated list. It helps in managing time-sensitive tasks or reminders.
+
+---
+
+Some non-functional requirements for a Trello:
+
+- User Interface: The Trello should have a user-friendly interface that is easy to navigate and visually appealing.
+- Performance: The Trello should be fast and responsive, with minimal lag time between actions.
+- Security: The Trello should be secure and protect user data, such as passwords and personal information.
+- Scalability: The Trello should be able to handle a large number of users and tasks without slowing down or crashing.
+- Accessibility: The Trello should be accessible to users with disabilities, such as those who use screen readers or have limited mobility.
+- Reliability: The Trello should be reliable and stable, with minimal downtime or errors.
+- Compatibility: The Trello should be compatible with a wide range of devices and operating systems, including desktops, laptops, tablets, and smartphones.
+- Customization: The Trello should allow users to customize their experience, such as changing the color scheme or adding custom fields to cards.
+- Integration: The Trello should be able to integrate with other tools and services, such as email, calendar, and file sharing.
+- Documentation: The Trello should have comprehensive documentation that explains how to use the platform and provides support for users.
+
+---
+
+Some data objects will have the following relationships:
+
+- Boards and Members: A board can have multiple members who have access to it. Members can be assigned different roles within the board, such as administrators, regular members, or observers.
+- Boards and Lists: A board can have multiple lists, which act as containers for organizing cards. Lists represent different stages, categories, or workflows within a board.
+- Lists and Cards: A list can contain multiple cards. Cards represent individual tasks, items, or topics within a list. They contain information such as a title, description, due date, and other details.
+- Cards and Members: Cards can be assigned to one or more members. Members assigned to a card are responsible for the task or item represented by the card. They can collaborate, provide updates, and track progress.
+- Cards and Attachments: Cards can have attachments, which can be files or links associated with the card. Attachments provide additional information, supporting documents, or references related to the task.
+- Cards and Checklists: Cards can have checklists, which represent a set of sub-tasks or items associated with the card. Checklists help in breaking down larger tasks into smaller, manageable steps.
+- Cards and Comments: Cards can have comments, which are notes or messages added by members. Comments enable communication, collaboration, and discussion around specific tasks or topics.
+- Cards and Due Dates: Cards can have due dates assigned to them. Due dates represent the deadline or target date for completing the task or item represented by the card.
+- Lists and List Positions: Lists have a specific position within a board. The position determines the order in which lists are displayed on the board, allowing users to prioritize and arrange lists according to their needs.
+- Cards and Card Positions: Cards within a list have a specific position. The position determines the order in which cards are displayed within the list, enabling users to prioritize and order tasks or items.
+- Members and Notifications: Members can receive notifications related to changes, updates, or activities within the board or specific cards. Notifications keep members informed about relevant events or discussions.
+- Boards and Team Collaboration: Boards can be associated with a team, allowing multiple members to collaborate on the board. Team collaboration enables shared access, coordination, and visibility across team members.
+- Cards and Attachments Previews: Cards with attachments can have preview or thumbnail images displayed for the attachments, providing a visual representation or summary of the attached files or links.
+- Cards and Voting: Cards can have a voting feature, allowing members to express their preferences, opinions, or priorities on specific tasks or items represented by the card. Voting helps in gathering input and making decisions collaboratively.
+- Cards and Subtasks: Cards can have subtasks associated with them. Subtasks represent smaller, actionable items that contribute to the completion of the overall task represented by the card.
+- Boards and Board Memberships: Boards can have memberships, which define the level of access and permissions granted to members within the board. Memberships can include administrators, regular members, or guests.
+- Cards and Card Memberships: Cards can have memberships, which define the level of access and permissions granted to members on the card. Memberships can include assignees, collaborators, or observers.
+- Cards and Card Comments Mentions: Card comments can mention specific members by using their usernames or tags. Mentioning members in comments helps in directing attention or notifying them about relevant discussions or updates.
+- Boards and Board Invitations: Boards can send invitations to other users, inviting them to join and collaborate on the board. Invitations provide a way to extend access and involve external stakeholders in the project.
+- Boards and Board Backgrounds: Boards can have custom backgrounds applied to them. Custom backgrounds allow users to personalize the visual appearance of the board, adding a touch of branding or aesthetics.
+- Boards and Board Archiving: Boards can be archived, which moves them to a separate archive section. Archiving helps in decluttering the workspace while still preserving the board's content and history.
+- Lists and List Archiving: Lists within a board can be archived, which moves them to a separate archive section. List archiving helps in decluttering the board while still preserving the list's content and history.
+- Members and Member Roles: Members within a board can have different roles assigned to them, such as administrators, editors, viewers, or guests. Roles define the level of access and permissions each member has within the board.
+- Lists and List Colors: Each list within a board can have a specific color associated with it. List colors help in visually organizing and grouping related lists, providing a visual cue for different stages, categories, or workflows.
+- Boards and Board Background Images: Boards can have custom background images applied to them. Custom background images allow users to further personalize the visual appearance of the board, adding a unique touch to the workspace.
+- Cards and Card Dependencies: Cards can have dependencies on other cards within the same or different boards. Card dependencies represent relationships where one card is dependent on the completion or progress of another card.
+- Cards and Card Aging: Cards can have an aging feature that gradually fades out older cards over time. The aging feature helps in visually prioritizing and focusing on more recent or active tasks or items.
+- Cards and Card Voting Power: Cards can have a voting power feature where the votes of certain members carry more weight or influence compared to others. Voting power helps reflect the importance or expertise of specific members in decision-making processes.
+- Boards and Power-Ups: Boards can be enhanced with power-ups, which are additional features or integrations that extend the functionality of the board. Power-ups provide enhanced capabilities, such as calendar integration, automation, or reporting.
+- Boards and Power-Up Integrations: Boards can be integrated with various power-ups that provide additional features and functionalities. Power-up integrations enhance the capabilities of the board, such as project management, analytics, or communication tools.
+- Boards and Board Templates: Boards can be created from board templates. Board templates provide pre-defined structures, lists, and cards that can be used as a starting point for new projects or workflows.
+- Cards and Card Templates: Cards can be created from card templates, which provide pre-defined structures and attributes. Card templates help in standardizing the creation of cards and ensuring consistency across similar tasks or items.
+- Boards and Board Templates Marketplace: Boards can access a marketplace of board templates where users can browse and install a variety of pre-designed templates for different types of projects or workflows. The marketplace offers a wide range of options to kickstart new boards.
+- Cards and Card Templates Marketplace: Cards can access a marketplace of card templates where users can browse and install a variety of pre-designed templates for different types of tasks or items. The marketplace offers a wide range of options to kickstart new cards.
+- Boards and Board Activity Logs: Boards can have activity logs that track and record all the changes and actions taken within the board. The activity log provides a history of board updates, comments, card movements, and other activities.
+- Cards and Card Descriptions: Cards can have descriptions that provide additional details, instructions, or context about the task or item represented by the card. Descriptions help in providing clarity and guidance to members working on the card.
+- Cards and Card Assignees: Cards can be assigned to specific members who are responsible for completing the task or item represented by the card. Card assignees help in assigning ownership and accountability for individual cards.
+- Boards and Board Filters: Boards can have filters that allow users to customize the view of the board by hiding or showing specific lists, labels, or cards based on specific criteria or attributes.
+- Boards and Board Voting Restrictions: Boards can have voting restrictions that limit the ability to vote on cards to specific members or roles. Voting restrictions help in controlling and managing the voting process within the board.
+- Cards and Card Aging Policies: Cards can have aging policies that define the fading behavior of older cards within the board. Aging policies provide flexibility in adjusting the visual representation of aging cards based on user preferences.
+- Cards and Card Aging Filters: Cards can have aging filters that define the criteria for determining which cards should be faded out over time. Aging filters provide flexibility in adjusting the aging behavior based on specific conditions or attributes.
+- Cards and Labels: Cards can be assigned one or more labels. Labels are used to categorize or tag cards based on different criteria or attributes. They help in visually organizing and filtering cards.
+- Cards and Labels Colors: Labels assigned to cards can have different colors associated with them. Colors help in visually distinguishing and categorizing cards based on different criteria or attributes.
+- Boards and Board Labels: Boards can have labels that are applicable to all cards within the board. Board labels help in categorizing or tagging the overall content of the board.
+
+---
+
+Требования доступности гарантируют, что системой могут пользоваться люди с ограниченными возможностями. Эти требования обычно основаны на стандартах и ​​рекомендациях по доступности, таких как Рекомендации по доступности веб-контента (WCAG) 2.0 или 2.1. Вот несколько примеров подробных требований доступности, которые можно применить к данной системе:
+
+- Все компоненты пользовательского интерфейса, такие как кнопки, ссылки и элементы управления формы, должны быть доступны с клавиатуры и поддерживать навигацию только с помощью клавиатуры.
+- Весь текстовый контент должен быть удобочитаемым и понятным для программ чтения с экрана и должен включать соответствующие текстовые альтернативы нетекстовому контенту, например изображениям и видео.
+- Вся цветовая информация, такая как сообщения об ошибках и обязательные поля, должна быть четко передана без цвета, с использованием шаблонов, символов или других визуальных подсказок.
+- Весь аудио- и видеоконтент должен содержать титры, стенограммы или аудиоописания, чтобы сделать контент доступным для глухих или слабослышащих пользователей.
+- Система должна поддерживать масштабирование и изменение размера текста, чтобы контент был доступен для пользователей с нарушениями зрения.
+- Система должна быть совместима со вспомогательными технологиями, такими как программы чтения с экрана, лупы и программное обеспечение для распознавания речи, чтобы пользователи с ограниченными возможностями могли получить доступ к системе и использовать ее.
+- Система должна соответствовать критериям успеха уровня AA WCAG 2.0 или 2.1, чтобы обеспечить доступность системы для максимально широкого круга пользователей.
+- Система должна быть протестирована на доступность для пользователей с ограниченными возможностями, а любые выявленные проблемы должны быть рассмотрены и устранены своевременно.
+- Система должна обеспечивать доступный пользовательский интерфейс для пользователей с временными нарушениями, такими как сломанная рука или временная слепота, и должна быть легко доступна для пользователей с когнитивными нарушениями или нарушениями обучения.
+- Система должна предоставлять пользователям четкие и краткие инструкции и обратную связь, чтобы поддерживать независимое и успешное использование системы людьми с ограниченными возможностями.
+
+---

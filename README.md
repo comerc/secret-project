@@ -177,6 +177,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://openproject.org (коммуникации в комментах + forum)
   - https://asana.com
   - https://ru.yougile.com
+  - https://pyrus.com/ru
 - [x] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
   - https://fibery.io (1.0)
   - https://monday.com (коммуникации только в комментах)
@@ -237,7 +238,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] .editorconfig
 - [ ] husky?
 - [ ] pnpm VS npm
-- [ ] pnpm-workspaces
+- [ ] pnpm-workspaces VS lerna
   - https://blog.nrwl.io/setup-a-monorepo-with-pnpm-workspaces-and-speed-it-up-with-nx-bc5d97258a7e#5982
   - убрать workaround в tsconfig.json "shared/_": ["packages/shared/src/_"]
 - [ ] Image
@@ -362,6 +363,11 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Temporal
   - [Building Resilient Microservice Workflows with Temporal: A Next-Gen Workflow Engine](https://medium.com/safetycultureengineering/building-resilient-microservice-workflows-with-temporal-a-next-gen-workflow-engine-a9637a73572d)
 - [ ] Интеграция с Gogs / Gitea [about](https://about.gitea.com/) [setup](https://fmnx.su/core/infr)
+- [ ] Описание в asyncapi.com
+- [ ] Терминология для составления ТЗ с помощью ChatGPT: бэклог продукта в виде пользовательских историй; список объектов предметной области и отношения между ними; список нефункциональных требований; функциональные требования в формате сценариев для юскейсов, включая обработку исключительных ситуаций; продуктовые метрики; сгенерировать схему навигации по экранам, описание каждого отдельного экрана, а также диаграмму последовательности в PlantUML, описывающую основной сценарий системы; состав (план) работ; оценка стоимости реализации такого проекта;
+  - https://habr.com/ru/news/704392/
+- [ ] Составление API и Architectural Decision Records (ADR) с помощью ChatGPT
+  - https://habr.com/ru/articles/725184/
 
 ## Что нового (для меня) про вёрстку
 
