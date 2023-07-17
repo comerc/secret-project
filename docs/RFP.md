@@ -176,21 +176,6 @@ List of Trello objects with a functional description:
 
 ---
 
-Some non-functional requirements for a Trello:
-
-- User Interface: The Trello should have a user-friendly interface that is easy to navigate and visually appealing.
-- Performance: The Trello should be fast and responsive, with minimal lag time between actions.
-- Security: The Trello should be secure and protect user data, such as passwords and personal information.
-- Scalability: The Trello should be able to handle a large number of users and tasks without slowing down or crashing.
-- Accessibility: The Trello should be accessible to users with disabilities, such as those who use screen readers or have limited mobility.
-- Reliability: The Trello should be reliable and stable, with minimal downtime or errors.
-- Compatibility: The Trello should be compatible with a wide range of devices and operating systems, including desktops, laptops, tablets, and smartphones.
-- Customization: The Trello should allow users to customize their experience, such as changing the color scheme or adding custom fields to cards.
-- Integration: The Trello should be able to integrate with other tools and services, such as email, calendar, and file sharing.
-- Documentation: The Trello should have comprehensive documentation that explains how to use the platform and provides support for users.
-
----
-
 Some data objects will have the following relationships:
 
 - Boards and Members: A board can have multiple members who have access to it. Members can be assigned different roles within the board, such as administrators, regular members, or observers.
@@ -237,6 +222,21 @@ Some data objects will have the following relationships:
 - Cards and Labels: Cards can be assigned one or more labels. Labels are used to categorize or tag cards based on different criteria or attributes. They help in visually organizing and filtering cards.
 - Cards and Labels Colors: Labels assigned to cards can have different colors associated with them. Colors help in visually distinguishing and categorizing cards based on different criteria or attributes.
 - Boards and Board Labels: Boards can have labels that are applicable to all cards within the board. Board labels help in categorizing or tagging the overall content of the board.
+
+---
+
+Some non-functional requirements for a Trello:
+
+- User Interface: The Trello should have a user-friendly interface that is easy to navigate and visually appealing.
+- Performance: The Trello should be fast and responsive, with minimal lag time between actions.
+- Security: The Trello should be secure and protect user data, such as passwords and personal information.
+- Scalability: The Trello should be able to handle a large number of users and tasks without slowing down or crashing.
+- Accessibility: The Trello should be accessible to users with disabilities, such as those who use screen readers or have limited mobility.
+- Reliability: The Trello should be reliable and stable, with minimal downtime or errors.
+- Compatibility: The Trello should be compatible with a wide range of devices and operating systems, including desktops, laptops, tablets, and smartphones.
+- Customization: The Trello should allow users to customize their experience, such as changing the color scheme or adding custom fields to cards.
+- Integration: The Trello should be able to integrate with other tools and services, such as email, calendar, and file sharing.
+- Documentation: The Trello should have comprehensive documentation that explains how to use the platform and provides support for users.
 
 ---
 
