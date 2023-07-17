@@ -1,0 +1,118 @@
+type Board {
+  id: ID!
+  name: String!
+  members: [Member!]!
+  lists: [List!]!
+  team: Team
+  boardBackground: BoardBackground
+  isArchived: Boolean!
+  labels: [Label!]!
+  activityLogs: [ActivityLog!]!
+}
+
+type Member {
+  id: ID!
+  username: String!
+  role: Role!
+  notifications: [Notification!]!
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  OBSERVER
+}
+
+type List {
+  id: ID!
+  name: String!
+  position: Int!
+  cards: [Card!]!
+  isArchived: Boolean!
+  color: String
+}
+
+type Card {
+  id: ID!
+  title: String!
+  description: String
+  dueDate: String
+  members: [Member!]!
+  attachments: [Attachment!]!
+  checklists: [Checklist!]!
+  comments: [Comment!]!
+  labels: [Label!]!
+  position: Int!
+  isArchived: Boolean!
+  dependencies: [Card!]!
+  aging: Aging!
+  votingPower: Int
+  subtasks: [Subtask!]!
+}
+
+type Attachment {
+  id: ID!
+  type: AttachmentType!
+  url: String!
+}
+
+enum AttachmentType {
+  FILE
+  LINK
+}
+
+type Checklist {
+  id: ID!
+  title: String!
+  items: [ChecklistItem!]!
+}
+
+type ChecklistItem {
+  id: ID!
+  title: String!
+  isComplete: Boolean!
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  author: Member!
+  mentions: [Member!]!
+  createdAt: String!
+}
+
+type Label {
+  id: ID!
+  name: String!
+  color: String!
+}
+
+type Team {
+  id: ID!
+  name: String!
+  members: [Member!]!
+}
+
+type Notification {
+  id: ID!
+  content: String!
+  createdAt: String!
+}
+
+type BoardBackground {
+  id: ID!
+  image: String!
+  color: String
+}
+
+type ActivityLog {
+  id: ID!
+  content: String!
+  createdAt: String!
+}
+
+type Subtask {
+  id: ID!
+  title: String!
+  isComplete: Boolean!
+}
