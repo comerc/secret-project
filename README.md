@@ -369,6 +369,9 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Составление API и Architectural Decision Records (ADR) с помощью ChatGPT
   - https://habr.com/ru/articles/725184/
 - [ ] Xerox Alto — компьютер, разработанный в исследовательском центре Xerox PARC в 1973 году. Это первый в мире компьютер, использовавший метафору «рабочего стола» и графический пользовательский интерфейс. Alto был первым полностью персональным компьютером в современном понимании. Alto был исследовательским прототипом, а не коммерческим продуктом. Предполагалось, что Alto станет серийно производимой машиной, но она так и не была поставлена на поток.
+- [ ] Karate BDD - для тестирования API (включая GraphQL) https://github.com/karatelabs/karate/tree/master/karate-demo
+- [ ] Task Management Made Simple (via "Simple Made Easy")
+- [ ] [A Plan for Spam](http://www.paulgraham.com/spam.html)
 
 ## Что нового (для меня) про вёрстку
 
