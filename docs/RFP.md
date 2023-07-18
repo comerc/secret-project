@@ -192,7 +192,6 @@ Some data objects will have the following relationships:
 - Boards and Team Collaboration: Boards can be associated with a team, allowing multiple members to collaborate on the board. Team collaboration enables shared access, coordination, and visibility across team members.
 - Cards and Attachments Previews: Cards with attachments can have preview or thumbnail images displayed for the attachments, providing a visual representation or summary of the attached files or links.
 - Cards and Voting: Cards can have a voting feature, allowing members to express their preferences, opinions, or priorities on specific tasks or items represented by the card. Voting helps in gathering input and making decisions collaboratively.
-- Cards and Subtasks: Cards can have subtasks associated with them. Subtasks represent smaller, actionable items that contribute to the completion of the overall task represented by the card.
 - Boards and Board Memberships: Boards can have memberships, which define the level of access and permissions granted to members within the board. Memberships can include administrators, regular members, or guests.
 - Cards and Card Memberships: Cards can have memberships, which define the level of access and permissions granted to members on the card. Memberships can include assignees, collaborators, or observers.
 - Cards and Card Comments Mentions: Card comments can mention specific members by using their usernames or tags. Mentioning members in comments helps in directing attention or notifying them about relevant discussions or updates.
