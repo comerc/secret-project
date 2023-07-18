@@ -372,6 +372,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Karate BDD - для тестирования API (включая GraphQL) https://github.com/karatelabs/karate/tree/master/karate-demo
 - [ ] Task Management Made Simple (via "Simple Made Easy")
 - [ ] [A Plan for Spam](http://www.paulgraham.com/spam.html)
+- [ ] [Компромиссы микросервисов](https://habr.com/ru/articles/261689/)
 
 ## Что нового (для меня) про вёрстку
 
