@@ -373,6 +373,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] Task Management Made Simple (via "Simple Made Easy")
 - [ ] [A Plan for Spam](http://www.paulgraham.com/spam.html)
 - [ ] [Компромиссы микросервисов](https://habr.com/ru/articles/261689/)
+- [ ] [Trello REST API](https://developer.atlassian.com/cloud/trello/rest/)
 
 ## Что нового (для меня) про вёрстку
 
