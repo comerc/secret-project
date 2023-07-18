@@ -1,3 +1,5 @@
+# V1 (relationships)
+
 type Board {
   id: ID!
   name: String!
@@ -47,7 +49,6 @@ type Card {
   dependencies: [Card!]!
   aging: Aging!
   votingPower: Int
-  subtasks: [Subtask!]!
 }
 
 type Attachment {
@@ -109,4 +110,52 @@ type ActivityLog {
   id: ID!
   content: String!
   createdAt: String!
+}
+
+# V2 (open-api)
+
+type Organization {
+  id: ID!
+  name: String!
+  displayName: String!
+  description: String
+  url: String
+  logoUrl: String
+  website: String
+  email: String
+  premiumFeatures: [String]
+  powerUps: [String]
+  products: [String]
+  memberships: [Membership]
+  boards: [Board]
+  members: [Member]
+}
+
+type Membership {
+  id: ID!
+  member: Member
+  memberType: String
+  memberStatus: String
+  dateJoined: String
+}
+
+type Board {
+  id: ID!
+  name: String
+  url: String
+}
+
+type Member {
+  id: ID!
+  username: String
+  fullName: String
+  avatarUrl: String
+}
+
+type Query {
+  organization(id: ID!): Organization
+}
+
+schema {
+  query: Query
 }
