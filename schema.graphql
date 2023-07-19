@@ -112,7 +112,7 @@ type ActivityLog {
   createdAt: String!
 }
 
-# V2 (open-api)
+# Organization (open-api)
 
 type Organization {
   id: ID!
@@ -159,3 +159,237 @@ type Query {
 schema {
   query: Query
 }
+
+# Member (open-api)
+
+type Member {
+  id: ID!
+  username: String!
+  fullName: String!
+  avatarUrl: String
+  avatarSource: String
+  bio: String
+  bioData: JSON
+  confirmed: Boolean
+  email: String
+  gravatarHash: String
+  idBoards: [ID]
+  idBoardsPinned: [ID]
+  idOrganizations: [ID]
+  idEnterprisesAdmin: [ID]
+  idPremOrgsAdmin: [ID]
+  initials: String
+  memberType: String
+  oneTimeMessagesDismissed: [String]
+  prefs: MemberPrefs
+  premiumFeatures: [String]
+  products: [String]
+  status: String
+  trophies: [Trophy]
+  uploadedAvatarHash: String
+  uploadedAvatarUrl: String
+  url: String
+  actions: [Action]
+  boards: [Board]
+  organizations: [Organization]
+  customBoardBackgrounds: [CustomBoardBackground]
+  customStickers: [CustomSticker]
+  customEmoji: [CustomEmoji]
+  savedSearches: [SavedSearch]
+  boardStars: [BoardStar]
+  notifications: [Notification]
+  invites: [Invite]
+  boardBackgrounds: [BoardBackground]
+}
+
+type MemberPrefs {
+  sendSummaries: Boolean
+  minutesBetweenSummaries: Int
+  minutesBeforeDeadlineToNotify: Int
+  colorBlind: Boolean
+  locale: String
+  showSidebar: Boolean
+  showSidebarMembers: Boolean
+  showSidebarBoardActions: Boolean
+  showSidebarActivity: Boolean
+  emailUnconfirmed: Boolean
+  observerMessageSeen: Boolean
+  observersSectionSeen: Boolean
+  emailDigests: Boolean
+  minutesBetweenDigests: Int
+  minutesBeforeDeadlineToDigest: Int
+  sendNoDueDate: Boolean
+  displayAssigneeInBoard: Boolean
+  displayCardAge: String
+  displayListGuide: Boolean
+  displayStickers: Boolean
+  displayStickersOnCards: String
+  displayCardNumbers: Boolean
+  displayCardCoverImages: Boolean
+  displayCardDescription: Boolean
+  displayComments: String
+  displayChecklistProgress: String
+  enableCardAging: Boolean
+  calendarFeedEnabled: Boolean
+  background: String
+  backgroundImage: String # i.e. fullSizeUrl
+  backgroundImageScaled: [BackgroundImageScaled]
+  backgroundTile: Boolean
+  backgroundBrightness: String
+  backgroundBottomColor: String
+  backgroundTopColor: String
+  canBePublic: Boolean
+  canBeEnterprise: Boolean
+  canBeOrg: Boolean
+  canBePrivate: Boolean
+  canInvite: Boolean
+}
+
+type BackgroundImageScaled {
+  width: Int
+  height: Int
+  url: String
+}
+
+type Trophy {
+  id: String
+  name: String
+  nameTranslations: TrophyNameTranslations
+  desc: String
+  descTranslations: TrophyDescTranslations
+  limits: [Int]
+  icon: String
+  achieved: Boolean
+}
+
+type TrophyNameTranslations {
+  en: String
+  de: String
+  es: String
+  fr: String
+  it: String
+  ja: String
+  nl: String
+  pt: String
+  pt_BR: String
+  ru: String
+  zh: String
+  zh_TW: String
+}
+
+type TrophyDescTranslations {
+  en: String
+  de: String
+  es: String
+  fr: String
+  it: String
+  ja: String
+  nl: String
+  pt: String
+  pt_BR: String
+  ru: String
+  zh: String
+  zh_TW: String
+}
+
+type BoardBackground {
+  id: ID!
+  type: String # ?? color, image, gradient etc.
+  brightness: Float
+  tile: Boolean
+  color: String
+  image: BoardBackgroundImage
+}
+
+type BoardBackgroundImage {
+  id: ID!
+  scaled: [BoardBackgroundImageScaled]
+  fullSizeUrl: String
+}
+
+type BoardBackgroundImageScaled {
+  width: Int
+  height: Int
+  url: String
+}
+
+type CustomBoardBackground {
+  id: ID!
+  brightness: Float
+  tile: Boolean
+  color: String
+  image: CustomBoardBackgroundImage
+}
+
+type CustomBoardBackgroundImage {
+  id: ID!
+  scaled: [CustomBoardBackgroundScaled]
+  fullSizeUrl: String
+}
+
+type CustomBoardBackgroundScaled {
+  width: Int
+  height: Int
+  url: String
+}
+
+type CustomSticker {
+  id: ID!
+  idSticker: String
+  idAttachment: ID
+  left: Int
+  top: Int
+  zIndex: Int
+  rotate: Int
+  opacity: Float
+  url: String
+}
+
+type CustomEmoji {
+  id: ID!
+  name: String
+  fullName: String
+  unified: String
+  native: String
+}
+
+type SavedSearch {
+  id: ID!
+  name: String
+  pos: Float
+  query: String
+}
+
+type BoardStar {
+  id: ID!
+  idBoard: ID
+  pos: Float
+}
+
+type Notification {
+  id: ID!
+  unread: Boolean
+  type: String
+  date: String
+  # data: NotificationData
+}
+
+# type NotificationData {
+#   // Define the fields specific to the notification data
+# }
+
+type Invite {
+  id: ID!
+  idMember: ID
+  idBoard: ID
+  idOrganization: ID
+  invitedBy: Member
+  dateCreated: String
+}
+
+# Action type values:
+# - addMemberToCard
+# - copyCard
+# - updateList
+# - createList
+# - addChecklistToCard
