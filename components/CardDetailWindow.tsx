@@ -45,6 +45,7 @@ import getDueDateMode from '.../utils/getDueDateMode'
 import actionRecords from '.../utils/actionRecords'
 import getLiteralDate from '.../utils/getLiteralDate'
 
+// TODO: не реализованы "Голоса" (free plugin)
 // TODO: почикать префиксы *
 
 function ChecklistNewItem() {
