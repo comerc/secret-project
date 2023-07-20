@@ -1,0 +1,233 @@
+[
+  {
+    "id": "55a5d917446f51777421000d",
+    "idOrganizationOwner": "5a999cd36066c584c097f193",
+    "author": "Trello Inc",
+    "capabilities": [
+      "attachment-sections",
+      "card-badges",
+      "card-buttons",
+      "callback",
+      "format-url"
+    ],
+    "capabilitiesOptions": [],
+    "categories": [
+      "board-utilities",
+      "hr-operations"
+    ],
+    "iframeConnectorUrl": "https://package-tracker.trello.services/index.html?ver=acb6a0922cfa",
+    "name": "Отслеживание посылок",
+    "privacyUrl": "https://trello.com/privacy",
+    "public": true,
+    "moderatedState": null,
+    "supportEmail": "https://trello.com/contact#/",
+    "url": "https://package-tracker.trello.services/manifest.json",
+    "tags": [
+      "staff-pick",
+      "made-by-trello"
+    ],
+    "claimedDomains": [
+      "packagetrackr.com/track/",
+      "www.packagetrackr.com/track/",
+      "track.aftership.com",
+      "ups.com",
+      "wwwapps.ups.com",
+      "fedex.com",
+      "www.fedex.com",
+      "usps.com",
+      "tools.usps.com",
+      "lasership.com/track/",
+      "www.lasership.com/track/"
+    ],
+    "icon": {
+      "url": "https://package-tracker.trello.services/images/package-tracker-logo.png"
+    },
+    "listing": {
+      "name": "Отслеживание посылок",
+      "locale": "ru",
+      "description": "Улучшение «Отслеживание посылок» от [Shippo](https://goshippo.com/) позволяет добавлять почтовые идентификаторы на обратную сторону карточек Trello. На передней стороне появится статус отправки и предполагаемая дата доставки, так что вам будет удобно отслеживать заказы из FedEx, USPS, UPS, DHL и других сервисов (в том числе международных).\n\n— Статус отправки и ожидаемая дата доставки на передней стороне карточки.\n— Автоматическое определение оператора по почтовому идентификатору.\n— Отслеживание посылок, отправляемых через следующие сервисы: FedEx, USPS, UPS, DHL, Lasership, Canada Post, Deutsche Post, GLS Germany, GLS France, Mondial Relay, Newgistics и OnTrac.\n\n![скриншот](https://package-tracker.trello.services/images/screenshots/Package_Tracker_1.jpg)\n![скриншот](https://package-tracker.trello.services/images/screenshots/Package_Tracker_2.jpg)",
+      "overview": "Отслеживайте посылки и получайте актуальную информацию о статусе заказов прямо в Trello."
+    },
+    "isCompliantWithPrivacyStandards": null,
+    "usageBrackets": {
+      "boards": 50000
+    }
+  },
+  {
+    "id": "55a5d917446f517774210011",
+    "idOrganizationOwner": "5a999cd36066c584c097f193",
+    "author": "Trello Inc",
+    "capabilities": [],
+    "capabilitiesOptions": [],
+    "categories": [
+      "board-utilities",
+      "communication-collaboration"
+    ],
+    "iframeConnectorUrl": "https://calendar.trello.services/",
+    "name": "Улучшение «Календарь»",
+    "privacyUrl": "https://trello.com/privacy",
+    "public": true,
+    "moderatedState": null,
+    "supportEmail": "https://trello.com/contact#/",
+    "url": "https://calendar.trello.services/manifest.json",
+    "tags": [
+      "staff-pick",
+      "made-by-trello"
+    ],
+    "heroImageUrl": {
+      "@2x": "https://trello-attachments.s3.amazonaws.com/5b56280b7694ac008082fe38/5b5628c7fcbdca04e2d6334c/4025fdb1f203e43f2cd5997b29e53e65/calendar%402x.jpg",
+      "_id": "5b5629bd96d94a97675090c7",
+      "@1x": "https://trello-attachments.s3.amazonaws.com/5b56280b7694ac008082fe38/5b5628c7fcbdca04e2d6334c/f52b4188bdca53cf13a9036efb95eced/calendar.jpg"
+    },
+    "claimedDomains": [],
+    "icon": {
+      "url": "https://calendar.trello.services/images/calendar-icon.svg"
+    },
+    "listing": {
+      "name": "Улучшение «Календарь»",
+      "locale": "ru",
+      "description": "Получайте наглядное представление о текущих задачах в Trello с помощью улучшения «Календарь». Планируете совещание? Готовите к выпуску корпоративный журнал? Собираетесь в путешествие с семьей? Просматривайте даты выполнения этих задач в календаре на неделю или месяц. Определяйте приоритет карточек, автоматически обновляйте даты выполнения с помощью простого перетаскивания и экспортируйте календарь в сторонние приложения, используя ссылку iCalendar.\n\n— Отображение дат выполнения в виде календаря на неделю или месяц и настройка фильтров.\n\n— Управление датами выполнения с помощью простого перетаскивания карточек.\n\n— Специальное обозначение для выполненных задач.\n\n— Экспорт календаря в сторонние приложения (с отдельной ссылкой iCalendar для каждой доски).\n\n— Удобные версии для мобильных устройств iOS и Android.\n\n![скриншот](https://calendar.trello.services/images/Calendar_1.jpg)\n![скриншот](https://calendar.trello.services/images/Calendar_2.jpg)\n![скриншот](https://calendar.trello.services/images/Calendar_3.jpg)\n![скриншот](https://calendar.trello.services/images/Calendar_4.jpg)",
+      "overview": "Расставьте карточки Trello в календаре."
+    },
+    "isCompliantWithPrivacyStandards": null,
+    "usageBrackets": {
+      "boards": 10000000
+    }
+  },
+  {
+    "id": "55a5d917446f517774210013",
+    "idOrganizationOwner": "5a999cd36066c584c097f193",
+    "author": "Trello Inc",
+    "capabilities": [],
+    "capabilitiesOptions": [],
+    "categories": [
+      "board-utilities",
+      "communication-collaboration"
+    ],
+    "iframeConnectorUrl": "https://voting.trello.services/",
+    "name": "Голосование",
+    "privacyUrl": "https://trello.com/privacy",
+    "public": true,
+    "moderatedState": null,
+    "supportEmail": "https://trello.com/contact#/",
+    "url": "https://voting.trello.services/manifest.json",
+    "tags": [
+      "staff-pick",
+      "made-by-trello",
+      "essential"
+    ],
+    "heroImageUrl": {
+      "@1x": "https://plugin.trello.services/images/voting.jpg",
+      "@2x": "https://plugin.trello.services/images/voting@2x.jpg",
+      "_id": "5b562b0269cd80d9a2952fc2"
+    },
+    "claimedDomains": [],
+    "icon": {
+      "url": "https://voting.trello.services/images/voting-icon.svg"
+    },
+    "listing": {
+      "name": "Голосование",
+      "locale": "ru",
+      "description": "Улучшение «Голосование» позволяет участникам команды, покупателям и другим членам сообщества оставлять голоса на карточках. Организовываете поездку с друзьями? Планируете рабочий спринт? Запрашиваете отзывы пользователей публичной дорожной карты? Воспользуйтесь этим улучшением и узнайте, какие карточки на доске наберут больше всего голосов.\n\n— Собирайте мнения участников доски, рабочего пространства, а также публичных участников Trello прямо на карточках.\n— Наблюдайте за автоматическим подсчетом голосов, который отображается в виде значков на внешней стороне карточек.\n— Просматривайте списки проголосовавших, чтобы сразу с ними связаться.\n— Улучшение доступно на ПК и мобильных устройствах iOS и Android.\n\n![скриншот](https://voting.trello.services/images/Voting_1.jpg)\n![скриншот](https://voting.trello.services/images/Voting_2.jpg)",
+      "overview": "Предоставьте людям полномочия и разрешите голосовать за карточки."
+    },
+    "isCompliantWithPrivacyStandards": null,
+    "usageBrackets": {
+      "boards": 250000
+    }
+  },
+  {
+    "id": "57b47fb862d25a30298459b1",
+    "idOrganizationOwner": "5a999cd36066c584c097f193",
+    "author": "Trello Inc",
+    "capabilities": [
+      "callback",
+      "card-badges",
+      "card-buttons",
+      "card-detail-badges",
+      "board-buttons"
+    ],
+    "capabilitiesOptions": [],
+    "categories": [
+      "automation",
+      "board-utilities"
+    ],
+    "iframeConnectorUrl": "https://recurring-cards.trello.services/index.html?ver=1ef3c333cf97",
+    "name": "Копирование карточек",
+    "privacyUrl": "https://trello.com/privacy",
+    "public": true,
+    "moderatedState": null,
+    "supportEmail": "https://trello.com/contact#/",
+    "url": "https://recurring-cards.trello.services/manifest.json",
+    "tags": [
+      "staff-pick",
+      "made-by-trello",
+      "pos-1"
+    ],
+    "heroImageUrl": {
+      "@1x": "https://plugin.trello.services/images/card-repeater.jpg",
+      "@2x": "https://plugin.trello.services/images/card-repeater.jpg",
+      "_id": "5b5629d53dce4000818771a7"
+    },
+    "claimedDomains": [],
+    "icon": {
+      "url": "https://recurring-cards.trello.services/images/card-repeater-icon.svg"
+    },
+    "listing": {
+      "name": "Копирование карточек",
+      "locale": "ru",
+      "description": "**Поставьте регулярные задачи на повтор.**\n\nУлучшение «Копирование карточек» избавляет вас от лишней головной боли, автоматически создавая копии карточек Trello с повторяющимися задачами. Вам нужно просто указать, когда именно это должно происходить. Теперь справляться с ежедневными делами, выставлять счета и планировать совещания будет намного проще. И вы уж точно не забудете купить маме подарок на день рождения!\n\n— Выбор частоты копирования: ежедневно, еженедельно, ежемесячно или ежегодно.\n— Автоматическое копирование карточек в указанную колонку.\n— Автоматизация рабочего процесса.\n\n![скриншот](https://recurring-cards.trello.services/images/Card_Repeater_1.jpg)\n![скриншот](https://recurring-cards.trello.services/images/Card_Repeater_2.jpg)",
+      "overview": "Автоматически создавайте дубликаты карточек Trello для повторяющихся задач, чтобы сэкономить время и оптимизировать рабочий процесс."
+    },
+    "isCompliantWithPrivacyStandards": null,
+    "usageBrackets": {
+      "boards": 500000
+    }
+  },
+  {
+    "id": "5935cab6b26816f9d49fd814",
+    "idOrganizationOwner": "5a999cd36066c584c097f193",
+    "author": "Trello Inc",
+    "capabilities": [
+      "board-buttons",
+      "card-buttons",
+      "callback",
+      "show-settings",
+      "remove-data"
+    ],
+    "capabilitiesOptions": [],
+    "categories": [
+      "automation",
+      "board-utilities"
+    ],
+    "iframeConnectorUrl": "https://app.butlerfortrello.com/3ac82e677aafe1e82b83bcda7bf6b6305546ccb8/powerup-loader.html",
+    "name": "Butler",
+    "privacyUrl": "https://trello.com/privacy",
+    "public": true,
+    "moderatedState": "hidden",
+    "supportEmail": "https://trello.com/contact#/",
+    "url": "https://butlerfortrello.com/powerup/manifest.json",
+    "tags": [
+      "promotional"
+    ],
+    "heroImageUrl": {
+      "@2x": "https://trello-attachments.s3.amazonaws.com/5b56280b7694ac008082fe38/5b5628c50beac7454583d0e7/b91a7f0ee4fbf209170b398f1b7b0ddd/Butler%402x.jpg",
+      "_id": "5b56299e899076ef9f518213",
+      "@1x": "https://trello-attachments.s3.amazonaws.com/5b56280b7694ac008082fe38/5b5628c50beac7454583d0e7/b729e81530b38491b0daefaa2df95d8c/Butler.jpg"
+    },
+    "claimedDomains": [],
+    "icon": {
+      "url": "https://app.butlerfortrello.com/3ac82e677aafe1e82b83bcda7bf6b6305546ccb8/img/butler-icon.svg"
+    },
+    "listing": {
+      "name": "Butler",
+      "locale": "ru",
+      "description": "**Автоматизируйте рабочие процессы в Trello с помощью улучшения Butler, чтобы быстрее и эффективнее справляться с задачами.**\n\nСогласитесь: когда разным сотрудникам приходится выполнять одни и те же задачи, это не очень хорошо сказывается на продуктивности команды. Улучшение Butler позволяет любому пользователю создавать простые команды, которые автоматически добавляют информацию о нужных операциях на доски и освобождают кучу времени.\n\nУлучшение доступно для всех пользователей Trello. А в версиях Business Class, Enterprise и Gold есть еще и бесплатные дополнительные функции. [Подробнее](https://trello.com/pricing)\n\nС помощью Butler можно создавать:\n\n— **правила**, которые автоматически срабатывают при выполнении на доске определенных действий;\n— **кнопки на карточках** для выполнения определенных задач;\n— **кнопки на доске** для выполнения операций, касающихся всех карточек;\n— **запланированные команды**, которые позволяют автоматически упорядочивать, очищать и обновлять доски в заданное время (доступны в версиях Business Class, Enterprise и Gold);\n— **команды для дат**, которые автоматически запускают определенные действия, связанные с предстоящими или прошедшими датами выполнения (доступны в версиях Business Class, Enterprise и Gold).\n\nДействия, которые можно выполнять с помощью Butler:\n\n— копирование и перемещение карточек, а также добавление их в архив;\n— добавление меток, вложений и других элементов;\n— настройка и обновление дат выполнения;\n— добавление, заполнение и сброс списков задач;\n— добавление и удаление участников с карточек;\n— переименование карточек, изменение описания и добавление комментариев;\n— добавление, изменение и удаление данных в пользовательских полях;\n— сортировка колонок по различным критериям;\n— взаимодействие с похожими карточками;\n— отправка электронных писем (в версиях Business Class, Enterprise и Gold);\n— поиск, публикация и создание ссылки (в версиях Business Class, Enterprise и Gold) и многое другое!\n\nБолее подробную информацию можно найти в [нашем блоге].(https://blog.trello.com/butler-power-up-trello-automation)\n\n##Видео##\n\n[![Видео](https://trello-attachments.s3.amazonaws.com/5c754b933c3c6f6e427e8b16/5c8821e72fad5826106ab8a9/7bb8594495bc76252af7c02409ab15d7/ButlerTitleFrame.png)](https://www.youtube.com/watch?v=0KxlGW-gzK0)\n\nПримечание. Видео открывается в новой вкладке.",
+      "overview": "Автоматизируйте рабочие процессы в Trello с помощью улучшения Butler, чтобы быстрее и эффективнее справляться с задачами."
+    },
+    "isCompliantWithPrivacyStandards": true,
+    "usageBrackets": {
+      "boards": 100000
+    }
+  }
+]

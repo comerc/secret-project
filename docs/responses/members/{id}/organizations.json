@@ -1,0 +1,104 @@
+[
+  {
+    "id": "60c1a4ed2c78c7151f48aa0f",
+    "creationMethod": "teamify-auto",
+    "name": "user81925824",
+    "credits": [
+      {
+        "id": "60c1a4ee2c78c7151f48aa3b",
+        "applied": true,
+        "reward": "premium",
+        "type": "freeTrial",
+        "count": 14
+      }
+    ],
+    "displayName": "Andrew Kachanov: рабочее пространство",
+    "desc": "",
+    "descData": {
+      "emoji": {}
+    },
+    "domainName": null,
+    "idBoards": [
+      "5c3b7bed55428850603f04dd"
+    ],
+    "idEnterprise": null,
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "invited": false,
+    "invitations": [],
+    "limits": {
+      "orgs": {
+        "totalMembersPerOrg": {
+          "status": "ok",
+          "disableAt": 4000,
+          "warnAt": 3200
+        },
+        "freeBoardsPerOrg": {
+          "status": "disabled",
+          "disableAt": 10,
+          "warnAt": 3,
+          "count": 10
+        }
+      }
+    },
+    "membersCount": 1,
+    "prefs": {
+      "permissionLevel": "private",
+      "orgInviteRestrict": [],
+      "boardInviteRestrict": "any",
+      "externalMembersDisabled": false,
+      "associatedDomain": null,
+      "googleAppsVersion": 1,
+      "boardVisibilityRestrict": {
+        "private": "org",
+        "org": "org",
+        "enterprise": "org",
+        "public": "org"
+      },
+      "boardDeleteRestrict": {
+        "private": "org",
+        "org": "org",
+        "enterprise": "org",
+        "public": "org"
+      },
+      "attachmentRestrictions": null,
+      "seatAutomation": null,
+      "seatAutomationActiveDays": null,
+      "seatAutomationInactiveDays": null,
+      "newLicenseInviteRestrict": null,
+      "newLicenseInviteRestrictUrl": null
+    },
+    "powerUps": [],
+    "products": [],
+    "billableMemberCount": 1,
+    "billableCollaboratorCount": 1,
+    "url": "https://trello.com/w/user81925824",
+    "website": null,
+    "logoHash": null,
+    "logoUrl": null,
+    "premiumFeatures": [
+      "additionalBoardBackgrounds",
+      "additionalStickers",
+      "customBoardBackgrounds",
+      "customEmoji",
+      "customStickers",
+      "plugins"
+    ],
+    "promotions": [],
+    "enterpriseJoinRequest": {},
+    "standardVariation": null,
+    "availableLicenseCount": null,
+    "maximumLicenseCount": null,
+    "ixUpdate": "15",
+    "teamType": null,
+    "dateLastActivity": "2023-07-20T12:48:41.539Z",
+    "memberships": [
+      {
+        "idMember": "5612364666dac1cae4dc38b1",
+        "memberType": "admin",
+        "unconfirmed": false,
+        "deactivated": false,
+        "id": "60c1a4ed2c78c7151f48aa10"
+      }
+    ]
+  }
+]

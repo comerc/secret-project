@@ -1,0 +1,52 @@
+[
+  {
+    "id": "5c3b7c8381d55f8e11f3acdb",
+    "name": "Hold",
+    "closed": false,
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "pos": 32767.8125,
+    "subscribed": false,
+    "softLimit": null,
+    "status": null
+  },
+  {
+    "id": "5c3c6d5bf8c2315ac54c6804",
+    "name": "Backlog",
+    "closed": false,
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "pos": 65535.625,
+    "subscribed": false,
+    "softLimit": null,
+    "status": null
+  },
+  {
+    "id": "5c3b7c0eed8b758e0ec8d09d",
+    "name": "To Do",
+    "closed": false,
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "pos": 229375,
+    "subscribed": false,
+    "softLimit": null,
+    "status": null
+  },
+  {
+    "id": "5c3b7c6139f45536ab56189a",
+    "name": "Done",
+    "closed": false,
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "pos": 294911,
+    "subscribed": false,
+    "softLimit": null,
+    "status": null
+  },
+  {
+    "id": "5c3b7c18e4fcbc75a1060207",
+    "name": "In Progress",
+    "closed": false,
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "pos": 360447,
+    "subscribed": false,
+    "softLimit": null,
+    "status": null
+  }
+]

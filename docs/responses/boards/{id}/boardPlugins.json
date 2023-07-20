@@ -1,0 +1,32 @@
+[
+  {
+    "id": "63f0ba5214075823cb537e85",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idPlugin": "55a5d917446f51777421000d",
+    "promotional": false
+  },
+  {
+    "id": "63f0ba5959811c5e4307c777",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idPlugin": "55a5d917446f517774210011",
+    "promotional": false
+  },
+  {
+    "id": "63f0ba64df6fbb26d0b83f90",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idPlugin": "55a5d917446f517774210013",
+    "promotional": false
+  },
+  {
+    "id": "63f22ddda4699d94f8a06f70",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idPlugin": "57b47fb862d25a30298459b1",
+    "promotional": false
+  },
+  {
+    "id": "5c3b7bed55428850603f04dd",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idPlugin": "5935cab6b26816f9d49fd814",
+    "promotional": true
+  }
+]

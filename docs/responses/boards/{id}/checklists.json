@@ -1,0 +1,288 @@
+[
+  {
+    "id": "5c9e5e738f69d262a507fafd",
+    "name": "Перенести функционал",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idCard": "5c9bd788d4d0330774090756",
+    "pos": 16384,
+    "checkItems": [
+      {
+        "id": "5c9e5e7504687776b48d34ab",
+        "name": "Check Lists",
+        "nameData": null,
+        "pos": 17319,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5e9a9eea7083b1a92bce",
+        "name": "Code Highlighting",
+        "nameData": {
+          "emoji": {}
+        },
+        "pos": 34559,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5eb8f257c880eee4f74a",
+        "name": "Embeds",
+        "nameData": null,
+        "pos": 68701,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5ec110809635b3b6d2ca",
+        "name": "Emojis",
+        "nameData": null,
+        "pos": 85576,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5ecd906f140897ef3775",
+        "name": "History",
+        "nameData": null,
+        "pos": 102874,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5edb2a0334688fe79042",
+        "name": "Hovering Menu",
+        "nameData": null,
+        "pos": 120029,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5ee966b8398d37e02b56",
+        "name": "Images",
+        "nameData": null,
+        "pos": 136577,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5ef61c833711b6367cac",
+        "name": "Links",
+        "nameData": null,
+        "pos": 153240,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5efecb12442b7ca06bd4",
+        "name": "Markdown Preview",
+        "nameData": null,
+        "pos": 169795,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f099983176366c8365f",
+        "name": "Markdown Shortcuts",
+        "nameData": null,
+        "pos": 186241,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f1041be95873135d31c",
+        "name": "Mentions",
+        "nameData": null,
+        "pos": 203526,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f1ae5dca94dab0b01c0",
+        "name": "Paste HTML",
+        "nameData": null,
+        "pos": 220202,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f27d260748683d74bcf",
+        "name": "Plugins",
+        "nameData": null,
+        "pos": 236846,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f50ea39592c992e184d",
+        "name": "Tables",
+        "nameData": null,
+        "pos": 254108,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5c9e5f6ee59ce32394bb63d2",
+        "name": "Versions (?)",
+        "nameData": null,
+        "pos": 270605,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      },
+      {
+        "id": "5ccc413ab4e7613bc50f0bc6",
+        "name": "[slate-plugins](https://github.com/ianstormtaylor/slate-plugins)",
+        "nameData": null,
+        "pos": 287997,
+        "state": "incomplete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e5e738f69d262a507fafd"
+      }
+    ]
+  },
+  {
+    "id": "5c9e76ef425e5e090d5da132",
+    "name": "Заимствовать из проектов",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "idCard": "5c9bd788d4d0330774090756",
+    "pos": 32768,
+    "checkItems": [
+      {
+        "id": "5c9e76ff33a2d817364b3542",
+        "name": "[ory-editor](https://github.com/aeneasr/ory-editor)",
+        "nameData": null,
+        "pos": 16463,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5c9e771286fbe28e6345a54b",
+        "name": "[outline](https://www.getoutline.com)",
+        "nameData": null,
+        "pos": 32959,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5c9e7b9b0c9bd44536a60b90",
+        "name": "[netlify-cms-widget-markdown](https://github.com/netlify/netlify-cms/blob/master/packages/netlify-cms-widget-markdown/package.json)",
+        "nameData": null,
+        "pos": 24711,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5c9e7c3f5ab3be8b1806d6d2",
+        "name": "[sanity](https://github.com/sanity-io/sanity)",
+        "nameData": null,
+        "pos": 66880,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5c9e825efc69083e7dcb7bf3",
+        "name": "[webiny](https://github.com/Webiny/webiny-js)",
+        "nameData": null,
+        "pos": 28835,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5ca51a8e5eb82d219467f041",
+        "name": "[canner-slate-editor](https://github.com/Canner/canner-slate-editor)",
+        "nameData": null,
+        "pos": 8231.5,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5dc38296e79e2818b6c0d8d1",
+        "name": "edtr.io",
+        "nameData": null,
+        "pos": 83564,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      },
+      {
+        "id": "5dc38faa764ca6513c54f825",
+        "name": "[gitbook](gitbook.com)",
+        "nameData": {
+          "emoji": {}
+        },
+        "pos": 100214,
+        "state": "complete",
+        "due": null,
+        "dueReminder": null,
+        "idMember": null,
+        "idChecklist": "5c9e76ef425e5e090d5da132"
+      }
+    ]
+  }
+]

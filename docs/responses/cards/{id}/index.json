@@ -1,0 +1,103 @@
+{
+  "id": "5c9bd788d4d0330774090756",
+  "badges": {
+    "attachmentsByType": {
+      "trello": {
+        "board": 0,
+        "card": 0
+      }
+    },
+    "location": false,
+    "votes": 0,
+    "viewingMemberVoted": false,
+    "subscribed": true,
+    "dueComplete": false,
+    "due": null,
+    "description": false,
+    "attachments": 1,
+    "comments": 3,
+    "checkItemsChecked": 9,
+    "checkItems": 24,
+    "fogbugz": "",
+    "checkItemsEarliestDue": null,
+    "start": null
+  },
+  "checkItemStates": [
+    {
+      "idCheckItem": "5c9e5e7504687776b48d34ab",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5c9e76ff33a2d817364b3542",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5c9e771286fbe28e6345a54b",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5c9e7b9b0c9bd44536a60b90",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5c9e7c3f5ab3be8b1806d6d2",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5c9e825efc69083e7dcb7bf3",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5ca51a8e5eb82d219467f041",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5dc38296e79e2818b6c0d8d1",
+      "state": "complete"
+    },
+    {
+      "idCheckItem": "5dc38faa764ca6513c54f825",
+      "state": "complete"
+    }
+  ],
+  "closed": false,
+  "dueComplete": false,
+  "dateLastActivity": "2023-04-23T21:31:11.373Z",
+  "desc": "",
+  "descData": {
+    "emoji": {}
+  },
+  "due": null,
+  "dueReminder": null,
+  "email": null,
+  "idBoard": "5c3b7bed55428850603f04dd",
+  "idChecklists": [
+    "5c9e5e738f69d262a507fafd",
+    "5c9e76ef425e5e090d5da132"
+  ],
+  "idList": "5c3b7c18e4fcbc75a1060207",
+  "idMembers": [],
+  "idMembersVoted": [],
+  "idShort": 80,
+  "idAttachmentCover": "",
+  "labels": [],
+  "idLabels": [],
+  "manualCoverAttachment": true,
+  "name": "Прикрутить SlateJS",
+  "pos": 0.125,
+  "shortLink": "3EG0MtTF",
+  "shortUrl": "https://trello.com/c/3EG0MtTF",
+  "start": null,
+  "subscribed": true,
+  "url": "https://trello.com/c/3EG0MtTF/80-%D0%BF%D1%80%D0%B8%D0%BA%D1%80%D1%83%D1%82%D0%B8%D1%82%D1%8C-slatejs",
+  "cover": {
+    "idAttachment": null,
+    "color": null,
+    "idUploadedBackground": null,
+    "size": "normal",
+    "brightness": "light",
+    "idPlugin": null
+  },
+  "isTemplate": false,
+  "cardRole": null
+}

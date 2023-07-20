@@ -1,0 +1,1288 @@
+[
+  {
+    "id": "6445a39fa24df878409e0930",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T21:31:11.401Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64458c3b6ed3c75dc8074522",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T19:51:23.033Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64458c39e41516f2a404c31e",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T19:51:21.371Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64458c38fe539a362aa22731",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T19:51:20.158Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64458c336605c740fcf1b736",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T19:51:15.945Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64458c31589a4137e75ed188",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T19:51:13.817Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64457c87ccd329b851386710",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c6139f45536ab56189a"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c6139f45536ab56189a",
+        "name": "Done"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T18:44:23.858Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456e34f3fc145dbc7eb769",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c6139f45536ab56189a",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3b7c6139f45536ab56189a",
+        "name": "Done"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:43:16.003Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456de96561e3125b4083bf",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c6139f45536ab56189a"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c6139f45536ab56189a",
+        "name": "Done"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:42:01.389Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456de331befc8db7bbe73c",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c6139f45536ab56189a",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3b7c6139f45536ab56189a",
+        "name": "Done"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:41:55.340Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456857ccdf9b697b619a80",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:18:15.007Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "6445684e4645965e4f8705f2",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:18:06.881Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "6445684ad1464e3809ccccc2",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:18:02.874Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "6445684903261229dd3f5d91",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:18:01.757Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456844a1e6d2ce6f4b3f01",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:56.073Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644568426888e0cadd1ce5a4",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:54.270Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644568386660bd9f28d74a64",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:44.947Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "64456837a64f9c9d9fd46539",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:43.441Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644568302a1a67b894c3acc1",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:36.875Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "6445682125d76e350351ac38",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:17:21.942Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644567edb4ba90bebb81acd7",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:16:29.124Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644567e9a8822a5f45bd68cb",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:16:25.320Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644567de6674e895bb03de00",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3b7c18e4fcbc75a1060207",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3c6d5bf8c2315ac54c6804"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      },
+      "listAfter": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:16:14.877Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "644567da361c7cc41591505e",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "card": {
+        "idList": "5c3c6d5bf8c2315ac54c6804",
+        "id": "5c9bd788d4d0330774090756",
+        "name": "Прикрутить SlateJS",
+        "idShort": 80,
+        "shortLink": "3EG0MtTF"
+      },
+      "old": {
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "id": "5c3b7bed55428850603f04dd",
+        "name": "Minsk 4 Minsk 4 Minsk 4 Minsk 4 Minsk 4 в",
+        "shortLink": "qUdxRhIc"
+      },
+      "listBefore": {
+        "id": "5c3b7c18e4fcbc75a1060207",
+        "name": "In Progress"
+      },
+      "listAfter": {
+        "id": "5c3c6d5bf8c2315ac54c6804",
+        "name": "Backlog"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2023-04-23T17:16:10.434Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "5ca66d8dd287d3245933cae0",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "list": {
+        "name": "In Progress",
+        "id": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "shortLink": "qUdxRhIc",
+        "name": "Minsk4",
+        "id": "5c3b7bed55428850603f04dd"
+      },
+      "card": {
+        "shortLink": "3EG0MtTF",
+        "idShort": 80,
+        "name": "Прикрутить SlateJS",
+        "id": "5c9bd788d4d0330774090756"
+      },
+      "text": "Плюсы-минусы\n\ncanner-slate-editor\n+ не показывает Hovering Menu при выделении мышкой заголовка, или текста внутри блока с кодом\n- при завершении операции drag'n'drop для картинки, наблюдается непрорисованный курсор\n+ плюсик с контекстным меню, когда курсор находится в пустой строке вне блока кода (как в Ghost, но там еще плюсик, когда подвести мышку к концу текста)\n+ плюсик с контекстным меню появляется в конце строки (но если строка декорирована, как \"H2\", то плюсик уже не появляется - это не бага, а фича)\n+ анимация плюсика с контекстным меню (в Ghost такого нет); и плюсик превращается в крестик, когда меню открыто\n- в контекстном меню присутствуют кнопки форматирования текста (в Ghost там только виджеты)\n+ применение antd-компонентов для инструментов внутри редактора\n+ богатый функционал для загрузки картинки: drag'n'drop, url, open file\n- картинки можно загружать только по одной (нет виджета галереи)\n+ есть выравнивания картинок и других блоков \n+ редактирование размера картинки (но проще бы, как в Ghost режимы regular-white-full)\n+ применение форматирования markdown\n- отсутствует drag'n'drop для cards (в терминологии Ghost)\n+ виджет таблицы, как в старом-добром MS Word\n- по урл можно вставить только видео (в Ghost это виджет \"Other...\", который поддерживает много другого - \"embedded content\")\n- виджет ссылки не позволяет ее редактировать (в Ghost это можно)\n- одновременно всплывает Hovering Menu и url-popup ссылки (в Ghost выделение текста скрывает url-popup ссылки)\n- Hovering Menu залезает за край редактируемой области (в Ghost выравнивается по краю)\n\nreact-page (ory-editor)\n+ режим изменения композиции блоков через drag'n'drop\n+ режим изменения размеров картинок и других блоков, если их несколько в одном ряду (но только через drag'n'drop)\n+ режим добавления виджетов (но только через drag'n'drop)\n+ режим \"preview result\" изменяет поведение виджетов (например: картинка становится кликабельной)\n+ в режиме изменения композиции блоков, блок с картинкой можно вставить в блок с текстом через drag'n'drop - чтобы текст обрамлял картинку; плюс есть \"защита от дурака\": так можно вставить только одну картинку  \n- без мышки функционал сильно ограничен\n- нет растягивания размеров картинок (как в Ghost режимы regular-white-full)\n- вообще нет форматирования markdown (в Ghost два режима: в тексте, в отдельном виджете)\n- не очевидно, как удалить блок картинки (нужно перетащить в корзину через drag'n'drop) - нужно сместить иконку корзины за пределы текста\n- нет рамки фокуса для виджета картинки в режиме редактирования свойств (хотя для виджета HTML5-видео - есть, вероятно индикацию фокуса задает сам браузер)\n+ панель инструментов редактирования текущего элемента (toolbar для текста, или диалог для картинки etc.) всплывает в подвале и закреплена там\n- режим добавления виджетов возвращает в исходное состояние выбора виджетов после вставки какого-либо виджета, а хотелось бы перейти к редактированию добавленного виджета; вероятно так и задумано: сначала накидать блоки, а уж потом их редактировать по очереди\n- url ссылки тупо удаляется при клике по кнопке, а хотелось бы popup с отображением url ссылки и диалог редактирования ссылки (в Ghost тоже нет редактирования, только пустое поле ввода для новой ссылки); понятно, что компромиссы из-за возможной коллизии добавления ссылки в ссылку - надо прорабатывать; в sanity один диалог служит для редактирования ссылки (и ее отображения) и для перехода по этой ссылке\n- в инструменте редактирования картинки отсутствует drag'n'drop на добавление исходной картинки\n- нет виджета для кода\n- не реализован drag'n'drop для загрузки картинки\n- системный диалог выбора файлов для загрузки картинок не фильтрует допустимые файлы (надо отображать только картинки)\n- в Ghost, в режиме drag'n'drop, анимировано смещаются другие элементы для полоски-указателя, куда будет выполнен drop\n- в режиме изменения композиции блоков через drag'n'drop, дублировано отображается паразитная полоска-указатель (видимо из-за лишних div-элементов)\n\nnetlify-cms-widget-markdown\n+ можно подсмотреть, как поженить slate и remark ([remarkSlate.js](https://github.com/netlify/netlify-cms/blob/master/packages/netlify-cms-widget-markdown/src/serializers/remarkSlate.js), [slateRemark.js](https://github.com/netlify/netlify-cms/blob/master/packages/netlify-cms-widget-markdown/src/serializers/slateRemark.js))\n+ встроены плагины slate-edit-list и slate-edit-table\n+ две реализации редактора: RawEditor & VisualEditor\n\nsanity\n+ выбор кропа для картинок (см. вложение) - не относится к slate-js\n+ paste markdown (?)",
+      "textData": {
+        "emoji": {}
+      },
+      "dateLastEdited": "2019-06-13T06:51:04.834Z"
+    },
+    "appCreator": null,
+    "type": "commentCard",
+    "date": "2019-04-04T20:48:13.228Z",
+    "limits": {
+      "reactions": {
+        "perAction": {
+          "status": "ok",
+          "disableAt": 900,
+          "warnAt": 720
+        },
+        "uniquePerAction": {
+          "status": "ok",
+          "disableAt": 17,
+          "warnAt": 14
+        }
+      }
+    },
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "5ca50dda6fd4c204d9f95c6b",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "list": {
+        "name": "In Progress",
+        "id": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "shortLink": "qUdxRhIc",
+        "name": "Minsk4",
+        "id": "5c3b7bed55428850603f04dd"
+      },
+      "card": {
+        "shortLink": "3EG0MtTF",
+        "idShort": 80,
+        "name": "Прикрутить SlateJS",
+        "id": "5c9bd788d4d0330774090756"
+      },
+      "text": "Внутри netlify-cms можно подсмотреть, как поженить slate и remark"
+    },
+    "appCreator": null,
+    "type": "commentCard",
+    "date": "2019-04-03T19:47:38.121Z",
+    "limits": {
+      "reactions": {
+        "perAction": {
+          "status": "ok",
+          "disableAt": 900,
+          "warnAt": 720
+        },
+        "uniquePerAction": {
+          "status": "ok",
+          "disableAt": 17,
+          "warnAt": 14
+        }
+      }
+    },
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "5ca4ad839bfbee02724d9b99",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "list": {
+        "name": "In Progress",
+        "id": "5c3b7c18e4fcbc75a1060207"
+      },
+      "board": {
+        "shortLink": "qUdxRhIc",
+        "name": "Minsk4",
+        "id": "5c3b7bed55428850603f04dd"
+      },
+      "card": {
+        "shortLink": "3EG0MtTF",
+        "idShort": 80,
+        "name": "Прикрутить SlateJS",
+        "id": "5c9bd788d4d0330774090756"
+      },
+      "text": "[Koenig Editor - Beta Release](https://forum.ghost.org/t/koenig-editor-beta-release/1284) - функционал внутри Ghost",
+      "textData": {
+        "emoji": {}
+      },
+      "dateLastEdited": "2019-04-03T12:59:12.835Z"
+    },
+    "appCreator": null,
+    "type": "commentCard",
+    "date": "2019-04-03T12:56:35.032Z",
+    "limits": {
+      "reactions": {
+        "perAction": {
+          "status": "ok",
+          "disableAt": 900,
+          "warnAt": 720
+        },
+        "uniquePerAction": {
+          "status": "ok",
+          "disableAt": 17,
+          "warnAt": 14
+        }
+      }
+    },
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  },
+  {
+    "id": "5c9d13b19812857b7453a734",
+    "idMemberCreator": "5612364666dac1cae4dc38b1",
+    "data": {
+      "listAfter": {
+        "name": "In Progress",
+        "id": "5c3b7c18e4fcbc75a1060207"
+      },
+      "listBefore": {
+        "name": "To Do",
+        "id": "5c3b7c0eed8b758e0ec8d09d"
+      },
+      "board": {
+        "shortLink": "qUdxRhIc",
+        "name": "Minsk4",
+        "id": "5c3b7bed55428850603f04dd"
+      },
+      "card": {
+        "shortLink": "3EG0MtTF",
+        "idShort": 80,
+        "name": "Прикрутить SlateJS",
+        "id": "5c9bd788d4d0330774090756",
+        "idList": "5c3b7c18e4fcbc75a1060207"
+      },
+      "old": {
+        "idList": "5c3b7c0eed8b758e0ec8d09d"
+      }
+    },
+    "appCreator": null,
+    "type": "updateCard",
+    "date": "2019-03-28T18:34:25.674Z",
+    "limits": null,
+    "memberCreator": {
+      "id": "5612364666dac1cae4dc38b1",
+      "activityBlocked": false,
+      "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+      "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+      "fullName": "andrew_kachanov",
+      "idMemberReferrer": null,
+      "initials": "A",
+      "nonPublic": {},
+      "nonPublicAvailable": true,
+      "username": "andrewkachanov"
+    }
+  }
+]

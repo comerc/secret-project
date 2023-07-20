@@ -1,0 +1,23 @@
+{
+  "id": "5abbe4b7ddc1b351ef961414",
+  "idModel": "586e8f681d4fe9b06a928307",
+  "modelType": "board",
+  "fieldGroup": "f6177ba6839d6fff0f73922c1cea105e793fda8a1433d466104dacc0b7c56955",
+  "display": {
+    "cardFront": true,
+    "name": "Priority 🏔",
+    "pos": "98304,",
+    "options": [
+      {
+        "id": "5abbe4b7ddc1b351ef961414",
+        "idCustomField": "5abbe4b7ddc1b351ef961414",
+        "value": {
+          "text": "High"
+        },
+        "color": "red",
+        "pos": 16384
+      }
+    ]
+  },
+  "type": "list"
+}

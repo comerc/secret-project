@@ -1,0 +1,107 @@
+{
+  "id": "5abbe4b7ddc1b351ef961414",
+  "activityBlocked": false,
+  "avatarHash": "fc8faaaee46666a4eb8b626c08933e16",
+  "avatarUrl": "https://trello-avatars.s3.amazonaws.com/fc8faaaee46666a4eb8b626c08933e16",
+  "bio": "👋 I'm a developer advocate at Trello!",
+  "bioData": {
+    "emoji": {}
+  },
+  "confirmed": true,
+  "fullName": "Bentley Cook",
+  "idEnterprise": "5abbe4b7ddc1b351ef961414",
+  "idEnterprisesDeactivated": [
+    "<string>"
+  ],
+  "idMemberReferrer": "5abbe4b7ddc1b351ef961414",
+  "idPremOrgsAdmin": [
+    "5abbe4b7ddc1b351ef961414"
+  ],
+  "initials": "BC",
+  "memberType": "normal",
+  "nonPublic": {
+    "fullName": "Bentley Cook",
+    "initials": "BC",
+    "avatarUrl": "https://trello-members.s3.amazonaws.com/5b02e7f4e1facdc393169f9d/db2adf80c2e6c26b76e1f10400eb4c45",
+    "avatarHash": "db2adf80c2e6c26b76e1f10400eb4c45"
+  },
+  "nonPublicAvailable": false,
+  "products": [
+    2154
+  ],
+  "url": "https://trello.com/bentleycook",
+  "username": "bentleycook",
+  "status": "disconnected",
+  "aaEmail": "<string>",
+  "aaEnrolledDate": "<string>",
+  "aaId": "<string>",
+  "avatarSource": "gravatar",
+  "email": "bcook@atlassian.com",
+  "gravatarHash": "0a1e804f6e35a65ae5e1f7ef4c92471c",
+  "idBoards": [
+    "5abbe4b7ddc1b351ef961414"
+  ],
+  "idOrganizations": [
+    "5abbe4b7ddc1b351ef961414"
+  ],
+  "idEnterprisesAdmin": [
+    "5abbe4b7ddc1b351ef961414"
+  ],
+  "limits": {
+    "status": "ok",
+    "disableAt": 36000,
+    "warnAt": 32400
+  },
+  "loginTypes": [
+    "password"
+  ],
+  "marketingOptIn": {
+    "optedIn": false,
+    "date": "2018-04-26T17:03:25.155Z"
+  },
+  "messagesDismissed": {
+    "name": "ad-security-features",
+    "count": "<string>",
+    "lastDismissed": "2019-03-11T20:19:46.809Z",
+    "_id": "5abbe4b7ddc1b351ef961414"
+  },
+  "oneTimeMessagesDismissed": [
+    "<string>"
+  ],
+  "prefs": {
+    "timezoneInfo": {
+      "offsetCurrent": 360,
+      "timezoneCurrent": "CST",
+      "offsetNext": 300,
+      "dateNext": "2020-03-08T08:00:00.000Z",
+      "timezoneNext": "CDT"
+    },
+    "privacy": {
+      "fullName": "public",
+      "avatar": "public"
+    },
+    "sendSummaries": true,
+    "minutesBetweenSummaries": 60,
+    "minutesBeforeDeadlineToNotify": 1440,
+    "colorBlind": true,
+    "locale": "en-AU",
+    "timezone": "America/Chicago",
+    "twoFactor": {
+      "enabled": true,
+      "needsNewBackups": false
+    }
+  },
+  "trophies": [
+    "<string>"
+  ],
+  "uploadedAvatarHash": "dac3ad49ff117829dd63a79bb2ea3426",
+  "uploadedAvatarUrl": "https://trello-avatars.s3.amazonaws.com/dac3ad49ff117829dd63a79bb2ea3426",
+  "premiumFeatures": [
+    "<string>"
+  ],
+  "isAaMastered": false,
+  "ixUpdate": 2154,
+  "idBoardsPinned": [
+    "5abbe4b7ddc1b351ef961414"
+  ]
+}

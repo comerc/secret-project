@@ -1,0 +1,11 @@
+[
+  {
+    "id": "5abbe4b7ddc1b351ef961414",
+    "description": "Board Webhook",
+    "idModel": "5abbe4b7ddc1b351ef961414",
+    "callbackURL": "https://mywebhookurl.com/?type=board",
+    "active": true,
+    "consecutiveFailures": 0,
+    "firstConsecutiveFailDate": "<string>"
+  }
+]

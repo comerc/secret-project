@@ -1,0 +1,27 @@
+{
+  "id": "5c3b7c18e4fcbc75a1060207",
+  "name": "In Progress",
+  "closed": false,
+  "idBoard": "5c3b7bed55428850603f04dd",
+  "pos": 131071.40625,
+  "subscribed": false,
+  "softLimit": null,
+  "status": null,
+  "creationMethod": null,
+  "idOrganization": "60c1a4ed2c78c7151f48aa0f",
+  "limits": {
+    "cards": {
+      "openPerList": {
+        "status": "ok",
+        "disableAt": 5000,
+        "warnAt": 4000
+      },
+      "totalPerList": {
+        "status": "ok",
+        "disableAt": 1000000,
+        "warnAt": 800000
+      }
+    }
+  },
+  "nodeId": "ari:cloud:trello::list/workspace/60c1a4ed2c78c7151f48aa0f/5c3b7c18e4fcbc75a1060207"
+}

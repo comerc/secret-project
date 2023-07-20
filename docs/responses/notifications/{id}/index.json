@@ -1,0 +1,162 @@
+{
+  "id": "5dc591ac425f2a223aba0a8e",
+  "unread": true,
+  "type": "cardDueSoon",
+  "date": "2019-11-08T16:02:52.763Z",
+  "dateRead": "<string>",
+  "data": "<string>",
+  "card": {
+    "id": "5abbe4b7ddc1b351ef961414",
+    "address": "<string>",
+    "badges": {
+      "attachmentsByType": {
+        "trello": {
+          "board": 2154,
+          "card": 2154
+        }
+      },
+      "location": true,
+      "votes": 2154,
+      "viewingMemberVoted": false,
+      "subscribed": false,
+      "fogbugz": "<string>",
+      "checkItems": 0,
+      "checkItemsChecked": 0,
+      "comments": 0,
+      "attachments": 0,
+      "description": true,
+      "due": "<string>",
+      "start": "<string>",
+      "dueComplete": true
+    },
+    "checkItemStates": [
+      "<string>"
+    ],
+    "closed": true,
+    "coordinates": "<string>",
+    "creationMethod": "<string>",
+    "dateLastActivity": "2019-09-16T16:19:17.156Z",
+    "desc": "👋Hey there,\n\nTrello's Platform team uses this board to keep developers up-to-date.",
+    "descData": {
+      "emoji": {}
+    },
+    "due": "<string>",
+    "dueReminder": "<string>",
+    "email": "bentleycook+2kea95u7kchsvqnxkwe+2q0byi6qv4pt9uc7q5m+25qyyohtzg@boards.trello.com",
+    "idBoard": "5abbe4b7ddc1b351ef961414",
+    "idChecklists": [
+      {
+        "id": "5abbe4b7ddc1b351ef961414"
+      }
+    ],
+    "idLabels": [
+      {
+        "id": "5abbe4b7ddc1b351ef961414",
+        "idBoard": "5abbe4b7ddc1b351ef961414",
+        "name": "Overdue",
+        "color": "yellow"
+      }
+    ],
+    "idList": "5abbe4b7ddc1b351ef961414",
+    "idMembers": [
+      "5abbe4b7ddc1b351ef961414"
+    ],
+    "idMembersVoted": [
+      "5abbe4b7ddc1b351ef961414"
+    ],
+    "idShort": 2154,
+    "labels": [
+      "5abbe4b7ddc1b351ef961414"
+    ],
+    "limits": {
+      "attachments": {
+        "perBoard": {}
+      }
+    },
+    "locationName": "<string>",
+    "manualCoverAttachment": false,
+    "name": "👋 What? Why? How?",
+    "pos": 65535,
+    "shortLink": "H0TZyzbK",
+    "shortUrl": "https://trello.com/c/H0TZyzbK",
+    "subscribed": false,
+    "url": "https://trello.com/c/H0TZyzbK/4-%F0%9F%91%8B-what-why-how",
+    "cover": {
+      "color": "yellow",
+      "idUploadedBackground": true,
+      "size": "normal",
+      "brightness": "light",
+      "isTemplate": false
+    }
+  },
+  "board": {
+    "id": "5abbe4b7ddc1b351ef961414",
+    "name": "Trello Platform Changes",
+    "desc": "Track changes to Trello's Platform on this board.",
+    "descData": "<string>",
+    "closed": false,
+    "idMemberCreator": "5abbe4b7ddc1b351ef961414",
+    "idOrganization": "5abbe4b7ddc1b351ef961414",
+    "pinned": false,
+    "url": "https://trello.com/b/dQHqCohZ/trello-platform-changelog",
+    "shortUrl": "https://trello.com/b/dQHqCohZ",
+    "prefs": {
+      "permissionLevel": "org",
+      "hideVotes": true,
+      "voting": "disabled",
+      "comments": "<string>",
+      "selfJoin": true,
+      "cardCovers": true,
+      "isTemplate": true,
+      "cardAging": "pirate",
+      "calendarFeedEnabled": true,
+      "background": "5abbe4b7ddc1b351ef961414",
+      "backgroundImage": "<string>",
+      "backgroundImageScaled": [
+        {}
+      ],
+      "backgroundTile": true,
+      "backgroundBrightness": "dark",
+      "backgroundBottomColor": "#1e2e00",
+      "backgroundTopColor": "#ffffff",
+      "canBePublic": true,
+      "canBeEnterprise": true,
+      "canBeOrg": true,
+      "canBePrivate": true,
+      "canInvite": true
+    },
+    "labelNames": {
+      "green": "Addition",
+      "yellow": "Update",
+      "orange": "Deprecation",
+      "red": "Deletion",
+      "purple": "Power-Ups",
+      "blue": "News",
+      "sky": "Announcement",
+      "lime": "Delight",
+      "pink": "REST API",
+      "black": "Capabilties"
+    },
+    "limits": {
+      "attachments": {
+        "perBoard": {}
+      }
+    },
+    "starred": true,
+    "memberships": "<string>",
+    "shortLink": "<string>",
+    "subscribed": true,
+    "powerUps": "<string>",
+    "dateLastActivity": "<string>",
+    "dateLastView": "<string>",
+    "idTags": "<string>",
+    "datePluginDisable": "<string>",
+    "creationMethod": "<string>",
+    "ixUpdate": 2154,
+    "templateGallery": "<string>",
+    "enterpriseOwned": true
+  },
+  "idMemberCreator": "5abbe4b7ddc1b351ef961414",
+  "idAction": "5abbe4b7ddc1b351ef961414",
+  "reactions": []
+}

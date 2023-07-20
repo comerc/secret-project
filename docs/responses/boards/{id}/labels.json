@@ -1,0 +1,219 @@
+[
+  {
+    "id": "5c3b7beda3a82f4872e3d32f",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "1-2",
+    "color": "green",
+    "uses": 25
+  },
+  {
+    "id": "63e66a338b687e08275bf515",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "1-3",
+    "color": "green_dark",
+    "uses": 25
+  },
+  {
+    "id": "63e668d49cb4082a3919a32e",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "",
+    "color": "green_light",
+    "uses": 25
+  },
+  {
+    "id": "63e668db16b88639adcdf65c",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-1",
+    "color": "yellow_light",
+    "uses": 25
+  },
+  {
+    "id": "63e668ee8c52ef4b4449f7b3",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-1",
+    "color": "red_light",
+    "uses": 24
+  },
+  {
+    "id": "63e66daeb8f78e26a056c111",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-5",
+    "color": "black",
+    "uses": 0
+  },
+  {
+    "id": "63e66db655c5d317c576a72e",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-6",
+    "color": "black_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e73fbdc3ac9319a24dc688",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "Моя очень-очень-очень длинная метка",
+    "color": "black_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66da433134f7f2e3d0e07",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-4",
+    "color": "black_light",
+    "uses": 0
+  },
+  {
+    "id": "5c3b7beda3a82f4872e3d335",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "1-5",
+    "color": "blue",
+    "uses": 0
+  },
+  {
+    "id": "63e66a4fe9d3d4996b15cef0",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "1-6",
+    "color": "blue_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66a3cb2b9164dd1943df6",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "1-4",
+    "color": "blue_light",
+    "uses": 0
+  },
+  {
+    "id": "63e66bc950cd4fc3571b4ee1",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-5",
+    "color": "lime",
+    "uses": 0
+  },
+  {
+    "id": "63e66bd2021f3f2064e234d6",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-6",
+    "color": "lime_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66bc13eb8a9216fd859d7",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-4",
+    "color": "lime_light",
+    "uses": 0
+  },
+  {
+    "id": "5c3b7beda3a82f4872e3d330",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-2",
+    "color": "orange",
+    "uses": 0
+  },
+  {
+    "id": "63e66baea539655664deb09f",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-3",
+    "color": "orange_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e668e385eb35b3c8388044",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "3-1",
+    "color": "orange_light",
+    "uses": 0
+  },
+  {
+    "id": "63e66d75c0c953afebf42f25",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-5",
+    "color": "pink",
+    "uses": 0
+  },
+  {
+    "id": "63e66d7e54651466292898c4",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-6",
+    "color": "pink_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66d6a639616d8f8c99e96",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-4",
+    "color": "pink_light",
+    "uses": 0
+  },
+  {
+    "id": "5c3b7beda3a82f4872e3d334",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-2",
+    "color": "purple",
+    "uses": 0
+  },
+  {
+    "id": "63e66d9a615d13847e640395",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-3",
+    "color": "purple_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e668f5d2deec8304416e34",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "5-1",
+    "color": "purple_light",
+    "uses": 0
+  },
+  {
+    "id": "5c3b7beda3a82f4872e3d32e",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-2",
+    "color": "red",
+    "uses": 0
+  },
+  {
+    "id": "63e66d5d9d6b86463a1476cf",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "4-3",
+    "color": "red_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66b84bfe746955b49b533",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-5",
+    "color": "sky",
+    "uses": 0
+  },
+  {
+    "id": "63e66b8cb93a9980fae7566c",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-6",
+    "color": "sky_dark",
+    "uses": 0
+  },
+  {
+    "id": "63e66b78ae8418ba1e7db732",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-4",
+    "color": "sky_light",
+    "uses": 0
+  },
+  {
+    "id": "5c3b7beda3a82f4872e3d331",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-2",
+    "color": "yellow",
+    "uses": 0
+  },
+  {
+    "id": "63e66b6b5525f4926e63a99e",
+    "idBoard": "5c3b7bed55428850603f04dd",
+    "name": "2-3",
+    "color": "yellow_dark",
+    "uses": 0
+  }
+]

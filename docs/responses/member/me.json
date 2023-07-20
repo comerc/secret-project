@@ -1,0 +1,139 @@
+{
+  "id": "5612364666dac1cae4dc38b1",
+  "aaId": "5ae0619e7b296356232db577",
+  "activityBlocked": false,
+  "avatarHash": "790db9a7a63dfbe6de8014743e636e10",
+  "avatarUrl": "https://trello-members.s3.amazonaws.com/5612364666dac1cae4dc38b1/790db9a7a63dfbe6de8014743e636e10",
+  "bio": "",
+  "bioData": null,
+  "confirmed": true,
+  "fullName": "andrew_kachanov",
+  "idEnterprise": null,
+  "idEnterprisesDeactivated": [],
+  "idMemberReferrer": null,
+  "idPremOrgsAdmin": [],
+  "initials": "A",
+  "memberType": "normal",
+  "nonPublic": {
+    "fullName": "Andrew Kachanov",
+    "initials": "AK",
+    "avatarHash": null
+  },
+  "nonPublicAvailable": true,
+  "products": [],
+  "url": "https://trello.com/andrewkachanov",
+  "username": "andrewkachanov",
+  "status": "disconnected",
+  "aaBlockSyncUntil": null,
+  "aaEmail": "andrew.kachanov@gmail.com",
+  "aaEnrolledDate": null,
+  "avatarSource": "none",
+  "credentialsRemovedCount": 1,
+  "domainClaimed": null,
+  "email": "andrew.kachanov@gmail.com",
+  "gravatarHash": "4787ec7420cac3f90338c2c286df857e",
+  "idBoards": [
+    "5c3b7bed55428850603f04dd"
+  ],
+  "idOrganizations": [
+    "60c1a4ed2c78c7151f48aa0f"
+  ],
+  "idEnterprisesAdmin": [],
+  "limits": {
+    "boards": {
+      "totalPerMember": {
+        "status": "ok",
+        "disableAt": 4500,
+        "warnAt": 3600
+      }
+    },
+    "orgs": {
+      "totalPerMember": {
+        "status": "ok",
+        "disableAt": 850,
+        "warnAt": 680
+      }
+    }
+  },
+  "loginTypes": [
+    "google",
+    "android",
+    "atlassian",
+    "password"
+  ],
+  "marketingOptIn": {
+    "optedIn": false,
+    "date": "2018-04-25T21:41:19.165Z"
+  },
+  "messagesDismissed": [
+    {
+      "name": "ad-DirectoryBusinessClassBanner",
+      "count": 1,
+      "lastDismissed": "2019-01-16T17:02:48.463Z",
+      "_id": "5c3f63b8622e8743a630f3ca"
+    },
+    {
+      "name": "1-nov-2018-tos-change-accepted",
+      "count": 1,
+      "lastDismissed": "2019-05-10T10:52:41.232Z",
+      "_id": "5cd557f9676d4f04f33882ec"
+    },
+    {
+      "name": "ad-logged-in-public-board-5c3b7bed55428850603f04dd",
+      "count": 1,
+      "lastDismissed": "2023-01-26T04:52:37.491Z",
+      "_id": "63d207154c9fc4a947703a21"
+    }
+  ],
+  "oneTimeMessagesDismissed": [
+    "new-lang-ru",
+    "PowerUpsPaneExplainer",
+    "GoldIntro",
+    "OPEN_CARD_TIP",
+    "simplified-view-full-view",
+    "simplified-view-org-settings",
+    "simplified-view-card-activity",
+    "simplified-view-card-move",
+    "simplified-view-labels-and-edit",
+    "close-menu-of-first-board",
+    "notifications-onboarding",
+    "board-background-prompt",
+    "free-trial-banner-60c1a4ed2c78c7151f48aa0f",
+    "your-items-on-home",
+    "ack-new-feature-CrossProductSearch-1678827600000",
+    "ack-new-feature-ThemeSwitcherSpotlight-1733000400000",
+    "ack-new-feature-DarkModeSpotlight-1688158800000"
+  ],
+  "prefs": {
+    "timezoneInfo": {
+      "offsetCurrent": -180,
+      "timezoneCurrent": "??"
+    },
+    "privacy": {
+      "avatar": "public",
+      "fullName": "public"
+    },
+    "locale": "ru",
+    "colorBlind": false,
+    "minutesBeforeDeadlineToNotify": 1440,
+    "minutesBetweenSummaries": -1,
+    "sendSummaries": true,
+    "twoFactor": {
+      "enabled": false,
+      "needsNewBackups": true
+    }
+  },
+  "trophies": [],
+  "uploadedAvatarHash": null,
+  "uploadedAvatarUrl": null,
+  "premiumFeatures": [
+    "additionalBoardBackgrounds",
+    "additionalStickers",
+    "customBoardBackgrounds",
+    "customEmoji",
+    "customStickers",
+    "plugins"
+  ],
+  "isAaMastered": true,
+  "ixUpdate": "841"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "5c3b7bed55428850603f04dd",
+  "name": "Minsk 4",
+  "desc": "",
+  "descData": null,
+  "closed": false,
+  "idOrganization": "60c1a4ed2c78c7151f48aa0f",
+  "idEnterprise": null,
+  "pinned": false,
+  "url": "https://trello.com/b/qUdxRhIc/minsk-4",
+  "shortUrl": "https://trello.com/b/qUdxRhIc",
+  "prefs": {
+    "permissionLevel": "private",
+    "hideVotes": false,
+    "voting": "members",
+    "comments": "members",
+    "invitations": "members",
+    "selfJoin": false,
+    "cardCovers": true,
+    "isTemplate": false,
+    "cardAging": "regular",
+    "calendarFeedEnabled": false,
+    "hiddenPluginBoardButtons": [
+      "57b47fb862d25a30298459b1"
+    ],
+    "switcherViews": [
+      {
+        "viewType": "Board",
+        "enabled": true
+      },
+      {
+        "viewType": "Table",
+        "enabled": true
+      },
+      {
+        "viewType": "Calendar",
+        "enabled": false
+      },
+      {
+        "viewType": "Dashboard",
+        "enabled": false
+      },
+      {
+        "viewType": "Timeline",
+        "enabled": false
+      },
+      {
+        "viewType": "Map",
+        "enabled": false
+      }
+    ],
+    "background": "pink",
+    "backgroundColor": "#CD5A91",
+    "backgroundImage": null,
+    "backgroundImageScaled": null,
+    "backgroundTile": false,
+    "backgroundBrightness": "dark",
+    "backgroundBottomColor": "#CD5A91",
+    "backgroundTopColor": "#CD5A91",
+    "canBePublic": true,
+    "canBeEnterprise": true,
+    "canBeOrg": true,
+    "canBePrivate": true,
+    "canInvite": true
+  },
+  "labelNames": {
+    "green": "1-2",
+    "yellow": "2-2",
+    "orange": "3-2",
+    "red": "4-2",
+    "purple": "5-2",
+    "blue": "1-5",
+    "sky": "2-5",
+    "lime": "3-5",
+    "pink": "4-5",
+    "black": "5-5",
+    "green_dark": "1-3",
+    "yellow_dark": "2-3",
+    "orange_dark": "3-3",
+    "red_dark": "4-3",
+    "purple_dark": "5-3",
+    "blue_dark": "1-6",
+    "sky_dark": "2-6",
+    "lime_dark": "3-6",
+    "pink_dark": "4-6",
+    "black_dark": "5-6",
+    "green_light": "",
+    "yellow_light": "2-1",
+    "orange_light": "3-1",
+    "red_light": "4-1",
+    "purple_light": "5-1",
+    "blue_light": "1-4",
+    "sky_light": "2-4",
+    "lime_light": "3-4",
+    "pink_light": "4-4",
+    "black_light": "5-4"
+  }
+}
