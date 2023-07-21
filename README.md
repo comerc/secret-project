@@ -374,6 +374,8 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] [A Plan for Spam](http://www.paulgraham.com/spam.html)
 - [ ] [Компромиссы микросервисов](https://habr.com/ru/articles/261689/)
 - [ ] [Trello REST API](https://developer.atlassian.com/cloud/trello/rest/)
+- [ ] [json2graphql](https://github.com/hasura/json2graphql)
+- [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
 
 ## Что нового (для меня) про вёрстку
 
