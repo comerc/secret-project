@@ -30,9 +30,15 @@ $ cd data && docker-compose -p="secret-project" up -d
 - Database Display Name: default
 - Environment Variable: PG_DATABASE_URL
 
+## Fake Data via json2graphql
+
+```bash
+$ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
+```
+
 ## How to save DB-Schema
 
-```
+```bash
 $ cd data
 $ rm -rf migrations
 $ hasura migrate create "init" --from-server --database-name default
@@ -42,7 +48,7 @@ $ hasura metadata export
 
 ## How to restore DB-Schema
 
-```
+```bash
 $ cd data
 $ hasura migrate apply
 $ hasura metadata apply
@@ -50,7 +56,7 @@ $ hasura metadata apply
 
 or
 
-```
+```bash
 $ cd data
 $ cat backup.sql | docker exec -i secret-project-postgres-1 psql -U postgres
 $ hasura metadata apply
