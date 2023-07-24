@@ -1,0 +1,8 @@
+table:
+  name: member
+  schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_root_fields:
+    select: members
