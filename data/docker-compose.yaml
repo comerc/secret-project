@@ -1,4 +1,5 @@
 version: '3.6'
+name: secret-project
 services:
   postgres:
     image: postgres:15
