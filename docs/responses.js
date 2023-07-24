@@ -18,6 +18,23 @@
 // - tokens/{id}/member
 // - tokens/{id}/webhooks
 
+// Action type values for organization:
+// - createOrganization
+// Action type values for board:
+// - addMemberToCard
+// - copyCard
+// - updateList
+// - createList
+// - addChecklistToCard
+// Action type values for list:
+// - updateList
+// - createList
+// - updateCard
+// - createCard
+// Action type values for card:
+// - updateCard
+// - commentCard
+
 module.exports = {
   boards: [
     {
