@@ -7,7 +7,7 @@ import { IResolvers } from '@graphql-tools/utils'
 // import { combineResolvers } from 'graphql-resolvers'
 // import { isAuthenticated, isBookOwner } from '@/authorization'
 
-const schemaString = readFileSync('./schema.graphql', { encoding: 'utf8' })
+const schemaString = readFileSync('./try-schema.graphql', { encoding: 'utf8' })
 
 const typeDefs = gql(schemaString)
 
