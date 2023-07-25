@@ -51,7 +51,6 @@ $ hasura metadata export
 ```bash
 $ cd data
 $ hasura migrate apply
-$ cat backup.sql | docker exec -i secret-project-postgres-1 psql -U postgres
 $ hasura metadata apply
 ```
 
@@ -385,6 +384,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - [ ] [Trello REST API](https://developer.atlassian.com/cloud/trello/rest/)
 - [ ] [json2graphql](https://github.com/hasura/json2graphql)
 - [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
+- [ ] [XO_FONTS](https://myoffice.ru/products/fonts/)
 
 ## Что нового (для меня) про вёрстку
 
