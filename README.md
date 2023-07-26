@@ -186,6 +186,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://asana.com
   - https://ru.yougile.com
   - https://pyrus.com/ru
+  - https://resolv.it - (+ Дискуссии вместо каналов и чатов + Один тред — одна тема + Кнопка Resolve) https://vc.ru/tribuna/771861-resolvit-io-kak-ya-ustal-ot-haosa-v-messendzherah-i-sdelal-servis-po-resheniyu-rabochih-zadach
 - [x] Продукты, которые перекрывают сегменты Work <> Knowledge Base (без Communications)
   - https://fibery.io (1.0)
   - https://monday.com (коммуникации только в комментах)
@@ -378,6 +379,7 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
   - https://habr.com/ru/articles/725184/
 - [ ] Xerox Alto — компьютер, разработанный в исследовательском центре Xerox PARC в 1973 году. Это первый в мире компьютер, использовавший метафору «рабочего стола» и графический пользовательский интерфейс. Alto был первым полностью персональным компьютером в современном понимании. Alto был исследовательским прототипом, а не коммерческим продуктом. Предполагалось, что Alto станет серийно производимой машиной, но она так и не была поставлена на поток.
 - [ ] Karate BDD - для тестирования API (включая GraphQL) https://github.com/karatelabs/karate/tree/master/karate-demo
+- [ ] Robot Framework (+BDD) https://robotframework.org/
 - [ ] Task Management Made Simple (via "Simple Made Easy")
 - [ ] [A Plan for Spam](http://www.paulgraham.com/spam.html)
 - [ ] [Компромиссы микросервисов](https://habr.com/ru/articles/261689/)
