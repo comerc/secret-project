@@ -109,6 +109,13 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - install plugin to VSCode: https://github.com/apollographql/vscode-graphql
 - add HASURA_GRAPHQL_URL & HASURA_ADMIN_SECRET to .env.local
 
+## Tables from next-auth-hasura-adapter
+
+- users
+- sessions
+- accounts
+- verification_tokens
+
 ## TODOs
 
 - [x] Apollo Server
