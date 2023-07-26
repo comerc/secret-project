@@ -1,0 +1,13 @@
+table:
+  name: tokens
+  schema: public
+object_relationships:
+  - name: permissions
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: tokenPermissions
+          schema: public

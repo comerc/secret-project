@@ -1,0 +1,13 @@
+table:
+  name: checklists
+  schema: public
+array_relationships:
+  - name: checkItems
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idChecklist
+        insertion_order: null
+        remote_table:
+          name: checkItems
+          schema: public

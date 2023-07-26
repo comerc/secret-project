@@ -30,12 +30,6 @@ $ cd data && docker-compose up -d
 - Database Display Name: default
 - Environment Variable: PG_DATABASE_URL
 
-## Fake Data via json2graphql
-
-```bash
-$ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
-```
-
 ## How to save DB-Schema
 
 ```bash
@@ -115,6 +109,12 @@ $ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
 - sessions
 - accounts
 - verification_tokens
+
+## Fake Data via json2graphql
+
+```bash
+$ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
+```
 
 ## TODOs
 

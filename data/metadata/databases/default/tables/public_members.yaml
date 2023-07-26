@@ -1,0 +1,86 @@
+table:
+  name: members
+  schema: public
+object_relationships:
+  - name: prefs
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: memberPrefs
+          schema: public
+array_relationships:
+  - name: boardStars
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: boardStars
+          schema: public
+  - name: boards
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: memberships
+          schema: public
+  - name: customBoardBackgrounds
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: customBoardBackgrounds
+          schema: public
+  - name: customEmojis
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: customEmojis
+          schema: public
+  - name: customStickers
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: customStickers
+          schema: public
+  - name: organizations
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: memberOrganizations
+          schema: public
+  - name: savedSearches
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: savedSearches
+          schema: public
+  - name: tokens
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idMember
+        insertion_order: null
+        remote_table:
+          name: tokens
+          schema: public

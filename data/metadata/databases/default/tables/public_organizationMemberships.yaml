@@ -1,0 +1,3 @@
+table:
+  name: organizationMemberships
+  schema: public

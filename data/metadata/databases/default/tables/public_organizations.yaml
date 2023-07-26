@@ -1,0 +1,32 @@
+table:
+  name: organizations
+  schema: public
+object_relationships:
+  - name: prefs
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: organizationPrefs
+          schema: public
+array_relationships:
+  - name: boards
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idOrganization
+        insertion_order: null
+        remote_table:
+          name: boards
+          schema: public
+  - name: memberships
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idOrganization
+        insertion_order: null
+        remote_table:
+          name: organizationMemberships
+          schema: public

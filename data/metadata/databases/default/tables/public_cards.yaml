@@ -1,0 +1,77 @@
+table:
+  name: cards
+  schema: public
+object_relationships:
+  - name: badges
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: cardBadges
+          schema: public
+  - name: cover
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: cardCovers
+          schema: public
+array_relationships:
+  - name: attachments
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idCard
+        insertion_order: null
+        remote_table:
+          name: attachments
+          schema: public
+  - name: checklists
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idCard
+        insertion_order: null
+        remote_table:
+          name: checklists
+          schema: public
+  - name: labels
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: cardLabels
+          schema: public
+  - name: members
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: cardMembers
+          schema: public
+  - name: membersVoted
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: cardMembersVoted
+          schema: public
+  - name: stickers
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idCard
+        insertion_order: null
+        remote_table:
+          name: stickers
+          schema: public

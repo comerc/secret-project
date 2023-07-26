@@ -1,0 +1,41 @@
+table:
+  name: boards
+  schema: public
+object_relationships:
+  - name: prefs
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: boardPrefs
+          schema: public
+array_relationships:
+  - name: labels
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idBoard
+        insertion_order: null
+        remote_table:
+          name: labels
+          schema: public
+  - name: lists
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idBoard
+        insertion_order: null
+        remote_table:
+          name: lists
+          schema: public
+  - name: memberships
+    using:
+      manual_configuration:
+        column_mapping:
+          id: idBoard
+        insertion_order: null
+        remote_table:
+          name: memberships
+          schema: public
