@@ -95,7 +95,7 @@ via Apollo Rover
 
 ```bash
 $ npm install -g @apollo/rover
-$ rover graph introspect http://localhost:8080/v1/graphql > schema.graphql
+$ rover graph introspect --header "X-Hasura-Admin-Secret: myadminsecretkey" http://localhost:8080/v1/graphql > schema.graphql
 ```
 
 ## Config Apollo GraphQL Plugin
