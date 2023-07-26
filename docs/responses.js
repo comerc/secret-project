@@ -774,6 +774,7 @@ module.exports = {
       pos: 32767.8125,
       subscribed: false,
       softLimit: '',
+      // cards -> cards
       // status: null,
       // creationMethod: null, // from cards/{id}/list
       // idOrganization: '60c1a4ed2c78c7151f48aa0f', // from cards/{id}/list
