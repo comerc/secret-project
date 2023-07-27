@@ -394,6 +394,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [json2graphql](https://github.com/hasura/json2graphql)
 - [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
 - [ ] [XO_FONTS](https://myoffice.ru/products/fonts/)
+- [ ] рекомендую Obsidian Git и Remotely Save
 
 ## Что нового (для меня) про вёрстку
 
