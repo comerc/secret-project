@@ -249,7 +249,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
   - https://codeburst.io/highly-functional-offline-applications-using-apollo-client-12885bd5f335
 - [ ] Admin Panel
 - [ ] Temporal & GoLang
-- [ ] Tab in GoLang - yes! gofiber
+- [ ] Tab in GoLang - yes! gofiber (http?)
 - [ ] monorepo as Turborepo by Vercel
 - [ ] .editorconfig
 - [ ] husky?
@@ -394,7 +394,8 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [json2graphql](https://github.com/hasura/json2graphql)
 - [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
 - [ ] [XO_FONTS](https://myoffice.ru/products/fonts/)
-- [ ] рекомендую Obsidian Git и Remotely Save
+- [ ] рекомендую Obsidian Git и Remotely Save (​чтобы на телефоне не ставить гит, а только remotery; а git - как бэкап с историей)
+- [ ] native dnd - https://github.com/mgmeyers/obsidian-kanban
 
 ## Что нового (для меня) про вёрстку
 
