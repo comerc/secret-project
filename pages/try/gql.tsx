@@ -3,9 +3,10 @@ import { graphql as gql } from '.../gql/gql'
 import { FragmentType, useFragment } from '.../gql/fragment-masking'
 
 const MEMBER_FRAGMENT = gql(`#graphql
-  fragment MemberItem on member {
-    display_name
-    phone
+  fragment MemberItem on members {
+    fullName
+    # display_name
+    # phone
   }
 `)
 
@@ -15,7 +16,7 @@ const Member = (props: {
 }) => {
   // `member` is typed!
   const member = useFragment(MEMBER_FRAGMENT, props.member)
-  return <>{member.display_name}</>
+  return <>{member.fullName}</>
 }
 
 const GET_MEMBERS = gql(`#graphql
