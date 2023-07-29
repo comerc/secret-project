@@ -1,4 +1,10 @@
 SET check_function_bodies = false;
+COPY public.users (id, name, email, "emailVerified", image) FROM stdin;
+73c19916-1613-4996-a695-f11ac1102478	#кодеротбога	\N	\N	https://avatars.githubusercontent.com/u/1025241?v=4
+\.
+COPY public.accounts (id, type, provider, "providerAccountId", refresh_token, access_token, expires_at, token_type, scope, id_token, session_state, oauth_token_secret, oauth_token, "userId", refresh_token_expires_in) FROM stdin;
+8aad15e4-b07f-41ba-b51e-12edb022d189	oauth	github	1025241	ghr_66zr3xjYEAcJnndng5fJ7E8oIysomyZWsY6OOdpAIhenzRl3Wnb8wldlYUPagXUCkaFarH2ogO90	ghu_RFI39ApAiPIUvtm4D09PO5Eq90aiHD3BirPM	1671676435	bearer		\N	\N	\N	\N	73c19916-1613-4996-a695-f11ac1102478	15724800
+\.
 COPY public.attachments (id, "idCard", bytes, date, "edgeColor", "idMember", "isUpload", "mimeType", name, url, pos, "fileName") FROM stdin;
 640372e167ae50004d81cf9f	63eb88d1087a36a92c3bd5a0	80575.0	2023-03-04 16:33:37+00		5612364666dac1cae4dc38b1	t	image/png	transparent1.png	https://trello.com/1/cards/63eb88d1087a36a92c3bd5a0/attachments/640372e167ae50004d81cf9f/download/transparent1.png	229376.0	transparent1.png
 63f786f6a1611b8cf298bffc	63eb88d1087a36a92c3bd5a0	46794.0	2023-02-23 15:32:06+00	#040404	5612364666dac1cae4dc38b1	t	image/png	Screen Shot 2023-02-23 at 18.31.57.png	https://trello.com/1/cards/63eb88d1087a36a92c3bd5a0/attachments/63f786f6a1611b8cf298bffc/download/Screen_Shot_2023-02-23_at_18.31.57.png	163840.0	Screen_Shot_2023-02-23_at_18.31.57.png
@@ -158,6 +164,8 @@ COPY public.organizations (id, "creationMethod", name, "displayName", "desc", "i
 COPY public."savedSearches" (id, "idMember", name, query, pos) FROM stdin;
 5abbe4b7ddc1b351ef961414	5612364666dac1cae4dc38b1	My Cards	@me	top
 \.
+COPY public.sessions (id, "sessionToken", "userId", expires) FROM stdin;
+\.
 COPY public.stickers (id, "idCard", top, "left", "zIndex", rotate, image, "imageUrl") FROM stdin;
 64b92c4c78633d1943b73104	63eb88d1087a36a92c3bd5a0	51.246780218742835	2.642276422764228	3.0	9.0	heart	https://d2k1ftgv7pobq7.cloudfront.net/images/stickers/heart.png
 \.
@@ -166,4 +174,6 @@ COPY public."tokenPermissions" (id, "idModel", "modelType", read, write) FROM st
 \.
 COPY public.tokens (id, identifier, "idMember", "dateCreated", "dateExpires") FROM stdin;
 5abbe4b7ddc1b351ef961414	App Name	5abbe4b7ddc1b351ef961414	2019-10-16 14:27:17+00	2023-07-23 10:01:18+00
+\.
+COPY public.verification_tokens (token, identifier, expires) FROM stdin;
 \.
