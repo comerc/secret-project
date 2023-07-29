@@ -5,8 +5,6 @@ import { FragmentType, useFragment } from '.../gql/fragment-masking'
 const MEMBER_FRAGMENT = gql(`#graphql
   fragment MemberItem on members {
     fullName
-    # display_name
-    # phone
   }
 `)
 
