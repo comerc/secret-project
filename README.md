@@ -398,6 +398,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] native dnd - https://github.com/mgmeyers/obsidian-kanban
 - [ ] [КАК DISCORD МЕНЯЕТ РАЗМЕРЫ 150 МИЛЛИОНОВ ИЗОБРАЖЕНИЙ ЕЖЕДНЕВНО ПРИ ПОМОЩИ GO И C++](https://canary.discord.com/blog/how-discord-resizes-150-million-images-every-day-with-go-and-c)
 - [ ] [fp-ts](https://github.com/gcanti/fp-ts)
+- [ ] [Плюшевый пузырь](https://www.kinopoisk.ru/film/4845485/)
 
 ## Что нового (для меня) про вёрстку
 
