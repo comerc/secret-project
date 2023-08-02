@@ -392,6 +392,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [Компромиссы микросервисов](https://habr.com/ru/articles/261689/)
 - [ ] [Trello REST API](https://developer.atlassian.com/cloud/trello/rest/)
 - [ ] [json2graphql](https://github.com/hasura/json2graphql)
+- [ ] [open-api-to-graphql](https://hasura.io/blog/convert-rest-endpoints-from-openapi-spec-to-graphql-in-2-clicks/)
 - [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
 - [ ] [XO_FONTS](https://myoffice.ru/products/fonts/)
 - [ ] рекомендую Obsidian Git и Remotely Save (​чтобы на телефоне не ставить гит, а только remotery; а git - как бэкап с историей)
