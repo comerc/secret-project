@@ -98,6 +98,12 @@ $ npm install -g @apollo/rover
 $ rover graph introspect --header "X-Hasura-Admin-Secret: myadminsecretkey" http://localhost:8080/v1/graphql > schema.graphql
 ```
 
+## How To remove (.\*) from GraphQL Schema
+
+```regexp
+\([\[\],.!_":\d\w\s\n]*\)
+```
+
 ## Config Apollo GraphQL Plugin
 
 - install plugin to VSCode: https://github.com/apollographql/vscode-graphql
@@ -400,6 +406,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [КАК DISCORD МЕНЯЕТ РАЗМЕРЫ 150 МИЛЛИОНОВ ИЗОБРАЖЕНИЙ ЕЖЕДНЕВНО ПРИ ПОМОЩИ GO И C++](https://canary.discord.com/blog/how-discord-resizes-150-million-images-every-day-with-go-and-c)
 - [ ] [fp-ts](https://github.com/gcanti/fp-ts)
 - [ ] [Плюшевый пузырь](https://www.kinopoisk.ru/film/4845485/)
+- [ ] [Добавить легенду для radiobutton внутри Hasura](https://github.com/hasura/graphql-engine/blob/f617b68b8b44679bdb7637c8ffbcec001ab18424/frontend/libs/console/legacy-ce/src/lib/components/Services/Data/Common/Components/ForeignKeySelector.js#L294-L303)
 
 ## Что нового (для меня) про вёрстку
 
