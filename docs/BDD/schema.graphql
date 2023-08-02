@@ -1,0 +1,346 @@
+scalar jsonb
+scalar numeric
+scalar timestamptz
+type attachments {
+  bytes: numeric
+  date: timestamptz
+  edgeColor: String
+  fileName: String
+  id: String!
+  idCard: String
+  idMember: String
+  isUpload: Boolean
+  mimeType: String
+  name: String
+  pos: numeric
+  url: String
+}
+type boardBackgrounds {
+  attribution: jsonb
+  bottomColor: String
+  brightness: String
+  color: String
+  emoji: String
+  fullSizeUrl: String
+  id: String!
+  tile: Boolean
+  topColor: String
+  type: String
+}
+type boardPrefs {
+  background: String
+  backgroundBottomColor: String
+  backgroundBrightness: String
+  backgroundColor: String
+  backgroundImage: String
+  backgroundTile: Boolean
+  backgroundTopColor: String
+  calendarFeedEnabled: Boolean
+  canBeOrg: Boolean
+  canBePrivate: Boolean
+  canBePublic: Boolean
+  canInvite: Boolean
+  cardAging: String
+  cardCovers: Boolean
+  comments: String
+  hideVotes: Boolean
+  id: String!
+  invitations: String
+  isTemplate: Boolean
+  permissionLevel: String
+  selfJoin: Boolean
+  voting: String
+}
+type boardStars {
+  id: String!
+  idBoard: String
+  idMember: String
+  pos: numeric
+}
+type boards {
+  closed: Boolean
+  dateClosed: timestamptz
+  desc: String
+  id: String!
+  idMemberCreator: String
+  idOrganization: String
+  labels: [labels!]!
+  lists: [lists!]!
+  memberships: [memberships!]!
+  name: String
+  pinned: Boolean
+  prefs: boardPrefs
+  shortUrl: String
+  url: String
+}
+type cardBadges {
+  attachments: numeric
+  checkItems: numeric
+  checkItemsChecked: numeric
+  checkItemsEarliestdue: timestamptz
+  comments: numeric
+  description: Boolean
+  due: timestamptz
+  dueComplete: Boolean
+  fogbugz: String
+  id: String!
+  location: Boolean
+  start: timestamptz
+  subscribed: Boolean
+  viewingMemberVoted: Boolean
+  votes: numeric
+}
+type cardCovers {
+  brightness: String
+  color: String
+  id: String!
+  idAttachment: String
+  size: String
+}
+type cardLabels {
+  id: String!
+  idLabel: String
+}
+type cardMembers {
+  id: String!
+  idMember: String
+}
+type cardMembersVoted {
+  id: String!
+  idMember: String
+}
+type cards {
+  attachments: [attachments!]!
+  badges: cardBadges
+  checklists: [checklists!]!
+  closed: Boolean
+  cover: cardCovers
+  dateLastActivity: timestamptz
+  desc: String
+  due: timestamptz
+  dueComplete: Boolean
+  dueReminder: numeric
+  email: String
+  id: String!
+  idBoard: String
+  idList: String
+  idShort: numeric
+  isTemplate: Boolean
+  labels: [cardLabels!]!
+  manualCoverAttachment: Boolean
+  members: [cardMembers!]!
+  membersVoted: [cardMembersVoted!]!
+  name: String
+  pos: numeric
+  shortLink: String
+  shortUrl: String
+  start: timestamptz
+  stickers: [stickers!]!
+  subscribed: Boolean
+  url: String
+}
+type checkItems {
+  due: timestamptz
+  dueReminder: numeric
+  id: String!
+  idChecklist: String
+  name: String
+  pos: numeric
+  state: String
+}
+type checklists {
+  checkItems: [checkItems!]!
+  id: String!
+  idCard: String
+  name: String
+  pos: numeric
+}
+type customBoardBackgrounds {
+  bottomColor: String
+  brightness: String
+  fullSizeUrl: String
+  id: String!
+  idMember: String
+  tile: Boolean
+  topColor: String
+  type: String
+}
+type customEmojis {
+  id: String!
+  idMember: String
+  name: String
+  url: String
+}
+type customStickers {
+  id: String!
+  idMember: String
+  url: String
+}
+type labels {
+  color: String
+  id: String!
+  idBoard: String
+  name: String
+}
+type lists {
+  cards: [cards!]!
+  closed: Boolean
+  id: String!
+  idBoard: String
+  name: String
+  pos: numeric
+  softLimit: String
+  subscribed: Boolean
+}
+type memberOrganizations {
+  billableCollaboratorCount: numeric
+  billableMemberCount: numeric
+  creationMethod: String
+  dateLastActivity: timestamptz
+  desc: String
+  displayName: String
+  id: String
+  idMember: String
+  idMemberCreator: String
+  invited: Boolean
+  ixUpdate: String
+  logoHash: String
+  logoUrl: String
+  membersCount: numeric
+  name: String
+  premiumFeatures: jsonb
+  url: String
+  website: String
+}
+type memberPrefs {
+  colorBlind: Boolean
+  id: String!
+  locale: String
+  minutesBeforeDeadlineToNotify: numeric
+  minutesBetweenSummaries: numeric
+  sendSummaries: Boolean
+}
+type members {
+  activityBlocked: Boolean
+  avatarHash: String
+  avatarSource: String
+  avatarUrl: String
+  bio: String
+  boardStars: [boardStars!]!
+  boards: [memberships!]!
+  confirmed: Boolean
+  credentialsRemovedCount: numeric
+  customBoardBackgrounds: [customBoardBackgrounds!]!
+  customEmojis: [customEmojis!]!
+  customStickers: [customStickers!]!
+  email: String
+  fullName: String
+  gravatarHash: String
+  id: String!
+  idMemberReferrer: String
+  initials: String
+  ixUpdate: String
+  loginTypes: jsonb
+  memberType: String
+  nonPublicAvailable: Boolean
+  oneTimeMessagesDismissed: jsonb
+  organizations: [memberOrganizations!]!
+  prefs: memberPrefs
+  premiumFeatures: jsonb
+  savedSearches: [savedSearches!]!
+  status: String
+  tokens: [tokens!]!
+  uploadedAvatarHash: String
+  uploadedAvatarUrl: String
+  url: String
+  username: String
+}
+type memberships {
+  deactivated: Boolean
+  id: String!
+  idBoard: String
+  idMember: String
+  memberType: String
+  unconfirmed: Boolean
+}
+type notifications {
+  data: String
+  date: timestamptz
+  dateRead: timestamptz
+  id: String!
+  idAction: String
+  idCard: String
+  idMemberCreator: String
+  type: String
+  unread: Boolean
+}
+type organizationMemberships {
+  deactivated: Boolean
+  id: String
+  idMember: String
+  idOrganization: String
+  memberType: String
+  unconfirmed: Boolean
+}
+type organizationPrefs {
+  associatedDomain: String
+  boardInviteRestrict: String
+  externalMembersDisabled: Boolean
+  googleAppsVersion: numeric
+  id: String!
+  permissionLevel: String
+}
+type organizations {
+  billableCollaboratorCount: numeric
+  billableMemberCount: numeric
+  boards: [boards!]!
+  creationMethod: String
+  dateLastActivity: timestamptz
+  desc: String
+  displayName: String
+  id: String!
+  idMemberCreator: String
+  invited: Boolean
+  ixUpdate: String
+  logoHash: String
+  logoUrl: String
+  membersCount: numeric
+  memberships: [organizationMemberships!]!
+  name: String
+  prefs: organizationPrefs
+  premiumFeatures: jsonb
+  url: String
+  website: String
+}
+type savedSearches {
+  id: String!
+  idMember: String
+  name: String
+  pos: String
+  query: String
+}
+type stickers {
+  id: String!
+  idCard: String
+  image: String
+  imageUrl: String
+  left: numeric
+  rotate: numeric
+  top: numeric
+  zIndex: numeric
+}
+type tokenPermissions {
+  id: String!
+  idModel: String
+  modelType: String
+  read: Boolean
+  write: Boolean
+}
+type tokens {
+  dateCreated: timestamptz
+  dateExpires: timestamptz
+  id: String!
+  idMember: String
+  identifier: String
+  permissions: tokenPermissions
+}
