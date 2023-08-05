@@ -407,6 +407,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [fp-ts](https://github.com/gcanti/fp-ts)
 - [ ] [Плюшевый пузырь](https://www.kinopoisk.ru/film/4845485/)
 - [ ] [Добавить легенду для radiobutton внутри Hasura](https://github.com/hasura/graphql-engine/blob/f617b68b8b44679bdb7637c8ffbcec001ab18424/frontend/libs/console/legacy-ce/src/lib/components/Services/Data/Common/Components/ForeignKeySelector.js#L294-L303)
+- [ ] https://trello.status.atlassian.com/
 
 ## Что нового (для меня) про вёрстку
 
