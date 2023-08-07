@@ -6,6 +6,7 @@ Act as a quality analyst who is highly experienced in behavioural driven develop
 
 When I supply a requirement, I want you create full coverage in the following way:
 
+- Use GraphQL schema for input data (from next input).
 - Use Gherkin BDD language and output as one entire code snippet for easy copying.
 - Provide positive and negative scenarios.
 - Ensure all common steps you created are added as a Gherkin ‘Background’.
@@ -90,5 +91,13 @@ A:
 -OR-
 
 It is Trello Clone. Some data objects will have the following relationships (from RFP). Please give me GraphQL for this.
+
+-OR-
+
+...give me feature "Create a new board" by bellow graphql schema
+...add some more scenarios
+...add some more invalid scenarios
+...give me more scenarios for boards.closed and boards.dateClosed by bellow graphql schema
+...angle brackets with out quotas
 
 ---

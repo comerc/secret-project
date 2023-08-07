@@ -7,19 +7,19 @@ Feature: User Login
   Background:
     Given the user is on the login page
 
-  @smoke-test
+  @valid @smoke-test
   Scenario: Successful login with valid credentials
     When the user enters valid credentials
     And clicks on the login button
     Then the user should be logged in successfully
 
-  @invalid
+  @invalid @regression-test
   Scenario: Failed login with invalid credentials
     When the user enters invalid credentials
     And clicks on the login button
     Then an error message should be displayed
 
-  @invalid
+  @invalid @regression-test
   Scenario Outline: Failed login with empty <field>
     Examples:
       | field     |
