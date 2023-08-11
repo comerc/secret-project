@@ -375,6 +375,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] AI
   - [Asana CEO: how A.I. will make work more human](https://finance.yahoo.com/news/asana-ceo-way-now-soon-090708980.html)
   - [AI powered project planning](https://www.tomsplanner.com/ai-assist/)
+  - https://shtab.app - Если на скриншот трекера попадёт переписка в мессенджере или другая личная информация, встроенная нейросеть автоматически её заблюрит.
 - [ ] fixed-data-table-2
   - https://schrodinger.github.io/fixed-data-table-2/
 - [ ] Nostr
