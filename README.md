@@ -413,6 +413,8 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 - [ ] [BlockNote](https://github.com/TypeCellOS/BlockNote) A "Notion-style" block-based extensible text editor built on top of Prosemirror and Tiptap.
 - [ ] CRDT
   - https://github.com/TypeCellOS/TypeCell
+- [ ] unito.io - Небольшой лайфхак: если решите переехать в Asana из Trello (или, например, Wrike), перенесите все задачи через сервис Unito. Вручную точно замучаетесь.
+- [ ] [Scrum-маркетинг в камерном агентстве (Trello -> Asana)](https://vc.ru/flood/33360-scrum-marketing-v-kamernom-agentstve-pochemu-nam-ne-ponravilsya-trello-i-chem-my-ego-zamenili)
 
 ## Что нового (для меня) про вёрстку
 
