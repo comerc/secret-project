@@ -2,6 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import ClientOnly from '.../components/ClientOnly'
 import Header from '.../components/Header'
+import Warning from '.../components/Warning'
 import BoardHeader from '.../components/BoardHeader'
 import BoardCanvas from '.../components/BoardCanvas'
 import Board, { BoardState } from '.../components/Board'
@@ -287,6 +288,7 @@ function BoardPage({
   React.useEffect(() => {
     initialize(document.body)
   }, [initialize])
+  const hasWarning = false // TODO: показывать Warning
   return (
     <ClientOnly>
       {/* <FontFaceObserver> */}
@@ -296,6 +298,7 @@ function BoardPage({
             <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
               <div className="sticky left-0 w-screen">
                 <Header {...{ favorites, handleDeleteFavorites }} />
+                {hasWarning && <Warning />}
                 <BoardHeader
                   {...{
                     members,
