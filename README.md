@@ -415,6 +415,7 @@ $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
   - https://github.com/TypeCellOS/TypeCell
 - [ ] unito.io - Небольшой лайфхак: если решите переехать в Asana из Trello (или, например, Wrike), перенесите все задачи через сервис Unito. Вручную точно замучаетесь.
 - [ ] [Scrum-маркетинг в камерном агентстве (Trello -> Asana)](https://vc.ru/flood/33360-scrum-marketing-v-kamernom-agentstve-pochemu-nam-ne-ponravilsya-trello-i-chem-my-ego-zamenili)
+- [ ] [Valtio makes proxy-state simple for React and Vanilla](https://github.com/pmndrs/valtio)
 
 ## Что нового (для меня) про вёрстку
 
