@@ -612,7 +612,7 @@ function ActiveListCard({ provided, snapshot, issue }) {
     setState,
     isMouseFirst,
   } = React.useContext(BoardContext)
-  const itemId = snapshot.isDragging ? 'item-clone' : `item-${issue.id}`
+  const itemId = snapshot.isDragging ? 'clone' : issue.id
   const onMouseMove = () => {
     if (isMouseFirst) {
       setState({ ...state, selectedId: itemId })
@@ -646,7 +646,7 @@ function ActiveListCard({ provided, snapshot, issue }) {
       // }}
     >
       <ListCard
-        id={itemId}
+        data-item-id={itemId}
         selected={state.selectedId === itemId}
         {...{
           issue,
@@ -1504,9 +1504,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     if (column.issuesOrder.length === 0) {
       return false
     }
-    const id = column.issuesOrder[0]
-    const itemId = `item-${id}`
-    const element = document.getElementById(itemId)
+    const itemId = column.issuesOrder[0]
+    const element = document.querySelector(`[data-item-id="${itemId}"]`)
     element.focus()
     return true
   }
@@ -1515,8 +1514,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     if (column.issuesOrder.length === 0) {
       return false
     }
-    const id = column.issuesOrder[0]
-    const itemId = `item-${id}`
+    const itemId = column.issuesOrder[0]
     setState({ ...state, selectedId: itemId })
     const listRef = _listRefMap[columnId]
     const list = listRef.current
@@ -1535,7 +1533,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
   const selectNextColumn = (columnsOrder) => {
     for (const columnId of columnsOrder) {
       const column = state.columns[columnId]
-      const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+      const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
       if (index !== -1) {
         const columnsOrderIndex = columnsOrder.findIndex((columnId) => columnId === column.id)
         if (columnsOrderIndex + 1 !== columnsOrder.length) {
@@ -1564,13 +1562,12 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const cases = {
       ArrowDown: () => {
         for (const column of Object.values(state.columns)) {
-          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
           if (index !== -1) {
             if (column.issuesOrder.length === index + 1) {
               scrollToItem(column.id, index)
             } else {
-              const id = column.issuesOrder[index + 1]
-              const itemId = `item-${id}`
+              const itemId = column.issuesOrder[index + 1]
               setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index + 1)
             }
@@ -1580,13 +1577,12 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       },
       ArrowUp: () => {
         for (const column of Object.values(state.columns)) {
-          const index = column.issuesOrder.findIndex((id) => `item-${id}` === state.selectedId)
+          const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
           if (index !== -1) {
             if (index === 0) {
               scrollToItem(column.id, index)
             } else {
-              const id = column.issuesOrder[index - 1]
-              const itemId = `item-${id}`
+              const itemId = column.issuesOrder[index - 1]
               setState({ ...state, selectedId: itemId })
               scrollToItem(column.id, index - 1)
             }
@@ -1644,7 +1640,11 @@ function Board({ hasMenu }) {
     startX: null,
     startScrollX: null,
   })
-  const handleMouseDown = ({ target, clientX }) => {
+  const handleMouseDown = ({ button, target, clientX }) => {
+    // for right button
+    if (button == 2) {
+      return
+    }
     if (target.id !== 'board' && target.dataset.element !== 'column-item-list') {
       return
     }
