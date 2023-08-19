@@ -8,6 +8,7 @@ import BoardCanvas from '.../components/BoardCanvas'
 import Board, { BoardState } from '.../components/Board'
 import BoardMenu from '.../components/BoardMenu'
 import CardDetailWindow from '.../components/CardDetailWindow'
+import CardEditWindow from '.../components/CardEditWindow'
 // import FontFaceObserver from '.../components/FontFaceObserver'
 import { resetServerContext } from 'react-beautiful-dnd'
 import { nanoid } from 'nanoid'
@@ -193,7 +194,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
 
 // TODO: will-change: transform
 
-function Router({ urlName, children, renderCardDetailWindow }) {
+function Router({ urlName, children, renderCardDetailWindow, renderCardEditWindow }) {
   const router = useRouter()
   const { breadcrumbs } = router.query
   const [isUrlName, setIsUrlName] = React.useState(false)
@@ -215,7 +216,7 @@ function Router({ urlName, children, renderCardDetailWindow }) {
   return (
     <>
       {children}
-      {breadcrumbs[0] === 'c' && renderCardDetailWindow()}
+      {breadcrumbs[0] === 'c' ? renderCardDetailWindow() : renderCardEditWindow()}
     </>
   )
 }
@@ -263,6 +264,9 @@ function BoardPage({
     const id = Object.keys(issues)[0]
     return <CardDetailWindow issue={issues[id]} />
   }
+  const renderCardEditWindow = () => {
+    return hasMenu || <CardEditWindow />
+  }
   // const isFontListLoaded = useFontFaceObserver([{ family: FONT_FAMILY }])
   const [initialize, osInstance] = useOverlayScrollbars({
     options: {
@@ -292,8 +296,8 @@ function BoardPage({
   return (
     <ClientOnly>
       {/* <FontFaceObserver> */}
-      <Router {...{ urlName, renderCardDetailWindow }}>
-        {version === 'V3' && (
+      {version === 'V3' && (
+        <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
           <BoardState {...{ columns, columnsOrder, issues }}>
             <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
               <div className="sticky left-0 w-screen">
@@ -320,8 +324,10 @@ function BoardPage({
             </div>
             <BoardMenu {...{ hasMenu, toggleMenu }} />
           </BoardState>
-        )}
-        {version === 'V2' && (
+        </Router>
+      )}
+      {version === 'V2' && (
+        <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
           <BoardState {...{ columns, columnsOrder, issues }}>
             <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">
               <Header {...{ favorites, handleDeleteFavorites }} />
@@ -342,54 +348,54 @@ function BoardPage({
               <BoardMenu {...{ hasMenu, toggleMenu }} />
             </div>
           </BoardState>
-        )}
-        {version === 'V1' && (
-          <>
-            <div
-              id="chrome-container"
-              className="fixed left-0 right-0 top-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
-            >
-              <div id="surface" className="flex h-full flex-col">
-                <Header {...{ favorites, handleDeleteFavorites }} />
-                <div className="flex grow flex-col">
-                  <div className="flex flex-1 flex-row">
-                    <div id="content-wrapper" className="flex flex-1 flex-col">
-                      <div id="content" className="relative grow">
-                        <div id="board-wrapper" className="absolute bottom-0 left-0 right-0 top-0">
-                          <div
-                            id="board-main-content"
-                            className={cx(
-                              isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
-                              'mr-0 flex h-full flex-col',
-                            )}
-                            style={{
-                              transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
+        </Router>
+      )}
+      {version === 'V1' && (
+        <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
+          <div
+            id="chrome-container"
+            className="fixed left-0 right-0 top-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
+          >
+            <div id="surface" className="flex h-full flex-col">
+              <Header {...{ favorites, handleDeleteFavorites }} />
+              <div className="flex grow flex-col">
+                <div className="flex flex-1 flex-row">
+                  <div id="content-wrapper" className="flex flex-1 flex-col">
+                    <div id="content" className="relative grow">
+                      <div id="board-wrapper" className="absolute bottom-0 left-0 right-0 top-0">
+                        <div
+                          id="board-main-content"
+                          className={cx(
+                            isMenu && `md:mr-[339px]`, // !! соответствует Drawer.width
+                            'mr-0 flex h-full flex-col',
+                          )}
+                          style={{
+                            transition: 'margin 0.3s ease-in', // !! 0.3s for Drawer.afterOpenChange
+                          }}
+                        >
+                          <BoardHeader
+                            {...{
+                              members,
+                              boardId,
+                              hasMenu,
+                              toggleMenu,
+                              favorites,
+                              handleChangeFavorites,
                             }}
-                          >
-                            <BoardHeader
-                              {...{
-                                members,
-                                boardId,
-                                hasMenu,
-                                toggleMenu,
-                                favorites,
-                                handleChangeFavorites,
-                              }}
-                            />
-                            <div id="board-warnings"></div>
-                            <Board {...{ columns, columnsOrder, issues }} />
-                          </div>
-                          <BoardMenu {...{ hasMenu, toggleMenu }} />
+                          />
+                          <div id="board-warnings"></div>
+                          <Board {...{ columns, columnsOrder, issues }} />
                         </div>
+                        <BoardMenu {...{ hasMenu, toggleMenu }} />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </>
-        )}
-      </Router>
+          </div>
+        </Router>
+      )}
       {/* </FontFaceObserver> */}
     </ClientOnly>
   )

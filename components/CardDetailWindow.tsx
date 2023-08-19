@@ -422,18 +422,18 @@ function ChecklistList() {
       title: 'Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1',
       items: [
         {
-          id: 'item-1-1',
+          id: '1-1',
           text: 'ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ele ment1 ',
         },
-        { id: 'item-1-2', text: 'element2' },
+        { id: '1-2', text: 'element2' },
       ],
     },
     {
       id: 'checklist-2',
       title: 'Чек-лист2',
       items: [
-        { id: 'item-2-1', text: 'element1' },
-        { id: 'item-2-2', text: 'element2' },
+        { id: '2-1', text: 'element1' },
+        { id: '2-2', text: 'element2' },
       ],
     },
   ]
