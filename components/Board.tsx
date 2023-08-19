@@ -1212,8 +1212,7 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
       onClick={(event) => {
         event.stopPropagation()
         if (isFocused) {
-          const element = document.getElementById(inputId).parentNode
-          element.focus()
+          document.getElementById(inputId).parentNode.focus()
         }
       }}
       {...dragHandleProps}
@@ -1267,8 +1266,7 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
         className={cx(isFocused && 'hidden', 'absolute bottom-0 left-0 right-0 top-0')}
         onClick={(event) => {
           event.stopPropagation()
-          const element = document.getElementById(inputId)
-          element.focus({
+          document.getElementById(inputId).focus({
             preventScroll: true,
             // cursor: 'all', // не надо, т.к. дублирует .select() в .onFocus() и не отрабатывает по [TAB]
           })
@@ -1335,12 +1333,12 @@ function CustomDragDropContext({ children }) {
   const { state, setState } = React.useContext(BoardContext)
   const { focused } = React.useContext(ColumnHeaderInputContext)
   const [isDragging, setDragging] = React.useState(false)
-  const onBeforeDragStart = () => {
+  const onBeforeDragStart = (event) => {
     if (focused) {
-      const element = document.getElementById(focused).parentNode
-      element.focus()
+      document.getElementById(focused).parentNode.focus()
     }
     setDragging(true)
+    setState({ ...state, selectedId: event.draggableId })
     // TODO: убрать focus для перетаскиваемого элемента, или оставить, как фичу?
   }
   const onDragUpdate = () => {
@@ -1469,10 +1467,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     },
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
-  React.useLayoutEffect(() => {
-    const element = document.getElementById('board-wrapper')
-    element.focus()
-  }, [])
+  // React.useLayoutEffect(() => {}, [])
   // const onDeleteItem = (columnId, itemId) => () => {
   //   const column = state.columns[columnId]
   //   const items = column.items
@@ -1505,8 +1500,7 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
       return false
     }
     const itemId = column.issuesOrder[0]
-    const element = document.querySelector(`[data-item-id="${itemId}"]`)
-    element.focus()
+    document.querySelector(`[data-item-id="${itemId}"]`).focus()
     return true
   }
   const selectFirstItem = (columnId) => {
@@ -1519,16 +1513,14 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollTo(0)
-    const element = document.querySelector(`[data-column-id="${columnId}"]`)
-    element.scrollIntoView()
+    document.querySelector(`[data-column-id="${columnId}"]`).scrollIntoView()
     return true
   }
   const scrollToItem = (columnId, index) => {
     const listRef = _listRefMap[columnId]
     const list = listRef.current
     list.scrollToItem(index)
-    const element = document.querySelector(`[data-column-id="${columnId}"]`)
-    element.scrollIntoView()
+    document.querySelector(`[data-column-id="${columnId}"]`).scrollIntoView()
   }
   const selectNextColumn = (columnsOrder) => {
     for (const columnId of columnsOrder) {

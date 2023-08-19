@@ -209,6 +209,13 @@ function Router({ urlName, children, renderCardDetailWindow, renderCardEditWindo
       return
     }
     setIsUrlName(true)
+    if (breadcrumbs[0] === 'b') {
+      // FIX: возврат после /c/itemId на /b/boardId стрелкой 'back' в Chrome - не возвращается фокус куда надо;
+      // в итоге стрелки на клаве работают неправильно
+      setTimeout(() => {
+        document.getElementById('board-wrapper').focus()
+      })
+    }
   }, [breadcrumbs, router, urlName])
   if (!isUrlName) {
     return
