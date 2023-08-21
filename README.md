@@ -122,6 +122,8 @@ $ rover graph introspect --header "X-Hasura-Admin-Secret: myadminsecretkey" http
 $ npx json2graphql http://localhost:8080/ -d ./docs/responses.js --overwrite
 ```
 
+See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
+
 ## TODOs
 
 - [x] Apollo Server
