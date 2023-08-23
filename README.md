@@ -411,13 +411,18 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Плюшевый пузырь](https://www.kinopoisk.ru/film/4845485/)
 - [ ] [Добавить легенду для radiobutton внутри Hasura](https://github.com/hasura/graphql-engine/blob/f617b68b8b44679bdb7637c8ffbcec001ab18424/frontend/libs/console/legacy-ce/src/lib/components/Services/Data/Common/Components/ForeignKeySelector.js#L294-L303)
 - [ ] https://trello.status.atlassian.com/
-- [ ] [Go Clean Template](https://www.youtube.com/watch?v=V6lQG6d5LgU)
 - [ ] [BlockNote](https://github.com/TypeCellOS/BlockNote) A "Notion-style" block-based extensible text editor built on top of Prosemirror and Tiptap.
 - [ ] CRDT
   - https://github.com/TypeCellOS/TypeCell
 - [ ] unito.io - Небольшой лайфхак: если решите переехать в Asana из Trello (или, например, Wrike), перенесите все задачи через сервис Unito. Вручную точно замучаетесь.
 - [ ] [Scrum-маркетинг в камерном агентстве (Trello -> Asana)](https://vc.ru/flood/33360-scrum-marketing-v-kamernom-agentstve-pochemu-nam-ne-ponravilsya-trello-i-chem-my-ego-zamenili)
 - [ ] [Valtio makes proxy-state simple for React and Vanilla](https://github.com/pmndrs/valtio)
+- [ ] [Подготовка к продакшну NextJS](https://reactdev.ru/libs/nextjs/prod/)
+- [ ] [xstate](https://reactdev.ru/libs/xstate/)
+- [ ] [zustand](https://github.com/pmndrs/zustand)
+- [ ] [Backyard Pizza Project with Hasura](https://github.com/hasura/build-with-hasura-byp)
+- [ ] [Todo App Basic - Models To APIs with Helium for Hasura](https://www.youtube.com/watch?v=Yi4OkcYRhFY)
+- [ ] [Optimize your Bundle Size with SWC and GraphQL Codegen](https://the-guild.dev/blog/optimize-bundle-size-with-swc-and-graphql-codegen)
 
 ## Что нового (для меня) про вёрстку
 
