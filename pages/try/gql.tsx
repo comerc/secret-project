@@ -2,6 +2,9 @@ import { useQuery } from '@apollo/client'
 import { graphql as gql } from '.../gql/gql'
 import { FragmentType, useFragment } from '.../gql/fragment-masking'
 
+// import { MemberItemFragmentDoc } from '.../gql/graphql'
+// const MEMBER_FRAGMENT = MemberItemFragmentDoc
+
 const MEMBER_FRAGMENT = gql(`#graphql
   fragment MemberItem on members {
     fullName
