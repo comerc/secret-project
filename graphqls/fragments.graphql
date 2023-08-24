@@ -1,0 +1,3 @@
+fragment MemberItem2 on members {
+  fullName
+}

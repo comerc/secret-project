@@ -11,6 +11,12 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  // TODO: @graphql-codegen/client-preset-swc-plugin
+  // experimental: {
+  //   swcPlugins: [
+  //     ['@graphql-codegen/client-preset-swc-plugin', { artifactDirectory: './generated', gqlTagName: 'graphql' }]
+  //   ]
+  // }
 }
 
 module.exports = nextConfig

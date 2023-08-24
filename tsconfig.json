@@ -16,7 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      ".../gql/*": ["gql/*"],
+      ".../generated/*": ["generated/*"],
       ".../pages/*": ["pages/*"],
       ".../components/*": ["components/*"],
       ".../constants": ["constants.ts"],
@@ -27,5 +27,5 @@
     }
   },
   "include": ["next-env.d.ts", "types/*.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "gql", ".next"]
+  "exclude": ["node_modules", "generated", ".next"]
 }

@@ -1,4 +1,3 @@
-
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 require('dotenv').config({ path: '.env.local' })
@@ -15,18 +14,18 @@ const config: CodegenConfig = {
     },
   ],
   // schema: 'schema.graphql',
-  documents: ['pages/**/*.tsx', 'components/**/*.tsx'], // пример, как можно с отрицанием: ['src/**/*.tsx', '!src/gql/**/*'],
+  documents: ['graphqls/**/*.graphql', 'pages/**/*.tsx', 'components/**/*.tsx'], // пример, как можно с отрицанием: ['src/**/*.tsx', '!src/gql/**/*'],
   ignoreNoDocuments: true,
   generates: {
-    'gql/': {
+    'generated/': {
       preset: 'client',
-      plugins: []
+      plugins: [],
     },
     // TODO: включить интроспекцию
     // './graphql.schema.json': {
     //   plugins: ['introspection']
     // }
-  }
+  },
 }
 
 export default config

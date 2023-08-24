@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
-import { graphql as gql } from '.../gql/gql'
-import { FragmentType, useFragment } from '.../gql/fragment-masking'
+import { graphql as gql } from 'generated/gql'
+import { FragmentType, useFragment } from 'generated/fragment-masking'
 
-// import { MemberItemFragmentDoc } from '.../gql/graphql'
-// const MEMBER_FRAGMENT = MemberItemFragmentDoc
+// когда graphql-запросы внутри .tsx
 
 const MEMBER_FRAGMENT = gql(`#graphql
   fragment MemberItem on members {

@@ -1,0 +1,6 @@
+query GetMembers2($limit: Int!) {
+  members(limit: $limit) {
+    id
+    ...MemberItem2
+  }
+}

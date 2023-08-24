@@ -2,7 +2,7 @@ require('dotenv').config({ path: '.env.local' })
 
 module.exports = {
   client: {
-    includes: ['pages/**/*.tsx', 'components/**/*.tsx'],
+    includes: ['graphqls/**/*.graphql', 'pages/**/*.tsx', 'components/**/*.tsx'],
     service: {
       name: 'secret-projet',
       url: process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT,
