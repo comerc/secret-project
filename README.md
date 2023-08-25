@@ -423,6 +423,10 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Backyard Pizza Project with Hasura](https://github.com/hasura/build-with-hasura-byp)
 - [ ] [Todo App Basic - Models To APIs with Helium for Hasura](https://www.youtube.com/watch?v=Yi4OkcYRhFY)
 - [ ] [Optimize your Bundle Size with SWC and GraphQL Codegen](https://the-guild.dev/blog/optimize-bundle-size-with-swc-and-graphql-codegen)
+- [ ] https://react.dev/reference/react/Suspense
+- [ ] @apollo/client -> urql
+  - https://formidable.com/open-source/urql/docs/basics/typescript-integration/
+  - https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/#invalidating-data-from-a-server-component
 
 ## Что нового (для меня) про вёрстку
 
