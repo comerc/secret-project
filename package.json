@@ -17,8 +17,8 @@
     "path": false
   },
   "dependencies": {
-    "@apollo/client": "^3.7.3",
-    "@apollo/server": "^4.3.0",
+    "@apollo/client": "^3.8.1",
+    "@apollo/server": "^4.9.2",
     "@as-integrations/next": "^1.2.0",
     "@emotion/styled": "^11.11.0",
     "@hello-pangea/dnd": "^16.2.0",
@@ -45,6 +45,7 @@
     "dayjs": "^1.11.7",
     "graphql-request": "^4.3.0",
     "graphql-tag": "^2.12.6",
+    "graphql-ws": "^5.14.0",
     "jose": "^4.11.1",
     "lexical": "^0.7.5",
     "lorem-ipsum": "^2.0.8",
