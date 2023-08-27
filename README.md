@@ -431,6 +431,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Feature-Sliced Design](https://habr.com/ru/companies/inDrive/articles/693768/)
 - [ ] [Hasura: Instant streaming APIs](https://hasura.io/blog/instant-streaming-api-built-in-authorization-new-existing-postgres/)
 - [ ] [Все еще работаете с access token на клиенте?](https://habr.com/ru/articles/710552/)
+- [+] [Hasura Introspection via Voyager](https://blog.yeswehack.com/yeswerhackers/how-exploit-graphql-endpoint-bug-bounty/)
 
 ## Что нового (для меня) про вёрстку
 

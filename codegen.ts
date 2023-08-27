@@ -21,10 +21,10 @@ const config: CodegenConfig = {
       preset: 'client',
       plugins: [],
     },
-    // TODO: включить интроспекцию
-    // './graphql.schema.json': {
-    //   plugins: ['introspection']
-    // }
+    // если хочется выгрузить интроспекцию
+    // './schema.json': {
+    //   plugins: ['introspection'],
+    // },
   },
 }
 
