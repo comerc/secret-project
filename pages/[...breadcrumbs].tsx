@@ -17,6 +17,7 @@ import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
+// TODO: обновить antd@^5.2.0 (сейчас его нельзя трогать)
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
 type IProps = {

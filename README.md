@@ -488,3 +488,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ```bash
 npx kill-port 3000
 ```
+
+## Update packages
+
+```bash
+npx npm-check-updates --interactive
+```
