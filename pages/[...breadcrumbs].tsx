@@ -15,6 +15,7 @@ import { nanoid } from 'nanoid'
 import cx from 'classnames'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
+import getData from '.../repositories/getData'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
 // TODO: обновить antd@^5.2.0 (сейчас его нельзя трогать)
@@ -171,6 +172,8 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   const boardId = breadcrumbs[1] // if route === 'b'
   const urlName =
     route === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
+  const data = await getData(route, boardId)
+  console.log(data)
   const favorites = [
     {
       boardId,

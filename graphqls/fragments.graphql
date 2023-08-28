@@ -1,3 +1,28 @@
 fragment MemberItem2 on members {
   fullName
 }
+
+fragment Board on boards {
+  id
+  name
+  desc
+}
+
+fragment BoardPrefs on boardPrefs {
+  background
+}
+
+fragment Label on labels {
+  id
+  color
+}
+
+fragment List on lists {
+  id
+  name
+}
+
+fragment Member on members {
+  id
+  fullName
+}

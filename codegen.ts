@@ -14,7 +14,12 @@ const config: CodegenConfig = {
     },
   ],
   // schema: 'schema.graphql',
-  documents: ['graphqls/**/*.graphql', 'pages/**/*.tsx', 'components/**/*.tsx'], // пример, как можно с отрицанием: ['src/**/*.tsx', '!src/gql/**/*'],
+  documents: [
+    'repositories/getData.ts',
+    'graphqls/**/*.graphql',
+    'pages/**/*.tsx',
+    'components/**/*.tsx',
+  ], // пример, как можно с отрицанием: ['src/**/*.tsx', '!src/gql/**/*'],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     'generated/': {
