@@ -92,6 +92,7 @@
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "use-sync-external-store": "^1.2.0"
+    "use-sync-external-store": "^1.2.0",
+    "@parcel/watcher": "^2.3.0"
   }
 }
