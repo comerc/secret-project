@@ -15,7 +15,7 @@ import { nanoid } from 'nanoid'
 import cx from 'classnames'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
-import getData from '.../repositories/getData'
+import getData, { ShortRoute } from '.../repositories/getData'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
 // TODO: обновить antd@^5.2.0 (сейчас его нельзя трогать)
@@ -162,18 +162,16 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
     },
   ]
-  const route = breadcrumbs[0] // TODO: w || u || b || c
-  const routes = ['b', 'c']
-  if (!routes.includes(route)) {
-    return {
-      notFound: true,
-    }
+  const shortRoute = breadcrumbs[0]
+  const shortRoutes: ShortRoute[] = ['w', 'u', 'b', 'c']
+  if (!shortRoutes.includes(shortRoute)) {
+    return { notFound: true }
   }
-  const boardId = breadcrumbs[1] // if route === 'b'
+  const boardId = breadcrumbs[1] // if shortRoute === 'b'
   const urlName =
-    route === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
-  const data = await getData(route, boardId)
-  console.log(data)
+    shortRoute === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
+  const data = await getData(shortRoute)
+  // console.log(data.board?.lists[0].cards)
   const favorites = [
     {
       boardId,

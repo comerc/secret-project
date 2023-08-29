@@ -1,80 +1,31 @@
 import { useQuery } from '@apollo/client'
 import { graphql as gql } from 'generated/gql'
 import { FragmentType, useFragment } from 'generated/fragment-masking'
-import {
-  // GetBoardQuery,
-  BoardFragment,
-  BoardPrefsFragment,
-  LabelFragment,
-  ListFragment,
-  MemberFragment,
-} from 'generated/graphql'
+import { BoardFragment, MemberFragment } from 'generated/graphql'
 import client from '.../repositories/apollo'
 
-// const BOARD_FRAGMENT = gql(`#graphql
-//   fragment Board on boards {
-//     name
-//     desc
-//   }
-// `)
-
-// const BOARD_PREFS_FRAGMENT = gql(`#graphql
-//   fragment BoardPrefs on boardPrefs {
-//     background
-//   }
-// `)
-
-// const LABEL_FRAGMENT = gql(`#graphql
-//   fragment Label on labels {
-//     id
-//     color
-//   }
-// `)
-
-// const LIST_FRAGMENT = gql(`#graphql
-//   fragment List on lists {
-//     id
-//     name
-//   }
-// `)
-
-// const MEMBER_FRAGMENT = gql(`#graphql
-//   fragment Member on members {
-//     id
-//     fullName
-//   }
-// `)
-
 const GET_BOARD = gql(`#graphql
-  query GetBoard($id: String!) {
-    boards_by_pk(id: $id) {
+  query GetBoard($boardId: String!, $memberId: String!) {
+    boards_by_pk(id: $boardId) {
       ...Board
-      prefs {
-        ...BoardPrefs
-      }
-      labels {
-        ...Label
-      }
-      lists {
-        ...List
-      }
     }
-    members(limit: 1) {
+    members_by_pk(id: $memberId) {
       ...Member
     }
   }
 `)
 
-// type BoardType = NonNullable<GetBoardQuery['boards_by_pk']>
+const GET_CARD = gql(`#graphql
+  query GetCard($id: String!) {
+    cards_by_pk(id: $id) {
+      ...Card
+    }
+  }
+`)
 
 interface GetDataResult {
-  board?: BoardFragment & {
-    prefs: BoardPrefsFragment
-    labels: Array<LabelFragment>
-    lists: Array<ListFragment>
-  }
-  members: Array<MemberFragment>
-  // favorites: anyFragmentType<typeof FAVORITE_FRAGMENT>
+  board?: BoardFragment
+  member?: MemberFragment
   // favorites: any
   // members: any
   // columns: any
@@ -82,14 +33,20 @@ interface GetDataResult {
   // issues: any
 }
 
-async function getData(route, boardId = '5c3b7bed55428850603f04dd'): GetDataResult {
+export type ShortRoute = 'w' | 'u' | 'b' | 'c'
+
+async function getData(
+  shortRoute: ShortRoute,
+  boardId = '5c3b7bed55428850603f04dd',
+  memberId = '5612364666dac1cae4dc38b1',
+): GetDataResult {
   const {
-    data: { boards_by_pk: board, members },
+    data: { boards_by_pk: board, members_by_pk: member },
   } = await client.query({
     query: GET_BOARD,
-    variables: { id: boardId },
+    variables: { boardId, memberId },
   })
-  return { board, members }
+  return { board, member }
 }
 
 export default getData

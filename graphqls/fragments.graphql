@@ -6,18 +6,49 @@ fragment Board on boards {
   id
   name
   desc
+  prefs {
+    background
+  }
+  labels {
+    id
+    color
+  }
+  lists {
+    id
+    name
+    cards {
+      id
+      name
+      desc
+    }
+  }
 }
 
-fragment BoardPrefs on boardPrefs {
-  background
-}
+# fragment BoardPrefs on boardPrefs {
+#   background
+# }
 
-fragment Label on labels {
-  id
-  color
-}
+# fragment Label on labels {
+#   id
+#   color
+# }
 
-fragment List on lists {
+# fragment List on lists {
+#   id
+#   name
+#   cards {
+#     id
+#     name
+#     desc
+#     # ...ListCard
+#   }
+# }
+
+# fragment ListCard on cards {
+#   name
+# }
+
+fragment Card on cards {
   id
   name
 }
