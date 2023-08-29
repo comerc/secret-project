@@ -433,6 +433,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Все еще работаете с access token на клиенте?](https://habr.com/ru/articles/710552/)
 - [x] [Hasura Introspection via Voyager](https://blog.yeswehack.com/yeswerhackers/how-exploit-graphql-endpoint-bug-bounty/)
 - [ ] [Как продвигать проекты с открытым исходным кодом](https://habr.com/ru/articles/331514/)
+- [ ] [NoOps Kubernetes-платформа](https://deckhouse.ru/)
 
 ## Что нового (для меня) про вёрстку
 
