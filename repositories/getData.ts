@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { graphql as gql } from 'generated/gql'
-import { FragmentType, useFragment } from 'generated/fragment-masking'
 import { BoardFragment, MemberFragment } from 'generated/graphql'
 import client from '.../repositories/apollo'
 
@@ -15,15 +14,15 @@ const GET_BOARD = gql(`#graphql
   }
 `)
 
-const GET_CARD = gql(`#graphql
-  query GetCard($id: String!) {
-    cards_by_pk(id: $id) {
-      ...Card
-    }
-  }
-`)
+// const GET_CARD = gql(`#graphql
+//   query GetCard($cardId: String!) {
+//     cards_by_pk(id: $cardId) {
+//       ...Card
+//     }
+//   }
+// `)
 
-interface GetDataResult {
+type GetDataResult = {
   board?: BoardFragment
   member?: MemberFragment
   // favorites: any
