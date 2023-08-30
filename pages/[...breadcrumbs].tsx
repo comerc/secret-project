@@ -167,6 +167,7 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   if (!shortRoutes.includes(shortRoute)) {
     return { notFound: true }
   }
+  // TODO: [redirect](https://nextjs.org/docs/pages/api-reference/functions/get-server-side-props#redirect)
   const boardId = breadcrumbs[1] // if shortRoute === 'b'
   const urlName =
     shortRoute === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
