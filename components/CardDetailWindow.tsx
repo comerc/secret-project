@@ -1483,7 +1483,7 @@ function Labels({ labels }) {
 
 const mainWidth = 576
 
-function CardDetailWindow({ issue: { members, labels, actions } }) {
+function CardDetailWindow({ card: { members, labels, actions } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
     setIsOpen(false)

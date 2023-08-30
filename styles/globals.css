@@ -5,7 +5,8 @@
   font-weight: 400;
   /* woff2 - Chrome 36+, Opera 23+, Firefox 39+ */
   /* woff - Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-  src: url('/fonts/bellota-v16-cyrillic_latin-regular.woff2') format('woff2'),
+  src:
+    url('/fonts/bellota-v16-cyrillic_latin-regular.woff2') format('woff2'),
     url('/fonts/bellota-v16-cyrillic_latin-regular.woff') format('woff');
 }
 
@@ -44,7 +45,7 @@
   .horizontal-divider {
     @apply border-[var(--ds-border,#091e4221)] !important;
   }
-  .is-mouse-first .list-card {
+  .is-mouse-first .card {
     @apply hover:bg-[var(--ds-surface-raised-hovered,#f4f5f7)] !important;
   }
 }
@@ -186,7 +187,9 @@
   right: 0;
   left: 0px;
   border-radius: 3px;
-  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%),
+  box-shadow:
+    0 6px 16px 0 rgb(0 0 0 / 8%),
+    0 3px 6px -4px rgb(0 0 0 / 12%),
     0 9px 28px 8px rgb(0 0 0 / 5%);
 }
 

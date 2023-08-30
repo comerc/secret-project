@@ -26,9 +26,9 @@ type IProps = {
   favorites: []
   members: []
   urlName: string
-  columns: {}
-  columnsOrder: []
-  issues: {}
+  lists: {}
+  listsOrder: []
+  cards: {}
 }
 
 export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => {
@@ -189,9 +189,9 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
       wallpapper: '/wallpapper.jpg',
     },
   ]
-  const { columns, columnsOrder, issues } = getInitialData({ members, actions })
+  const { lists, listsOrder, cards } = getInitialData({ members, actions })
   return {
-    props: { boardId, urlName, favorites, members, columns, columnsOrder, issues },
+    props: { boardId, urlName, favorites, members, lists, listsOrder, cards },
   }
 }
 
@@ -236,9 +236,9 @@ function BoardPage({
   boardId,
   favorites: defaultFavorites,
   urlName,
-  columns,
-  columnsOrder,
-  issues,
+  lists,
+  listsOrder,
+  cards,
 }: IProps) {
   // @deprecated
   const [isMenu, setIsMenu] = React.useState(false)
@@ -271,8 +271,8 @@ function BoardPage({
   }
   const version = 'V3'
   const renderCardDetailWindow = () => {
-    const id = Object.keys(issues)[0]
-    return <CardDetailWindow issue={issues[id]} />
+    const id = Object.keys(cards)[0]
+    return <CardDetailWindow card={cards[id]} />
   }
   const renderCardEditWindow = () => {
     return hasMenu || <CardEditWindow />
@@ -308,7 +308,7 @@ function BoardPage({
       {/* <FontFaceObserver> */}
       {version === 'V3' && (
         <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
-          <BoardState {...{ columns, columnsOrder, issues }}>
+          <BoardState {...{ lists, listsOrder, cards }}>
             <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
               <div className="sticky left-0 w-screen">
                 <Header {...{ favorites, handleDeleteFavorites }} />
@@ -338,7 +338,7 @@ function BoardPage({
       )}
       {version === 'V2' && (
         <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
-          <BoardState {...{ columns, columnsOrder, issues }}>
+          <BoardState {...{ lists, listsOrder, cards }}>
             <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">
               <Header {...{ favorites, handleDeleteFavorites }} />
               <BoardHeader
@@ -394,7 +394,7 @@ function BoardPage({
                             }}
                           />
                           <div id="board-warnings"></div>
-                          <Board {...{ columns, columnsOrder, issues }} />
+                          <Board {...{ lists, listsOrder, cards }} />
                         </div>
                         <BoardMenu {...{ hasMenu, toggleMenu }} />
                       </div>

@@ -1,8 +1,8 @@
-function getParentItemId(node) {
+function getListIdByParent(node) {
   // TODO: element.closest()
   while (node !== null) {
     node = node.parentNode
-    const result = node?.dataset?.itemId
+    const result = node?.dataset?.listId
     if (result) {
       return result
     }
@@ -10,4 +10,4 @@ function getParentItemId(node) {
   return false
 }
 
-export default getParentItemId
+export default getListIdByParent

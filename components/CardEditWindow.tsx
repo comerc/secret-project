@@ -2,14 +2,14 @@ import React from 'react'
 import { Modal } from 'antd'
 import { useOnClickOutside } from 'usehooks-ts'
 import cx from 'classnames'
-import getParentItemId from '.../utils/getParentItemId'
+import getCardIdByParent from '.../utils/getCardIdByParent'
 
 function CardEditWindow() {
   const [isOpen, setIsOpen] = React.useState(false)
   React.useEffect(() => {
     const handleContextmenu = (event) => {
-      const itemId = getParentItemId(event.target)
-      if (itemId) {
+      const cardId = getCardIdByParent(event.target)
+      if (cardId) {
         setIsOpen(true)
         event.preventDefault()
       }

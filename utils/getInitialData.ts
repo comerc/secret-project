@@ -3,7 +3,7 @@ import generateSentence from '.../utils/generateSentence'
 
 let itemIdSequence = 0
 
-function getIssues(count, columnId, { members, actions }) {
+function getCards(count, listId, { members, actions }) {
   const labels = [
     {
       id: 1,
@@ -41,7 +41,7 @@ function getIssues(count, columnId, { members, actions }) {
     //   name: 'Моя очень-очень-очень длинная метка',
     // },
   ]
-  const issues = Array.from({ length: count }, () => {
+  const cards = Array.from({ length: count }, () => {
     const id = ++itemIdSequence
     return {
       id: `${id}`,
@@ -55,30 +55,30 @@ function getIssues(count, columnId, { members, actions }) {
     accumulator[currentValue.id] = currentValue
     return accumulator
   }, {})
-  return issues
+  return cards
 }
 
 function getInitialData({ members, actions }) {
-  let issues = {}
-  const columnTitles = ['To Do', 'In Progress', 'Done']
-  const columns = columnTitles
-    .map((columnTitle) => {
-      const columnId = nanoid(8)
-      const columnIssues = getIssues(4, columnId, { members, actions })
-      issues = { ...issues, ...columnIssues }
+  let cards = {}
+  const listTitles = ['To Do', 'In Progress', 'Done']
+  const lists = listTitles
+    .map((listTitle) => {
+      const listId = nanoid(8)
+      const listCards = getCards(4, listId, { members, actions })
+      cards = { ...cards, ...listCards }
       return {
-        id: columnId,
-        title: columnTitle,
-        // issues: columnIssues,
-        issuesOrder: Object.keys(columnIssues),
+        id: listId,
+        title: listTitle,
+        // cards: listCards,
+        cardsOrder: Object.keys(listCards),
       }
     })
     .reduce((accumulator, currentValue) => {
       accumulator[currentValue.id] = currentValue
       return accumulator
     }, {})
-  const columnsOrder = Object.keys(columns)
-  return { columns, columnsOrder, issues }
+  const listsOrder = Object.keys(lists)
+  return { lists, listsOrder, cards }
 }
 
 export default getInitialData

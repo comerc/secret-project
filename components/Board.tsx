@@ -31,11 +31,11 @@ import pluralize from '.../utils/pluralize'
 import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getDueDateMode from '.../utils/getDueDateMode'
-import getParentColumnId from '.../utils/getParentColumnId'
+import getListIdByParent from '.../utils/getListIdByParent'
 // import useScrollWithShadow from '.../utils/useScrollWithShadow'
 import { MENU_WIDTH, COLUMN_WIDTH, COLUMN_FOOTER_HEIGHT } from '.../constants'
 
-const _listRefMap = {}
+const _scrollListRefMap = {}
 let _cloneSize = 0
 
 // TODO: double-click на пустом месте борды открывает диалог "Добавление списка"
@@ -45,23 +45,23 @@ function AddColumnButton() {
   const [isIdle, setIsIdle] = React.useState(true)
   const [value, setValue] = React.useState('')
   const submit = () => {
-    const columnTitle = value.trim()
-    if (columnTitle === '') {
+    const listTitle = value.trim()
+    if (listTitle === '') {
       inputRef.current.focus()
       return
     }
-    const columnId = nanoid()
+    const listId = nanoid()
     setState({
       ...state,
-      columns: {
-        ...state.columns,
-        [columnId]: {
-          id: columnId,
-          title: columnTitle,
-          issuesOrder: [],
+      lists: {
+        ...state.lists,
+        [listId]: {
+          id: listId,
+          title: listTitle,
+          cardsOrder: [],
         },
       },
-      columnsOrder: [...state.columnsOrder, columnId],
+      listsOrder: [...state.listsOrder, listId],
     })
     setValue('')
     setTimeout(() => {
@@ -169,30 +169,30 @@ function AddCardForm() {
   const value = state.addCardForm.title
   const ref = React.useRef()
   const close = (title = '') => {
-    const columnId = state.addCardForm.columnId
-    const column = state.columns[columnId]
-    const index = column.issuesOrder.indexOf('0')
-    const issuesOrder = [...column.issuesOrder]
-    issuesOrder.splice(index, 1)
+    const listId = state.addCardForm.listId
+    const list = state.lists[listId]
+    const index = list.cardsOrder.indexOf('0')
+    const cardsOrder = [...list.cardsOrder]
+    cardsOrder.splice(index, 1)
     setState({
       ...state,
-      columns: {
-        ...state.columns,
-        [columnId]: {
-          ...column,
-          issuesOrder,
+      lists: {
+        ...state.lists,
+        [listId]: {
+          ...list,
+          cardsOrder,
         },
       },
       addCardForm: {
-        columnId: '',
+        listId: '',
         title,
       },
     })
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.resetAfterIndex(index)
+    const scrollListRef = _scrollListRefMap[listId]
+    const scrollList = scrollListRef.current
+    scrollList.resetAfterIndex(index)
     setTimeout(() => {
-      list.scrollToItem(index)
+      scrollList.scrollToItem(index)
     })
   }
   const submit = () => {
@@ -201,37 +201,37 @@ function AddCardForm() {
       document.getElementById('input-card').focus()
       return
     }
-    const columnId = state.addCardForm.columnId
-    const column = state.columns[columnId]
-    const keys = Object.keys(state.issues)
+    const listId = state.addCardForm.listId
+    const list = state.lists[listId]
+    const keys = Object.keys(state.cards)
     const id = keys.length === 0 ? '1' : parseInt(keys[keys.length - 1]) + 1 + ''
-    const issues = {
-      ...state.issues,
+    const cards = {
+      ...state.cards,
       [id]: { id, title, description: '', members: [], labels: [], actions: [] },
     }
-    const issuesOrder = [...column.issuesOrder]
-    const index = issuesOrder.indexOf('0')
-    issuesOrder.splice(index, 1, id)
+    const cardsOrder = [...list.cardsOrder]
+    const index = cardsOrder.indexOf('0')
+    cardsOrder.splice(index, 1, id)
     setState({
       ...state,
-      issues,
-      columns: {
-        ...state.columns,
-        [columnId]: {
-          ...column,
-          issuesOrder,
+      cards,
+      lists: {
+        ...state.lists,
+        [listId]: {
+          ...list,
+          cardsOrder,
         },
       },
       addCardForm: {
-        columnId: '',
+        listId: '',
         title: '',
       },
     })
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.resetAfterIndex(index)
+    const scrollListRef = _scrollListRefMap[listId]
+    const scrollList = scrollListRef.current
+    scrollList.resetAfterIndex(index)
     setTimeout(() => {
-      list.scrollToItem(index)
+      scrollList.scrollToItem(index)
     })
     // TODO: сохранить данные
   }
@@ -300,32 +300,32 @@ function AddCardForm() {
   )
 }
 
-function openAddCardForm(state, setState, columnId, index = -1) {
-  const column = state.columns[columnId]
-  const issuesOrder = [...column.issuesOrder]
+function openAddCardForm(state, setState, listId, index = -1) {
+  const list = state.lists[listId]
+  const cardsOrder = [...list.cardsOrder]
   if (index === -1) {
-    index = column.issuesOrder.length
+    index = list.cardsOrder.length
   }
-  issuesOrder.splice(index, 0, '0')
+  cardsOrder.splice(index, 0, '0')
   setState({
     ...state,
-    columns: {
-      ...state.columns,
-      [columnId]: {
-        ...column,
-        issuesOrder,
+    lists: {
+      ...state.lists,
+      [listId]: {
+        ...list,
+        cardsOrder,
       },
     },
     addCardForm: {
       ...state.addCardForm,
-      columnId,
+      listId,
     },
   })
-  const listRef = _listRefMap[columnId]
-  const list = listRef.current
-  list.resetAfterIndex(index)
+  const scrollListRef = _scrollListRefMap[listId]
+  const scrollList = scrollListRef.current
+  scrollList.resetAfterIndex(index)
   setTimeout(() => {
-    list.scrollToItem(index)
+    scrollList.scrollToItem(index)
     setTimeout(() => {
       document.getElementById('input-card')?.focus({
         preventScroll: true,
@@ -344,8 +344,8 @@ function ColumnFooter() {
         className="flex h-[28px] w-full items-center rounded-[3px] border-0 bg-transparent px-2 py-1 text-start leading-5 text-[var(--ds-text-subtle,#5e6c84)] shadow-none hover:bg-[var(--ds-background-neutral-subtle-hovered,#091e4214)] hover:text-[var(--ds-text,#172b4d)] active:bg-[var(--ds-background-neutral-pressed,#091e4221)] [&>:last-child]:truncate"
         icon={<PlusOutlined />}
         onClick={(event) => {
-          const columnId = getParentColumnId(event.target)
-          openAddCardForm(state, setState, columnId)
+          const listId = getListIdByParent(event.target)
+          openAddCardForm(state, setState, listId)
         }}
       >
         Добавить карточку
@@ -523,13 +523,13 @@ function FrontLabels({ labels }) {
   )
 }
 
-function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) {
-  // TODO: .list-card-cover
+function Card({ card: { id, title, labels, members }, selected, ...rest }) {
+  // TODO: .card-cover
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
     <a
       className={cx(
-        'list-card',
+        'card',
         selected
           ? 'bg-[var(--ds-surface-raised-hovered,#f4f5f7)]'
           : 'bg-[var(--ds-surface-raised,#fff)]',
@@ -561,7 +561,7 @@ function ListCard({ issue: { id, title, labels, members }, selected, ...rest }) 
 }
 
 // @deprecated
-function ListCards({ maxHeight, issues, issuesOrder }) {
+function ListCards({ maxHeight, cards, cardsOrder }) {
   const ref = React.useRef()
   const [initialize, osInstance] = useOverlayScrollbars({
     options: {
@@ -598,24 +598,24 @@ function ListCards({ maxHeight, issues, issuesOrder }) {
       }}
       ref={ref}
     >
-      {issuesOrder.map((id) => (
-        <ListCard key={id} issue={id === '0' ? { id: '0' } : issues[id]} />
+      {cardsOrder.map((id) => (
+        <Card key={id} card={id === '0' ? { id: '0' } : cards[id]} />
       ))}
     </div>
   )
 }
 
-function ActiveListCard({ provided, snapshot, issue }) {
+function ActiveCard({ provided, snapshot, card }) {
   const {
     // onDeleteItem,
     state,
     setState,
     isMouseFirst,
   } = React.useContext(BoardContext)
-  const itemId = snapshot.isDragging ? 'clone' : issue.id
+  const cardId = snapshot.isDragging ? 'clone' : card.id
   const onMouseMove = () => {
     if (isMouseFirst) {
-      setState({ ...state, selectedId: itemId })
+      setState({ ...state, selectedId: cardId })
     }
   }
   const onMouseLeave = () => {
@@ -624,8 +624,8 @@ function ActiveListCard({ provided, snapshot, issue }) {
     }
   }
   const router = useRouter()
-  const urlName = React.useMemo(() => normalizeUrlName(issue.title), [issue.title])
-  const href = `/c/${issue.id}/${urlName}`
+  const urlName = React.useMemo(() => normalizeUrlName(card.title), [card.title])
+  const href = `/c/${card.id}/${urlName}`
   const onClick = (event) => {
     event.preventDefault()
     router.push(href, undefined, {
@@ -638,18 +638,18 @@ function ActiveListCard({ provided, snapshot, issue }) {
       // TODO: справа мешает скролл
       // onDoubleClick={(event) => {
       //   event.stopPropagation()
-      //   if (issue.id === '0') {
+      //   if (card.id === '0') {
       //     return
       //   }
-      //   const columnId = getParentColumnId(event.target)
-      //   openAddCardForm(state, setState, columnId, 0)
+      //   const listId = getListIdByParent(event.target)
+      //   openAddCardForm(state, setState, listId, 0)
       // }}
     >
-      <ListCard
-        data-item-id={itemId}
-        selected={state.selectedId === itemId}
+      <Card
+        data-card-id={cardId}
+        selected={state.selectedId === cardId}
         {...{
-          issue,
+          card,
           href,
           onClick,
           onMouseMove,
@@ -661,17 +661,17 @@ function ActiveListCard({ provided, snapshot, issue }) {
         className="mx-2 mt-[-8px] h-2"
         onDoubleClick={(event) => {
           event.stopPropagation()
-          const columnId = getParentColumnId(event.target)
-          const column = state.columns[columnId]
-          const index = column.issuesOrder.indexOf(issue.id)
-          openAddCardForm(state, setState, columnId, index + 1)
+          const listId = getListIdByParent(event.target)
+          const list = state.lists[listId]
+          const index = list.cardsOrder.indexOf(card.id)
+          openAddCardForm(state, setState, listId, index + 1)
         }}
       />
     </>
   )
 }
 
-function ColumnItem({ provided, snapshot, issue, style }) {
+function ColumnItem({ provided, snapshot, card, style }) {
   const { style: draggableStyle, ...draggableProps } = provided.draggableProps
   // HACK: отменил анимацию, т.к. успевал переместить мышку без установки state.selectedId
   // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/drop-animation.md#skipping-the-drop-animation
@@ -680,7 +680,7 @@ function ColumnItem({ provided, snapshot, issue, style }) {
   }
   return (
     <div ref={provided.innerRef} {...draggableProps} style={{ ...style, ...draggableStyle }}>
-      {issue.id === '0' ? <AddCardForm /> : <ActiveListCard {...{ provided, snapshot, issue }} />}
+      {card.id === '0' ? <AddCardForm /> : <ActiveCard {...{ provided, snapshot, card }} />}
     </div>
   )
 }
@@ -688,24 +688,19 @@ function ColumnItem({ provided, snapshot, issue, style }) {
 // Recommended react-window performance optimisation: memoize the row render function
 // Things are still pretty fast without this, but I am a sucker for making things faster
 const ColumnRow = React.memo(function Row({ data, index, style }) {
-  const issue = data[index]
+  const card = data[index]
   // We are rendering an extra item for the placeholder
-  if (!issue) {
+  if (!card) {
     return null
   }
   return (
-    <Draggable
-      isDragDisabled={issue.id === '0'}
-      draggableId={issue.id}
-      key={issue.id}
-      {...{ index }}
-    >
-      {(provided, snapshot) => <ColumnItem {...{ provided, snapshot, issue, style }} />}
+    <Draggable isDragDisabled={card.id === '0'} draggableId={card.id} key={card.id} {...{ index }}>
+      {(provided, snapshot) => <ColumnItem {...{ provided, snapshot, card, style }} />}
     </Draggable>
   )
 }, areEqual)
 
-const List = React.forwardRef(function ListRender({ isAddCardForm, ...props }, ref) {
+const ScrollList = React.forwardRef(function ScrollListRender({ isAddCardForm, ...props }, ref) {
   const isFirst = useIsFirstRender() // HACK: отрабатывает отрисовку ColumnHeader (для Input.TextArea.autoSize)
   const outerElementType = React.useMemo(() => {
     return React.forwardRef(function OuterElement({ children, onScroll, style }, ref) {
@@ -881,24 +876,24 @@ const List = React.forwardRef(function ListRender({ isAddCardForm, ...props }, r
 // })
 
 // TODO: скролирование по вертикали должно начинаться раньше, чтобы dropable-item не выходил за границы колонки - проблема больше не наблюдается
-function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
-  // There is an issue I have noticed with react-window that when reordered
+function ColumnItemList({ id, cardsOrder, cards, index, isAddCardForm }) {
+  // There is an card I have noticed with react-window that when reordered
   // react-window sets the scroll back to 0 but does not update the UI
-  // I should raise an issue for this.
+  // I should raise an card for this.
   // As a work around I am resetting the scroll to 0
   // on any list that changes it's index
-  const listRef = React.useRef()
+  const scrollListRef = React.useRef()
   // TODO: а в оригинале скролится только drop-колонка и до начала dnd
   React.useLayoutEffect(() => {
-    const list = listRef.current
-    if (list) {
-      list.scrollTo(0)
+    const scrollList = scrollListRef.current
+    if (scrollList) {
+      scrollList.scrollTo(0)
     }
   }, [index])
   // Increases accuracy by calculating an average row height
   // Fixes the scrollbar behaviour described here: https://github.com/bvaughn/react-window/issues/408
   // const calcEstimatedSize = React.useCallback(() => {
-  //   const keys = Object.keys(column.items)
+  //   const keys = Object.keys(list.cards)
   //   if (keys.length === 0) {
   //     return 0
   //   }
@@ -908,22 +903,22 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
   // }, []) // TODO: оптимизировать
   // TODO: как бы убрать мигание ColumnFooter при ресайзе ColumnItemList?
   React.useEffect(() => {
-    _listRefMap[id] = listRef
+    _scrollListRefMap[id] = scrollListRef
   }, [id])
   const { isExpanded } = React.useContext(FrontLabelsContext)
-  const itemData = issuesOrder.map((id) => (id === '0' ? { id: '0' } : issues[id]))
+  const itemData = cardsOrder.map((id) => (id === '0' ? { id: '0' } : cards[id]))
   const getItemSize = (index) => {
-    const issue = itemData[index]
-    if (!issue) {
+    const card = itemData[index]
+    if (!card) {
       return _cloneSize
     }
-    if (issue.id === '0') {
+    if (card.id === '0') {
       return 124 // CARD_FORM_HEIGHT
     }
     const measureLayer = document.getElementById('measure-layer')
     measureLayer.innerHTML = renderToString(
       <FrontLabelsContext.Provider value={{ isExpanded, hasTooltip: false }}>
-        <ListCard {...{ issue }} />
+        <Card {...{ card }} />
       </FrontLabelsContext.Provider>,
     )
     const rect = measureLayer.getBoundingClientRect()
@@ -931,7 +926,8 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
     return size
   }
   useUpdateEffect(() => {
-    listRef.current.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
+    const scrollList = scrollListRef.current
+    scrollList.resetAfterIndex(0, true) // TODO: если второй параметр false, то перерисовка лучше, но с пропуском первого раза
   }, [isExpanded])
   const version = 'V2'
   return (
@@ -948,7 +944,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
                 renderClone={(provided, snapshot, rubric) => {
                   _cloneSize = getItemSize(rubric.source.index)
                   return (
-                    <ColumnItem {...{ provided, snapshot }} issue={itemData[rubric.source.index]} />
+                    <ColumnItem {...{ provided, snapshot }} card={itemData[rubric.source.index]} />
                   )
                 }}
               >
@@ -967,7 +963,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
                       ? itemData.length + 1
                       : itemData.length
                   return (
-                    <List
+                    <ScrollList
                       // useIsScrolling // TODO: для isScrolling
                       height={height - (isAddCardForm ? 0 : COLUMN_FOOTER_HEIGHT)}
                       itemCount={itemCount}
@@ -977,13 +973,13 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
                       // outerElementType={withScrollbars}
                       isAddCardForm={isAddCardForm}
                       itemData={itemData}
-                      ref={listRef}
+                      ref={scrollListRef}
                       overscanCount={4}
                       // See notes at calcEstimatedSize
                       // estimatedItemSize={calcEstimatedSize()}
                     >
                       {ColumnRow}
-                    </List>
+                    </ScrollList>
                   )
                 }}
               </Droppable>
@@ -1001,7 +997,7 @@ function ColumnItemList({ id, issuesOrder, issues, index, isAddCardForm }) {
               }}
             >
               <div className="rounded-b-[3px] bg-[var(--ds-background-accent-gray-subtlest,#ebecf0)]">
-                <ListCards maxHeight={height - COLUMN_FOOTER_HEIGHT} {...{ issues, issuesOrder }} />
+                <ListCards maxHeight={height - COLUMN_FOOTER_HEIGHT} {...{ cards, cardsOrder }} />
                 <ColumnFooter />
               </div>
             </div>
@@ -1195,13 +1191,13 @@ function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
+function ColumnHeader({ id, title, cardsOrder, ...dragHandleProps }) {
   const [value, setValue] = React.useState(title)
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
-  const issuesCount = issuesOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
+  const cardsCount = cardsOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
   const isFilter = true // TODO: реализовать isFilter через Context
   const columnExtrasTabWrapperId = `column-extras-tab-wrapper-${id}`
-  const inputId = `input-column-header-${id}`
+  const inputId = `column-input-id-${id}`
   const isFocused = focused === inputId
   const submit = () => {
     // TODO: реализовать submit
@@ -1259,7 +1255,7 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
       />
       {isFilter && (
         <p className="mx-2 text-sm text-[var(--ds-text-subtle,#5e6c84)]">
-          {pluralize(issuesCount, ['карточка', 'карточки', 'карточек'])}
+          {pluralize(cardsCount, ['карточка', 'карточки', 'карточек'])}
         </p>
       )}
       <div
@@ -1279,7 +1275,7 @@ function ColumnHeader({ id, title, issuesOrder, ...dragHandleProps }) {
   )
 }
 
-function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardForm }) {
+function Column({ list: { id, title, cardsOrder }, cards, index, isAddCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
       {(provided, snapshot) => {
@@ -1290,7 +1286,7 @@ function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardFo
         }
         return (
           <div
-            data-column-id={id}
+            data-list-id={id}
             className="mr-2 flex flex-col"
             ref={provided.innerRef}
             style={{
@@ -1300,8 +1296,8 @@ function Column({ column: { id, title, issuesOrder }, issues, index, isAddCardFo
             {...draggableProps}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ id, title, issuesOrder, ...provided.dragHandleProps }} />
-            <ColumnItemList {...{ id, issuesOrder, issues, index, isAddCardForm }} />
+            <ColumnHeader {...{ id, title, cardsOrder, ...provided.dragHandleProps }} />
+            <ColumnItemList {...{ id, cardsOrder, cards, index, isAddCardForm }} />
           </div>
         )
       }}
@@ -1313,17 +1309,17 @@ function Columns() {
   const { state, setState } = React.useContext(BoardContext)
   return (
     <FrontLabelsState>
-      {state.columnsOrder.map((id, index) => {
-        const column = state.columns[id]
-        const isAddCardForm = column.issuesOrder.indexOf('0') !== -1
-        return <Column key={id} issues={state.issues} {...{ index, column, isAddCardForm }} />
+      {state.listsOrder.map((id, index) => {
+        const list = state.lists[id]
+        const isAddCardForm = list.cardsOrder.indexOf('0') !== -1
+        return <Column key={id} cards={state.cards} {...{ index, list, isAddCardForm }} />
       })}
     </FrontLabelsState>
   )
 }
 
-function reorderList(list, startIndex, endIndex) {
-  const result = Array.from(list)
+function reorderArray(array, startIndex, endIndex) {
+  const result = Array.from(array) // just clone array?
   const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
   return result
@@ -1344,8 +1340,8 @@ function CustomDragDropContext({ children }) {
   const onDragUpdate = () => {
     // #POC
     // if (event.type === 'row' && event.destination) {
-    //   const columnId = event.destination.droppableId
-    //   const element = document.querySelector(`[data-column-id="${columnId}"]`)
+    //   const listId = event.destination.droppableId
+    //   const element = document.querySelector(`[data-list-id="${listId}"]`)
     //   element.scrollIntoView()
     // }
   }
@@ -1357,27 +1353,23 @@ function CustomDragDropContext({ children }) {
     if (event.type === 'column') {
       // if the list is scrolled it looks like there is some strangeness going on
       // with react-window. It looks to be scrolling back to scroll: 0
-      // I should log an issue with the project
-      const columnsOrder = reorderList(
-        state.columnsOrder,
-        event.source.index,
-        event.destination.index,
-      )
+      // I should log an card with the project
+      const listsOrder = reorderArray(state.listsOrder, event.source.index, event.destination.index)
       setState({
         ...state,
-        columnsOrder,
+        listsOrder,
       })
       return
     }
     const activeElementId = document.activeElement.id
-    const restoreFocus = (column = null) => {
+    const restoreFocus = (list = null) => {
       setTimeout(() => {
         if (activeElementId === 'input-card') {
-          if (column !== null) {
-            const listRef = _listRefMap[column.id]
-            const list = listRef.current
-            const index = column.issuesOrder.indexOf('0')
-            list.scrollToItem(index)
+          if (list !== null) {
+            const scrollListRef = _scrollListRefMap[list.id]
+            const scrollList = scrollListRef.current
+            const index = list.cardsOrder.indexOf('0')
+            scrollList.scrollToItem(index)
           }
           document.getElementById('input-card').focus({
             preventScroll: true,
@@ -1393,56 +1385,52 @@ function CustomDragDropContext({ children }) {
     }
     // reordering in same list
     if (event.source.droppableId === event.destination.droppableId) {
-      const column = state.columns[event.source.droppableId]
-      const issuesOrder = reorderList(
-        column.issuesOrder,
-        event.source.index,
-        event.destination.index,
-      )
-      // updating column entry
+      const list = state.lists[event.source.droppableId]
+      const cardsOrder = reorderArray(list.cardsOrder, event.source.index, event.destination.index)
+      // updating list entry
       setState({
         ...state,
-        columns: {
-          ...state.columns,
-          [column.id]: {
-            ...column,
-            issuesOrder,
+        lists: {
+          ...state.lists,
+          [list.id]: {
+            ...list,
+            cardsOrder,
           },
         },
       })
       const index = Math.min(event.source.index, event.destination.index)
-      _listRefMap[column.id].current.resetAfterIndex(index)
+      _scrollListRefMap[list.id].current.resetAfterIndex(index)
       restoreFocus() // как в оригинале: если в той же колонке, то не скролится к форме
       return
     }
     // moving between lists
-    const sourceColumn = state.columns[event.source.droppableId]
-    const destinationColumn = state.columns[event.destination.droppableId]
-    const item = sourceColumn.issuesOrder[event.source.index]
-    // 1. remove item from source column
-    const newSourceColumn = {
-      ...sourceColumn,
-      issuesOrder: [...sourceColumn.issuesOrder],
+    const sourceList = state.lists[event.source.droppableId]
+    const destinationList = state.lists[event.destination.droppableId]
+    const item = sourceList.cardsOrder[event.source.index]
+    // 1. remove item from source list
+    const newSourceList = {
+      ...sourceList,
+      cardsOrder: [...sourceList.cardsOrder],
     }
-    newSourceColumn.issuesOrder.splice(event.source.index, 1)
-    // 2. insert into destination column
-    const newDestinationColumn = {
-      ...destinationColumn,
-      issuesOrder: [...destinationColumn.issuesOrder],
+    newSourceList.cardsOrder.splice(event.source.index, 1)
+    // 2. insert into destination list
+    const newDestinationList = {
+      ...destinationList,
+      cardsOrder: [...destinationList.cardsOrder],
     }
     // in line modification of items
-    newDestinationColumn.issuesOrder.splice(event.destination.index, 0, item)
+    newDestinationList.cardsOrder.splice(event.destination.index, 0, item)
     setState({
       ...state,
-      columns: {
-        ...state.columns,
-        [newSourceColumn.id]: newSourceColumn,
-        [newDestinationColumn.id]: newDestinationColumn,
+      lists: {
+        ...state.lists,
+        [newSourceList.id]: newSourceList,
+        [newDestinationList.id]: newDestinationList,
       },
     })
-    _listRefMap[newSourceColumn.id].current.resetAfterIndex(event.source.index)
-    _listRefMap[newDestinationColumn.id].current.resetAfterIndex(event.destination.index)
-    restoreFocus(newDestinationColumn)
+    _scrollListRefMap[newSourceList.id].current.resetAfterIndex(event.source.index)
+    _scrollListRefMap[newDestinationList.id].current.resetAfterIndex(event.destination.index)
+    restoreFocus(newDestinationList)
   }
   return (
     <DragDropContext {...{ onBeforeDragStart, onDragUpdate, onDragEnd }}>
@@ -1455,82 +1443,82 @@ function CustomDragDropContext({ children }) {
 
 const BoardContext = React.createContext({})
 
-export function BoardState({ children, columns, columnsOrder, issues }) {
+export function BoardState({ children, lists, listsOrder, cards }) {
   const [state, setState] = React.useState({
-    columns,
-    columnsOrder,
-    issues,
+    lists,
+    listsOrder,
+    cards,
     selectedId: '',
     addCardForm: {
-      columnId: '',
+      listId: '',
       title: '',
     },
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
   // React.useLayoutEffect(() => {}, [])
-  // const onDeleteItem = (columnId, itemId) => () => {
-  //   const column = state.columns[columnId]
-  //   const items = column.items
-  //   const index = items.findIndex((item) => item.id === itemId)
-  //   const newColumn = {
-  //     ...column,
-  //     items: [...column.items],
+  // const onDeleteItem = (listId, cardId) => () => {
+  //   const list = state.lists[listId]
+  //   const cards = list.cards
+  //   const index = cards.findIndex((card) => card.id === cardId)
+  //   const newList = {
+  //     ...list,
+  //     cards: [...list.cards],
   //   }
-  //   newColumn.items.splice(index, 1)
+  //   newList.cards.splice(index, 1)
   //   const newState = {
   //     ...state,
-  //     columns: {
-  //       ...state.columns,
-  //       [columnId]: newColumn,
+  //     lists: {
+  //       ...state.lists,
+  //       [listId]: newList,
   //     },
   //   }
   //   setState(newState)
-  //   _listRefMap[column.id].current.resetAfterIndex(index)
+  //   _scrollListRefMap[list.id].current.resetAfterIndex(index)
   // }
   const [isMouseFirst, setIsMouseFirst] = React.useState(false)
   const onMouseMove = (event) => {
     setIsMouseFirst(true)
   }
-  const focusFirstItem = (columnId) => {
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.scrollTo(0)
-    const column = state.columns[columnId]
-    if (column.issuesOrder.length === 0) {
+  const focusFirstItem = (listId) => {
+    const scrollListRef = _scrollListRefMap[listId]
+    const scrollList = scrollListRef.current
+    scrollList.scrollTo(0)
+    const list = state.lists[listId]
+    if (list.cardsOrder.length === 0) {
       return false
     }
-    const itemId = column.issuesOrder[0]
-    document.querySelector(`[data-item-id="${itemId}"]`).focus()
+    const cardId = list.cardsOrder[0]
+    document.querySelector(`[data-card-id="${cardId}"]`).focus()
     return true
   }
-  const selectFirstItem = (columnId) => {
-    const column = state.columns[columnId]
-    if (column.issuesOrder.length === 0) {
+  const selectFirstItem = (listId) => {
+    const list = state.lists[listId]
+    if (list.cardsOrder.length === 0) {
       return false
     }
-    const itemId = column.issuesOrder[0]
-    setState({ ...state, selectedId: itemId })
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.scrollTo(0)
-    document.querySelector(`[data-column-id="${columnId}"]`).scrollIntoView()
+    const cardId = list.cardsOrder[0]
+    setState({ ...state, selectedId: cardId })
+    const scrollListRef = _scrollListRefMap[listId]
+    const scrollList = scrollListRef.current
+    scrollList.scrollTo(0)
+    document.querySelector(`[data-list-id="${listId}"]`).scrollIntoView()
     return true
   }
-  const scrollToItem = (columnId, index) => {
-    const listRef = _listRefMap[columnId]
-    const list = listRef.current
-    list.scrollToItem(index)
-    document.querySelector(`[data-column-id="${columnId}"]`).scrollIntoView()
+  const scrollToItem = (listId, index) => {
+    const scrollListRef = _scrollListRefMap[listId]
+    const scrollList = scrollListRef.current
+    scrollList.scrollToItem(index)
+    document.querySelector(`[data-list-id="${listId}"]`).scrollIntoView()
   }
-  const selectNextColumn = (columnsOrder) => {
-    for (const columnId of columnsOrder) {
-      const column = state.columns[columnId]
-      const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
+  const selectNextColumn = (listsOrder) => {
+    for (const listId of listsOrder) {
+      const list = state.lists[listId]
+      const index = list.cardsOrder.findIndex((cardId) => cardId === state.selectedId)
       if (index !== -1) {
-        const columnsOrderIndex = columnsOrder.findIndex((columnId) => columnId === column.id)
-        if (columnsOrderIndex + 1 !== columnsOrder.length) {
-          for (const columnId of columnsOrder.slice(columnsOrderIndex + 1)) {
-            if (selectFirstItem(columnId)) {
+        const listsOrderIndex = listsOrder.findIndex((listId) => listId === list.id)
+        if (listsOrderIndex + 1 !== listsOrder.length) {
+          for (const listId of listsOrder.slice(listsOrderIndex + 1)) {
+            if (selectFirstItem(listId)) {
               break
             }
           }
@@ -1544,8 +1532,8 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     if (event.code === 'Tab') {
       const tabIsList = event.target.dataset.tabIsList
       if ((tabIsList === 'prev' && event.shiftKey) || (tabIsList === 'next' && !event.shiftKey)) {
-        const columnId = getParentColumnId(event.target)
-        if (focusFirstItem(columnId)) {
+        const listId = getListIdByParent(event.target)
+        if (focusFirstItem(listId)) {
           event.preventDefault()
         }
       }
@@ -1553,47 +1541,47 @@ export function BoardState({ children, columns, columnsOrder, issues }) {
     }
     const cases = {
       ArrowDown: () => {
-        for (const column of Object.values(state.columns)) {
-          const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
+        for (const list of Object.values(state.lists)) {
+          const index = list.cardsOrder.findIndex((cardId) => cardId === state.selectedId)
           if (index !== -1) {
-            if (column.issuesOrder.length === index + 1) {
-              scrollToItem(column.id, index)
+            if (list.cardsOrder.length === index + 1) {
+              scrollToItem(list.id, index)
             } else {
-              const itemId = column.issuesOrder[index + 1]
-              setState({ ...state, selectedId: itemId })
-              scrollToItem(column.id, index + 1)
+              const cardId = list.cardsOrder[index + 1]
+              setState({ ...state, selectedId: cardId })
+              scrollToItem(list.id, index + 1)
             }
             break
           }
         }
       },
       ArrowUp: () => {
-        for (const column of Object.values(state.columns)) {
-          const index = column.issuesOrder.findIndex((itemId) => itemId === state.selectedId)
+        for (const list of Object.values(state.lists)) {
+          const index = list.cardsOrder.findIndex((cardId) => cardId === state.selectedId)
           if (index !== -1) {
             if (index === 0) {
-              scrollToItem(column.id, index)
+              scrollToItem(list.id, index)
             } else {
-              const itemId = column.issuesOrder[index - 1]
-              setState({ ...state, selectedId: itemId })
-              scrollToItem(column.id, index - 1)
+              const cardId = list.cardsOrder[index - 1]
+              setState({ ...state, selectedId: cardId })
+              scrollToItem(list.id, index - 1)
             }
             break
           }
         }
       },
       ArrowLeft: () => {
-        selectNextColumn([...state.columnsOrder].reverse())
+        selectNextColumn([...state.listsOrder].reverse())
       },
       ArrowRight: () => {
-        selectNextColumn(state.columnsOrder)
+        selectNextColumn(state.listsOrder)
       },
     }
     const onCase = cases[event.code]
     if (onCase) {
       if (state.selectedId === '') {
-        for (const columnId of state.columnsOrder) {
-          if (selectFirstItem(columnId)) {
+        for (const listId of state.listsOrder) {
+          if (selectFirstItem(listId)) {
             break
           }
         }

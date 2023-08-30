@@ -1,8 +1,8 @@
-function getParentColumnId(node) {
+function getCardIdByParent(node) {
   // TODO: element.closest()
   while (node !== null) {
     node = node.parentNode
-    const result = node?.dataset?.columnId
+    const result = node?.dataset?.cardId
     if (result) {
       return result
     }
@@ -10,4 +10,4 @@ function getParentColumnId(node) {
   return false
 }
 
-export default getParentColumnId
+export default getCardIdByParent
