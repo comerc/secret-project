@@ -353,7 +353,7 @@ function Checklist({ name, items }) {
       icon={<CheckSquareOutlined className="scale-125" />}
       name={name}
       right
-      actions={
+      buttons={
         <div className="flex flex-wrap gap-2">
           <CustomButton
             onClick={() => {
@@ -642,7 +642,7 @@ function ActionContent({ record, args, dateLink }) {
 
 // TODO: routing for highligted action
 
-function Action({ id, member, record, args, date, highligted }) {
+function Action({ id, memberCreator: member, record, args, date, highligted }) {
   const actionUrl = '#'
   return (
     <div
@@ -849,7 +849,7 @@ function Actions({ actions }) {
       icon={<FileDoneOutlined className="scale-125" />}
       name="Действия"
       right
-      actions={
+      buttons={
         <CustomButton
           onClick={() => {
             setIsExpanded(!isExpanded)
@@ -888,12 +888,12 @@ function Actions({ actions }) {
   )
 }
 
-function Section({ icon, name, actions, right = false, getCustomNameBox, children }) {
+function Section({ icon, name, buttons, right = false, getCustomNameBox, children }) {
   const getDefaultNameBox = ({ onClick }) => (
     <div className="flex flex-wrap" {...{ onClick }}>
       <h3 className={cx('board-name', onClick && 'cursor-pointer')}>{name}</h3>
       <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
-      {actions}
+      {buttons}
     </div>
   )
   return (
@@ -1181,7 +1181,7 @@ function Description() {
     <Section
       icon={<ContainerOutlined className="scale-125" />}
       name="Описание"
-      actions={
+      buttons={
         <CustomButton
           onClick={() => {
             setIsMore(false)
