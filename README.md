@@ -22,7 +22,7 @@
 ## Setup Hasura
 
 ```bash
-$ cd data && docker-compose up -d
+$ cd hasura && docker-compose up -d
 ```
 
 #### Connect Database
@@ -33,7 +33,7 @@ $ cd data && docker-compose up -d
 ## How to save DB-Schema
 
 ```bash
-$ cd data
+$ cd hasura
 $ rm -rf migrations
 $ hasura migrate create "init" --from-server --database-name default
 $ rm -rf metadata
@@ -43,7 +43,7 @@ $ hasura metadata export
 ## How to restore DB-Schema
 
 ```bash
-$ cd data
+$ cd hasura
 $ hasura migrate apply
 $ hasura metadata apply
 ```
@@ -51,14 +51,14 @@ $ hasura metadata apply
 ## How to backup data
 
 ```bash
-$ cd data
+$ cd hasura
 $ curl --location --request POST 'http://localhost:8080/v1alpha1/pg_dump' --header 'x-hasura-admin-secret: myadminsecretkey' --header 'Content-Type: application/json' --data-raw '{ "opts": ["-O", "-x", "--data-only", "--schema", "public", "--schema", "auth"], "clean_output": true}' -o backup.sql
 ```
 
 ## How to restore data
 
 ```bash
-$ cd data
+$ cd hasura
 $ cat backup.sql | docker exec -i secret-project-postgres-1 psql -U postgres
 ```
 
