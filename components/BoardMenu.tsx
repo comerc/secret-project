@@ -72,7 +72,7 @@ function BoardMenu({ hasMenu, toggleMenu }) {
       onClose={toggleMenu}
     >
       <div tabIndex="-1" className="flex h-12 items-center justify-center px-9">
-        <h3 className="board-title">Меню</h3>
+        <h3 className="board-name">Меню</h3>
       </div>
       <button
         className="absolute right-0 top-0 m-1 flex h-10 w-10 items-center justify-center text-[var(--ds-icon-subtle,#6b778c)]  hover:text-[var(--ds-icon,#172b4d)]"

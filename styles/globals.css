@@ -39,7 +39,7 @@
   .root .ant-form-item .ant-form-item-explain {
     @apply text-xs !important;
   }
-  .board-title {
+  .board-name {
     @apply my-[6px] text-[16px] font-semibold leading-5 !important;
   }
   .horizontal-divider {

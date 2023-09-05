@@ -103,7 +103,7 @@ function ChecklistItemButton({ icon, circle, transparent, onClick }) {
   )
 }
 
-function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew, isTitle }) {
+function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew, isName }) {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   React.useEffect(() => {
     if (isExpanded) {
@@ -135,7 +135,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
             isNew
               ? 'input-border-focused min-h-[36px] resize-y bg-[var(--ds-background-input,#fff)] placeholder:text-[var(--ds-text-subtle,#5e6c84)]'
               : 'input-border bg-[var(--ds-background-input,#091e420a)]',
-            isTitle ? 'text-[16px] font-semibold' : 'text-[14px]',
+            isName ? 'text-[16px] font-semibold' : 'text-[14px]',
             'focus-borderless overflow-hidden rounded-[3px] px-3 py-2 leading-5 text-[var(--ds-text,#172b4d)]',
           )}
           placeholder={isNew && 'Добавить элемент'}
@@ -153,7 +153,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
           primary
           onClick={() => {
             if (value.trim() === '') {
-              if (isNew || isTitle) {
+              if (isNew || isName) {
                 inputRef.current.focus()
                 return
               } else {
@@ -174,7 +174,7 @@ function ChecklistInputBox({ className, value, onChange, onSubmit, close, isNew,
         ) : (
           <EditCloseButton onClick={close} />
         )}
-        {isTitle || (
+        {isName || (
           <>
             <div className="ml-[-4px] grow" />
             <CustomButton
@@ -310,10 +310,10 @@ function ChecklistItem({ text }) {
   )
 }
 
-function ChecklistTitleBox(title, getDefaultTitleBox) {
+function ChecklistNameBox(name, getDefaultNameBox) {
   const { isExpanded, setIsExpanded } = React.useContext(ChecklistListContext)
   const [isEdit, setIsEdit] = React.useState(false)
-  const [value, setValue] = React.useState(title)
+  const [value, setValue] = React.useState(name)
   return isEdit ? (
     <ChecklistInputBox
       className="pb-2"
@@ -327,10 +327,10 @@ function ChecklistTitleBox(title, getDefaultTitleBox) {
       close={() => {
         setIsEdit(false)
       }}
-      isTitle
+      isName
     />
   ) : (
-    getDefaultTitleBox({
+    getDefaultNameBox({
       onClick: () => {
         setIsExpanded(false)
         setTimeout(() => {
@@ -342,16 +342,16 @@ function ChecklistTitleBox(title, getDefaultTitleBox) {
   )
 }
 
-function Checklist({ title, items }) {
+function Checklist({ name, items }) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   const checkedCount = 1
   const percent = 80
   // TODO: у Checklist тоже есть drag'n'drop
   return (
     <Section
-      getCustomTitleBox={ChecklistTitleBox}
+      getCustomNameBox={ChecklistNameBox}
       icon={<CheckSquareOutlined className="scale-125" />}
-      title={title}
+      name={name}
       right
       actions={
         <div className="flex flex-wrap gap-2">
@@ -419,7 +419,7 @@ function ChecklistList() {
   const lists = [
     {
       id: 'checklist-1',
-      title: 'Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1',
+      name: 'Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1 Чек-лист1',
       items: [
         {
           id: '1-1',
@@ -430,7 +430,7 @@ function ChecklistList() {
     },
     {
       id: 'checklist-2',
-      title: 'Чек-лист2',
+      name: 'Чек-лист2',
       items: [
         { id: '2-1', text: 'element1' },
         { id: '2-2', text: 'element2' },
@@ -483,7 +483,7 @@ function ActionSpin() {
   )
 }
 
-function ActionAttachment({ isLoading, args, createdByLink, children }) {
+function ActionAttachment({ isLoading, args, dateLink, children }) {
   return (
     <>
       {` ${children} `}
@@ -500,7 +500,7 @@ function ActionAttachment({ isLoading, args, createdByLink, children }) {
         {getFilename(args.url)}
       </a>{' '}
       <InlineSpacer />
-      {isLoading || createdByLink}
+      {isLoading || dateLink}
       {args.thumbnail && (
         <a target="_blank" rel="noopener noreferrer" href={args.url}>
           <img
@@ -531,7 +531,7 @@ function ActionAttachment({ isLoading, args, createdByLink, children }) {
   )
 }
 
-function ActionComment({ isLoading, args, createdByLink }) {
+function ActionComment({ isLoading, args, dateLink }) {
   const { isExpanded, setIsExpanded } = React.useContext(CommentBoxContext)
   const [isEdit, setIsEdit] = React.useState(false)
   React.useEffect(() => {
@@ -543,7 +543,7 @@ function ActionComment({ isLoading, args, createdByLink }) {
     <>
       {' '}
       <InlineSpacer />
-      {isLoading || createdByLink}
+      {isLoading || dateLink}
       {/* // TODO: (изменён) */}
       <div className="my-1 ">
         {isExpanded && isEdit ? (
@@ -610,14 +610,14 @@ function ActionComment({ isLoading, args, createdByLink }) {
   )
 }
 
-function ActionContent({ record, args, createdByLink }) {
+function ActionContent({ record, args, dateLink }) {
   const isLoading = false
   if (record === 'comment') {
-    return <ActionComment {...{ isLoading, args, createdByLink }} />
+    return <ActionComment {...{ isLoading, args, dateLink }} />
   }
   if (['addAttachment', 'deleteAttachment'].includes(record)) {
     return (
-      <ActionAttachment {...{ isLoading, args, createdByLink }}>
+      <ActionAttachment {...{ isLoading, args, dateLink }}>
         {actionRecords[record]()}
       </ActionAttachment>
     )
@@ -631,7 +631,7 @@ function ActionContent({ record, args, createdByLink }) {
           <ActionSpin />
         ) : (
           <>
-            {createdByLink}
+            {dateLink}
             {/* // TODO: В этом поле есть несохранённые изменения */}
           </>
         )}
@@ -642,7 +642,7 @@ function ActionContent({ record, args, createdByLink }) {
 
 // TODO: routing for highligted action
 
-function Action({ id, member, record, args, createdBy, highligted }) {
+function Action({ id, member, record, args, date, highligted }) {
   const actionUrl = '#'
   return (
     <div
@@ -669,7 +669,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
       </button>
       <ActionContent
         {...{ record, args }}
-        createdByLink={
+        dateLink={
           <a
             className="whitespace-pre text-[12px] leading-5 text-[var(--ds-text-subtle,#5e6c84)] hover:text-[var(--ds-text-subtle,#172b4d)] hover:underline"
             href={actionUrl}
@@ -678,7 +678,7 @@ function Action({ id, member, record, args, createdBy, highligted }) {
               // TODO: router.push(actionUrl, undefined, { shallow: true, })
             }}
           >
-            {getLiteralDate(dayjs(createdBy), { withTime: true })}
+            {getLiteralDate(dayjs(date), { withTime: true })}
           </a>
         }
       />
@@ -847,7 +847,7 @@ function Actions({ actions }) {
   return (
     <Section
       icon={<FileDoneOutlined className="scale-125" />}
-      title="Действия"
+      name="Действия"
       right
       actions={
         <CustomButton
@@ -888,10 +888,10 @@ function Actions({ actions }) {
   )
 }
 
-function Section({ icon, title, actions, right = false, getCustomTitleBox, children }) {
-  const getDefaultTitleBox = ({ onClick }) => (
+function Section({ icon, name, actions, right = false, getCustomNameBox, children }) {
+  const getDefaultNameBox = ({ onClick }) => (
     <div className="flex flex-wrap" {...{ onClick }}>
-      <h3 className={cx('board-title', onClick && 'cursor-pointer')}>{title}</h3>
+      <h3 className={cx('board-name', onClick && 'cursor-pointer')}>{name}</h3>
       <div className={cx(right && 'grow', 'inline-block min-w-[8px]')} />
       {actions}
     </div>
@@ -902,7 +902,7 @@ function Section({ icon, title, actions, right = false, getCustomTitleBox, child
         <div className="absolute left-[-40px] top-[8px] flex h-8 w-8 justify-center text-base">
           {icon}
         </div>
-        {getCustomTitleBox ? getCustomTitleBox(title, getDefaultTitleBox) : getDefaultTitleBox({})}
+        {getCustomNameBox ? getCustomNameBox(name, getDefaultNameBox) : getDefaultNameBox({})}
       </div>
       {children}
     </WindowModule>
@@ -934,7 +934,7 @@ function getFileExtension(filename) {
 //  return hasAlphaPixels;
 // }
 
-function Attachment({ id, url, title, createdBy, thumbnail }) {
+function Attachment({ id, url, name, date, thumbnail }) {
   // TODO: drag'n'drop для сортировки по orderIndex
   const [filename, fileExtension] = React.useMemo(() => {
     const filename = getFilename(url)
@@ -997,7 +997,7 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
         )}
       </a>
       <div className="min-h-[80px] py-2 pl-[128px] pr-2">
-        <span className="text-sm font-bold">{title || filename}</span>
+        <span className="text-sm font-bold">{name || filename}</span>
         <a
           className="relative ml-1 h-5"
           target="_blank" // TODO: если файл для скачивания, то _blank не нужен
@@ -1014,7 +1014,7 @@ function Attachment({ id, url, title, createdBy, thumbnail }) {
             className="mr-1"
             // TODO: Добавлено час назад || Добавлено 14 фев в 16:13
           >
-            {createdBy}
+            {date}
           </span>
           <LinkButton
             onClick={() => {
@@ -1078,43 +1078,43 @@ function Attachments() {
     {
       id: 'id-1',
       url: '/attachments/transparent1.png',
-      title: 'title title title title title title title title title title title title title', // TODO: or filename
-      createdBy: '2023-02-22',
+      name: 'name name name name name name name name name name name name name', // TODO: or filename
+      date: '2023-02-22',
       thumbnail: '/attachments/previews/transparent1.png', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-2',
       url: '/attachments/LICENSE',
-      // title: '', // TODO: or filename
-      createdBy: '2023-02-22',
+      // name: '', // TODO: or filename
+      date: '2023-02-22',
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-3',
       url: '/attachments/postcss.config.js',
-      // title: '', // TODO: or filename
-      createdBy: '2023-02-22 10:11:12',
+      // name: '', // TODO: or filename
+      date: '2023-02-22 10:11:12',
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-4',
       url: '/attachments/tailwind.config.js',
-      // title: '', // TODO: or filename
-      createdBy: '2023-02-22 10:11:12',
+      // name: '', // TODO: or filename
+      date: '2023-02-22 10:11:12',
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
     {
       id: 'id-5',
       url: '/attachments/tsconfig.json',
-      // title: '', // TODO: or filename
-      createdBy: '2023-02-22 10:11:12',
+      // name: '', // TODO: or filename
+      date: '2023-02-22 10:11:12',
       // thumbnail: '', // TODO: from Image or fileext or PaperClipOutlined
     },
   ]
   const shortCount = 4
   const [isExpanded, setIsExpanded] = React.useState(false)
   return (
-    <Section icon={<PaperClipOutlined className="scale-125" />} title="Вложения">
+    <Section icon={<PaperClipOutlined className="scale-125" />} name="Вложения">
       <div className="ml-10">
         {(isExpanded ? attachments : attachments.slice(0, shortCount)).map((attachment) => (
           <Attachment key={attachment.id} {...attachment} />
@@ -1180,7 +1180,7 @@ function Description() {
   return (
     <Section
       icon={<ContainerOutlined className="scale-125" />}
-      title="Описание"
+      name="Описание"
       actions={
         <CustomButton
           onClick={() => {
@@ -1285,7 +1285,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
       <WindowModule
       // TODO: className="u-clearfix"
       >
-        <ItemTitle>Добавить на карточку</ItemTitle>
+        <ItemName>Добавить на карточку</ItemName>
         <WindowSidebarButton icon={<UserOutlined />}>Участники</WindowSidebarButton>
         <WindowSidebarButton icon={<TagOutlined />}>Метки</WindowSidebarButton>
         <WindowSidebarButton icon={<CheckSquareOutlined />}>Чек-лист</WindowSidebarButton>
@@ -1296,7 +1296,7 @@ function WindowSidebar({ isArchive, setIsArchive }) {
       <WindowModule
       // TODO: className="u-clearfix"
       >
-        <ItemTitle>Действия</ItemTitle>
+        <ItemName>Действия</ItemName>
         <WindowSidebarButton icon={<ArrowRightOutlined />}>Перемещение</WindowSidebarButton>
         <WindowSidebarButton icon={<CopyOutlined />}>Копирование</WindowSidebarButton>
         {/* <WindowSidebarButton icon={}>// TODO: Создать шаблон</WindowSidebarButton> */}
@@ -1425,7 +1425,7 @@ function Members({ members }) {
   )
 }
 
-function ItemTitle({ children }) {
+function ItemName({ children }) {
   return (
     <h3 className="mb-1 mr-2 truncate text-[12px] font-semibold leading-5 text-[var(--ds-text-subtle,#5e6c84)]">
       {children}
@@ -1433,10 +1433,10 @@ function ItemTitle({ children }) {
   )
 }
 
-function Item({ title, children }) {
+function Item({ name, children }) {
   return (
     <div className="mb-4 mr-4 inline-block">
-      <ItemTitle>{title}</ItemTitle>
+      <ItemName>{name}</ItemName>
       {children}
     </div>
   )
@@ -1577,27 +1577,27 @@ function CardDetailWindow({ card: { members, labels, actions } }) {
         }}
       >
         <div className="ml-10 mt-2">
-          {/* <Item title="Список"> // TODO: реализовать кнопку "Список" </Item> */}
-          <Item title="Участники">
+          {/* <Item name="Список"> // TODO: реализовать кнопку "Список" </Item> */}
+          <Item name="Участники">
             <Members {...{ members }} />
           </Item>
-          <Item title="Метки">
+          <Item name="Метки">
             <Labels {...{ labels }} />
           </Item>
-          <Item title="Уведомления">
+          <Item name="Уведомления">
             <Notifications {...{ notifications }} />
           </Item>
           {deadline ? (
-            <Item title={start ? 'Даты' : 'Срок'}>
+            <Item name={start ? 'Даты' : 'Срок'}>
               <DueDateBadge {...{ start, deadline }} />
             </Item>
           ) : (
-            <Item title="Начало">
+            <Item name="Начало">
               <StartDateBadge {...{ start }} />
             </Item>
           )}
-          {/* <Item title="Голоса"> // TODO: непонятно </Item> */}
-          {/* <Item title="Последнее обновление"> // TODO: непонятно </Item> */}
+          {/* <Item name="Голоса"> // TODO: непонятно </Item> */}
+          {/* <Item name="Последнее обновление"> // TODO: непонятно </Item> */}
         </div>
         <Description />
         {/* // TODO: Местоположение */}
