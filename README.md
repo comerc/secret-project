@@ -434,6 +434,16 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [x] [Hasura Introspection via Voyager](https://blog.yeswehack.com/yeswerhackers/how-exploit-graphql-endpoint-bug-bounty/)
 - [ ] [Как продвигать проекты с открытым исходным кодом](https://habr.com/ru/articles/331514/)
 - [ ] [NoOps Kubernetes-платформа](https://deckhouse.ru/)
+- [ ] AI for Coders
+  - https://codex.dlabs.app/ - A github app to summarize code diffs in pull requests.
+  - https://github.com/sturdy-dev/codeball-action - AI Code Review that finds bugs and fast-tracks your code
+  - https://writer.mintlify.com/ - AI powered documentation writer for code
+  - https://www.safurai.com/ - AI Code Assistant that saves you time in changing, optimizing, and searching code.
+  - https://stackoverflow.blog/2023/07/27/announcing-overflowai/
+  - http://www.0pdd.com/ - Puzzle Driven development
+  - https://githubnext.com/projects/copilot-for-pull-requests
+  - https://githubnext.com/projects/testpilot
+  - https://codescene.com/ - prioritize technical debt
 
 ## Что нового (для меня) про вёрстку
 
