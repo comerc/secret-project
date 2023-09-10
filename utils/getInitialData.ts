@@ -4,11 +4,9 @@ import generateSentence from '.../utils/generateSentence'
 // const members = await fetch('https://randomuser.me/api/?results=6')
 // .then((res) => res.json())
 // .then((data) => data.results)
-// какие поля используются:
+// какие поля используются для members[0]:
 // {
-//   "gender": "female",
 //   "name": {
-//     "title": "Miss",
 //     "first": "Jennie",
 //     "last": "Nichols"
 //   },
@@ -590,8 +588,11 @@ export default getInitialData
 // + attachments[0].title -> name
 // + actions[0].member -> memberCreator
 // + actions[0].createdBy -> date
-// добавить данные в members через json2graphql
-// members[0].???
+// + добавить данные в members через json2graphql
+// members[0].name.first + members[0].name.first -> fullName
+// members[0].login.uuid -> id
+// members[0].login.username -> username
+// members[0].picture.thumbnail -> avatarUrl
 // favorites -> boardStars
 // favorites[0].workspace
 // favorites[0].color

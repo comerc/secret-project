@@ -42,3 +42,5 @@ next-env.d.ts
 /generated
 
 /docs/BDD/_schema.graphql
+
+/_*
