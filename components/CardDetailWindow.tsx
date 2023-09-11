@@ -448,6 +448,7 @@ function ChecklistList() {
 
 // TODO: выделение-копирование текста должно выполняться с пробелами независимо от отступов HTML-элементов и пропуская "лишние" контролы
 
+// TODO: аватар брать у текущего пользователя
 const myThumbnail = 'https://avatars.githubusercontent.com/u/1025241?s=32&v=4'
 
 function CommentBoxOptionsButton({ icon, title, onClick }) {
