@@ -363,7 +363,6 @@ function HeaderDivider() {
 
 function BoardStarButton({ boardId, boardStars, onChange }) {
   const switchState = boardStars.findIndex((item) => item.board.id === boardId) > -1
-  console.log(boardId)
   return (
     <div id="favorite-button-tab-wrapper" tabIndex="-1">
       <HeaderButton
