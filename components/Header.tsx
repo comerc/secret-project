@@ -208,30 +208,30 @@ function PlusButton() {
   )
 }
 
-function InFavoritesButton({ favorites, onDelete }) {
-  const items = favorites.map(({ boardId, name, workspace, color, wallpapper }) => (
-    <div key={boardId} className="pb-1 pt-1">
+function InBoardStarsButton({ boardStars, onDelete }) {
+  const items = boardStars.map(({ board }) => (
+    <div key={board.id} className="pb-1 pt-1">
       <div className="flex h-8 select-none rounded-[3px] hover:bg-[var(--ds-background-neutral,#EBECF0)]">
         <div
           className="h-8 w-[52px] flex-none rounded-[3px]"
           style={{
-            backgroundColor: color,
-            // TODO: wallpapper
+            backgroundColor: board.prefs.backgroundColor,
+            // TODO: board.prefs.backgroundImage
           }}
         />
         <div className="flex grow flex-col truncate pl-2">
-          <div className="truncate text-[14px] font-[500] leading-[18px]">{name}</div>
+          <div className="truncate text-[14px] font-[500] leading-[18px]">{board.name}</div>
           <div className="truncate text-[12px] leading-[12px] text-[var(--ds-text-subtle,#5E6C84)]">
-            {workspace}
+            {board.organization.displayName}
           </div>
         </div>
         <div className="flex w-8 flex-none items-center justify-center">
           <Button
             className="border-[var(--ds-border,#091e4221)] shadow-none [&:focus>.anticon]:scale-125 [&:hover>.anticon]:scale-125 [&>.anticon]:text-[#f2d600]"
-            title={`Нажмите, чтобы удалить доску "${name}" из избранного.`}
+            title={`Нажмите, чтобы удалить доску "${board.name}" из избранного.`}
             icon={<StarFilled />}
             size="small"
-            onClick={() => onDelete(boardId)}
+            onClick={() => onDelete(board.id)}
           ></Button>
         </div>
       </div>
@@ -268,7 +268,7 @@ function InFavoritesButton({ favorites, onDelete }) {
   )
 }
 
-function Header({ favorites, handleDeleteFavorites }) {
+function Header({ boardStars, handleDeleteBoardStars }) {
   return (
     <div className="max-h-[44px] min-h-[44px] overflow-hidden">
       <nav // TODO: transition
@@ -284,7 +284,7 @@ function Header({ favorites, handleDeleteFavorites }) {
             Secret
           </div>
         </Link>
-        <InFavoritesButton onDelete={handleDeleteFavorites} {...{ favorites }} />
+        <InBoardStarsButton onDelete={handleDeleteBoardStars} {...{ boardStars }} />
         <PlusButton />
         <div className="flex grow"></div>
         <div className="flex space-x-1">

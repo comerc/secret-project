@@ -25,7 +25,7 @@ const GET_BOARD = gql(`#graphql
 type GetDataResult = {
   board?: BoardFragment
   member?: MemberFragment
-  // favorites: any
+  // boardStars: any
   // members: any
   // columns: any
   // columnsOrder: any

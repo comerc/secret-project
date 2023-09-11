@@ -23,7 +23,7 @@ import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
 type IProps = {
   boardId: string
-  favorites: []
+  boardStars: []
   members: []
   urlName: string
   lists: {}
@@ -39,14 +39,15 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
     return { notFound: true }
   }
   // TODO: [redirect](https://nextjs.org/docs/pages/api-reference/functions/get-server-side-props#redirect)
-  const boardId = breadcrumbs[1] // if shortRoute === 'b'
+  // TODO: get boardId from boards[0].shortUrl
+  const boardId = '5c3b7bed55428850603f04dd' // breadcrumbs[1] // if shortRoute === 'b'
   const urlName =
     shortRoute === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
   const data = await getData(shortRoute)
   // console.log(data.board?.lists[0].cards)
-  const { favorites, members, lists, listsOrder, cards } = getInitialData({ boardId })
+  const { boardStars, members, lists, listsOrder, cards } = getInitialData({ boardId })
   return {
-    props: { boardId, urlName, favorites, members, lists, listsOrder, cards },
+    props: { boardId, urlName, boardStars, members, lists, listsOrder, cards },
   }
 }
 
@@ -89,7 +90,7 @@ function Router({ urlName, children, renderCardDetailWindow, renderCardEditWindo
 function BoardPage({
   members,
   boardId,
-  favorites: defaultFavorites,
+  boardStars: initialBoardStars,
   urlName,
   lists,
   listsOrder,
@@ -104,25 +105,20 @@ function BoardPage({
       setHasMenu(!hasMenu)
     })
   }
-  const [favorites, setFavorites] = React.useState(defaultFavorites)
-  const handleChangeFavorites = (value) => {
+  const [boardStars, setBoardStars] = React.useState(initialBoardStars)
+  const handleChangeBoardStars = (value) => {
     if (value) {
-      setFavorites([
-        ...favorites,
-        {
-          boardId,
-          name: 'Minsk4',
-          workspace: 'Andrew Ka',
-          color: '#cd5a91',
-          // wallpapper: '/wallpapper.jpg',
-        },
+      setBoardStars([
+        ...boardStars,
+        // TODO: get current board info
+        initialBoardStars[0],
       ])
     } else {
-      setFavorites(favorites.filter((item) => item.boardId !== boardId))
+      setBoardStars(boardStars.filter((item) => item.board.id !== boardId))
     }
   }
-  const handleDeleteFavorites = (deletedBoardId) => {
-    setFavorites(favorites.filter((item) => item.boardId !== deletedBoardId))
+  const handleDeleteBoardStars = (deletedBoardId) => {
+    setBoardStars(boardStars.filter((item) => item.board.id !== deletedBoardId))
   }
   const version = 'V3'
   const renderCardDetailWindow = () => {
@@ -166,7 +162,7 @@ function BoardPage({
           <BoardState {...{ lists, listsOrder, cards }}>
             <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
               <div className="sticky left-0 w-screen">
-                <Header {...{ favorites, handleDeleteFavorites }} />
+                <Header {...{ boardStars, handleDeleteBoardStars }} />
                 {hasWarning && <Warning />}
                 <BoardHeader
                   {...{
@@ -174,8 +170,8 @@ function BoardPage({
                     boardId,
                     hasMenu: false, // !! отключено
                     toggleMenu,
-                    favorites,
-                    handleChangeFavorites,
+                    boardStars,
+                    handleChangeBoardStars,
                   }}
                 />
               </div>
@@ -195,15 +191,15 @@ function BoardPage({
         <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
           <BoardState {...{ lists, listsOrder, cards }}>
             <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">
-              <Header {...{ favorites, handleDeleteFavorites }} />
+              <Header {...{ boardStars, handleDeleteBoardStars }} />
               <BoardHeader
                 {...{
                   members,
                   boardId,
                   hasMenu,
                   toggleMenu,
-                  favorites,
-                  handleChangeFavorites,
+                  boardStars,
+                  handleChangeBoardStars,
                 }}
               />
               <div id="board-warnings"></div>
@@ -222,7 +218,7 @@ function BoardPage({
             className="fixed left-0 right-0 top-0 h-full bg-[var(--body-dark-board-background)]" // overflow-hidden
           >
             <div id="surface" className="flex h-full flex-col">
-              <Header {...{ favorites, handleDeleteFavorites }} />
+              <Header {...{ boardStars, handleDeleteBoardStars }} />
               <div className="flex grow flex-col">
                 <div className="flex flex-1 flex-row">
                   <div id="content-wrapper" className="flex flex-1 flex-col">
@@ -244,8 +240,8 @@ function BoardPage({
                               boardId,
                               hasMenu,
                               toggleMenu,
-                              favorites,
-                              handleChangeFavorites,
+                              boardStars,
+                              handleChangeBoardStars,
                             }}
                           />
                           <div id="board-warnings"></div>

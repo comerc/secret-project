@@ -581,20 +581,35 @@ function getCards(count, listId) {
 }
 
 function getInitialData({ boardId }) {
-  const favorites = [
+  // const boardStars = [
+  //   {
+  //     boardId,
+  //     name: 'Minsk4',
+  //     workspace: 'Andrew Ka',
+  //     color: '#cd5a91',
+  //     // wallpapper: '/wallpapper.jpg',
+  //   },
+  //   {
+  //     boardId: nanoid(8),
+  //     name: 'Minsk16',
+  //     workspace: 'Andrew Ka',
+  //     color: '#cd5a91',
+  //     // wallpapper: '/wallpapper.jpg',
+  //   },
+  // ]
+  const boardStars = [
     {
-      boardId,
-      name: 'Minsk4',
-      workspace: 'Andrew Ka',
-      color: '#cd5a91',
-      // wallpapper: '/wallpapper.jpg',
-    },
-    {
-      boardId: nanoid(8),
-      name: 'Minsk16',
-      workspace: 'Andrew Ka',
-      color: '#cd5a91',
-      // wallpapper: '/wallpapper.jpg',
+      board: {
+        id: '5c3b7bed55428850603f04dd',
+        name: 'Minsk4',
+        organization: {
+          displayName: 'Andrew Kachanov: рабочее пространство',
+        },
+        prefs: {
+          backgroundColor: '#CD5A91',
+          backgroundImage: '/wallpapper.jpg',
+        },
+      },
     },
   ]
   let cards = {}
@@ -616,7 +631,7 @@ function getInitialData({ boardId }) {
       return accumulator
     }, {})
   const listsOrder = Object.keys(lists)
-  return { favorites, members, lists, listsOrder, cards }
+  return { boardStars, members, lists, listsOrder, cards }
 }
 
 export default getInitialData
@@ -631,10 +646,13 @@ export default getInitialData
 // + members[0].login.uuid -> id
 // + members[0].login.username -> username
 // + members[0].picture.thumbnail -> avatarUrl
-// favorites -> boardStars
-// favorites[0].workspace -> organizations.displayName
-// favorites[0].color -> boardPrefs.backgroundColor
-// favorites[0].wallpapper -> boardPrefs.backgroundImage
+// + *Favorites -> *BoardStars
+// + favorites -> boardStars
+// + favorites[0].boardId -> .board.id
+// + favorites[0].workspace -> .board.organization.displayName
+// + favorites[0].color -> .board.prefs.backgroundColor
+// + favorites[0].wallpapper -> .board.prefs.backgroundImage
+// + Favorite -> BoardStar
 // cards[0].title -> name
 // cardsOrder
 // list[0].title -> name
