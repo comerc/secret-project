@@ -659,14 +659,14 @@ function Action({ id, memberCreator: member, record, args, date, highligted }) {
         <MemberIcon {...member} />
       </div>
       <button
-        title={`${member.name.first} ${member.name.last} (${member.login.username})`}
+        title={`${member.fullName} (${member.username})`}
         className="font-bold"
         onClick={(event) => {
           event.preventDefault()
           // TODO: popup профиля
         }}
       >
-        {member.name.first} {member.name.last}
+        {member.fullName}
       </button>
       <ActionContent
         {...{ record, args }}
@@ -1419,7 +1419,7 @@ function Members({ members }) {
   return (
     <Avatar.Group className="block">
       {members.map((member, index, a) => (
-        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
+        <MemberIcon key={member.id} {...member} zIndex={a.length - index} />
       ))}
       <CustomButton icon={<PlusOutlined />} shape="circle" />
     </Avatar.Group>

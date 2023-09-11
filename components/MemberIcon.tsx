@@ -4,10 +4,10 @@ import cx from 'classnames'
 
 // TODO: при drag должна быть круглая форма (overflow:clip; overflow-clip-margin:content-box;)
 // TODO: drag'n'drop для Avatar на ListCard
-function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, zIndex }) {
+function MemberIcon({ id, fullName, username, avatarUrl, zIndex }) {
   return (
     <button
-      title={`${name.first} ${name.last} (${username})`}
+      title={`${fullName} (${username})`}
       className={cx(
         '[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtlest,#dfe1e6)]',
         'hover:[&>.ant-avatar>img]:opacity-80 hover:[&>.ant-avatar]:bg-[var(--ds-background-accent-gray-subtler,#c1c7d0)]',
@@ -19,7 +19,7 @@ function MemberIcon({ login: { uuid, username }, picture: { thumbnail }, name, z
       }}
       tabIndex="-1"
     >
-      <Avatar draggable={false} src={thumbnail} style={{ zIndex }} />
+      <Avatar draggable={false} src={avatarUrl} style={{ zIndex }} />
     </button>
   )
 }

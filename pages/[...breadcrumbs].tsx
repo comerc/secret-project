@@ -114,7 +114,7 @@ function BoardPage({
           name: 'Minsk4',
           workspace: 'Andrew Ka',
           color: '#cd5a91',
-          wallpapper: '/wallpapper.jpg',
+          // wallpapper: '/wallpapper.jpg',
         },
       ])
     } else {

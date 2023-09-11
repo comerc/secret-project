@@ -83,7 +83,7 @@ function MembersButton({ members }) {
       {...{ maxCount }}
     >
       {members.map((member, index, a) => (
-        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
+        <MemberIcon key={member.id} {...member} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
   )

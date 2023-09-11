@@ -360,7 +360,7 @@ function Members({ members }) {
   return (
     <Avatar.Group className="float-right mb-1 mr-[-2px] block" size="small">
       {members.map((member, index, a) => (
-        <MemberIcon key={member.login.uuid} {...member} zIndex={a.length - index} />
+        <MemberIcon key={member.id} {...member} zIndex={a.length - index} />
       ))}
     </Avatar.Group>
   )
