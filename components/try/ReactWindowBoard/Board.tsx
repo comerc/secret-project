@@ -7,7 +7,7 @@ import styles from './Board.module.css'
 import useHasMounted from '.../utils/useHasMounted'
 // import AutoSizer from 'react-virtualized-auto-sizer'
 import useFontFaceObserver from 'use-font-face-observer'
-import { nanoid } from 'nanoid'
+import generateNanoid from '.../utils/generateNanoid'
 import cx from 'classnames'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { COLUMN_FOOTER_HEIGHT } from '.../constants'
@@ -433,7 +433,7 @@ function Board({ height, right }) {
         ...state.columns,
         [column.id]: {
           ...column,
-          items: [{ id: nanoid(), text, columnId }, ...items],
+          items: [{ id: generateNanoid(), text, columnId }, ...items],
         },
       },
     }

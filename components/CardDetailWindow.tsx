@@ -37,7 +37,7 @@ import cx from 'classnames'
 import dayjs from 'dayjs'
 import ColorThief from 'colorthief'
 import { ClickScrollPlugin } from 'overlayscrollbars'
-import generateSentence from '.../utils/generateSentence'
+// import generateSentence from '.../utils/generateSentence'
 import labelColors from '.../utils/labelColors'
 import convertRGBToHSL from '.../utils/convertRGBToHSL'
 import isHTMLControl from '.../utils/isHTMLControl'
@@ -1162,9 +1162,8 @@ function LinkButton({ onClick, children }) {
   )
 }
 
-function Description() {
-  const text = generateSentence(40)
-  const [isEdit, setIsEdit] = React.useState(text === '')
+function Description({ desc }) {
+  const [isEdit, setIsEdit] = React.useState(desc === '')
   const [isMore, setIsMore] = React.useState(false)
   const descriptionRef = React.useRef()
   const isFirst = useIsFirstRender()
@@ -1209,10 +1208,10 @@ function Description() {
         )}
         {!isEdit && (
           <div className={cx(isMore && 'h-[432px] overflow-hidden')} ref={descriptionRef}>
-            {text}
+            {desc}
           </div>
         )}
-        {!isEdit && text === '' && (
+        {!isEdit && desc === '' && (
           <div className="mb-2">
             <CustomButton
               className="h-14 py-2"
@@ -1484,7 +1483,7 @@ function Labels({ labels }) {
 
 const mainWidth = 576
 
-function CardDetailWindow({ card: { members, labels, actions } }) {
+function CardDetailWindow({ card: { name, desc, members, labels, actions } }) {
   const [isOpen, setIsOpen] = React.useState(true) // TODO: состояние определяет '/c/...'
   const close = () => {
     setIsOpen(false)
@@ -1536,7 +1535,7 @@ function CardDetailWindow({ card: { members, labels, actions } }) {
           autoSize
           // aria-label={title} // TODO: опасная операция - могут быть невалидные символы
           // size={512}
-          value={'Выполнить деплой'}
+          value={name}
           // onChange={(event) => {
           //   setValue(event.target.value)
           // }}
@@ -1600,7 +1599,7 @@ function CardDetailWindow({ card: { members, labels, actions } }) {
           {/* <Item name="Голоса"> // TODO: непонятно </Item> */}
           {/* <Item name="Последнее обновление"> // TODO: непонятно </Item> */}
         </div>
-        <Description />
+        <Description {...{ desc }} />
         {/* // TODO: Местоположение */}
         {/* // TODO: Поля пользователя */}
         {/* // TODO: Вложения системы         */}

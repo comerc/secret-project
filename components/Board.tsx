@@ -26,7 +26,7 @@ import CustomButton from '.../components/CustomButton'
 import EditCloseButton from '.../components/EditCloseButton'
 import cx from 'classnames'
 import dayjs from 'dayjs'
-import { nanoid } from 'nanoid'
+import generateNanoid from '.../utils/generateNanoid'
 import pluralize from '.../utils/pluralize'
 import labelColors from '.../utils/labelColors'
 import normalizeUrlName from '.../utils/normalizeUrlName'
@@ -45,19 +45,19 @@ function AddColumnButton() {
   const [isIdle, setIsIdle] = React.useState(true)
   const [value, setValue] = React.useState('')
   const submit = () => {
-    const listTitle = value.trim()
-    if (listTitle === '') {
+    const listName = value.trim()
+    if (listName === '') {
       inputRef.current.focus()
       return
     }
-    const listId = nanoid()
+    const listId = generateNanoid()
     setState({
       ...state,
       lists: {
         ...state.lists,
         [listId]: {
           id: listId,
-          title: listTitle,
+          name: listName,
           cardsOrder: [],
         },
       },
@@ -166,9 +166,9 @@ function AddColumnButton() {
 
 function AddCardForm() {
   const { state, setState } = React.useContext(BoardContext)
-  const value = state.addCardForm.title
+  const value = state.addCardForm.name
   const ref = React.useRef()
-  const close = (title = '') => {
+  const close = (name = '') => {
     const listId = state.addCardForm.listId
     const list = state.lists[listId]
     const index = list.cardsOrder.indexOf('0')
@@ -185,7 +185,7 @@ function AddCardForm() {
       },
       addCardForm: {
         listId: '',
-        title,
+        name,
       },
     })
     const scrollListRef = _scrollListRefMap[listId]
@@ -196,18 +196,18 @@ function AddCardForm() {
     })
   }
   const submit = () => {
-    const title = value.trim()
-    if (title === '') {
+    const name = value.trim()
+    if (name === '') {
       document.getElementById('input-card').focus()
       return
     }
     const listId = state.addCardForm.listId
     const list = state.lists[listId]
-    const keys = Object.keys(state.cards)
-    const id = keys.length === 0 ? '1' : parseInt(keys[keys.length - 1]) + 1 + ''
+    // TODO: const keys = Object.keys(state.cards); const idShort = keys.length === 0 ? '1' : parseInt(keys[keys.length - 1]) + 1 + ''
+    const id = generateNanoid()
     const cards = {
       ...state.cards,
-      [id]: { id, title, description: '', members: [], labels: [], actions: [] },
+      [id]: { id, name, desc: '', members: [], labels: [], actions: [] },
     }
     const cardsOrder = [...list.cardsOrder]
     const index = cardsOrder.indexOf('0')
@@ -224,7 +224,7 @@ function AddCardForm() {
       },
       addCardForm: {
         listId: '',
-        title: '',
+        name: '',
       },
     })
     const scrollListRef = _scrollListRefMap[listId]
@@ -270,7 +270,7 @@ function AddCardForm() {
             ...state,
             addCardForm: {
               ...state.addCardForm,
-              title: event.target.value,
+              name: event.target.value,
             },
           })
         }}
@@ -523,7 +523,7 @@ function FrontLabels({ labels }) {
   )
 }
 
-function Card({ card: { id, title, labels, members }, selected, ...rest }) {
+function Card({ card: { id, name, labels, members }, selected, ...rest }) {
   // TODO: .card-cover
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
   return (
@@ -539,7 +539,7 @@ function Card({ card: { id, title, labels, members }, selected, ...rest }) {
     >
       <div className="overflow-hidden px-2 pb-0.5 pt-1.5">
         <FrontLabels {...{ labels }} />
-        <div className="mb-1 break-words">{title}</div>
+        <div className="mb-1 break-words">{name}</div>
         <Badges />
         <Members {...{ members }} />
       </div>
@@ -624,7 +624,7 @@ function ActiveCard({ provided, snapshot, card }) {
     }
   }
   const router = useRouter()
-  const urlName = React.useMemo(() => normalizeUrlName(card.title), [card.title])
+  const urlName = React.useMemo(() => normalizeUrlName(card.name), [card.name])
   const href = `/c/${card.id}/${urlName}`
   const onClick = (event) => {
     event.preventDefault()
@@ -1024,19 +1024,19 @@ const MoveList = React.memo(function MoveList2() {
   return <div></div>
 })
 
-const CopyList = React.memo(function CopyList2({ title, close }) {
+const CopyList = React.memo(function CopyList2({ name, close }) {
   React.useEffect(() => {
     const element = document.getElementById('input-copy-list')
     element.focus()
     element.setSelectionRange(0, value.length)
   }, [])
-  const [value, setValue] = React.useState(title)
+  const [value, setValue] = React.useState(name)
   const onChange = (event) => {
     setValue(event.target.value)
   }
   const submit = () => {
-    const title = value.trim()
-    if (title === '') {
+    const name = value.trim()
+    if (name === '') {
       document.getElementById('input-copy-list').focus()
       return
     }
@@ -1084,7 +1084,7 @@ const CopyList = React.memo(function CopyList2({ title, close }) {
 })
 
 // TODO: по [Esc] закрывается меню и фокусируется кнопка - не ожидаю такое поведение
-function ColumnExtrasButton({ id, title }) {
+function ColumnExtrasButton({ id, name }) {
   const { state, setState } = React.useContext(BoardContext)
   const [isOpen, setIsOpen] = React.useState(false)
   const [back, setBack] = React.useState('')
@@ -1136,7 +1136,7 @@ function ColumnExtrasButton({ id, title }) {
     setIsOpen(false)
   }
   const backFooters = {
-    'copy-list': <CopyList {...{ title, close }} />,
+    'copy-list': <CopyList {...{ name, close }} />,
     'move-list': <MoveList />,
     'sort-cards': <SortCards />,
     'move-cards': <MoveCards />,
@@ -1191,8 +1191,8 @@ function ColumnHeaderInputState({ children }) {
   )
 }
 
-function ColumnHeader({ id, title, cardsOrder, ...dragHandleProps }) {
-  const [value, setValue] = React.useState(title)
+function ColumnHeader({ id, name, cardsOrder, ...dragHandleProps }) {
+  const [value, setValue] = React.useState(name)
   const { focused, setFocused } = React.useContext(ColumnHeaderInputContext)
   const cardsCount = cardsOrder.length // TODO: тут надо показывать общее кол-во карточек, а не после фильтра
   const isFilter = true // TODO: реализовать isFilter через Context
@@ -1269,13 +1269,13 @@ function ColumnHeader({ id, title, cardsOrder, ...dragHandleProps }) {
         }}
       />
       <div id={columnExtrasTabWrapperId} tabIndex="-1" className="absolute right-1 top-1">
-        <ColumnExtrasButton {...{ id, title }} />
+        <ColumnExtrasButton {...{ id, name }} />
       </div>
     </div>
   )
 }
 
-function Column({ list: { id, title, cardsOrder }, cards, index, isAddCardForm }) {
+function Column({ list: { id, name, cardsOrder }, cards, index, isAddCardForm }) {
   return (
     <Draggable draggableId={id} {...{ index }}>
       {(provided, snapshot) => {
@@ -1296,7 +1296,7 @@ function Column({ list: { id, title, cardsOrder }, cards, index, isAddCardForm }
             {...draggableProps}
             // TODO: doubleClick вызывает inline-форму добавления новой карточки
           >
-            <ColumnHeader {...{ id, title, cardsOrder, ...provided.dragHandleProps }} />
+            <ColumnHeader {...{ id, name, cardsOrder, ...provided.dragHandleProps }} />
             <ColumnItemList {...{ id, cardsOrder, cards, index, isAddCardForm }} />
           </div>
         )
@@ -1451,7 +1451,7 @@ export function BoardState({ children, lists, listsOrder, cards }) {
     selectedId: '',
     addCardForm: {
       listId: '',
-      title: '',
+      name: '',
     },
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?

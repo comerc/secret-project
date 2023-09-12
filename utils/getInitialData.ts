@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'
+import generateNanoid from '.../utils/generateNanoid'
 import generateSentence from '.../utils/generateSentence'
 
 // const members = await fetch('https://randomuser.me/api/?results=6')
@@ -446,14 +446,14 @@ const actions = [
     memberCreator: members[0],
     date: '2023-02-23 20:21:22',
     record: 'addCard',
-    args: { listTitle: 'Backlog' },
+    args: { listName: 'Backlog' },
   },
   {
     id: 'a-51',
     memberCreator: members[0],
     date: '2023-02-23 20:21:22',
     record: 'moveCard',
-    args: { oldListTitle: 'Backlog', newListTitle: 'To Do' },
+    args: { oldListName: 'Backlog', newListName: 'To Do' },
   },
   {
     id: 'a-6',
@@ -504,21 +504,21 @@ const actions = [
     memberCreator: members[0],
     date: '2023-02-23 20:21:22',
     record: 'addChecklist',
-    args: { checklistTitle: 'Чек-лист' },
+    args: { checklistName: 'Чек-лист' },
   },
   {
     id: 'a-14',
     memberCreator: members[0],
     date: '2023-02-23 20:21:22',
     record: 'deleteChecklist',
-    args: { checklistTitle: 'Чек-лист' },
+    args: { checklistName: 'Чек-лист' },
   },
   {
     id: 'a-15',
     memberCreator: members[0],
     date: '2023-02-23 20:21:22',
     record: 'renameChecklist',
-    args: { oldChecklistTitle: 'Чек-лист', newChecklistTitle: 'Проверить' },
+    args: { oldChecklistName: 'Чек-лист', newChecklistName: 'Проверить' },
   },
 ]
 
@@ -560,15 +560,16 @@ const labels = [
   // },
 ]
 
-let itemIdSequence = 0
+let idShortSequence = 0
 
 function getCards(count, listId) {
   const cards = Array.from({ length: count }, () => {
-    const id = ++itemIdSequence
+    const id = generateNanoid()
+    const idShort = ++idShortSequence
     return {
       id: `${id}`,
-      title: `#${id} ${generateSentence()}`,
-      description: '',
+      name: `#${idShort} ${generateSentence()}`,
+      desc: generateSentence(40),
       members,
       labels,
       actions,
@@ -590,7 +591,7 @@ function getInitialData({ boardId }) {
   //     // wallpapper: '/wallpapper.jpg',
   //   },
   //   {
-  //     boardId: nanoid(8),
+  //     boardId: generateNanoid(),
   //     name: 'Minsk16',
   //     workspace: 'Andrew Ka',
   //     color: '#cd5a91',
@@ -613,15 +614,15 @@ function getInitialData({ boardId }) {
     },
   ]
   let cards = {}
-  const listTitles = ['To Do', 'In Progress', 'Done']
-  const lists = listTitles
-    .map((listTitle) => {
-      const listId = nanoid(8)
+  const listNames = ['To Do', 'In Progress', 'Done']
+  const lists = listNames
+    .map((listName) => {
+      const listId = generateNanoid()
       const listCards = getCards(4, listId)
       cards = { ...cards, ...listCards }
       return {
         id: listId,
-        title: listTitle,
+        name: listName,
         // cards: listCards,
         cardsOrder: Object.keys(listCards),
       }
@@ -653,8 +654,14 @@ export default getInitialData
 // + favorites[0].color -> .board.prefs.backgroundColor
 // + favorites[0].wallpapper -> .board.prefs.backgroundImage
 // + Favorite -> BoardStar
-// cards[0].title -> name
+// + listTitle -> listName
+// + ListTitle -> ListName
+// + cards[0].title -> name Board.211
+// + list[0].title -> name
+// + cards[0].name -> CardDetailWindow.1539
+// + cards[0].desc -> CardDetailWindow.1487
+// + Board.207 генерация UUID-ключа для cards
+// cards: {} -> cards: []
 // cardsOrder
-// list[0].title -> name
-// list[0].description -> desc
+// list: {} -> list: []
 // listsOrder
