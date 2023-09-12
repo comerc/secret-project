@@ -637,30 +637,7 @@ function getInitialData({ boardId }) {
 
 export default getInitialData
 
-// + CardDetailWindow title - оставить: 453 462 572 661 818 824 825 828 1364 1364 1390 1401 1447 1455 1461 1506 1536
-// + attachments[0].createdBy -> date
-// + attachments[0].title -> name
-// + actions[0].member -> memberCreator
-// + actions[0].createdBy -> date
-// + добавить данные в members через json2graphql
-// + members[0].name.first + members[0].name.first -> fullName
-// + members[0].login.uuid -> id
-// + members[0].login.username -> username
-// + members[0].picture.thumbnail -> avatarUrl
-// + *Favorites -> *BoardStars
-// + favorites -> boardStars
-// + favorites[0].boardId -> .board.id
-// + favorites[0].workspace -> .board.organization.displayName
-// + favorites[0].color -> .board.prefs.backgroundColor
-// + favorites[0].wallpapper -> .board.prefs.backgroundImage
-// + Favorite -> BoardStar
-// + listTitle -> listName
-// + ListTitle -> ListName
-// + cards[0].title -> name Board.211
-// + list[0].title -> name
-// + cards[0].name -> CardDetailWindow.1539
-// + cards[0].desc -> CardDetailWindow.1487
-// + Board.207 генерация UUID-ключа для cards
+// TODO: денормализовать данные?
 // cards: {} -> cards: []
 // cardsOrder
 // list: {} -> list: []
