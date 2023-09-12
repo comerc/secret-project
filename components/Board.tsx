@@ -163,6 +163,7 @@ function AddColumnButton() {
 }
 
 // TODO: редактирование карточки нажимается правой кнопкой мышки
+// TODO: добавить скроллинг на видимую область при double click
 
 function AddCardForm() {
   const { state, setState } = React.useContext(BoardContext)
@@ -526,6 +527,7 @@ function FrontLabels({ labels }) {
 function Card({ card: { id, name, labels, members }, selected, ...rest }) {
   // TODO: .card-cover
   // TODO: focus:outline-none - заменить на свой вариант, вписанный в размеры (или просто вертикальная полоска справа)
+  // TODO: убрать лишний отступ над name, когда у карточки нет labels
   return (
     <a
       className={cx(
