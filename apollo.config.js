@@ -3,7 +3,7 @@ require('dotenv').config({ path: '.env.local' })
 module.exports = {
   client: {
     includes: [
-      'repositories/getData.ts',
+      'repositories/get*Data.ts',
       'graphqls/**/*.graphql',
       'pages/**/*.tsx',
       'components/**/*.tsx',
@@ -17,7 +17,7 @@ module.exports = {
         // 'x-hasura-role': 'user',
       },
       // optional disable SSL validation check
-      // skipSSLValidation: true,
+      skipSSLValidation: true,
       // alternative way
       // localSchemaFile: './schema.graphql', // or './schema.json'
     },
