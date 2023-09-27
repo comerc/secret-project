@@ -444,6 +444,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
   - https://githubnext.com/projects/copilot-for-pull-requests
   - https://githubnext.com/projects/testpilot
   - https://codescene.com/ - prioritize technical debt
+- [] Hoppscotch - попробовать для GraphQL API
 
 ## Что нового (для меня) про вёрстку
 
