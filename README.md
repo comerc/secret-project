@@ -444,7 +444,8 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
   - https://githubnext.com/projects/copilot-for-pull-requests
   - https://githubnext.com/projects/testpilot
   - https://codescene.com/ - prioritize technical debt
-- [] Hoppscotch - попробовать для GraphQL API
+- [ ] Hoppscotch - попробовать для GraphQL API
+- [ ] [nhost](https://github.com/nhost/nhost) - The Open Source Firebase Alternative with GraphQL.
 
 ## Что нового (для меня) про вёрстку
 
@@ -507,4 +508,10 @@ npx kill-port 3000
 
 ```bash
 npx npm-check-updates --interactive
+```
+
+## Delete Containers
+
+```bash
+$ docker-compose down -v
 ```
