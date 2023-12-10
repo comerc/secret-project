@@ -14,19 +14,20 @@ import { resetServerContext } from 'react-beautiful-dnd'
 import cx from 'classnames'
 import normalizeUrlName from '.../utils/normalizeUrlName'
 import getInitialData from '.../utils/getInitialData'
-import getData, { ShortRoute } from '.../repositories/getData'
+import getBoardData, { ShortRoute } from '.../repositories/getBoardData'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import { LabelFragment } from '../generated/graphql'
 
 // TODO: обновить antd@^5.2.0 (сейчас его нельзя трогать)
 // TODO: data for custom system scroll: console.log(window.scrollX, document.body.scrollWidth, document.body.clientWidth)
 
 type IProps = {
-  boardId: string
+  urlName: string
+  member: {}
+  board: {}
   boardStars: []
   members: []
-  urlName: string
   lists: {}
-  listsOrder: []
   cards: {}
 }
 
@@ -42,11 +43,11 @@ export const getServerSideProps = async ({ query: { breadcrumbs } }): IProps => 
   const boardId = '5c3b7bed55428850603f04dd' // breadcrumbs[1] // if shortRoute === 'b'
   const urlName =
     shortRoute === 'b' ? normalizeUrlName('Пупер: My  Name  43 -- Супер!- -') : breadcrumbs[2] // TODO: get boardName from DB
-  const data = await getData(shortRoute)
-  // console.log(data.board?.lists[0].cards)
-  const { boardStars, members, lists, listsOrder, cards } = getInitialData({ boardId })
+  const data = await getBoardData(shortRoute)
+  const { member, board } = data
+  const { boardStars, members, lists, cards } = getInitialData({ boardId })
   return {
-    props: { boardId, urlName, boardStars, members, lists, listsOrder, cards },
+    props: { urlName, member, board, boardStars, members, lists, cards },
   }
 }
 
@@ -87,12 +88,12 @@ function Router({ urlName, children, renderCardDetailWindow, renderCardEditWindo
 }
 
 function BoardPage({
-  members,
-  boardId,
-  boardStars: initialBoardStars,
   urlName,
+  member,
+  board,
+  members,
+  boardStars: initialBoardStars,
   lists,
-  listsOrder,
   cards,
 }: IProps) {
   // @deprecated
@@ -113,7 +114,7 @@ function BoardPage({
         initialBoardStars[0],
       ])
     } else {
-      setBoardStars(boardStars.filter((item) => item.board.id !== boardId))
+      setBoardStars(boardStars.filter((item) => item.board.id !== board.id))
     }
   }
   const handleDeleteBoardStars = (deletedBoardId) => {
@@ -158,15 +159,15 @@ function BoardPage({
       {/* <FontFaceObserver> */}
       {version === 'V3' && (
         <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
-          <BoardState {...{ lists, listsOrder, cards }}>
+          <BoardState {...{ board, lists, cards }}>
             <div className="flex h-screen w-max flex-col bg-[var(--body-dark-board-background)]">
               <div className="sticky left-0 w-screen">
                 <Header {...{ boardStars, handleDeleteBoardStars }} />
                 {hasWarning && <Warning />}
                 <BoardHeader
                   {...{
+                    board,
                     members,
-                    boardId,
                     hasMenu: false, // !! отключено
                     toggleMenu,
                     boardStars,
@@ -188,13 +189,13 @@ function BoardPage({
       )}
       {version === 'V2' && (
         <Router {...{ urlName, renderCardDetailWindow, renderCardEditWindow }}>
-          <BoardState {...{ lists, listsOrder, cards }}>
+          <BoardState {...{ board, lists, cards }}>
             <div className="fixed bottom-0 left-0 right-0 top-0 flex flex-col bg-[var(--body-dark-board-background)]">
               <Header {...{ boardStars, handleDeleteBoardStars }} />
               <BoardHeader
                 {...{
+                  board,
                   members,
-                  boardId,
                   hasMenu,
                   toggleMenu,
                   boardStars,
@@ -235,8 +236,8 @@ function BoardPage({
                         >
                           <BoardHeader
                             {...{
+                              board,
                               members,
-                              boardId,
                               hasMenu,
                               toggleMenu,
                               boardStars,
@@ -244,7 +245,7 @@ function BoardPage({
                             }}
                           />
                           <div id="board-warnings"></div>
-                          <Board {...{ lists, listsOrder, cards }} />
+                          <Board {...{ board, lists, cards }} />
                         </div>
                         <BoardMenu {...{ hasMenu, toggleMenu }} />
                       </div>

@@ -206,9 +206,9 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
   - https://fibery.io (1.0)
   - https://monday.com (коммуникации только в комментах)
 - [x] Продукты, которые перекрывают сегменты Work <> Communications <> Knowledge Base
-  - https://clickup.com
 - [x] Продукты, которые только про сегмент Work (без Communications и Knowledge Base)
   - https://airtable.com
+  - https://clickup.com (коммуникации только в комментах)
   - https://trello.com (коммуникации только в комментах)
   - https://smartsheet.com (коммуникации только в комментах)
   - https://height.app (коммуникации только в комментах)
@@ -446,6 +446,9 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
   - https://codescene.com/ - prioritize technical debt
 - [ ] Hoppscotch - попробовать для GraphQL API
 - [ ] [nhost](https://github.com/nhost/nhost) - The Open Source Firebase Alternative with GraphQL.
+- [ ] [Code AI platform with Code Search & Cody](https://sourcegraph.com/)
+- [ ] [Feature-Sliced Design: эволюция фронтенда для быстрых экспериментов](https://habr.com/ru/companies/inDrive/articles/693768/)
+- [ ] [Next.js setup: Деплой на VPS | Jest | Playwright | CI/CD | Sentry](https://www.youtube.com/watch?v=nsGusxzitoc)
 
 ## Что нового (для меня) про вёрстку
 
@@ -515,3 +518,14 @@ npx npm-check-updates --interactive
 ```bash
 $ docker-compose down -v
 ```
+
+## mailhog
+
+для тестирования отправки почты:
+
+```bash
+$ brew update && brew install mailhog
+$ brew services start mailhog
+```
+
+https://github.com/mailhog/MailHog

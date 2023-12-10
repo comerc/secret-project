@@ -361,8 +361,8 @@ function HeaderDivider() {
 // TODO: Using <Button> results in "findDOMNode is deprecated in StrictMode" warning
 // https://github.com/ant-design/ant-design/issues/22493
 
-function BoardStarButton({ boardId, boardStars, onChange }) {
-  const switchState = boardStars.findIndex((item) => item.board.id === boardId) > -1
+function BoardStarButton({ board, boardStars, onChange }) {
+  const switchState = boardStars.findIndex((item) => item.board.id === board.id) > -1
   return (
     <div id="favorite-button-tab-wrapper" tabIndex="-1">
       <HeaderButton
@@ -472,8 +472,8 @@ function BoardNameButton({ defaultValue, onEndEdit }) {
 }
 
 function BoardHeader({
+  board,
   members,
-  boardId,
   hasMenu,
   toggleMenu,
   right,
@@ -494,7 +494,7 @@ function BoardHeader({
             console.log(value)
           }}
         />
-        <BoardStarButton onChange={handleChangeBoardStars} {...{ boardStars, boardId }} />
+        <BoardStarButton onChange={handleChangeBoardStars} {...{ boardStars, board }} />
         <HeaderDivider />
         <PermisionLevelButton />
         <div className="inline-block min-w-[8px] grow" />

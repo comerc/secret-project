@@ -908,6 +908,7 @@ function ColumnItemList({ id, cardsOrder, cards, index, isAddCardForm }) {
     _scrollListRefMap[id] = scrollListRef
   }, [id])
   const { isExpanded } = React.useContext(FrontLabelsContext)
+  // TODO: itemData дублирует cards - это дорого по памяти
   const itemData = cardsOrder.map((id) => (id === '0' ? { id: '0' } : cards[id]))
   const getItemSize = (index) => {
     const card = itemData[index]
@@ -1445,16 +1446,18 @@ function CustomDragDropContext({ children }) {
 
 const BoardContext = React.createContext({})
 
-export function BoardState({ children, lists, listsOrder, cards }) {
-  const [state, setState] = React.useState({
-    lists,
-    listsOrder,
-    cards,
-    selectedId: '',
-    addCardForm: {
-      listId: '',
-      name: '',
-    },
+export function BoardState({ children, board, lists, cards }) {
+  const [state, setState] = React.useState(() => {
+    return {
+      lists,
+      listsOrder: Object.keys(lists), // TODO: board.listsOrder,
+      cards,
+      selectedId: '',
+      addCardForm: {
+        listId: '',
+        name: '',
+      },
+    }
   })
   // TODO: при перетаскивании карточек можно добиться эффекта захвата скролов (и внутри колонки и общего) по клавишам-стрелкам - как отловить-исправить?
   // React.useLayoutEffect(() => {}, [])

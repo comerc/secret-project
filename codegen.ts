@@ -15,7 +15,7 @@ const config: CodegenConfig = {
   ],
   // schema: 'schema.graphql',
   documents: [
-    'repositories/getData.ts',
+    'repositories/get*Data.ts',
     'graphqls/**/*.graphql',
     'pages/**/*.tsx',
     'components/**/*.tsx',
