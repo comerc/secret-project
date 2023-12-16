@@ -50,7 +50,7 @@
     "lexical": "^0.7.5",
     "lorem-ipsum": "^2.0.8",
     "memoize-one": "^6.0.0",
-    "nanoid": "^4.0.2",
+    "nanoid": "^5.0.4",
     "next": "latest",
     "next-auth": "latest",
     "next-auth-hasura-adapter": "^2.0.0",
@@ -86,13 +86,13 @@
     "eslint-config-next": "13.4.19",
     "postcss": "^8.4.28",
     "prettier": "^3.0.2",
-    "prettier-plugin-tailwindcss": "^0.5.3",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.3.3",
     "tailwindcss-logical": "^3.0.1",
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "use-sync-external-store": "^1.2.0",
-    "@parcel/watcher": "^2.3.0"
+    "@parcel/watcher": "^2.3.0",
+    "use-sync-external-store": "^1.2.0"
   }
 }
