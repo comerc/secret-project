@@ -3,7 +3,7 @@ name: secret-project
 services:
   postgres:
     image: postgres:15
-    restart: always
+    # restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -12,7 +12,7 @@ services:
     image: hasura/graphql-engine:v2.33.0
     ports:
       - '8080:8080'
-    restart: always
+    # restart: always
     environment:
       HASURA_GRAPHQL_USE_HTTP_MULTIPART: 'true' # To enable HTTP multipart responses for subscriptions
       ## postgres database to store Hasura metadata
@@ -38,7 +38,7 @@ services:
         condition: service_healthy
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.33.0
-    restart: always
+    # restart: always
     ports:
       - 8081:8081
     environment:
