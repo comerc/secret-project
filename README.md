@@ -3,6 +3,8 @@
 ![artist](./assets/artist.jpg)
 Отдам дизайнерское кресло вместе с дизайнером.
 
+---
+
 В рамках R&D, продолжаю пилить клон Trello с амбицией повторить функционал бесплатной версии не хуже оригинала. А потом вокруг этого алтаря построю храм хрустальный про автоматизацию рабочего процесса для Developer Centric Team.
 
 Мой актуальный стек: NextJS + NextAuth + GraphQL CodeGen + AntDesign Component + TailwindCSS + Lexical + Beautiful-DND + React Window + Hasura + Temporal + GoLang.
@@ -499,7 +501,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-4 года назад уволился, чтобы запилить свой собственный “свечной заводик”. Ох, как бы оно сейчас взлетело, если бы не буксовал всё это время. Идея:
+---
 
 ## Node.js Port 3000 already in use but it actually isn't?
 
