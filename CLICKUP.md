@@ -27,3 +27,7 @@ Task > Fields (add information to tasks)
   - Assign comment as action item (then need Resolve checkbox)
 
 Notifications
+
+---
+
+Assigned comment - how to delete?
