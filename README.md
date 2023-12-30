@@ -21,6 +21,8 @@
 
 Давно вынашиваю идею своего продукта - симбиоз таск-менеджер + чат по таскам + тайм-трекер. Идея в обслуживании состояния потока. Когда разраб входит в это состояние, его тупо невыгодно выдёргивать. В одной конторе мы практиковали флажок на столе "не беспокоить".
 
+[Asana CEO: То, как мы работаем сейчас, скоро будет выглядеть как пережиток прошлого](https://habr.com/ru/articles/784206/)
+
 ## Setup Hasura
 
 ```bash
@@ -54,14 +56,14 @@ $ hasura metadata apply
 
 ```bash
 $ cd hasura
-$ curl --location --request POST 'http://localhost:8080/v1alpha1/pg_dump' --header 'x-hasura-admin-secret: myadminsecretkey' --header 'Content-Type: application/json' --data-raw '{ "opts": ["-O", "-x", "--data-only", "--schema", "public", "--schema", "auth"], "clean_output": true}' -o backup.sql
+$ curl --location --request POST 'http://localhost:8080/v1alpha1/pg_dump' --header 'x-hasura-admin-secret: myadminsecretkey' --header 'Content-Type: application/json' --data-raw '{ "opts": ["-O", "-x", "--data-only", "--schema", "public", "--schema", "auth"], "clean_output": true}' -o data.sql
 ```
 
 ## How to restore data
 
 ```bash
 $ cd hasura
-$ cat backup.sql | docker exec -i secret-project-postgres-1 psql -U postgres
+$ cat data.sql | docker exec -i secret-project-postgres-1 psql -U postgres
 ```
 
 ## How To Start
@@ -451,6 +453,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Code AI platform with Code Search & Cody](https://sourcegraph.com/)
 - [ ] [Feature-Sliced Design: эволюция фронтенда для быстрых экспериментов](https://habr.com/ru/companies/inDrive/articles/693768/)
 - [ ] [Next.js setup: Деплой на VPS | Jest | Playwright | CI/CD | Sentry](https://www.youtube.com/watch?v=nsGusxzitoc)
+- [ ] https://fullcalendar.io/
 
 ## Что нового (для меня) про вёрстку
 
