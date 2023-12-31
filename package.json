@@ -52,7 +52,7 @@
     "memoize-one": "^6.0.0",
     "nanoid": "^5.0.4",
     "next": "13.5.6",
-    "next-auth": "latest",
+    "next-auth": "4.24.5",
     "next-auth-hasura-adapter": "^2.0.0",
     "overlayscrollbars": "^2.3.0",
     "overlayscrollbars-react": "^0.5.2",
