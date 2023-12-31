@@ -409,7 +409,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [convert-json-to-graphql](https://www.convertsimple.com/convert-json-to-graphql/)
 - [ ] [XO_FONTS](https://myoffice.ru/products/fonts/)
 - [ ] рекомендую Obsidian Git и Remotely Save (​чтобы на телефоне не ставить гит, а только remotery; а git - как бэкап с историей)
-- [ ] native dnd - https://github.com/mgmeyers/obsidian-kanban
+- [x] native dnd - https://github.com/mgmeyers/obsidian-kanban
 - [ ] [КАК DISCORD МЕНЯЕТ РАЗМЕРЫ 150 МИЛЛИОНОВ ИЗОБРАЖЕНИЙ ЕЖЕДНЕВНО ПРИ ПОМОЩИ GO И C++](https://canary.discord.com/blog/how-discord-resizes-150-million-images-every-day-with-go-and-c)
 - [ ] [fp-ts](https://github.com/gcanti/fp-ts)
 - [ ] [Плюшевый пузырь](https://www.kinopoisk.ru/film/4845485/)
@@ -454,6 +454,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Feature-Sliced Design: эволюция фронтенда для быстрых экспериментов](https://habr.com/ru/companies/inDrive/articles/693768/)
 - [ ] [Next.js setup: Деплой на VPS | Jest | Playwright | CI/CD | Sentry](https://www.youtube.com/watch?v=nsGusxzitoc)
 - [ ] https://fullcalendar.io/
+- [ ] https://www.speare.com/ - работа со статьёй, как доской: карточка - абзац, колонка - раздел; оплата $69 в месяц или $69 на год :)
 
 ## Что нового (для меня) про вёрстку
 
@@ -466,6 +467,24 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [Вёрстка слева направо и сверху вниз](https://bureau.ru/soviet/20210422/)
 - [NativeWind](https://www.nativewind.dev/)
 - [Как на самом деле работает position: sticky в CSS](https://medium.com/web-standards/sticky-bc7ff7088693)
+
+## HTML5 Support
+
+https://github.com/mgmeyers/obsidian-kanban/issues/155
+
+One downside to dnd-kit versus the others is the HTML5 API, which would allow you to drag cards out of the window and drop them into other apps -- including Kanban views in other Obsidian vaults, as well as Trello and various other dnd-accepting apps. Accepting drag and drop of other apps' data in any position in a lane (instead of just the bottom) would basically come for free as well. (You could even include the contents of a linked note as a file attachment!)
+
+Dunno how important you consider those features, but they'd be nice to have, and both Sortable and react-dnd would support them, while rb-dnd and dnd-kit do not and cannot. (Well, technically, you could probably make dropping in from other apps possible, but dragging between Obsidian vaults would not be possible except by selecting text, and the attachment thing would be right out.)
+
+==
+
+Also, react-dnd + react-virtualized can do stuff like [this](https://www.npmjs.com/package/@forecasthq/react-virtualized-nested-dnd) -- which isn't quite the tree view you imagined, but it certainly looks like react-dnd is a stable base for building fancy stuff on.
+
+Given the existence of [react-dnd-scrolling](https://www.npmjs.com/package/react-dnd-scrolling) and the comment in react-dnd's docs that "Luckily, React DnD is designed to work great with any virtual React data list components because it doesn't keep any state in the DOM," I would count all these factors as a strong recommendation for react-dnd as the first choice to try as a replacement. (The fact that react-dnd-scrolling has explicit examples for combining it with both react-dnd and react-virtualized should be a big help with doing virtualization of Trello-style full-height columns, which in turn should be a big help to inital loading time of large boards.)
+
+==
+
+react-beautiful-dnd: How this library performs dragging is an implementation detail. The api is what users interact with. That said, this library does not use the html5 drag and drop api. The main reason is that html5 drag and drop does not allow the level of control we need to create our powerful and beautiful experiences. I could go into detail but this is not the right forum.
 
 ---
 
