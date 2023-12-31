@@ -140,6 +140,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [x] Auth for Hasura
   - https://hasura.io/learn/graphql/hasura-authentication/integrations/nextjs-auth/
   - https://github.com/nextauthjs/next-auth
+  - https://codedgeekery.com/blog/hasura-nextauth
   - https://next-auth.js.org/getting-started/typescript
   - https://youtu.be/ObxRjcwLaa8
   - https://github.com/nhost/hasura-auth
