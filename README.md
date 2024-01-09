@@ -456,6 +456,9 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Next.js setup: Деплой на VPS | Jest | Playwright | CI/CD | Sentry](https://www.youtube.com/watch?v=nsGusxzitoc)
 - [ ] https://fullcalendar.io/
 - [ ] https://www.speare.com/ - работа со статьёй, как доской: карточка - абзац, колонка - раздел; оплата $69 в месяц или $69 на год :)
+- [ ] https://contentlayer.dev/
+- [ ] https://hackernoon.com/static-full-text-search-in-nextjs-with-webassembly-rust-and-xor-filters-tldr
+- [ ] [awesome-nextjs](https://officialrajdeepsingh.github.io/awesome-nextjs/)
 
 ## Что нового (для меня) про вёрстку
 
