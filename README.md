@@ -130,6 +130,14 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 
 ## TODOs
 
+- [x] Вдохновение
+  - [ ] [Apollo server in Next.js API route](https://dnlytras.com/snippets/nextjs-graphql-server)
+  - [ ] [Redux не нужен. GraphQL и Apollo Client.](https://www.youtube.com/watch?v=OezyScvU9-c)
+  - [ ] [Как работать с Apollo в связке с Typescript и GraphQL Code](https://www.youtube.com/watch?v=8xj9X_M9YI0)
+  - [ ] [GraphQL и GO: простой способ бросить REST](https://www.youtube.com/watch?v=tv8muwgj-Y4)
+  - [ ] [Интервью Наталии Теплухиной и Наталии Коротковой с Дэном Абрамовым](https://www.youtube.com/watch?v=8kAJilO-EPI)
+  - [ ] [Новый хук useEvent решит наши проблемы!](https://www.youtube.com/watch?v=qLQyjhU3fqg)
+  - [ ] [Тайны Реакта! Как писать самый быстрый и мощный код?](https://www.youtube.com/watch?v=NDGINHbYquw)
 - [x] Apollo Server
 - [x] Apollo CLI
 - [x] Apollo GraphQL
