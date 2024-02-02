@@ -130,7 +130,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 
 ## TODOs
 
-- [x] Вдохновение
+- [x] Вдохновение (Genesis)
   - [ ] [Apollo server in Next.js API route](https://dnlytras.com/snippets/nextjs-graphql-server)
   - [ ] [Redux не нужен. GraphQL и Apollo Client.](https://www.youtube.com/watch?v=OezyScvU9-c)
   - [ ] [Как работать с Apollo в связке с Typescript и GraphQL Code](https://www.youtube.com/watch?v=8xj9X_M9YI0)
@@ -177,6 +177,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
   - https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd
 - [x] dnd-kit
   - https://codesandbox.io/s/dnd-kit-virtualized-variable-size-list-forked-uzhkc6?file=/src/App.tsx
+- [x] [Gutenberg Demo](https://ru.wordpress.org/gutenberg/)
 - [x] quill or prosemirror or slatejs or editorjs.io
   - https://blog.logrocket.com/what-is-slate-js-replace-quill-draft-js/
   - https://www.tiny.cloud/blog/real-time-collaborative-editing-slate-js/
@@ -467,7 +468,8 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] https://contentlayer.dev/
 - [ ] https://hackernoon.com/static-full-text-search-in-nextjs-with-webassembly-rust-and-xor-filters-tldr
 - [ ] [awesome-nextjs](https://officialrajdeepsingh.github.io/awesome-nextjs/)
-
+- [ ] [Next Auth V5 - Advanced Guide (2024)](https://www.youtube.com/watch?v=1MTyCvS05V4)
+ 
 ## Что нового (для меня) про вёрстку
 
 - [CSS Utility Classes and "Separation of Concerns"](https://adamwathan.me/css-utility-classes-and-separation-of-concerns/)
