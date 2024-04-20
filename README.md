@@ -469,6 +469,25 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] https://hackernoon.com/static-full-text-search-in-nextjs-with-webassembly-rust-and-xor-filters-tldr
 - [ ] [awesome-nextjs](https://officialrajdeepsingh.github.io/awesome-nextjs/)
 - [ ] [Next Auth V5 - Advanced Guide (2024)](https://www.youtube.com/watch?v=1MTyCvS05V4)
+- [ ] https://github.com/42wim/matterbridge/
+- [ ] [Покрытие на BDD](https://github.com/search?q=repo%3Anextcloud%2Fspreed++language%3AGherkin&type=code)
+- [ ] [Освоить Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [ ] Поискать свободные аналоги speare.com
+- [ ] [How to Manage Multiple Git Accounts on One System](https://www.howtogeek.com/devops/how-to-manage-multiple-git-accounts-on-one-system/)
+- [ ] Применить `<img decoding="async">`
+- [ ] [tiledb](https://tiledb.com/open-source/array-storage/)
+- [ ] [UILD](https://danyloff.tech/2023/10/01/ulid-%D1%82%D0%BE%D1%82-%D1%81%D0%B0%D0%BC%D1%8B%D0%B8-%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82-%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%D0%BE%D1%80%D0%B0-%D0%BA%D0%BE%D1%82/)
+- [ ] [Snowflake ID](https://medium.com/nuances-of-programming/%D1%87%D1%82%D0%BE-%D1%82%D0%B0%D0%BA%D0%BE%D0%B5-snowflake-id-968dd6d21ca8)
+- [ ] GraphQL Stitching https://habr.com/ru/articles/728476/
+- [ ] https://github.com/shadowwalker/next-pwa
+- [ ] [nextra](https://github.com/shuding/nextra)
+- [ ] https://giscus.app/ru
+- [ ] https://github.com/t3-oss/t3-env
+- [ ] https://www.radix-ui.com/
+- [ ] [The Backend-for-Frontend pattern using NextJS A Step-by-Step Guide](https://wundergraph.com/blog/the-backend-for-frontend-pattern-using-nextjs)
+- [ ] [Data Fetching with Next.js 13’s Bleeding-Edge Features](https://wundergraph.com/blog/data_fetching_with_next13)
+- [ ] [NextJS / React SSR: 21 Universal Data Fetching Patterns & Best Practices](https://wundergraph.com/blog/nextjs_and_react_ssr_21_universal_data_fetching_patterns_and_best_practices)
+- [ ] https://gqty.dev/ The No-GraphQL client 
  
 ## Что нового (для меня) про вёрстку
 
@@ -481,6 +500,7 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [Вёрстка слева направо и сверху вниз](https://bureau.ru/soviet/20210422/)
 - [NativeWind](https://www.nativewind.dev/)
 - [Как на самом деле работает position: sticky в CSS](https://medium.com/web-standards/sticky-bc7ff7088693)
+- `<img decoding="async">`
 
 ## HTML5 Support
 
