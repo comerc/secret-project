@@ -488,6 +488,8 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [ ] [Data Fetching with Next.js 13’s Bleeding-Edge Features](https://wundergraph.com/blog/data_fetching_with_next13)
 - [ ] [NextJS / React SSR: 21 Universal Data Fetching Patterns & Best Practices](https://wundergraph.com/blog/nextjs_and_react_ssr_21_universal_data_fetching_patterns_and_best_practices)
 - [ ] https://gqty.dev/ The No-GraphQL client 
+- [ ] [Сложнейшая проблема компьютерных наук: центрирование](https://habr.com/ru/companies/ruvds/articles/810311/)
+- [ ] https://jotai.org/
  
 ## Что нового (для меня) про вёрстку
 
@@ -501,6 +503,8 @@ See also [openapi-to-graphql](https://github.com/hasura/openapi-to-graphql).
 - [NativeWind](https://www.nativewind.dev/)
 - [Как на самом деле работает position: sticky в CSS](https://medium.com/web-standards/sticky-bc7ff7088693)
 - `<img decoding="async">`
+- [Jumpstart your next SaaS product with Bedrock](https://bedrock.mxstbr.com/) - The modern full-stack Next.js & GraphQL boilerplate with user authentication, subscription payments, teams, invitations, emails and everything else you need (https://coursehunter.net/course/bedrock-bystryy-start-vashego-sleduyushchego-produkta-saas)
+- https://coursehunter.net/course/shipfast-zapustite-svoy-startap-za-dni-a-ne-nedeli
 
 ## HTML5 Support
 
